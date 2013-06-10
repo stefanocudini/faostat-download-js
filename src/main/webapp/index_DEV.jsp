@@ -98,7 +98,7 @@
         
 	</head>
 
-	<body class='default' onload="FAOSTATDownload.initUI('Q', 'QC', 'en')">
+	<body class='default' onload="FAOSTATDownload.initUI('Q', 'QC', 'E')">
 		
             <%@include  file="index.html"%>
 
