@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+	<head>
+		
+		<!-- Metadata -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>FAOSTAT Download</title>
+		
+		<!-- CSS -->
+		<link href="http://ldvapp07.fao.org:8030/downloads/fao.png" type="image/png" rel="icon">
+<!-- 		<link rel="stylesheet" href="resources/jqwidgets/styles/jqx.base.css" type="text/css" /> -->
+<!-- 		<link rel="stylesheet" href="resources/jqwidgets/styles/faostat-download.css" type="text/css" /> -->
+<!-- 		<link rel="stylesheet" href="resources/jqwidgets/styles/jqx.energyblue.css" type="text/css" /> -->
+<!-- 		<link rel="stylesheet" href="src/css/faostat-download.css" type="text/css" /> -->
+<!-- 		<link rel="stylesheet" href="src/css/faostat-download-options.css" type="text/css" /> -->
+<!-- 		<link rel="stylesheet" href="src/css/faostat-download-selectors.css" type="text/css" /> -->
+<!-- 		<link rel="stylesheet" href="src/css/faostat-download-tree.css" type="text/css" /> -->
+<!-- <!-- 		<link rel="stylesheet" href="src/css/faostat.css" type="text/css" /> --> 
+<!-- 		<link rel="stylesheet" href="src/css/faostat-download-wizard.css" type="text/css" /> -->
+<!-- 		<link rel="stylesheet" href="resources/css/jquery-ui-1.8.21.custom.css" type="text/css"/> -->
+<!-- 		<link rel="stylesheet" href="src/css/faostat-download-wizard.css" type="text/css" /> -->
+<!-- 		<link rel="stylesheet" href="resources/jqwidgets/styles/jqx.shinyblack.css" type="text/css" /> -->
+<!-- 		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css"> -->
+<!--     	<link rel="stylesheet" href="resources/css/jquery.tagsinput.css" type="text/css" /> -->
+		
+		<!-- FENIX -->
+<!-- 		<script type="text/javascript" src="src/js/faostat-download.js"></script> -->
+<!-- 		<script type="text/javascript" src="src/js/I18N.js"></script> -->
+<!-- 		<script type="text/javascript" src="src/js/faostat-download-selectors-classic.js"></script> -->
+<!-- 		<script type="text/javascript" src="src/js/faostat-download-selectors-advanced.js"></script> -->
+<!-- 		<script type="text/javascript" src="src/js/faostat-download-tree.js"></script> -->
+<!-- 		<script type="text/javascript" src="src/js/faostat-download-options.js"></script> -->
+<!-- 		<script type="text/javascript" src="src/js/faostat-download-wizard.js"></script> -->
+<!-- 		<script type="text/javascript" src="src/js/wizard-navigator.js"></script> -->
+<!-- 		<script type="text/javascript" src="src/js/collector.js"></script> -->
+		
+		
+		<!-- JQuery -->
+		<script type="text/javascript" src="resources/js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="resources/js/jquery-ui-1.8.21.custom.min.js"></script>
+		<script type="text/javascript" src="resources/js/jquery.tagsinput.js"></script>
+		<script type="text/javascript" src="resources/js/jquery.url.js"></script>
+		<script type="text/javascript" src="resources/js/jquery.field.js"></script>
+		<script type="text/javascript" src="resources/js/jquery.fixedheader.js"></script>
+		<script type="text/javascript" src="resources/highcharts/highcharts.js"></script>
+		
+		<!-- Tag-it -->
+<!-- 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script> -->
+<!-- 		<script type="text/javascript" src="resources/js/tag-it.js"></script> -->
+<!-- 		<link rel="stylesheet" href="resources/css/tagit.css" type="text/css" /> -->
+<!-- 		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css"> -->
+		
+		<!-- JQWidgets -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxcore.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxbuttons.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxscrollbar.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxpanel.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxtree.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxbuttongroup.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxradiobutton.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxbuttons.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxlistbox.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxdropdownlist.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxtabs.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxgrid.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxdata.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxgrid.selection.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxgrid.columnsresize.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxswitchbutton.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxpanel.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxcheckbox.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxexpander.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxnavigationbar.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxgrid.edit.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxslider.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/jqwidgets/jqxcombobox.js"></script> -->
+<!-- 		<script type="text/javascript" src="resources/js/jquery.i18n.properties-min-1.0.9.js"></script> -->
+		
+		<script type="text/javascript">
+			function load() {
+				var chart1;
+				var chart2;
+				var chart3;
+				$(document).ready(function() {
+			      chart1 = new Highcharts.Chart({
+						chart: {
+				          renderTo: 'chart_1',
+				          type: 'area',
+				          backgroundColor: 'transparent'
+				      },
+				      subtitle: {
+				          text: 'Millions',
+				          align: 'left',
+			                style: {
+			                	font: 'italic 11px "Trebuchet MS", Verdana, sans-serif'
+			                }
+				      },
+						title: {
+			         	text: '',
+						},
+						margin: 0,
+						y: 0,
+						credits: {
+							enabled: false
+			         },
+						xAxis: {
+							categories: ['1990-92', '2010-12']
+						},
+						yAxis: {
+				         	min: 800,
+								max: 1000,
+				            tickInterval: 100,
+								title : {
+									text: ''
+			            	},
+			            	labels: {
+						           style: {
+						               font: 'italic 10px "Trebuchet MS", Verdana, sans-serif'
+						           }
+						       }
+			         },
+						legend: {
+							enabled: false
+ 			         },
+						plotOptions: {
+							pointStart: -1
+						},
+						colors: ['#399BCC'],
+						series: [{name: 'Series', data : [1000, 870]}]
+					});
+			   });
+
+				$(document).ready(function() {
+			      chart2 = new Highcharts.Chart({
+						chart: {
+				          renderTo: 'chart_2',
+				          type: 'area',
+				          backgroundColor: 'transparent'
+				      },
+				      subtitle: {
+				          text: 'Billions',
+				          align: 'left',
+			                style: {
+			                	font: 'italic 11px "Trebuchet MS", Verdana, sans-serif'
+			                }
+				      },
+						title: {
+			         	text: '',
+						},
+						credits: {
+							enabled: false
+			         },
+						xAxis: {
+							categories: ['1961', '1980', '1990', '2000', '2011']
+						},
+						yAxis: {
+			         	min: 0,
+							max: 3000000000,
+			            tickInterval: 1000000000,
+							title : {
+								text: ''
+			            },
+			            labels: {
+					           style: {
+					               font: 'italic 10px "Trebuchet MS", Verdana, sans-serif'
+					           }
+					       }
+			         },
+						legend: {
+							enabled: true,
+							borderColor: '#FFFFFF'
+ 			         },
+						plotOptions: {
+							pointStart: -1,
+							marker: { 
+								enabled: false
+							}
+						},
+						colors: ['#399BCC', '#EAE6DA'],
+						series: [{name: 'World', data : [1003525000, 1720042000, 2190971860, 2063191437, 2563580000]}, 
+									{name: 'Asia', data : [346221254, 663890326, 907731000, 996530000, 1273230000]}]
+					});
+			   });
+			    $(document).ready(function() {
+			        chart3 = new Highcharts.Chart({
+			            chart: {
+			                renderTo: 'chart_3',
+			                type: 'column',
+					          backgroundColor: 'transparent'
+			            },
+			            title: {
+			                text: '',
+			                align: 'left',
+			                style: {
+			                	font: 'bold 11px "Trebuchet MS", Verdana, sans-serif'
+			                }
+			            },
+			            subtitle: {
+			                text: 'Million tonnes',
+			                align: 'left',
+			                style: {
+			                	font: 'italic 10px "Trebuchet MS", Verdana, sans-serif'
+			                }
+			            },
+			            xAxis: {
+			                categories: ['Wheat', 'Maize', 'Soybeans', 'Cake of Soybeans', 'Palm Oil'],
+								labels: {
+						           rotation: -45,
+						           align: 'right',
+						           style: {
+						               fontSize: '8px',
+						               fontFamily: 'Verdana, sans-serif'
+						           }
+						       }
+			            },
+			            yAxis: {
+			                min: 0,
+			                tickInterval: 40000000,
+			                title : {
+			                   text: ''
+			                }
+			            },
+ 			            legend: {
+ 			                enabled: false
+ 			            },
+			            tooltip: {
+			                formatter: function() {
+			                	console.log(this);
+			                    return this.y;
+			                }
+			            },
+			            plotOptions: {
+			                column: {
+			                    pointPadding: 0.2,
+			                    borderWidth: 0
+			                }
+			            },
+			            credits: {
+			            	enabled: false
+			            },
+			            colors: [
+			            	'#399BCC',
+			            	'#399BCC',
+								'#399BCC',
+								'#399BCC',
+			            	'#399BCC'
+			            ],
+			            series: [
+			                     {name: 'Wheat', data: [145158611, 107864923, 93383884, 64488859, 35318819]}
+			                    ]
+			        });
+			    });
+			}
+		</script>
+			
+	</head>
+
+	<body onload='load();' style="margin: 0px;">
+		<table style='border-collapse: collapse; width:224px; font-family: "Trebuchet MS", Verdana, sans-serif''>
+			<tr>
+				<td>
+					<div style='margin-bottom: -5px; text-align:center;'> <p style='color:#399bcc; font-size:24px; font-weight:bold; margin-top: -6px;'>870 MILLION</p><p style='color:#717171; font-size:12px; font-weight:bold; margin-top: -32px;'>PEOPLE STILL HUNGRY</p></div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div id='chart_1' style='width: 235px; height: 150px; margin-left: -10px; margin-top: -25px;' ></div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<hr style='border-top: medium none #FFFFFF; border-left:0px; border-right:0px; border-bottom: dashed 1px #d2d2d2; color: #fff; background-color: #fff; clear: both;'>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div style='margin-bottom: -5px; text-align:center;'> <p style='color:#399bcc; font-size:28px; font-weight:bold; margin-top: -6px;'>50%</p><p style='color:#717171; font-size:12px; font-weight:bold; margin-top: -32px;'>OF THE WORLD'S CEREAL PRODUCTION IN ASIA</p></div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div id='chart_2' style='width: 224px; height: 230px; margin-top: -25px; margin-bottom: -10px;'></div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<hr style='border-top: medium none #FFFFFF; border-left:0px; border-right:0px; border-bottom: dashed 1px #d2d2d2; color: #fff; background-color: #fff; clear: both;'>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div style='margin-bottom: -5px; text-align:center;'> <p style='color:#399bcc; font-size:28px; font-weight:bold; margin-top: -6px;'>40%</p><p style='color:#717171; font-size:12px; font-weight:bold; margin-top: -32px;'>EXPORT FROM TOP 5 COMMODITIES</p></div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div id='chart_3' style='width: 210px; height: 220px; margin-top: -25px;'></div>
+				</td>
+			</tr>
+		</table>
+	</body>
+
+</html>

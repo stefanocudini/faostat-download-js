@@ -1,0 +1,45 @@
+<div>
+	<div>
+		<div>Output Options</div>
+	</div>
+</div>
+<div>
+	<div style='height: 140px;'>
+		<table style='width: 670px; font-family: sans-serif; font-size: 11px; padding: 8px; border-spacing: 8px;'>
+			<tr>
+				<td style='width: 25%; font-weight: bold;' id='wizard_output_type'>
+					<script>document.getElementById('wizard_output_type').innerHTML = I18N.translate('_outputType');</script>
+				</td>
+				<td style='width: 25%; font-weight: bold;' id='wizard_thousand_separator'>
+					<script>document.getElementById('wizard_thousand_separator').innerHTML = I18N.translate('_thousandSeparator');</script>
+				</td>
+				<td style='width: 25%; font-weight: bold;' id='wizard_decimal_separator'>
+					<script>document.getElementById('wizard_decimal_separator').innerHTML = I18N.translate('_decimalSeparator');</script>
+				</td>
+				<td style='width: 25%; font-weight: bold;' id='wizard_decimal_numbers'>
+					<script>document.getElementById('wizard_decimal_numbers').innerHTML = I18N.translate('_decimalNumbers');</script>
+				</td>
+			</tr>
+			<tr>
+				<td style='width: 25%;'><div id='options_output_type'></div></td>
+				<td style='width: 25%;'><div id='options_thousand_separator'></div></td>
+				<td style='width: 25%;'><div id='options_decimal_separator'></div></td>
+				<td style='width: 25%;'><div id='options_decimal_numbers'></div></td>
+			</tr>
+			<tr>
+				<td id='show_flags_label' style='width: 25%; font-weight: bold;'>
+					<script>document.getElementById('show_flags_label').innerHTML = I18N.translate('_show_flags_label');</script>
+				</td>
+				<td style='width: 25%; font-weight: bold;'>Show Codes</td>
+				<td style='width: 25%; font-weight: bold;'>Show Units</td>
+				<td style='width: 25%; font-weight: bold;'>Show Null Values</td>
+			</tr>
+			<tr>
+				<td style='width: 25%;'><div id='options_show_flags'></div></td>
+				<td style='width: 25%;'><div id='options_show_codes'></div></td>
+				<td style='width: 25%;'><div id='options_show_units'></div></td>
+				<td style='width: 25%;'><div id='options_show_null_values'></div></td>
+			</tr>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,574 @@
+@charset "UTF-8";
+
+
+.invi{display:none}
+
+.visifb{display:table-row}
+.visi2{display:block;}
+
+
+/*
+#mainTD{	margin-top: -25px;}
+#mainTD #header{
+	background-image:url(img/tabBg.gif);
+	background-repeat:no-repeat;
+	width:718px;
+	height:90px;
+	font-family:Arial, Helvetica, sans-serif;
+	
+	color:#333;
+	font-size:10px;
+	background-size: 718px 93px;
+}
+
+
+#mainTD  #choiches{
+	*width:315px;
+	height:50px;
+	margin-top: 8px; 
+	margin-left: 0px;
+	margin-left:10px;
+	*padding-top: 1px;
+}
+
+#mainTD #choiches select{
+	margin-top: 8px; 
+	margin-left: 5px; 
+	width: 260px;
+}
+
+#mainTD #choiches fieldset{
+	margin-top: -5px;
+}
+
+#mainTD #otherO{text-align:left}
+
+#mainTD #yearSelect{
+	left:300px;
+	width:120px;
+	height:50px;
+	position:relative;
+	text-align:center;
+	display:block;
+	margin-top: -50px;
+}
+
+#mainTD #finalizeData{
+text-align:left;
+
+	left:435px;
+	width:270px;
+	height:50px;
+	position:relative;
+	display:block;
+	margin-top: -52px;
+}
+
+#mainTD #finalizeData input{
+	display:inline;
+	clear:left;
+}
+*/
+
+
+
+
+
+
+
+#mainTD{ *margin-top: -25px;}
+#mainTD #header{
+ background-image:url(img/tabBg.gif);
+ background-repeat:no-repeat;
+ width:718px;
+ height:90px;
+ font-family:Arial, Helvetica, sans-serif;
+ /*font-weight:bold;*/
+ color:#333;
+ font-size:10px;
+ background-size: 718px 93px;
+ position: relative;
+}
+
+
+#mainTD  #choiches{
+ position: absolute;
+ top:35px;
+ left: 10px;
+ width:280px;
+ height:40px;
+ *padding-top: 1px;
+}
+
+#mainTD  label{
+ margin:5px;
+ *margin-left:0px;
+}
+
+
+#mainTD #choiches select{
+ width: 260px;
+}
+
+
+
+
+
+#mainTD #otherO{text-align:left}
+
+#mainTD #yearSelect{
+
+ position:absolute;
+ top: 30px;
+ *top: 22px;
+ left: 310px; 
+ text-align:center;
+
+
+}
+
+#mainTD #yearSelect select{
+  margin:5px;
+}
+
+
+#mainTD #finalizeData{
+ text-align:left;
+ position:absolute;
+ top: 30px;
+ *top: 25px; 
+ left: 400px;}
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#mainTD #btnShow{
+	background-image:url(img/showData.gif);
+	width:129px;
+	height:45px;
+	border:none;
+}
+#mainTD .bigButton{
+background-image:url(img/showData.gif);
+	width:129px;
+	height:45px;
+	border:none;}
+#mainTD #btnExcel{
+	/*background-image:url(img/exportData.gif);*/
+	
+	/*background-image:url(img/exportData.gif);*/
+	width:129px;
+	border:none;
+	border-right:1px solid #235C79;
+}
+
+#mainTD #btnFilter
+{
+width:100px;
+border-right:1px solid #235C79;
+}
+@font-face {
+    font-family: 'ralewaythin';
+    src: url('raleway_thin-webfont.eot');
+    src: url('raleway_thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('raleway_thin-webfont.woff') format('woff'),
+         url('raleway_thin-webfont.ttf') format('truetype'),
+         url('raleway_thin-webfont.svg#ralewaythin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+#mainTD #thTitle{font-family: Arial, Helvetica, sans-serif;
+		font-size:18px; 
+		background-color: #307395;
+		color:white;
+		text-align:left;
+		padding-left: 7px;}
+#mainTD #titleFBS{font-family: Arial, Helvetica, sans-serif;
+		font-size:14px; 
+		background-color: #307395;
+		text-align:center;}
+
+
+
+
+#mainTD #tabCountry{width:275px;border:0px;float:left;}
+
+#mainTD #tabItem{width:275px; border:0px;float:left}
+#mainTD #result{
+
+	margin-top:10px;
+	
+	/*-moz-box-shadow: 2px 2px 2px #000;   
+	-webkit-box-shadow: 2px 2px 2px #000;  
+	box-shadow: 5px 2px 2px black;	 
+	behavior: url(ie-css3.htc);  */	
+}
+
+
+
+#mainTD .myButtonC{
+	width:89px;
+	height:29px;
+	display:inline-block;
+	margin-left: 10px;
+
+	padding:0px;
+	background-image:url(img/countriesTab.gif);
+
+}
+#mainTD .myButtonC:hover{
+	width:89px;
+	height:29px;
+	display:inline-block;
+	margin-left: 10px;
+	padding:0px;
+	background-image:url(img/countriesTabOn.gif);
+
+}
+
+#mainTD .myButtonI{
+	width:89px;
+	height:29px;
+	display:inline-block;
+	margin:0px;
+	margin-left: 7px;
+	padding:0px;
+	background-image:url(img/itemsTab.gif);
+
+}
+#mainTD .myButtonI:hover{
+	width:89px;
+	height:29px;
+	display:inline-block;
+	margin:0px;
+	margin-left: 7px;
+	padding:0px;
+	background-image:url(img/itemsTabOn.gif);
+
+}
+
+
+#mainTD .myButtonCS{
+	width:89px;
+	height:29px;
+	display:inline-block;
+	margin-left: 10px;
+
+	padding:0px;
+	background-image:url(img/countriesTab_ES.gif);
+
+}
+#mainTD .myButtonCS:hover{
+	width:89px;
+	height:29px;
+	display:inline-block;
+	margin-left: 10px;
+	padding:0px;
+	background-image:url(img/countriesTabOn_ES.gif);
+
+}
+
+#mainTD .myButtonIS{
+	width:89px;
+	height:29px;
+	display:inline-block;
+	margin:0px;
+	margin-left: 7px;
+	padding:0px;
+	background-image:url(img/itemsTab_ES.gif);
+
+}
+#mainTD .myButtonIS:hover{
+	width:89px;
+	height:29px;
+	display:inline-block;
+	margin:0px;
+	margin-left: 7px;
+	padding:0px;
+	background-image:url(img/itemsTabOn_ES.gif);
+
+}
+
+#mainTD .myButtonCF{
+	width:89px;
+	height:29px;
+	display:inline-block;
+	margin-left: 10px;
+
+	padding:0px;
+	background-image:url(img/countriesTab_FR.gif);
+
+}
+#mainTD .myButtonCF:hover{
+	width:89px;
+	height:29px;
+	display:inline-block;
+	margin-left: 10px;
+	padding:0px;
+	background-image:url(img/countriesTabOn_FR.gif);
+
+}
+
+#mainTD .myButtonIF{
+	width:89px;
+	height:29px;
+	display:inline-block;
+	margin:0px;
+	margin-left: 7px;
+	padding:0px;
+	background-image:url(img/itemsTab_FR.gif);
+
+}
+#mainTD .myButtonIF:hover{
+	width:89px;
+	height:29px;
+	display:inline-block;
+	margin:0px;
+	margin-left: 7px;
+	padding:0px;
+	background-image:url(img/itemsTabOn_FR.gif);
+
+}
+
+
+
+
+<!-- Bottoni TAB -->
+
+#mainTD .myButtonS
+{
+	width:90px;
+	height:29px;
+	display:inline-block;
+	margin:0px;
+	padding:0px;
+
+
+}
+
+#mainTD .myButton
+{
+/*background-color:#399BCC;*/
+color:white;
+text-decoration: none;
+text-transform:uppercase;
+cursor:pointer;
+
+float:left;
+margin-right:20px;
+font-family:Arial, Helvetica;
+}
+
+
+
+
+
+#mainTD .myButton img
+{
+margin-right: 10px;
+}
+
+#mainTD .myButton .up
+{
+display:inline;
+color:#235c79;
+
+
+
+margin-bottom: 0px; margin-top: 0px; height: 26px; top: -7px;
+}
+#mainTD .myButton .down
+{
+display:none;
+
+}
+
+#mainTD .myButtonS
+{
+background-color:#D3ECF8;
+color:black;
+
+}
+
+#mainTD table {
+	
+	border-collapse:separate;
+	*cellspacing:0px;
+	border-spacing: 0px;
+	empty-cells: show; 
+	width:100%;
+	font-family:"Courier New", Courier, monospace;
+	
+}
+
+
+
+#mainTD table td {
+	
+	padding:5px 4px 5px 4px;
+	border-top:solid 1px #96cae4;
+	border-right:solid 1px #337a9d;
+	border-bottom:solid 1px #1a4d66;
+	border-left:solid 1px #96cae4;
+	text-align:center;
+	font-size:10px;
+
+	}
+
+
+
+#mainTD table th {
+
+	/*border: solid 1px #D5D5D5;*/
+	border-top:solid 1px #96cae4;
+	border-right:solid 1px #337a9d;
+	border-bottom:solid 1px #1a4d66;
+	border-left:solid 1px #96cae4;
+	padding:5px 4px 5px 4px;
+	background-color:#43a0cf;
+	line-height:120%;
+	font-weight:bold;
+	
+	font-size:10px;
+
+}
+
+
+
+#mainTD .subTitle{
+	
+	border-top:solid 1px #96cae4;
+	border-right:solid 1px #337a9d;
+	border-bottom:solid 1px #1a4d66;
+	border-left:solid 1px #96cae4;
+	
+	font-weight: bold;
+	text-align:left;
+	background-color:#307395;
+	word-wrap: break-word;
+	min-width:50px;
+	color:white;
+}
+
+#mainTD .subTitle2{
+	
+	border-top:solid 1px #96cae4;
+	border-right:solid 1px #337a9d;
+	border-bottom:solid 1px #1a4d66;
+	border-left:solid 1px #96cae4;
+	
+	text-align:center;
+	
+	font-weight: bold;
+	background-color:#43a0cf;
+	word-wrap: break-word;
+	min-width:50px;
+	color:white;
+}
+
+
+
+#mainTD thead{
+	background-color:#43a0cf;
+	text-align:center;
+	color:white;
+}
+#mainTD thead  .thCol{
+	min-width:50px;
+	width:150px
+}
+
+#mainTD thead td{
+	font-weight:bold;
+}
+#mainTD thead th{width:10px}
+/*#mainTD ._scrolling ,._thead{margin-right:16px}*/
+
+#mainTD #myFilter th
+{
+background-color:#999;
+}
+
+#mainTD .thPopEmpty{
+	background-color:#92c8e3;
+	text-align:left;
+	/*padding-bottom:0px;*/
+}
+#mainTD .thPopEmpty a{margin:15px}
+#mainTD .popTotal{
+	background-color:#ec9f46;
+	color:#4e3314;
+}
+
+#mainTD .bgBlue{
+	background-color:#307395;
+	
+	border-top:solid 1px #43a0cf;
+	border-right:solid 1px #204b61;
+	border-bottom:solid 1px #245770;
+	border-left:solid 1px #43a0cf;
+}
+#mainTD .myFilterButton{float:left;width:350px;margin-left:15px}
+#mainTD .divMyFilter{width:340px;height:150px;overflow:auto;
+background-color:white;float:left;text-align:left;color:black;margin-left:15px}
+
+#mainTD tr .td1{
+	background-color:#ececec;
+	
+	border-top:solid 1px #ececec;
+	border-right:solid 1px #D5D5D5;
+	border-bottom:solid 1px #D5D5D5;
+	border-left:solid 1px #ececec;
+	
+	/*padding:10px;*/
+}
+
+#mainTD tr .td2{
+	background-color:#ffffff;
+	
+	border-top:solid 1px #ffffff;
+	border-right:solid 1px #D5D5D5;
+	border-bottom:solid 1px #D5D5D5;
+	border-left:solid 1px #ffffff;
+	
+	/*padding:10px;*/
+}
+
+#mainTD tr .td3{
+	background-color:#ececec;
+	border-top:solid 1px #ececec;
+	border-right:solid 1px #D5D5D5;
+	border-bottom:solid 1px #D5D5D5;
+	border-left:solid 1px #ececec;
+	
+/*	padding:10px;*/
+}
+
+#mainTD #resultTable tr:hover td{
+	background-color:#f5cea1;
+}
+#mainTD  #resultTable{ 
+*border-spacing:0;
+  *border-collapse:collapse;}
+
+
+
+

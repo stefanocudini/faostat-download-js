@@ -1,0 +1,194 @@
+<!--html>
+    <head>
+
+        <script type="text/javascript" src="/test2/monscript.js">
+        </script>
+        <script type="text/javascript" src="/test2/moninit3.js">
+        </script>
+        <link rel="stylesheet" type="text/css" href="/test2/style.css" />
+
+    </head>
+    <body-->
+<script>
+    OLAP={};
+    OLAP.window=1;
+</script>
+<div id="CodeStyle">
+    <style>.cs{display:none;}</style>
+</div>
+<div id="testDate"></div>
+
+<!--input type="hidden" id="n" value="4"/>
+<input type="hidden" id="d" value="ElementCode#AreaCode#ItemCode#Year"/>
+<input type="hidden" id="v" value="5423,5510,5525#2,202,3,4#512,406,101,221#2010,2009,2008"/>
+<input type="hidden" id="a" value="0#0#0#0"/>
+<input type="hidden" id="o" value="sum"/>
+<input type="hidden" id="c" value="0,1#2,3"/>
+<input type="hidden" id="id" value="Ware0house"/>
+<input type="hidden" id="xml" value="{[{name:'ElementCode','nb':'1','val':{'5423':{'E':'Taux d extraction (Hg/Mt)'},'5510':{'E':'Production (tonnes)'},'5525':{'E':'Semences (tonnes)'}}},{'name':'AreaCode','nb':'1','val':{'2':{'E':'Afghanistan'},'202':{'E':'Afrique du Sud'},'3':{'E':'Albanie'},'4':{'E':'Alg�rie'}}},{name:'ItemCode','nb':'1','val':{'512':{'E':'Agrumes nda'},'406':{'E':'Ail'},'101':{'E':'Alpiste'},'221':{'E':'Amandes non d�cortiqu�es'}}},{'name':'Year',nb:'1','val':{'2010':{'E':'2010'},'2009':{'E':'2009'},'2008':{'E':'2008'}}}]}"/>
+<input type="hidden" id="domain" value="BC"/-->
+<!--script>FAOSTATOLAP.option=eval('('+"{showChart:0,headingBefore:0,headingAfter:0,headingOutside:1,showchoosedim:0,subtotals:0,totals:0,nbDec:2,decimalSeparator:2,thousandSeparator:1,showFlags:0,nestedby:0,calcTotal:0,showUnits:0,showEmpty:0,type:-1}"+')');</script-->
+<form id="formExcel" action="/faostat.olap.ws/rest/ExcelCreator" method="post" >
+    <input type="hidden" id="excelData" name="data" value="">
+    <input type="hidden" name="type" value="xls">
+</form>
+<div id="olapGenConf" style="display:inline">
+    <table border=1 style="display:none">
+        <tbody>
+            <tr>
+                <td> <input type="checkbox" id="showCode"   onChange="javascript:showCode()">
+                    <label>show Code</label>
+                </td>
+                <td id="showNul">
+                </td>
+                <td>
+                    <!--input type="checkbox" id="showAgregate" checked="checked"  onChange="javascript:showAggregate()"/>
+                    <label>show Aggregation</label-->
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td id="NumType"  style="vertical-align:top">Number of Decimal: <br />
+                    <select id="nbDec">
+                        <option>0</option>
+                        <option>1</option>
+                        <option selected>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                </td>
+                <td  style="vertical-align:top">
+                    <div id="olapconf" style="float:left;clear:both">
+                    </div>
+                </td>
+                <td  style="vertical-align:top"></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="checkbox" id="shownestedby"   onChange="javascript:changeNestedBy()"/>
+    <label id="tradolapalone1">
+        <script>
+            //document.write(traduction['nested_by'][lang]);
+            document.getElementById("tradolapalone1").innerHTML=traduction['nested_by'][lang];
+        </script>
+    </label>
+</div>
+<div id="tree"></div>
+<form id="MainForm"><div id="ODC"></div></form>
+<table>
+    <tr>
+        <td>
+            <fieldset id="FODC2" class="visi">	
+                <legend onclick="javascript:changeVisi('ODC2')" 
+                        style="cursor:pointer;font-weight:bold;" class="invi">OLAP Dimension Configuration</legend>
+                <fieldset id="Foptions" class="visi">
+                    <legend  onclick="javascript:changeVisi('pivot_options')" 
+                             style="cursor:pointer;font-weight:bold;">Options</legend>
+                    <div id="pivot_options" class="visi">Aggregate function:
+                        <select id="pivot_agg"><option value=1>SUM</option></select>
+                        <br/>Subtotals aggregate functions:
+                        <select id="pivot_agg_totals"></select>
+                        <br/>	
+                        <textarea id=test cols="50" rows=7 style="display:none;"></textarea>	
+                        <div id="param"></div>
+                    </div>	
+                </fieldset>
+                <fieldset id="FAggregate" class="visi">	
+                    <legend onclick="javascript:changeVisi('pivot_page')" 
+                            style="cursor:pointer;font-weight:bold;">
+                        Aggregated dimensions</legend>	
+                    <div id="pivot_page" class="visi">
+                    </div>
+                </fieldset>
+            </fieldset>
+            <div id="DimRowCol">	
+                <fieldset id="ODC_ROWS">	
+                    <legend id="tradolapalone2">
+                        <script>
+                            // document.write(traduction['Rows'][lang]);
+                            document.getElementById("tradolapalone2").innerHTML=traduction['Rows'][lang];
+                        </script>
+                    </legend>		
+                    <div>		
+                        <fieldset id="ODC_NESTED">
+                            <legend id="tradolapalone3">
+                                <script>
+                                    //document.write(traduction['nested_by'][lang]);
+                                    document.getElementById("tradolapalone3").innerHTML=traduction['nested_by'][lang];
+                                </script>
+                            </legend>
+                            <div id="ODC2_NESTED"></div>
+                        </fieldset>		
+                        <fieldset id="ODC_ROW">
+                            <legend id="legendrow">
+                                <script>
+                                    //    document.write(traduction['other_rows'][lang]);
+                                    document.getElementById("legendrow").innerHTML=traduction['other_rows'][lang];
+                                </script>
+                            </legend>
+                            <div id="ODC2_ROW">
+                            </div>
+                        </fieldset>	
+                    </div>		
+                </fieldset>      
+                <fieldset id="ODC_COL">
+                    <legend id="tradolapalone4">
+                        <script>
+                            document.getElementById("tradolapalone4").innerHTML=traduction['Cols'][lang];
+                                 
+                            // document.write(traduction['Cols'][lang]);
+                        </script>
+                    </legend>
+                    <div id="ODC2_COL">
+                    </div>
+                </fieldset>		
+            </div>	
+
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td colspan=2>	
+            <fieldset id="FOLAP" class="invi">	
+                <legend  onclick="javascript:changeVisi('pivot_content')" 
+                         style="cursor:pointer;font-weight:bold;">&nbsp;</legend>	
+                <div id="pivot_content" class="visi"></div>
+            </fieldset>	
+        </td>
+    </tr>	
+</table>
+
+<div id="myFlags">
+</div>
+<div id="METADATA" style="display:none;width:100%;float: left; padding: 10px;">META</div>
+<div id="pivot_chart" style="display:none"></div>	
+<fieldset id="FgraphOption" class="invi">
+    <legend onclick="javascript:changeVisi('graphtypeD')" 
+            style="cursor:pointer;font-weight:bold;">Graph options</legend>
+    <div id="graphtypeD" class="visi">	Graph type: 
+        <select id="graph_typeF" onchange="javascript:reinitgraph()">	
+            <option value=1>basic column</option>
+            <option value=3>stacked column</option>	
+            <option value=4>stacked column percent</option>	
+            <option value=5>area line</option>
+        </select>	
+    </div>
+</fieldset>
+<!--iframe name="c1" id="c1" width="100%" src="" frameborder=0></iframe-->
+<form method="POST" action="http://fenixapps.fao.org/charts/api" target="c1" id="c1_form">
+    <input type="hidden" name="out" value="html" />
+    <input type="hidden" name="engine" value="highcharts" />
+    <input type="hidden" id="c1_chart" name="chart" value="renderto:container;type:column" />
+    <input type="hidden" name="title" value="text:CHART" />
+    <input type="hidden" id="c1_xaxis" name="xaxis" value="categories:" />
+    <input type="hidden" name="yaxis" value="allowdecimals:false;min:0;" />
+    <input type="hidden" id="c1_plotoptions" name="plotoptions" value="" />
+    <input type="hidden" id="c1_series" name="series"  />
+</form>
+
+<div id="chart2"></div>
+<!--/body>
+</html-->

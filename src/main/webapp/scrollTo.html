@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+	<head>
+		
+		<!-- JQuery -->
+		<script type="text/javascript" src="resources/js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="resources/js/jquery-ui-1.8.21.custom.min.js"></script>
+		<script type="text/javascript" src="resources/js/jquery.tagsinput.js"></script>
+		<script type="text/javascript" src="resources/js/jquery.url.js"></script>
+		<script type="text/javascript" src="resources/js/jquery.field.js"></script>
+		<script type="text/javascript" src="resources/js/jquery-scrollTo-min.js"></script>
+		
+		<style>
+		
+body {
+    background-color: #DDDDDD;
+    font-family: Verdana,sans-serif;
+    padding: 0 5px;
+}
+ul, li, h3, h2, h1, p {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+.sidebar {
+    position: absolute;
+    right: 5px;
+    top: 15px;
+}
+#links {
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+}
+#links h3 {
+    color: #993333;
+}
+#links ul {
+    padding: 8px 0 3px 20px;
+}
+#links li {
+    list-style-type: circle;
+}
+#links a {
+    color: #6699CC;
+}
+h1 {
+    color: #5B739C;
+    margin: 20px 0;
+}
+h1 strong {
+    color: #777777;
+    font-size: 13px;
+}
+h2.title {
+    color: #993333;
+    margin-bottom: 10px;
+    text-align: right;
+}
+.clear {
+    clear: left;
+}
+	
+body {
+    height: 1600px;
+}
+.part {
+    background-color: white;
+    border: 1px solid black;
+}
+.part h3 {
+    color: #993333;
+}
+#toc {
+    display: block;
+    margin: 15px 0;
+    padding: 10px;
+    position: relative;
+    width: 305px;
+}
+#toc h3 {
+    padding-bottom: 10px;
+}
+#toc h3 strong {
+    color: black;
+    font-size: 13px;
+}
+#toc li {
+    list-style-type: circle;
+    margin-left: 15px;
+    padding-left: 5px;
+}
+#toc a {
+    color: #6699CC;
+}
+div.section {
+    border: 1px solid black;
+    clear: both;
+    margin: 5px 0;
+    padding: 10px;
+    position: relative;
+    width: 950px;
+}
+div.section h3 {
+    margin-bottom: 10px;
+}
+div.section li {
+    float: left;
+}
+div.pane {
+    clear: left;
+    height: 322px;
+    margin: 10px 0 0 10px;
+    overflow: auto;
+    position: relative;
+    width: 826px;
+}
+ul.elements {
+    background-color: #5B739C;
+}
+ul.elements li {
+    background-color: #DDDDDD;
+    border: 1px solid black;
+    font-weight: bolder;
+    height: 100px;
+    padding: 50px;
+    position: relative;
+    text-align: center;
+    width: 200px;
+}
+ul.elements li a {
+    bottom: 20px;
+    color: #993333;
+    font-size: 12px;
+    left: 125px;
+    position: absolute;
+}
+ul.elements li p {
+    color: #666666;
+}
+#pane-options ul.elements li {
+    margin: 5px;
+}
+#pane-options {
+    margin-bottom: 10px;
+}
+ul.links {
+    clear: left;
+    height: 20px;
+}
+ul.links a {
+    color: #6699CC;
+    margin: 0 5px;
+}
+h3 span {
+    position: absolute;
+}
+.message {
+    background: none repeat scroll 0 0 #EEEEEE;
+    border: 1px solid #999999;
+    color: #333333;
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 2px;
+    padding: 1px;
+}
+		
+		</style>
+		
+		<script type="text/javascript">
+			function init() {
+				
+				// back links
+				$('a.back').click(function(){
+					$(this).parents('div.pane').scrollTo( 0, 800, { queue:true } );
+					$(this).parents('div.section').find('span.message').text( this.title );
+					return false;
+				}); 
+				
+				// This one is important, many browsers don't reset scroll on refreshes
+				// Reset all scrollable panes to (0,0)
+				$('div.pane').scrollTo( 0 );
+				
+				// Reset the screen to (0,0)
+				$.scrollTo( 0 );
+				
+				var $paneTarget = $('#pane-target');
+				
+				$('#jquery-object').click(function() {
+					console.log('click');
+					var $target = $paneTarget.find('li:eq(14)');
+					$paneTarget.stop().scrollTo( $target , 800 );
+					
+				});
+				
+				$('#button').click(function() {
+					$("pippo").stop().scrollTo($("paperino"), 1000);
+				});
+				
+			}
+		</script>
+		
+	</head>
+
+	<body onload='init()'>
+		
+		<a id="jquery-object" href="#">Click</a>
+		
+		<div id='pippo' class="pane">Pippo</div>
+		<input type='button' value='Click' id='button'/>
+		
+		
+		<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+		
+		<div id='paperino' class="pane">Paperino</div>
+		
+		<div class="pane" id="pane-target">
+			<ul style="height:1011px; width:1820px;" class="elements">
+				<li><p>0</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>1</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>2</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>3</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>4</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>5</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>6</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>7</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>8</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>9</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>10</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>11</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>12</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>13</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>14</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>15</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>16</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>17</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>18</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>19</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>20</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>21</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>22</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>23</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>24</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>25</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>26</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>27</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>28</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li><li><p>29</p><a class="back" title="$(...).scrollTo( 0, 800, {queue:true} );" href="#">go back</a></li>
+			</ul>
+		</div>
+
+	</body>
+
+</html>
+
+
+
+
+
+$('#jquery-object').click(function(){
+	var $target = $paneTarget.find('li:eq(14)');
+	$paneTarget.stop().scrollTo( $target , 800 );
+}); 

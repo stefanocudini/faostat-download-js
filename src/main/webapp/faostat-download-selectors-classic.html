@@ -1,0 +1,242 @@
+<table style='width: 700px;'>
+	
+	<tr>
+	
+		<td width='50%'>
+		
+			<div class="faostat-download-tab" id="tabCountries" style='margin-left: 15px;'>
+						
+				<ul>
+					<li id='li_countries'>Countries</li>
+					<li id='li_regions'>Regions</li>
+					<li id='li_special_groups'>Special Groups</li>
+				</ul>
+							
+				<div id="gridCountries"></div>
+									
+				<div class="faostat-download-list" id="gridRegions"></div>
+									
+				<div class="faostat-download-list" id="gridSpecialGroups"></div>
+										
+			</div>
+						
+			<table style='margin-left: 15px; width: 350px;'>
+				<tr>
+					<td width='50%'>
+						&nbsp;
+					</td>
+					<td>
+						<input class="faostat-download-button" type="button" id='buttonSelectAllCountries' />
+					</td>
+					<td>
+						<input class="faostat-download-button" type="button" id='buttonDeSelectAllCountries' />
+					</td>
+				</tr>
+			</table>
+		
+		</td>
+		
+		<td width='50%'>
+		
+			<div class="faostat-download-tab" id="tabElements" style='margin-left: 15px;'>
+						
+				<ul>
+					<li id='li_elements'>Elements</li>
+				</ul>
+									
+				<div id="gridElements"></div>
+									
+				</div>
+	
+				<table style='margin-left: 15px; width: 350px;'>
+					<tr>
+						<td width='50%'>
+							&nbsp;
+						</td>
+						<td>
+							<input class="faostat-download-button" type="button" id='buttonSelectAllElements' />
+						</td>
+						<td>
+							<input class="faostat-download-button" type="button" id='buttonDeSelectAllElements' />
+						</td>
+					</tr>
+				</table>
+		
+		</td>
+	
+	</tr>
+	
+</table>
+
+<br>
+<br>
+
+<table style='width: 700px;'>
+	
+	<tr>
+	
+		<td>
+		
+			<div class="faostat-download-tab" id="tabItems" style='margin-left: 15px;'>
+						
+				<ul>
+					<li id='li_items'>Items</li>
+					<li id='li_items_aggregated'>Items Aggregated</li>
+				</ul>
+									
+				<div id="gridItems"></div>
+								
+				<div class="faostat-download-list" id="gridItemsAggregated"></div>
+				 					
+			</div>
+			
+			<table style='margin-left: 15px; width: 350px;'>
+				<tr>
+					<td width='50%'>
+						&nbsp;
+					</td>
+					<td>
+						<input class="faostat-download-button" type="button" id='buttonSelectAllItems' />
+					</td>
+					<td>
+						<input class="faostat-download-button" type="button" id='buttonDeSelectAllItems' />
+					</td>
+				</tr>
+			</table>
+		
+		</td>
+		
+		<td>
+		
+			<div class="faostat-download-tab" id="tabYears" style='margin-left: 15px;'>
+							
+				<ul>
+					<li id='li_years'>Years</li>
+				</ul>
+										
+				<div id="gridYears"></div>
+										
+			</div>
+						
+			<table style='margin-left: 15px; width: 350px;'>
+				<tr>
+					<td width='50%'>
+						&nbsp;
+					</td>
+					<td>
+						<input class="faostat-download-button" type="button" id='buttonSelectAllYears' />
+					</td>
+					<td>
+						<input class="faostat-download-button" type="button" id='buttonDeSelectAllYears' />
+					</td>
+				</tr>
+			</table>
+		
+		</td>
+	
+	</tr>
+
+</table>
+	
+		<style>
+	#agg, #col, #row { list-style-type: none; margin: 0; padding: 0 0 2.5em; float: left; margin-right: 10px; }
+	#agg li, #row li ,#col li{ margin: 0 5px 5px 5px; padding: 5px;  }
+	</style>
+
+<table style='width: 720px; margin-left: 22px;'>
+	<tr>
+		<td>
+			<div class="output_options" id="output_options" style="float: left; width:100%; margin-top: 16px;">
+				<div>
+					<div>
+						<div id='output_options_labels'>Output Options
+						</div>
+					</div>
+				</div>
+				<div>
+					<div style='height: 140px;'>
+						<table style='width: 100%; font-family: sans-serif; font-size: 11px; padding: 8px; border-spacing: 8px;'>
+							<tr>
+								<td style='width: 25%; font-weight: bold;' id='wizard_output_type'>
+									<script>document.getElementById('wizard_output_type').innerHTML = I18N.translate('_outputType');</script>
+								</td>
+								<td style='width: 25%; font-weight: bold;' id='wizard_thousand_separator'>
+									<script>document.getElementById('wizard_thousand_separator').innerHTML = I18N.translate('_thousandSeparator');</script>
+								</td>
+								<td style='width: 25%; font-weight: bold;' id='wizard_decimal_separator'>
+									<script>document.getElementById('wizard_decimal_separator').innerHTML = I18N.translate('_decimalSeparator');</script>
+								</td>
+								<td style='width: 25%; font-weight: bold;' id='wizard_decimal_numbers'>
+									<script>document.getElementById('wizard_decimal_numbers').innerHTML = I18N.translate('_decimalNumbers');</script>
+								</td>
+							</tr>
+							<tr>
+								<td style='width: 25%;'><div id='options_output_type'></div></td>
+								<td style='width: 25%;'><div id='options_thousand_separator'></div></td>
+								<td style='width: 25%;'><div id='options_decimal_separator'></div></td>
+								<td style='width: 25%;'><div id='options_decimal_numbers'></div></td>
+							</tr>
+							<tr>
+								<td id='show_flags' style='width: 25%; font-weight: bold;'>
+									<script>document.getElementById('show_flags').innerHTML = I18N.translate('_show_flags_label');</script>
+								</td>
+								<td id='show_codes' style='width: 25%; font-weight: bold;'>
+									<script>document.getElementById('show_codes').innerHTML = I18N.translate('_show_codes_label');</script>
+								</td>
+								<td id='show_units' style='width: 25%; font-weight: bold;'>
+									<script>document.getElementById('show_units').innerHTML = I18N.translate('_show_units_label');</script>
+								</td>
+								<td id='show_null_values' style='width: 25%; font-weight: bold;'>
+									<script>document.getElementById('show_null_values').innerHTML = I18N.translate('_show_null_values_label');</script>
+								</td>
+							</tr>
+							<tr>
+								<td style='width: 25%;'><div id='options_show_flags'></div></td>
+								<td style='width: 25%;'><div id='options_show_codes'></div></td>
+								<td style='width: 25%;'><div id='options_show_units'></div></td>
+								<td style='width: 25%;'><div id='options_show_null_values'></div></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>
+
+
+<table style='width: 720px; margin-left: 22px;'>
+	<tr>
+		<td>
+<div class="demo" style="float:left;width:100%; margin-top: 16px;display:none">
+	<div>
+		<div style='margin-top: 0px;'>
+			<div style='margin-left: 0px; float: left;' id='olapDimensionConfiguration'>Pivot Dimensions Configuration</div>
+		</div>
+	</div>
+<div>
+		<div style='margin-top: 5px; margin-left: 5px; '>	
+<ul id="agg" class="connectedSortable" style="display:none">
+<li class="ui-state-default ui-state-disabled">Not Used</li>
+</ul>
+<ul id="nestedBy" class="connectedSortable" >
+<li class="ui-state-default ui-state-disabled">Nested By</li>	
+</ul>
+<ul id="row" class="connectedSortable">
+<li class="ui-state-default ui-state-disabled">Rows</li>
+<li class="ui-state-default" id="sel_2">Items </li>
+<li class="ui-state-default" id="sel_3">Years </li>
+</ul>
+<ul id="col" class="connectedSortable">
+<li class="ui-state-default ui-state-disabled">Columns</li>
+<li class="ui-state-default" id="sel_0">Elements</li>
+<li class="ui-state-default" id="sel_1">countries</li>
+</ul>
+</div>
+</div>
+</div>
+</td>
+</tr>
+</table>
+		
+</div>

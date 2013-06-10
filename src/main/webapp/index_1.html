@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+	<head>
+		
+		<!-- Metadata -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>FAOSTAT Download</title>
+
+        <!-- External Style-sheets -->
+        <link type='text/css' rel='stylesheet' href='http://fenixapps.fao.org/repository/css/jqwidgets/2.8.3/styles/jqx.base.css' />
+
+        <!-- Local CSS -->
+        <link type='text/css' rel='stylesheet' href='css/faostat-download.css' />
+        <link type='text/css' rel='stylesheet' href='js/chromatable/style.css' />
+
+        <!-- JQuery -->
+        <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery/1.9.1/jquery-1.9.1.min.js'></script>
+        <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery-ui/1.10.3/jquery-ui-1.10.3.custom.min.js'></script>
+        <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery/1.0.9/jquery.i18n.properties-min.js'></script>
+        <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery/1.8.0/jquery.url.js'></script>
+
+        <!-- JQWidgets -->
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxcore.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxbuttons.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxscrollbar.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxpanel.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxtree.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxbuttongroup.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxradiobutton.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxbuttons.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxlistbox.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxdropdownlist.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxtabs.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxgrid.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxdata.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxgrid.selection.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxgrid.columnsresize.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxswitchbutton.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxpanel.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxcheckbox.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxexpander.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxnavigationbar.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxgrid.edit.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxslider.js"></script>
+		<script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8/jqxcombobox.js"></script>
+
+        <!-- FENIX -->
+        <script type="text/javascript" src="js/cpi.js"></script>
+        <script type="text/javascript" src="js/collector.js"></script>
+        <script type="text/javascript" src="js/faostat-download.js"></script>
+        <script type="text/javascript" src="js/faostat-download-options.js"></script>
+        <script type="text/javascript" src="js/faostat-download-selectors-advanced.js"></script>
+        <script type="text/javascript" src="js/faostat-download-selectors-classic.js"></script>
+        <script type="text/javascript" src="js/faostat-download-selectors.js"></script>
+        <script type="text/javascript" src="js/faostat-download-tree.js"></script>
+        <script type="text/javascript" src="js/faostat-download-wizard.js"></script>
+        <script type="text/javascript" src="js/google-analytics-manager.js"></script>
+        <script type="text/javascript" src="js/I18N.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/JQUERY-FIELD.js"></script>
+        <script type="text/javascript" src="js/wizard-navigator.js"></script>
+        <script type="text/javascript" src="js/chromatable/jquery.chromatable.js"></script>
+			
+	</head>
+
+	<body class='default' onload="FAOSTATDownload.initUI('Q', 'QC', 'en')">
+		
+		<div id="dialog" title="Info"></div>
+		<div id="dialogElements"></div>
+		<div id="dialogCountries"></div>
+		<div id="dialogItems"></div>
+		<div id="dialogYears"></div>
+		
+		<div style="overflow: hidden; width: 928px;">
+			
+			<div id="downloadType" style="margin: 8px 0;">
+                <input id="standardDownload" type="radio" checked="" value="standardDownload" name="radios" onclick="FAOSTATDownload.standardDownload();">
+                <label id="standard_download_label" for="standardDownload">Standard Download</label>
+                |
+                <input id="bulkDownload" type="radio" value="bulkDownload" name="radios" onclick="FAOSTATDownload.bulkDownload();">
+                <label id="bulk_download_label" for="bulkDownload">Bulk Download</label>
+            </div>
+			
+			<div id="settings-section" class="settings-section" style="padding: 10px 0px 10px 10px; float: right;">
+	            <div class="settings-label" id='selection_mode' style="margin-top: 6px; margin-right: 10px; float: left; font-family: verdana; font-size: 12px; font-weight: bold;"></div>
+	            <img onclick="FAOSTATDownload.showDialog('dialog', 'This features helps the data selection process, but it is resource consuming, therefore the navigation will be slower.')" src="resources/images/information.png" style="margin-top: 6px; margin-right: 10px;"/>
+	            <div class="settings-setter" style="float: right;">
+	                <div id="linkCodelistsButton"></div>
+	            </div>
+	        </div>
+			
+		</div>
+		
+		<div id="container" style="overflow: hidden;">
+			
+			<div id='jqxWidget' style="float: left;">
+				
+				<div id='jqxTree'>
+						
+					<ul id="groupList">
+													
+					</ul>
+					
+				</div>
+				
+			</div>
+			
+			<div id="central_area"  style="float: left; padding: 5px;">
+			
+				<table>
+				
+					<tr>
+						<td>
+							<div id="listArea"></div>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<div id="output_buttons"></div>
+						</td>
+					</tr>
+
+                    <tr>
+                        <td>
+                            <div id="output_area" style='margin-left: 22px;'></div>
+                        </td>
+                    </tr>
+				
+				</table>
+			
+			</div>
+			
+			<div id="optionsArea" style="float: left; padding: 0px;">
+				
+			</div>
+			
+			<form id="monMainForm" action="/faostat.olap.ws/rest/OLAPCreator/" method="POST"  target="OLAP">
+                <input type="hidden" name="n" id="n" value="4"/>
+                <input type="hidden" name="d" id="d" value="ElementCode#AreaCode#ItemCode#Year"/>
+                <input type="hidden" name="v" id="v" value="5530#4,68#15,31#1985"/>
+                <input type="hidden" name="o" id="o" value="sum"/>
+                <input type="hidden" name="id" id="id" value="Warehouse"/>
+                <input  type="hidden" name="domain" id="domain" value="PA_PI_PP"/>
+                <input  type="hidden" name="a" id="a" value="0#0#0#0"/>
+                <input  type="hidden"name="c" id="c" value="0,1#2,3"/>
+                <input  type="hidden" name="option" id="option" value="showChart:0,headingBefore:0,headingAfter:0,headingOutside:1,showchoosedim:0,nbDec:2,subtotals:0,totals:0,calcTotal:1,showFlags:1,showUnits:1,,nestedby:1,showEmpty:0,type:-1" />
+                <input type="hidden" name="xml" id="xml" value="">
+			</form>
+			<div id="METADATA" style="display:none"></div>
+			<iframe name=OLAP id="OLAP" frameborder=0 style="width:100%;height:1500px;float: left; padding: 10px;">
+			</iframe>
+			
+		</div>
+
+	</body>
+
+</html>

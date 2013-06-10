@@ -1,0 +1,213 @@
+<html>
+
+<head>
+
+<script type="text/javascript" src="resources/js/jquery-1.7.2.min.js"></script>
+
+<script type="text/javascript">
+	function changeColor(name) {
+		$('#' + name).css('background-color', function() {
+			if ($('#' + name).data("selected")) {
+				$('#' + name).data("selected", false);
+				return '#FFFFFF';
+			} else {
+				$('#' + name).data("selected", true);
+				return '#D0DDED';
+			}
+		});
+	}
+	function select(name) {
+		changeColor(name);
+		if (list_indices["from"] == null) {
+			list_indices["from"] = name;
+		} else if (shift == true && list_indices["to"] == null) {
+			list_indices["to"] = name;
+			var start = list_indices["from"];
+			var end = list_indices["to"];
+			if (end < start) {
+				var tmp = start;
+				start = end;
+				end = tmp;
+			}
+			for ( var i = start; i <= end; i++) {
+				$("#" + i).data("selected", true);
+				$("#" + i).css('background-color', "#D0DDED");
+				console.log($("#" + i));
+			}
+			document.getElementById("selectionArea").innerHTML = "The highlighted items are part of your filter, and will be used to build the output.";
+			list_indices["from"] = null;
+			list_indices["to"] = null;
+		}
+	};
+	function check(name) {
+		if (check_indices["from"] == null) {
+			check_indices["from"] = $("#checkbox-" + name).val();
+		} else if (shift == true && check_indices["to"] == null) {
+			check_indices["to"] = $("#checkbox-" + name).val();
+			var start = check_indices["from"];
+			var end = check_indices["to"];
+			if (end < start) {
+				var tmp = start;
+				start = end;
+				end = tmp;
+			}
+			for ( var i = start; i <= end; i++) {
+				$("input[value='" + i + "']").attr('checked', true);
+			}
+			document.getElementById("linkArea").innerHTML = "The selected checkboxes are used to link this list to te others, in order to avoid empty queries.";
+			check_indices["from"] = null;
+			check_indices["to"] = null;
+		}
+	};
+	var shift = false;
+	$(document).bind({
+		keydown : function(e) {
+			if (e.which == 16)
+				shift = true;
+		},
+		keyup : function(e) {
+			shift = false;
+		}
+	});
+	var list_indices = [ {
+		"from" : null,
+		"to" : null
+	} ];
+	var check_indices = [ {
+		"from" : null,
+		"to" : null
+	} ];
+</script>
+
+<style type="text/css">
+table.scrollable tbody {
+	max-height: 250px;
+	overflow: scroll;
+	width: 270px;
+	font-family: verdana;
+	font-size: 11px;
+	cursor: pointer;
+}
+
+div.scrollWrapper {
+	float: left;
+	height: 150px;
+	overflow: scroll;
+}
+
+table.scrollable th {
+	position: relative;
+	background: #f7f7f7;
+}
+
+table.scrollable {
+	margin-right: 16px;
+}
+</style>
+
+</head>
+
+<body onload="$('.checkbox-label').data('selected', false);">
+
+	<table>
+
+		<tr>
+
+			<td>
+
+				<div class="scrollWrapper">
+					<table class="scrollable" cellspacing="0" width="200px">
+						<tbody>
+							<tr>
+								<td><input type="checkbox" id="checkbox-lazio"
+									onclick="check('lazio')" value="0" /></td>
+								<td width="95%" align="left" id="0" onclick="select('0')"
+									class="checkbox-label">Angola</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="checkbox-campania"
+									onclick="check('campania')" value="1" /></td>
+								<td width="95%" align="left" id="1" onclick="select('1')"
+									class="checkbox-label">Mozambico</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="checkbox-sicilia"
+									onclick="check('sicilia')" value="2" /></td>
+								<td width="95%" align="left" id="2" onclick="select('2')"
+									class="checkbox-label">Portogallo</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="checkbox-piemonte"
+									onclick="check('piemonte')" value="3" /></td>
+								<td width="95%" align="left" id="3" onclick="select('3')"
+									class="checkbox-label">Sao Tome e Principe</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="checkbox-brasile"
+									onclick="check('brasile')" value="4" /></td>
+								<td width="95%" align="left" id="4" onclick="select('4')"
+									class="checkbox-label">Brasile</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="checkbox-goa"
+									onclick="check('goa')" value="5" /></td>
+								<td width="95%" align="left" id="5" onclick="select('5')"
+									class="checkbox-label">Goa</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="checkbox-macao"
+									onclick="check('macao')" value="5" /></td>
+								<td width="95%" align="left" id="5" onclick="select('5')"
+									class="checkbox-label">Macao</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</td>
+
+		</tr>
+		
+		<tr>
+
+			<td>
+
+				<table>
+					<tr>
+						<td>Filter: </td>
+						<td><input type="text" value="Select All" size="13"/></td>
+					</tr>
+				</table>
+
+			</td>
+
+		</tr>
+
+		<tr>
+
+			<td>
+
+				<table>
+					<tr>
+						<td><input type="button" value="Select All" /></td>
+						<td><input type="button" value="Clear Selection" /></td>
+					</tr>
+				</table>
+
+			</td>
+
+		</tr>
+
+	</table>
+
+	<br />
+
+	<div id="selectionArea"></div>
+
+	<br />
+
+	<div id="linkArea"></div>
+
+</body>
+
+</html>

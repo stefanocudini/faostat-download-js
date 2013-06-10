@@ -1,0 +1,52 @@
+<!-- <div style="overflow: hidden;"> -->
+
+<!-- 	<div style="float: left; margin-top: 16px;"> -->
+<!-- 	    <img style='float: left; margin: 5px;' src='resources/images/table.png' /> -->
+<!-- 	    <div class="faostat-download-button" id='buttonViewTables'  style='font-size: 15px; font-family: sans-serif;'>Preview</div> -->
+<!-- 	</div> -->
+	
+<!-- 	<div style="float: left; margin-top: 16px; margin-left: 54px;"> -->
+<!-- 	    <img style='float: left; margin: 5px;' src='resources/images/excel.png' /> -->
+<!-- 	    <div class="faostat-download-button" id='buttonExportToCSV' style='font-size: 15px; font-family: sans-serif;'>Download</div> -->
+<!-- 	</div> -->
+
+<!-- </div> -->
+
+<br>
+
+<table style="overflow: hidden; width: 100%; margin-left: -5px;">
+	
+	<tr>
+	
+		<td width='50%'>
+			<input class="faostat-download-button" type="button" value="Preview" id='buttonViewTables' />
+			<script>
+				$('#buttonViewTables').attr('value', $.i18n.prop('_preview'));
+			</script>
+		</td>
+		
+		<td>
+			<input class="faostat-download-button" type="button" value="Download" id='buttonExportToCSV' />
+			<script>
+				$('#buttonExportToCSV').attr('value', $.i18n.prop('_download'));
+			</script>
+		</td>
+		
+	</tr>
+	<tr>
+	<td>
+	<script>
+
+	function changeWindowed()
+	{
+		
+	if(document.getElementById('windowed').checked)
+	{document.getElementById('monMainForm').target="NEWOLAP";}
+	else{document.getElementById('monMainForm').target="OLAP";}
+	}
+	</script>
+	<!-- <input type="checkbox" id="windowed" onchange="changeWindowed()" /><label for"windowed">Open in a new windows</label> -->
+	</td>
+	</tr>
+	
+</table>

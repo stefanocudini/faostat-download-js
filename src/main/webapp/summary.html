@@ -1,0 +1,91 @@
+<table class="step" style='width: 700px;'>
+	<tr>
+		<td id='countries_summary'>
+			<script>document.getElementById('countries_summary').innerHTML = I18N.translate('_countries_summary');</script>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div style="height: 45px; overflow: auto;">
+				<input class="faostat-download-wizard-summary" id="summaryCountries" value=""/>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<input class="faostat-download-wizard-button-back" id="buttonBackToCountries" type="button" value="Back to the Countries list"/>
+			<script>
+				$('#buttonBackToCountries').attr('value', $.i18n.prop('_backToTheCountriesList'));
+			</script>
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td id='elements_summary'>
+			<script>document.getElementById('elements_summary').innerHTML = I18N.translate('_elements_summary');</script>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div style="height: 45px; overflow: auto;">
+				<input class="faostat-download-wizard-summary" id="summaryElements" value=""/>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<input class="faostat-download-wizard-button-back" id="buttonBackToElements" type="button" value="Back to the Elements list"/>
+			<script>
+				$('#buttonBackToElements').attr('value', $.i18n.prop('_backToTheElementsList'));
+			</script>
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td id='items_summary'>
+			<script>document.getElementById('items_summary').innerHTML = I18N.translate('_items_summary');</script>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div style="height: 45px; overflow: auto;">
+				<input class="faostat-download-wizard-summary" id="summaryItems" value=""/>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<input class="faostat-download-wizard-button-back" id="buttonBackToItems" type="button" value="Back to the Items list"/>
+			<script>
+				$('#buttonBackToItems').attr('value', $.i18n.prop('_backToTheItemsList'));
+			</script>
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td id='years_summary'>
+			<script>document.getElementById('years_summary').innerHTML = I18N.translate('_years_summary');</script>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div style="height: 45px; overflow: auto;">
+				<input class="faostat-download-wizard-summary" id="summaryYears" value=""/>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<input class="faostat-download-wizard-button-back" id="buttonBackToYears" type="button" value="Back to the Years list"/>
+			<script>
+				$('#buttonBackToYears').attr('value', $.i18n.prop('_backToTheYearsList'));
+			</script>
+		</td>
+	</tr>
+</table>

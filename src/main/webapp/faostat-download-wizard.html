@@ -1,0 +1,487 @@
+<div id="wizard_container" style="width: 700px; height: 500px; margin-left: 36px;">
+		
+			<div id="step_0" style="display: inline;">
+				<table width="100%" class="step">
+					<tr>
+						<td id='wizard_step_0' class="suggestion" style="text-align: left; width: 460px;">
+							wizard_step_0
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<input class="faostat-download-wizard-button-next" id="0_buttonNext" type="button" value="Start"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="step_1" style="display: none;">
+				<table width="100%" class="step" id ="step_1_table">
+					<tr>
+						<td align="right" id='step1of6' colspan='2'>
+							step1of6
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td class="suggestion" id='wizard_step_1' colspan='2'>
+							wizard_step_1
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan='2'>
+							<table align="center">
+								<tr>
+									<td style='width: 206px; font-family: sans-serif; font-weight: bold; font-size: 16px; color: #1482B4; text-align: center; padding: 10px;'>1</td>
+									<td style='width: 206px; font-family: sans-serif; font-weight: bold; font-size: 16px; color: #1482B4; text-align: center; padding: 10px;'>2</td>
+									<td style='width: 206px; font-family: sans-serif; font-weight: bold; font-size: 16px; color: #1482B4; text-align: center; padding: 10px;'>3</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='2'>
+							<table align="center">
+								<tr>
+									<td>
+										<ul id="sortable" align="center">
+											<li class="ui-state-default" id="li_countries">li_countries</li>
+											<li class="ui-state-default" id="li_elements">li_elements</li>
+											<li class="ui-state-default" id="li_items">li_items</li>
+										</ul>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td width='50%'>
+							<input class="faostat-download-wizard-reset" type="button"/>
+						</td>
+						<td width='50%'>
+							<input class="faostat-download-wizard-button-next" id="1_buttonNext" type="button" value="Next Step"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="step_2" style="display: none;">
+				<table width="100%" class="step">
+					<tr>
+						<td align="right" id='step2of6' colspan='3'>
+							step2of6
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan='3'>
+							<div class="suggestion" id='wizard_step_2'>
+								wizard_step_2
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan='3'>
+							<div class="faostat-download-wizard-list" id="listMaster"></div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan='3'>
+							<table class="step">
+								<tr>
+									<td id='wizard_filter_1'>
+										_filter_1
+									</td>
+									<td width='50%'><input type='text' size='53' style='height: 21px;' id='autocompleteMaster'/></div></td>
+									<td width='25%'><input class="faostat-download-wizard-button-alert" id="button-unselect-all-master" type="button" value="Clear Selection"/></td>
+									<td width='25%'><input class="faostat-download-wizard-button-alert" id="button-select-all-master" type="button" value="Select All"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td width='33%'>
+							<input class="faostat-download-wizard-reset" type="button" value="Reset"/>
+						</td>
+						<td width='33%'>
+							<input class="faostat-download-wizard-button-prev" id="2_buttonPrev" type="button" value="Previous Step"/>
+						</td>
+						<td width='33%'>
+							<input class="faostat-download-wizard-button-next" id="2_buttonNext" type="button" value="Next Step"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="step_3" style="display: none;">
+				<table width="100%" class="step">
+					<tr>
+						<td align="right" id='step3of6' colspan='3'>
+							step3of6
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan='3'>
+							<div class="suggestion" id='wizard_step_3'>
+								wizard_step_3
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan='3'>
+							<div class="faostat-download-wizard-list" id="listSlave1"></div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan='3'>
+							<table class="step">
+								<tr>
+									<td id='wizard_filter_2'>
+										wizard_filter_2
+									</td>
+									<td width='50%'><input type='text' size='53' style='height: 21px;' id='autocompleteSlave1'/></div></td>
+									<td width='25%'><input class="faostat-download-wizard-button-alert" id="button-unselect-all-slave1" type="button" value="Clear Selection"/></td>
+									<td width='25%'><input class="faostat-download-wizard-button-alert" id="button-select-all-slave1" type="button" value="Select All"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td width='33%'>
+							<input class="faostat-download-wizard-reset" type="button" value="Reset"/>
+						</td>
+						<td width='33%'>
+							<input class="faostat-download-wizard-button-prev" id="3_buttonPrev" type="button" value="Previous Step"/>
+						</td>
+						<td width='33%'>
+							<input class="faostat-download-wizard-button-next" id="3_buttonNext" type="button" value="Next Step"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="step_4" style="display: none;">
+				<table width="100%" class="step">
+					<tr>
+						<td align="right" id='step4of6' colspan='3'>
+							_step4of6
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan='3'>
+							<div class="suggestion" id='wizard_step_4'>
+								_wizard_step_4
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan='3'>
+							<div class="faostat-download-wizard-list" id="listSlave2"></div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan='3'>
+							<table class="step">
+								<tr>
+									<td id='wizard_filter_3'>
+										_filter_3
+									</td>
+									<td width='50%'><input type='text' size='53' style='height: 21px;' id='autocompleteSlave2'/></div></td>
+									<td width='25%'><input class="faostat-download-wizard-button-alert" id="button-unselect-all-slave2" type="button" value="Clear Selection"/></td>
+									<td width='25%'><input class="faostat-download-wizard-button-alert" id="button-select-all-slave2" type="button" value="Select All"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td width='33%'>
+							<input class="faostat-download-wizard-reset" type="button" value="Reset"/>
+						</td>
+						<td width='33%'>
+							<input class="faostat-download-wizard-button-prev" id="4_buttonPrev" type="button" value="Previous Step"/>
+						</td>
+						<td width='33%'>
+							<input class="faostat-download-wizard-button-next" id="4_buttonNext" type="button" value="Next Step"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="step_5" style="display: none;">
+				<table width="100%" class="step">
+					<tr>
+						<td align="right" id='step5of6' colspan='3'>
+							_step5of6
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan='3'>
+							<div class="suggestion" id='wizard_step_5'>
+								_wizard_step_5
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan='3'>
+							<div class="faostat-download-wizard-list" id="yearSlider"></div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan='3'>
+							<table class="step">
+								<tr>
+									<td>&nbsp;</td>
+									<td width='50%'><div style='width: 413px;'></div></td>
+									<td width='25%'><input class="faostat-download-wizard-button-alert" id="button-unselect-all-years" type="button" value="Clear Selection"/></td>
+									<td width='25%'><input class="faostat-download-wizard-button-alert" id="button-select-all-years" type="button" value="Select All"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='3'>&nbsp;</td>
+					</tr>
+					<tr>
+						<td width='33%'>
+							<input class="faostat-download-wizard-reset" type="button" value="Reset"/>
+						</td>
+						<td width='33%'>
+							<input class="faostat-download-wizard-button-prev" id="5_buttonPrev" type="button" value="Previous Step"/>
+						</td>
+						<td width='33%'>
+							<input class="faostat-download-wizard-button-next" id="5_buttonNext" type="button" value="Next Step"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="step_6" style="display: none;">
+				<table width="100%" class="step">
+					<tr>
+						<td align="right" id='step6of6'>
+							_step6of6
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="suggestion" id='wizard_step_6'>
+								_wizard_step_6
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>
+							<div id='summary_area'></div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		
+		</div>
+		
+<table style='width: 720px; margin-left: 22px;'>
+	<tr>
+		<td>
+			<div class="output_options" id="output_options" style="float:left; width:670px; margin-top: 16px;">
+				<div>
+					<div>
+						<div id='output_options_labels'>Output Options
+						</div>
+					</div>
+				</div>
+				<div>
+					<div style='height: 140px;'>
+						<table style='width: 670px; font-family: sans-serif; font-size: 11px; padding: 8px; border-spacing: 8px;'>
+							<tr>
+								<td style='width: 25%; font-weight: bold;' id='wizard_output_type'>
+									<script>document.getElementById('wizard_output_type').innerHTML = I18N.translate('_outputType');</script>
+								</td>
+								<td style='width: 25%; font-weight: bold;' id='wizard_thousand_separator'>
+									<script>document.getElementById('wizard_thousand_separator').innerHTML = I18N.translate('_thousandSeparator');</script>
+								</td>
+								<td style='width: 25%; font-weight: bold;' id='wizard_decimal_separator'>
+									<script>document.getElementById('wizard_decimal_separator').innerHTML = I18N.translate('_decimalSeparator');</script>
+								</td>
+								<td style='width: 25%; font-weight: bold;' id='wizard_decimal_numbers'>
+									<script>document.getElementById('wizard_decimal_numbers').innerHTML = I18N.translate('_decimalNumbers');</script>
+								</td>
+							</tr>
+							<tr>
+								<td style='width: 25%;'><div id='options_output_type'></div></td>
+								<td style='width: 25%;'><div id='options_thousand_separator'></div></td>
+								<td style='width: 25%;'><div id='options_decimal_separator'></div></td>
+								<td style='width: 25%;'><div id='options_decimal_numbers'></div></td>
+							</tr>
+							<tr>
+								<td id='show_flags' style='width: 25%; font-weight: bold;'>
+									<script>document.getElementById('show_flags').innerHTML = I18N.translate('_show_flags_label');</script>
+								</td>
+								<td id='show_codes' style='width: 25%; font-weight: bold;'>
+									<script>document.getElementById('show_codes').innerHTML = I18N.translate('_show_codes_label');</script>
+								</td>
+								<td id='show_units' style='width: 25%; font-weight: bold;'>
+									<script>document.getElementById('show_units').innerHTML = I18N.translate('_show_units_label');</script>
+								</td>
+								<td id='show_null_values' style='width: 25%; font-weight: bold;'>
+									<script>document.getElementById('show_null_values').innerHTML = I18N.translate('_show_null_values_label');</script>
+								</td>
+							</tr>
+							<tr>
+								<td style='width: 25%;'><div id='options_show_flags'></div></td>
+								<td style='width: 25%;'><div id='options_show_codes'></div></td>
+								<td style='width: 25%;'><div id='options_show_units'></div></td>
+								<td style='width: 25%;'><div id='options_show_null_values'></div></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>
+
+<style>
+	#agg, #col, #row { 
+		list-style-type: none; 
+		margin: 0; 
+		padding: 0 0 2.5em; 
+		float: left; 
+		margin-right: 10px; 
+	}
+	#agg li, #row li ,#col li{ 
+		margin: 0 5px 5px 5px; 
+		padding: 5px;  
+	}
+</style>
+	
+<!-- 
+<table style='width: 720px; margin-left: 22px;'>
+	<tr>
+		<td>
+<div class="demo" style="float:left;width:670px; margin-top: 16px;">
+	<div>
+		<div style='margin-top: 0px;'>
+			<div style='margin-left: 0px; float: left;' id='olapDimensionConfiguration'>
+			_olapDimensionConfiguration
+			</div>
+		</div>
+	</div>
+<div>
+	<div style='margin-top: 5px; margin-left: 5px; height: 230px;'>
+		<ul id="agg" class="connectedSortable" style="display:none">
+<li class="ui-state-default ui-state-disabled">Not Used</li>
+	</ul>
+<ul id="col" class="connectedSortable">
+<li class="ui-state-default ui-state-disabled">Col</li>
+<li class="ui-state-default" id="sel_0">Indicators</li>
+<li class="ui-state-default" id="sel_1">countries</li>
+</ul>
+<ul id="row" class="connectedSortable">
+<li class="ui-state-default ui-state-disabled">Row</li>
+<li class="ui-state-default" id="sel_2">Items </li>
+	<li class="ui-state-default" id="sel_3">Years </li>
+</ul>
+</div>
+</div>
+</div>
+</td>
+	</tr>
+</table>
+-->
+
+<table style='width: 720px; margin-left: 22px; display:none;'>
+	<tr>
+		<td>
+			<div class="demo" style="float:left;width:100%; margin-top: 16px;">
+				<div>
+					<div style='margin-top: 0px;'>
+						<div style='margin-left: 0px; float: left;' id='olapDimensionConfiguration'>Pivot Dimensions Configuration</div>
+					</div>
+				</div>
+				<div>
+					<div style='margin-top: 5px; margin-left: 5px; '>	
+						<ul id="agg" class="connectedSortable" style="display:none">
+							<li class="ui-state-default ui-state-disabled">Not Used</li>
+						</ul>
+						<ul id="nestedBy" class="connectedSortable" >
+							<li class="ui-state-default ui-state-disabled">Nested By</li>	
+						</ul>
+						<ul id="row" class="connectedSortable">
+							<li class="ui-state-default ui-state-disabled">Rows</li>
+							<li class="ui-state-default" id="sel_2">Items </li>
+							<li class="ui-state-default" id="sel_3">Years </li>
+						</ul>
+						<ul id="col" class="connectedSortable">
+							<li class="ui-state-default ui-state-disabled">Columns</li>
+							<li class="ui-state-default" id="sel_0">Elements</li>
+							<li class="ui-state-default" id="sel_1">countries</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>
