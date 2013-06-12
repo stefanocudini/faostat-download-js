@@ -65,7 +65,7 @@ FAOSTATFBS.traduction={
         supply:"Disponibilite",
         utilisation:"Utilisation",
         showcode:"Voir Code",
-        domestic:"DisponibilitÃ© intÃ©rieure /Utilisation"
+        domestic:"Disponibilité intérieure /Utilisation"
     },
 
     E:{
@@ -102,7 +102,7 @@ FAOSTATFBS.traduction={
     }
 
 };
-FAOSTATFBS.root="/home/faostat-download-js";
+//FAOSTATFBS.root="/home/faostat-download-js";
 FAOSTATFBS.myIndex={
     5511:1,
     5611:2,
@@ -212,6 +212,8 @@ FAOSTATFBS.header=[
     E:"Por dia Grasa Gr"
 }
 ];
+
+FAOSTATFBS.Population="";
 FAOSTATFBS.headerNoDom=[
 {
     t:"Prod.",
@@ -442,7 +444,7 @@ FAOSTATFBS.Country=function()
     };
 
     var data = {};
-    data.datasource = 'faostat';
+    data.datasource = 'faostat2';
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -455,7 +457,7 @@ FAOSTATFBS.Country=function()
 						
     $.ajax({
         type : 'POST',
-        url : 'http://faostat3.fao.org/wds/rest/table/json',
+        url : '/wds/rest/table/json',
         data : data,
         success : function(response) {
             var myJson=response;
@@ -474,7 +476,7 @@ FAOSTATFBS.Country=function()
         }
     });
 }
-
+/*
 FAOSTATFBS.fillCountries=function()
 {
     if (reqC.readyState == 4 && reqC.status =="200" ) 
@@ -491,7 +493,7 @@ FAOSTATFBS.fillCountries=function()
             mycountry.appendChild(o);
         }
     }
-}
+}*/
  
  
  
@@ -541,7 +543,7 @@ FAOSTATFBS.Items=function(){
     };
 
     var data = {};
-    data.datasource = 'faostat';
+    data.datasource = 'faostat2';
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -550,7 +552,7 @@ FAOSTATFBS.Items=function(){
     data.valueIndex = '1';
     $.ajax({
         type : 'POST',
-        url : 'http://faostat3.fao.org/wds/rest/table/json',
+        url : '/wds/rest/table/json',
         data : data,
         success : function(response) {
             var myJson=response;
@@ -643,6 +645,82 @@ FAOSTATFBS.showData=function()
 
         if(items=="")
         {
+		//CASE 1 COUNTRIESconsole.log("ITEMS");
+		var param0={
+		 "selects":[{
+                    "aggregation":"NONE",
+                    "column":"Value",
+                    "alias":"Value"
+                }
+                ]
+				,
+                "froms":[
+                {
+                    "column":"vFBSItem",
+                    "alias":"vFBSItem"
+                }],"wheres":[
+                {
+                    "datatype" : "TEXT",
+                    "column" : "AreaCode",
+                    "operator" : "=",
+                    "value" : pays,
+                    "ins" : []
+                },
+
+                {
+                    "datatype" : "DATE",
+                    "column" : "Year",
+                    "operator" : "=",
+                    "value" : annee,
+                    "ins" : []
+                }
+                ],
+                "orderBys" :[{
+                    "column" : "Year"
+                },{
+                    "column" : "AreaCode"
+                },{
+                    "column" : "Ord"
+                }]
+                ,
+                "limit" : null,
+                "query" :null,
+                "frequency" : "NONE"
+            };
+			 param0["wheres"].push({
+                    "datatype" : "TEXT",
+                    "column" : "ItemCode",
+                    "operator" : "=",
+                    "value" : 2501,
+                    "ins" : []
+                });
+			 var data0 = {};
+            data0.datasource = 'faostat2';
+            data0.thousandSeparator = ',';
+            data0.decimalSeparator = '.';
+            data0.decimalNumbers = '2';
+            data0.json = JSON.stringify(param0);
+            //console.log(param)
+            data0.cssFilename = 'faostat';
+            data0.valueIndex = '1';
+			
+			 $.ajax({
+                type : 'POST',
+                url : '/wds/rest/table/json',
+                data : data0,
+                success : function(response) 
+				{FAOSTATFBS.Population=response;
+				try{
+				document.getElementById("valPop").innerHTML=FAOSTATFBS.Population;
+				}catch(er){}
+				},
+			 error : function(err, b, c) {
+                console.log(err);
+            }
+        });
+			
+			
+			
             var param={
                 "selects":[{
                     "aggregation":"NONE",
@@ -746,11 +824,18 @@ FAOSTATFBS.showData=function()
                     "operator" : ">",
                     "value" : 15,
                     "ins" : []
-                })
+                });/*
+				 param["wheres"].push({
+                    "datatype" : "TEXT",
+                    "column" : "ItemCode",
+                    "operator" : "=",
+                    "value" : 2501,
+                    "ins" : []
+                });*/
             }
 
             var data = {};
-            data.datasource = 'faostat';
+            data.datasource = 'faostat2';
             data.thousandSeparator = ',';
             data.decimalSeparator = '.';
             data.decimalNumbers = '2';
@@ -761,7 +846,7 @@ FAOSTATFBS.showData=function()
             //console.log(param);
             $.ajax({
                 type : 'POST',
-                url : 'http://faostat3.fao.org/wds/rest/table/json',
+                url : '/wds/rest/table/json',
                 data : data,
                 success : function(response) {
 
@@ -857,7 +942,7 @@ FAOSTATFBS.showData=function()
                     myA.setAttribute("class","various myButton");
                     myA.setAttribute("id","btnFS");
                     myA.setAttribute("data-fancybox-type","iframe");
-                    myA.setAttribute("href","popup.jsp");
+                    myA.setAttribute("href","/faostat-download-js/popup.jsp");
                     myA.setAttribute("target","myFanzy");
                     myA.innerHTML=	"<img src=\"http://faostat3.fao.org/home/faostat-download-js/src/images/full.png\"/><p class=\"up\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].fullscreen+"</p>";
                     if (navigator.appVersion.indexOf("MSIE 7.") != -1){}else{
@@ -875,9 +960,10 @@ FAOSTATFBS.showData=function()
 
 
                     var cell = document.createElement("td");
-                    var txtCell = document.createTextNode(myJson[0][8]);
-                    if(document.getElementById("rc2").checked){var txtCell = document.createTextNode("Na");}
-                      
+					cell.setAttribute("id","valPop");
+                    var txtCell = document.createTextNode(FAOSTATFBS.Population);
+					  /* if(document.getElementById("rc2").checked){var txtCell = document.createTextNode("Na");}*/
+
                     //cell.setAttribute("class","popTotal");
                     cell.colSpan=2;
                     cell.appendChild(txtCell);
@@ -1039,7 +1125,6 @@ FAOSTATFBS.showData=function()
                     try{
                         myFilter3.innerHTML="";
                     }catch(e){}
-                    
                     var debutBoucle=1;
                     if(document.getElementById("rc2").checked){debutBoucle=0;}
                     for(var i=debutBoucle;i<myJson.length;i++)
@@ -1232,7 +1317,7 @@ else
     }
 
     var data = {};
-    data.datasource = 'faostat';
+    data.datasource = 'faostat2';
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -1241,7 +1326,7 @@ else
     data.valueIndex = '1';
     $.ajax({
         type : 'POST',
-        url : 'http://faostat3.fao.org/wds/rest/table/json',
+        url : '/wds/rest/table/json',
         data : data,
         success : function(response) {
 
@@ -1953,7 +2038,7 @@ FAOSTATFBS.changeTab=function(param)
     //document.getElementById('menu_'+param).style.backgroundImage="url(FAOSTATFBS.root+'img/countriesTabOn.gif')";
     }
     if (param=='tabItem'){
-        document.getElementById('menu_'+param).style.backgroundImage="url(FAOSTATFBS.root+'img/itemsTabOn.gif')";
+        document.getElementById('menu_'+param).style.backgroundImage="url(/faostat-download-js/imgages/itemsTabOn.gif')";
     }
 }
 
