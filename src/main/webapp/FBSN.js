@@ -444,7 +444,7 @@ FAOSTATFBS.Country=function()
     };
 
     var data = {};
-    data.datasource = 'faostat2';
+    data.datasource = FAOSTATDownload.datasource;
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -543,7 +543,7 @@ FAOSTATFBS.Items=function(){
     };
 
     var data = {};
-    data.datasource = 'faostat2';
+    data.datasource = FAOSTATDownload.datasource;
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -599,7 +599,7 @@ FAOSTATFBS.showData=function()
     var annee=document.getElementById("sYear").value;
     //console.log(items+" "+pays);
     if (items!="" || pays!=""){
-        document.getElementById("result").innerHTML="<img src=\"http://faostat3.fao.org/home/faostat-download-js/preloadFBS.gif\" />";
+        document.getElementById("result").innerHTML="<img src=\"/faostat-download-js/preloadFBS.gif\" />";
 
         //try{
         var myTata=0;
@@ -695,7 +695,7 @@ FAOSTATFBS.showData=function()
                     "ins" : []
                 });
 			 var data0 = {};
-            data0.datasource = 'faostat2';
+            data0.datasource = FAOSTATDownload.datasource;
             data0.thousandSeparator = ',';
             data0.decimalSeparator = '.';
             data0.decimalNumbers = '2';
@@ -835,7 +835,7 @@ FAOSTATFBS.showData=function()
             }
 
             var data = {};
-            data.datasource = 'faostat2';
+            data.datasource = FAOSTATDownload.datasource;
             data.thousandSeparator = ',';
             data.decimalSeparator = '.';
             data.decimalNumbers = '2';
@@ -920,7 +920,7 @@ FAOSTATFBS.showData=function()
                     };
         
                     mybutton.setAttribute("class","myButton");
-                    mybutton.innerHTML="<img src=\"http://faostat3.fao.org/home/faostat-download-js/src/images/filter.png\" /><p class=\"up\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].filterOff+"</p>";
+                    mybutton.innerHTML="<img src=\"/faostat-download-js/images/filter.png\" /><p class=\"up\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].filterOff+"</p>";
 	
                     if (navigator.appVersion.indexOf("MSIE 7.") != -1){}else{
                         cell.appendChild(mybutton);
@@ -934,7 +934,7 @@ FAOSTATFBS.showData=function()
                         FAOSTATFBS.toExcel()
                         };
                     myA.setAttribute("id","btnExcel");
-                    myA.innerHTML="<img src=\"http://faostat3.fao.org/home/faostat-download-js/src/images/export.png\" /><p class=\"up\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].exportdata+"</p>";
+                    myA.innerHTML="<img src=\"/faostat-download-js/images/export.png\" /><p class=\"up\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].exportdata+"</p>";
 	
                     cell.appendChild(myA);
 	
@@ -944,7 +944,7 @@ FAOSTATFBS.showData=function()
                     myA.setAttribute("data-fancybox-type","iframe");
                     myA.setAttribute("href","/faostat-download-js/popup.jsp");
                     myA.setAttribute("target","myFanzy");
-                    myA.innerHTML=	"<img src=\"http://faostat3.fao.org/home/faostat-download-js/src/images/full.png\"/><p class=\"up\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].fullscreen+"</p>";
+                    myA.innerHTML=	"<img src=\"/faostat-download-js/images/full.png\"/><p class=\"up\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].fullscreen+"</p>";
                     if (navigator.appVersion.indexOf("MSIE 7.") != -1){}else{
                         cell.appendChild(myA);
                     }
@@ -1317,7 +1317,7 @@ else
     }
 
     var data = {};
-    data.datasource = 'faostat2';
+    data.datasource = FAOSTATDownload.datasource;
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -1394,7 +1394,7 @@ else
             };
             mybutton.setAttribute("class","myButton");
 		
-            mybutton.innerHTML="<img src=\"http://faostat3.fao.org/home/faostat-download-js/src/images/filter.png\" /><p class=\"up\" id=\"pup\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].filterOff+"</p>";
+            mybutton.innerHTML="<img src=\"/faostat-download-js/images/filter.png\" /><p class=\"up\" id=\"pup\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].filterOff+"</p>";
 
             if (navigator.appVersion.indexOf("MSIE 7.") != -1){}else{
                 cell.appendChild(mybutton);
@@ -1408,16 +1408,16 @@ else
                 FAOSTATFBS.toExcel()
                 };
             myA.setAttribute("id","btnExcel");
-            myA.innerHTML="<img src=\"http://faostat3.fao.org/home/faostat-download-js/src/images/export.png\" /><p class=\"up\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].exportdata+"</p>";
+            myA.innerHTML="<img src=\"/faostat-download-js/images/export.png\" /><p class=\"up\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].exportdata+"</p>";
             cell.appendChild(myA);
 	
             var myA=document.createElement("div");
             myA.setAttribute("class","various myButton");
             myA.setAttribute("id","btnFS");
             myA.setAttribute("data-fancybox-type","iframe");
-            myA.setAttribute("href","http://faostat3.fao.org/home/faostat-download-js/popup.jsp");
+            myA.setAttribute("href","/faostat-download-js/popup.jsp");
             myA.setAttribute("target","myFanzy");
-            myA.innerHTML=	"<img src=\"http://faostat3.fao.org/home/faostat-download-js/src/images/full.png\"/><p class=\"up\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].fullscreen+"</p>";
+            myA.innerHTML=	"<img src=\"/faostat-download-js/images/full.png\"/><p class=\"up\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].fullscreen+"</p>";
             if (navigator.appVersion.indexOf("MSIE 7.") != -1){}else{
                 cell.appendChild(myA);
             }
@@ -1750,13 +1750,6 @@ else{
 }
  
 
- 
- 
-
- 
- 
- 
- 
  
 FAOSTATFBS.cache=function(id)
 {
