@@ -196,11 +196,11 @@ if (!window.FAOSTATDownload) {
         },
         showClassicOrWizard : function() {
 
-            if (FAOSTATDownload.selectedDomainCode.length > 1) {
+            if (FAOSTATDownload.domainCode.length > 1) {
 				
                 // Wizard
 			
-                if(FAOSTATDownload.selectedDomainCode=="FB" /*&&
+                if(FAOSTATDownload.domainCode=="FB" /*&&
                     FAOSTATDownload.item.hasItems == false*/){
                     //alert('la')
                     this.showFB();
