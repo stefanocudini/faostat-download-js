@@ -69,11 +69,13 @@ if (!window.FAOSTATDownloadTree) {
 //                    FAOSTATDownload.selectedDomainCode = item.value;
 //                    document.getElementById('output_area').innerHTML = '';
 //                });
-
+console.log("ici"+FAOSTATDownload.prefix + 'config/faostat-download-configuration.json' );
                 $.getJSON(FAOSTATDownload.prefix + 'config/faostat-download-configuration.json', function (data) {
 //                    FAOSTATDownloadTree.populateTree(data, selectedDomain);
+
                     FAOSTATDownloadTree.populateTree(data, FAOSTATDownload.groupCode);
-                });
+                }).error(function(jqXHR, textStatus, errorThrown) {console.log("error " + textStatus);
+        console.log("incoming Text " + jqXHR.responseText); });
 
             }
 
@@ -163,6 +165,7 @@ if (!window.FAOSTATDownloadTree) {
              */
             $('#listArea').load(FAOSTATDownload.prefix + 'notes/' + domainCode + '/Description_' + lang + '.html', function () {
                 FAOSTATDownload.showDownloadOptionsAndButtons(false);
+				document.getElementById('testinline').className="invi";
                 FAOSTATDownloadTree.innerLinks();
             });
 
