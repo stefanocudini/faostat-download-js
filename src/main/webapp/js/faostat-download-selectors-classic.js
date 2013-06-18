@@ -46,11 +46,11 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
             $('#OLAP_IFRAME').css('display', 'inline');
             document.getElementById('output_area').innerHTML='';
             //WIZARD
-            if(FAOSTATDownload.selectedDomainCode=="FB"){
+            if(FAOSTATDownload.domainCode=="FB"){
                 document.getElementById("n").value=4;
                 document.getElementById("d").value="ElementCode#AreaCode#ItemCode#Year";
             }
-            else if(FAOSTATDownload.selectedDomainCode=="FT" ||FAOSTATDownload.selectedDomainCode=="TM")	{
+            else if(FAOSTATDownload.domainCode=="FT" ||FAOSTATDownload.domainCode=="TM")	{
                 document.getElementById('id').value="T0M";
                 document.getElementById("n").value=5;
                 document.getElementById("d").value="ElementCode#ReporterAreaCode#ItemCode#Year#PartnerAreaCode";
@@ -210,7 +210,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                 mesYearsXML+="}}";
                 document.getElementById('xml').value="{["+mesElementsXML+","+mesCountriesXML+","+mesItemsXML+","+mesYearsXML+"]}";
                 document.getElementById('v').value=mesElements+"#"+mesCountries+"#"+mesItems+"#"+mesYears;
-                document.getElementById('domain').value=FAOSTATDownload.selectedDomainCode;
+                document.getElementById('domain').value=FAOSTATDownload.domainCode;
                 var test={};
                 test.n=document.getElementById('n').value;
                 test.d=document.getElementById('d').value;
@@ -238,7 +238,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                 var mesItemsXML="{name:'ItemCode','nb':'1','val':{";
                 var arrItem=$('#gridItemsAggregated').jqxGrid('selectedrowindexes');
                 var listItem="";
-                if (FAOSTATDownload.selectedDomainCode != 'GY') {
+                if (FAOSTATDownload.domainCode != 'GY') {
                     switch (FAOSTATDownload.itemsTabSelectedIndex) {
                         case 0:
                             if ($('#gridItems').jqxGrid('selectedrowindexes') != null) {
@@ -423,7 +423,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                 }
                 var data = {};
                 data.datasource = FAOSTATDownload.datasource;
-                data.domainCode = FAOSTATDownload.selectedDomainCode;
+                data.domainCode = FAOSTATDownload.domainCode;
                 data.language = FAOSTATDownload.language;
                 data.countries = listCountry;
                 data.items = listItem;
@@ -488,13 +488,13 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                         mesYearsXML+="}}";
                         document.getElementById('xml').value="{["+mesElementsXML+","+mesCountriesXML+","+mesItemsXML+","+mesYearsXML+"]}";
                         document.getElementById('v').value=mesElements+"#"+mesCountries+"#"+mesItems+"#"+mesYears;
-                        if(FAOSTATDownload.selectedDomainCode=="FB" )
+                        if(FAOSTATDownload.domainCode=="FB" )
                         {
                             document.getElementById('option').value=document.getElementById('option').value.replace("nestedby:0","nestedby:1");
                             document.getElementById('a').value=document.getElementById('a').value="0#0#0#0";
                             document.getElementById('c').value=document.getElementById('c').value="1,2#0,3";
                         }
-                        else  if(FAOSTATDownload.selectedDomainCode=="FT" || FAOSTATDownload.selectedDomainCode=="TM")
+                        else  if(FAOSTATDownload.domainCode=="FT" || FAOSTATDownload.domainCode=="TM")
                         {
                             document.getElementById('option').value=document.getElementById('option').value.replace("nestedby:1","nestedby:0");
                             document.getElementById('v').value=document.getElementById('v').value+="#*";
@@ -506,7 +506,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                             document.getElementById('a').value=document.getElementById('a').value="0#0#0#0";
                             document.getElementById('c').value=document.getElementById('c').value="0,1#2,3";
                         }
-                        document.getElementById('domain').value=FAOSTATDownload.selectedDomainCode;
+                        document.getElementById('domain').value=FAOSTATDownload.domainCode;
                         if(mesElements=="" || mesCountries=="" || mesItems=="" ||mesYears=="" )
                         {
                             alert("Missing parameters");
@@ -626,7 +626,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                     FAOSTATDownload.itemsTabSelectedIndex = event.args.item;
                 });
 				
-                if (FAOSTATDownload.selectedDomainCode == 'GY') {
+                if (FAOSTATDownload.domainCode == 'GY') {
                     $('#tabItems').jqxTabs('removeAt', 0); 
                     $('#tabItems').jqxTabs('setTitleAt', 0, $.i18n.prop('_items')); 
                 }
@@ -638,13 +638,13 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                 });
 				
                 $.getJSON(FAOSTATDownload.prefix + 'config/faostat-download-configuration.json', function(data) {
-                    FAOSTATDownloadSelectorsClassic.populateGrid("countries", "gridCountries", FAOSTATDownload.selectedDomainCode);
-                    FAOSTATDownloadSelectorsClassic.populateGrid("regions", "gridRegions", FAOSTATDownload.selectedDomainCode);
-                    FAOSTATDownloadSelectorsClassic.populateGrid("specialgroups", "gridSpecialGroups", FAOSTATDownload.selectedDomainCode);
-                    FAOSTATDownloadSelectorsClassic.populateGrid("items", "gridItems", FAOSTATDownload.selectedDomainCode);
-                    FAOSTATDownloadSelectorsClassic.populateGrid("itemsaggregated", "gridItemsAggregated", FAOSTATDownload.selectedDomainCode);
-                    FAOSTATDownloadSelectorsClassic.populateGrid("elements", "gridElements", FAOSTATDownload.selectedDomainCode);
-                    FAOSTATDownloadSelectorsClassic.populateGrid("years", "gridYears", FAOSTATDownload.selectedDomainCode);	
+                    FAOSTATDownloadSelectorsClassic.populateGrid("countries", "gridCountries", FAOSTATDownload.domainCode);
+                    FAOSTATDownloadSelectorsClassic.populateGrid("regions", "gridRegions", FAOSTATDownload.domainCode);
+                    FAOSTATDownloadSelectorsClassic.populateGrid("specialgroups", "gridSpecialGroups", FAOSTATDownload.domainCode);
+                    FAOSTATDownloadSelectorsClassic.populateGrid("items", "gridItems", FAOSTATDownload.domainCode);
+                    FAOSTATDownloadSelectorsClassic.populateGrid("itemsaggregated", "gridItemsAggregated", FAOSTATDownload.domainCode);
+                    FAOSTATDownloadSelectorsClassic.populateGrid("elements", "gridElements", FAOSTATDownload.domainCode);
+                    FAOSTATDownloadSelectorsClassic.populateGrid("years", "gridYears", FAOSTATDownload.domainCode);	
                 });
             }
         },
@@ -720,7 +720,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
             if (response != null) {
                 if (codingSystem == 'regions' || codingSystem == 'specialgroups' ||
                     codingSystem == 'itemsaggregated') {
-                    if (FAOSTATDownload.selectedDomainCode != 'GY') {
+                    if (FAOSTATDownload.domainCode != 'GY') {
                         for (var i = 0 ; i < response.length ; i++) {
                             var row = {};
                             switch (response[i].type) {
