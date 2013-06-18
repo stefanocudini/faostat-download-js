@@ -1,7 +1,7 @@
 <html>
 <head>
-<script type="text/javascript" src="src/js/chromatable/jquery-1.3.2.min.js"></script>
-<script type="text/javascript" src="src/js/chromatable/jquery.chromatable.js"></script>
+<script type="text/javascript" src="js/chromatable/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="js/chromatable/jquery.chromatable.js"></script>
 
 <link href="fbs_style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="FBSN.js">
