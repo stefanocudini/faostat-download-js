@@ -4,7 +4,7 @@ if (!window.FAOSTATDownload) {
 		
         /** To be used to deploy this code under FENIX FAOSTAT */
         /*prefix : 'faostat-download-js/',*/
-        prefix : 'http://localhost:8080/faostat-download-js/',
+        prefix : '/faostat-download-js/',
 
         theme : "faostat",
 
@@ -54,6 +54,7 @@ if (!window.FAOSTATDownload) {
              * read it from the URL
              */
             FAOSTATDownload.language = language;
+			
             FAOSTATDownload.groupCode = groupCode != '*' ? groupCode : null;
             FAOSTATDownload.domainCode = domainCode != '*' ? domainCode : null;
 
@@ -179,6 +180,7 @@ if (!window.FAOSTATDownload) {
             CPI.removeCPITableNotes();
         },
         showDownloadOptionsAndButtons : function(show) {
+		
             if (show) {
                 $('#output_options').show();
                 $('#output_buttons').show();
@@ -195,7 +197,6 @@ if (!window.FAOSTATDownload) {
             }
         },
         showClassicOrWizard : function() {
-
             if (FAOSTATDownload.domainCode.length > 1) {
 				
                 // Wizard
@@ -221,9 +222,11 @@ if (!window.FAOSTATDownload) {
                             url: FAOSTATDownload.prefix + 'faostat-download-selectors-classic.html',
                             dataType: 'html',
                             success : function(response) {
+							
                                 document.getElementById('listArea').innerHTML = response;
                                 FAOSTATDownloadSelectorsClassic.initUI();
                                 FAOSTATDownloadSelectorsClassic.translateUI();
+								FAOSTATDownload.showDownloadOptionsAndButtons(true);
                             },
                             error : function(err,b,c) {
                                 alert(err.status + ", " + b + ", " + c);
@@ -232,6 +235,7 @@ if (!window.FAOSTATDownload) {
                     }
                 }
                 // output buttons
+				
                 $('#output_buttons').load(FAOSTATDownload.prefix + 'output-buttons.html', function() {
                     FAOSTATDownload.initOuputButtons();
                 });
