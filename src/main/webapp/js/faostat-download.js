@@ -6,7 +6,10 @@ if (!window.FAOSTATDownload) {
         /*prefix : 'faostat-download-js/',*/
         prefix : '/faostat-download-js/',
 MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"+
-"Source: Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"}},
+"Source: Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"},
+"QC":{"E":"Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"+
+"Source: Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"}
+},
         theme : "faostat",
 
         countriesTabSelectedIndex : 0,
@@ -144,6 +147,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
                     url: FAOSTATDownload.prefix + 'FBSN.html',
                     dataType: 'html',
                     success : function(response) {
+					
                         document.getElementById('OLAPTD').className="invi";
                         document.getElementById('trWizardMode').className="invi";
                         document.getElementById('mainTD').className="visi2";
@@ -507,9 +511,15 @@ document.getElementById('OLAPTD').className="visi2";
             $('#buttonExportToCSV').bind('click', function() {
                 var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
                 if (item.value=="pivot")
-                {FAOSTATOLAP.pivots[0].toExcel("<table><tr><td>FAOSTAT 2013</td></tr></table>",
-				"<table><tr><td>"+document.getElementById("myFlags").innerHTML+"</td></tr></table>"+
-				"<table><tr><td>"+FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]["E"]+"</td></tr></table>");}
+                {
+				var footNotes="";
+				if(typeof FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]!="undefined")
+				{footNotes="<table><tr><td>"+FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]["E"]+"</td></tr></table>"}
+				FAOSTATOLAP.pivots[0].toExcel("<table><tr><td>FAOSTAT 2013</td></tr></table>",
+				"<table><tr><td>"+document.getElementById("myFlags").innerHTML+"</td></tr></table>"+footNotes);
+				
+			//	"<table><tr><td>"+FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]["E"]+
+				}
                 else{   C.collect(false); }
             });
             // view table

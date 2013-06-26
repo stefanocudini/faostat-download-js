@@ -75,6 +75,7 @@
     </label>
 </div>
 <div id="tree"></div>
+
 <form id="MainForm"><div id="ODC"></div></form>
 <table>
     <tr>
@@ -155,14 +156,14 @@
             <fieldset id="FOLAP" class="invi">	
                 <legend  onclick="javascript:changeVisi('pivot_content')" 
                          style="cursor:pointer;font-weight:bold;">&nbsp;</legend>	
+						 <div class="various myButton" id="btnFS" data-fancybox-type="iframe" href="/faostat-download-js/popupOlap.jsp" target="myFanzy"><img src="/faostat-download-js/images/full.png" style="width:30px;display:inline"><p class="up" style="display:inline">Full screen</p></div>
                 <div id="pivot_content" class="visi"></div>
             </fieldset>	
         </td>
     </tr>	
 </table>
 
-<div id="myFlags">
-</div>
+<div id="myFlags"></div>
 <div id="METADATA" style="display:none;width:100%;float: left; padding: 10px;">META</div>
 <div id="pivot_chart" style="display:none"></div>	
 <fieldset id="FgraphOption" class="invi">
