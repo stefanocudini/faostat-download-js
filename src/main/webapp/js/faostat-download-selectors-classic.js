@@ -601,7 +601,6 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
 			
 			
 			
-			console.log("la2");
             document.getElementById('selection_mode').innerHTML = I18N.translate('_selection_mode');
 			document.getElementById('wizard_output_type').innerHTML = I18N.translate('_outputType');
 			document.getElementById('wizard_thousand_separator').innerHTML = I18N.translate('_thousandSeparator');
