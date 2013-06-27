@@ -598,6 +598,22 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
         },
         initUI : function() {
             FAOSTATDownload.initOutputOptions();
+			
+			
+			
+			console.log("la2");
+            document.getElementById('selection_mode').innerHTML = I18N.translate('_selection_mode');
+			document.getElementById('wizard_output_type').innerHTML = I18N.translate('_outputType');
+			document.getElementById('wizard_thousand_separator').innerHTML = I18N.translate('_thousandSeparator');
+			document.getElementById('wizard_decimal_separator').innerHTML = I18N.translate('_decimalSeparator');
+			document.getElementById('wizard_decimal_numbers').innerHTML = I18N.translate('_decimalNumbers');
+			document.getElementById('show_flags').innerHTML = I18N.translate('_show_flags_label');
+			document.getElementById('show_codes').innerHTML = I18N.translate('_show_codes_label');
+			document.getElementById('show_units').innerHTML = I18N.translate('_show_units_label');
+			document.getElementById('show_null_values').innerHTML = I18N.translate('_show_null_values_label');
+			
+			
+			
             FAOSTATDownloadSelectorsClassic.initOLAP();
 			
             if ($.url().param('lang') != null) {
