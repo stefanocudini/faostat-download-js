@@ -262,16 +262,11 @@ document.getElementById('OLAPTD').className="visi2";
 			
 			
         },
+
+	// BUTTONS AND OPTIONS SECTION 
         initOutputOptions : function() {
             var width = '140';
-            //$(".output_options").jqxNavigationBar({ 
-            //	width: "100%", 
-            //	height: 500, 
-            //	expandMode: 'multiple', 
-            //	theme: FAOSTATDownload.theme,
-            //	selectedIndex: -1
-            //	});
-            //	
+
             $(".output_options").jqxExpander({
                 width: '100%',   
                 theme: FAOSTATDownload.theme
@@ -284,7 +279,7 @@ document.getElementById('OLAPTD').className="visi2";
                     label: I18N.translate('_pivot'), 
                     value: 'pivot'
                 },
-{
+		{
                     label: I18N.translate('_table'),  
                     value: 'table'
                 }], 
@@ -399,18 +394,25 @@ document.getElementById('OLAPTD').className="visi2";
                 } catch(e){}
             });
 			
-            $("#options_show_flags").jqxDropDownList({
-                source: [{
-                    label: I18N.translate('_trueTrue'), 
-                    value: true
-                }, {
-                    label: I18N.translate('_falseFalse'), 
-                    value: false
-                }],
-                width: width, 
-                height: '25',
-                selectedIndex: 1, 
-                theme: FAOSTATDownload.theme 
+            /*
+                $("#options_show_flags").jqxDropDownList({
+                    source: [{
+                        label: I18N.translate('_trueTrue'), 
+                        value: true
+                    }, {
+                        label: I18N.translate('_falseFalse'), 
+                        value: false
+                    }],
+                    width: width, 
+                    height: '25',
+                    selectedIndex: 1, 
+                    theme: FAOSTATDownload.theme 
+                });
+            */
+
+            $("#options_show_flags").jqxCheckBox({
+                checked : true,
+                theme: FAOSTATDownload.theme
             });
             $("#options_show_flags").bind('change', function (event) {
                 var item = $('#options_show_flags').jqxDropDownList('getSelectedItem');
@@ -419,8 +421,7 @@ document.getElementById('OLAPTD').className="visi2";
                 if (checked==0) {
                     FAOSTATOLAP.option.showFlags=1;
                     v=1;   
-                }
-                else {
+                } else {
                     v=0;
                     FAOSTATOLAP.option.showFlags=0;
                 }
@@ -430,6 +431,8 @@ document.getElementById('OLAPTD').className="visi2";
                     catch(er){}
                 }
             });
+
+            /*
             $("#options_show_codes").jqxDropDownList({
                 source: [{
                     label: I18N.translate('_trueTrue'), 
@@ -443,9 +446,12 @@ document.getElementById('OLAPTD').className="visi2";
                 selectedIndex: 1, 
                 theme: FAOSTATDownload.theme 
             });
-
-            $("#options_show_codes").bind('change', function (event) 
-            { 
+            */
+            $("#options_show_codes").jqxCheckBox({
+                checked : false,
+                theme: FAOSTATDownload.theme
+            });
+            $("#options_show_codes").bind('change', function (event) { 
                 var item = $('#options_show_codes').jqxDropDownList('getSelectedItem');
                 var checked = item.index;
                 if(checked==1){
@@ -456,6 +462,8 @@ document.getElementById('OLAPTD').className="visi2";
                 }
                 showCode();
             });
+
+            /*
             $("#options_show_units").jqxDropDownList({
                 source: [{
                     label: I18N.translate('_trueTrue'), 
@@ -468,6 +476,11 @@ document.getElementById('OLAPTD').className="visi2";
                 height: '25',
                 selectedIndex: 1,
                 theme: FAOSTATDownload.theme 
+            });
+            */
+            $("#options_show_units").jqxCheckBox({
+                checked : true,
+                theme: FAOSTATDownload.theme
             });
             $("#options_show_units").bind('change', function (event) {
                 var item = $('#options_show_units').jqxDropDownList('getSelectedItem');
@@ -487,6 +500,8 @@ document.getElementById('OLAPTD').className="visi2";
                 }
                 catch(e){}
             });
+
+            /*
             $("#options_show_null_values").jqxDropDownList({
                 source: [{
                     label: I18N.translate('_trueTrue'), 
@@ -500,14 +515,23 @@ document.getElementById('OLAPTD').className="visi2";
                 selectedIndex: 0, 
                 theme: FAOSTATDownload.theme 
             });
+            */  
+            $("#options_show_null_values").jqxCheckBox({
+                checked : true,
+                theme: FAOSTATDownload.theme
+            });
         },	
+
+	// INITIALIZATION OF THE BUTTONS
         initOuputButtons : function() {
-            // initiate buttons
-            $(".faostat-download-button").jqxButton({ 
+
+
+            /**$(".faostat-download-button").jqxButton({ 
                 width: '100%', 
                 height: '35', 
                 theme: FAOSTATDownload.theme 
-            });
+            }); **/
+
             // download table
             $('#buttonExportToCSV').bind('click', function() {
                 var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
