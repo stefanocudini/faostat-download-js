@@ -29,10 +29,16 @@ if (!window.C) {
 			
 			C.setLanguageForSQL();
 			
-			C.showFlags = $('#options_show_flags').jqxDropDownList('getSelectedItem').originalItem.value;
-			C.showCodes = $('#options_show_codes').jqxDropDownList('getSelectedItem').originalItem.value;
-			C.showUnits = $('#options_show_units').jqxDropDownList('getSelectedItem').originalItem.value;
-			C.showNullValues = $('#options_show_null_values').jqxDropDownList('getSelectedItem').originalItem.value;
+			/*
+				C.showFlags = $('#options_show_flags').jqxDropDownList('getSelectedItem').originalItem.value;
+				C.showCodes = $('#options_show_codes').jqxDropDownList('getSelectedItem').originalItem.value;
+				C.showUnits = $('#options_show_units').jqxDropDownList('getSelectedItem').originalItem.value;
+				C.showNullValues = $('#options_show_null_values').jqxDropDownList('getSelectedItem').originalItem.value;
+			*/
+			C.showFlags = $('#options_show_flags').val();
+			C.showCodes = $('#options_show_codes').val();
+			C.showUnits = $('#options_show_units').val();
+			C.showNullValues = $('#options_show_null_values').val();
 			C.limit = limit;
 			
 			C.datasource = FAOSTATDownload.datasource;
