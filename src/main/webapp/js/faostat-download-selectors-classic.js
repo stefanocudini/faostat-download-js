@@ -589,15 +589,16 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                     }
                 }
             }).disableSelection();
-            $("#bulkDownload2").jqxButton({
+            /**$("#bulkDownload2").jqxButton({
                 width: '75', 
                 height: '25', 
                 theme: FAOSTATDownload.theme 
-            });
+            }); **/
             $("#bulkDownload2").bind("click", window.FAOSTATDownloadSelectorsClassic.falseclick);
         },
         initUI : function() {
             FAOSTATDownload.initOutputOptions();
+			
 			
 			
 			
@@ -625,7 +626,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
             else {
 
                 $(".faostat-download-tab").jqxTabs({ 
-                    width: '350', 
+                    width: '337', 
                     height: '200', 
                     position: 'top',
                     animationType: 'fade',
@@ -646,11 +647,11 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                     $('#tabItems').jqxTabs('setTitleAt', 0, $.i18n.prop('_items')); 
                 }
 				
-                $(".faostat-download-button").jqxButton({ 
+                /** $(".faostat-download-button").jqxButton({ 
                     width: '100%', 
                     height: '25', 
                     theme: FAOSTATDownload.theme 
-                });
+                });**/
 				
                 $.getJSON(FAOSTATDownload.prefix + 'config/faostat-download-configuration.json', function(data) {
                     FAOSTATDownloadSelectorsClassic.populateGrid("countries", "gridCountries", FAOSTATDownload.domainCode);
@@ -680,14 +681,22 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
             } catch (err) { }
             document.getElementById('li_years').innerHTML = I18N.translate('_years');
             document.getElementById('output_options_labels').innerHTML = I18N.translate('_outputOptions');
-            $('#buttonSelectAllCountries').attr('value', I18N.translate('_selectAll'));
-            $('#buttonDeSelectAllCountries').attr('value', I18N.translate('_clearSelection'));
-            $('#buttonSelectAllElements').attr('value', I18N.translate('_selectAll'));
-            $('#buttonDeSelectAllElements').attr('value', I18N.translate('_clearSelection'));
-            $('#buttonSelectAllItems').attr('value', I18N.translate('_selectAll'));
-            $('#buttonDeSelectAllItems').attr('value', I18N.translate('_clearSelection'));
-            $('#buttonSelectAllYears').attr('value', I18N.translate('_selectAll'));
-            $('#buttonDeSelectAllYears').attr('value', I18N.translate('_clearSelection'));
+            // $('#buttonSelectAllCountries').attr('value', I18N.translate('_selectAll'));
+ 	    $('#buttonSelectAllCountries').append(I18N.translate('_selectAll'));
+            // $('#buttonDeSelectAllCountries').attr('value', I18N.translate('_clearSelection'));
+            $('#buttonDeSelectAllCountries').append(I18N.translate('_clearSelection'));
+            // $('#buttonSelectAllElements').attr('value', I18N.translate('_selectAll'));
+  	    $('#buttonSelectAllElements').append(I18N.translate('_selectAll'));
+	    //$('#buttonDeSelectAllElements').attr('value', I18N.translate('_clearSelection'))
+            $('#buttonDeSelectAllElements').append(I18N.translate('_clearSelection'));
+            //$('#buttonSelectAllItems').attr('value', I18N.translate('_selectAll'));
+	    $('#buttonSelectAllItems').append(I18N.translate('_selectAll'));
+            // $('#buttonDeSelectAllItems').attr('value', I18N.translate('_clearSelection'));
+            $('#buttonDeSelectAllItems').append(I18N.translate('_clearSelection'));
+            //$('#buttonSelectAllYears').attr('value', I18N.translate('_selectAll'));
+            $('#buttonSelectAllYears').append(I18N.translate('_selectAll'));
+            // $('#buttonDeSelectAllYears').attr('value', I18N.translate('_clearSelection'));
+            $('#buttonDeSelectAllYears').append(I18N.translate('_clearSelection'));
         },
         populateGrid : function(codingSystem, gridCode, domainCode) {
             var	yearTemp=[{
@@ -794,7 +803,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
             $("#" + gridCode).jqxGrid({
-                width: '345',
+                width: '336',
                 height: 165,
                 source: dataAdapter,
                 columnsresize: true,
