@@ -394,25 +394,18 @@ document.getElementById('OLAPTD').className="visi2";
                 } catch(e){}
             });
 			
-            /*
-                $("#options_show_flags").jqxDropDownList({
-                    source: [{
-                        label: I18N.translate('_trueTrue'), 
-                        value: true
-                    }, {
-                        label: I18N.translate('_falseFalse'), 
-                        value: false
-                    }],
-                    width: width, 
-                    height: '25',
-                    selectedIndex: 1, 
-                    theme: FAOSTATDownload.theme 
-                });
-            */
-
-            $("#options_show_flags").jqxCheckBox({
-                checked : true,
-                theme: FAOSTATDownload.theme
+            $("#options_show_flags").jqxDropDownList({
+                source: [{
+                    label: I18N.translate('_trueTrue'), 
+                    value: true
+                }, {
+                    label: I18N.translate('_falseFalse'), 
+                    value: false
+                }],
+                width: width, 
+                height: '25',
+                selectedIndex: 1, 
+                theme: FAOSTATDownload.theme 
             });
             $("#options_show_flags").bind('change', function (event) {
                 var item = $('#options_show_flags').jqxDropDownList('getSelectedItem');
@@ -421,7 +414,8 @@ document.getElementById('OLAPTD').className="visi2";
                 if (checked==0) {
                     FAOSTATOLAP.option.showFlags=1;
                     v=1;   
-                } else {
+                }
+                else {
                     v=0;
                     FAOSTATOLAP.option.showFlags=0;
                 }
@@ -431,8 +425,6 @@ document.getElementById('OLAPTD').className="visi2";
                     catch(er){}
                 }
             });
-
-            /*
             $("#options_show_codes").jqxDropDownList({
                 source: [{
                     label: I18N.translate('_trueTrue'), 
@@ -446,12 +438,9 @@ document.getElementById('OLAPTD').className="visi2";
                 selectedIndex: 1, 
                 theme: FAOSTATDownload.theme 
             });
-            */
-            $("#options_show_codes").jqxCheckBox({
-                checked : false,
-                theme: FAOSTATDownload.theme
-            });
-            $("#options_show_codes").bind('change', function (event) { 
+
+            $("#options_show_codes").bind('change', function (event) 
+            { 
                 var item = $('#options_show_codes').jqxDropDownList('getSelectedItem');
                 var checked = item.index;
                 if(checked==1){
@@ -462,8 +451,6 @@ document.getElementById('OLAPTD').className="visi2";
                 }
                 showCode();
             });
-
-            /*
             $("#options_show_units").jqxDropDownList({
                 source: [{
                     label: I18N.translate('_trueTrue'), 
@@ -476,11 +463,6 @@ document.getElementById('OLAPTD').className="visi2";
                 height: '25',
                 selectedIndex: 1,
                 theme: FAOSTATDownload.theme 
-            });
-            */
-            $("#options_show_units").jqxCheckBox({
-                checked : true,
-                theme: FAOSTATDownload.theme
             });
             $("#options_show_units").bind('change', function (event) {
                 var item = $('#options_show_units').jqxDropDownList('getSelectedItem');
@@ -500,8 +482,6 @@ document.getElementById('OLAPTD').className="visi2";
                 }
                 catch(e){}
             });
-
-            /*
             $("#options_show_null_values").jqxDropDownList({
                 source: [{
                     label: I18N.translate('_trueTrue'), 
@@ -514,11 +494,6 @@ document.getElementById('OLAPTD').className="visi2";
                 height: '25',
                 selectedIndex: 0, 
                 theme: FAOSTATDownload.theme 
-            });
-            */  
-            $("#options_show_null_values").jqxCheckBox({
-                checked : true,
-                theme: FAOSTATDownload.theme
             });
         },	
 
