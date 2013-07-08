@@ -20,7 +20,7 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
+	/*font: inherit;  < NS */ 
 	/*vertical-align: baseline;*/
 }
 /* HTML5 display-role reset for older browsers */
@@ -53,6 +53,13 @@ body{
 	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif !important;	 
 }
  */
+ 
+ 
+ /*JQWIDGET MODIFICATOR*/
+.jqx-tree {
+	border: none !important;
+}
+ 
 .pivot_table {
 	border-collapse: collapse;
 	margin: 1em;
