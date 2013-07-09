@@ -540,12 +540,14 @@ document.getElementById('OLAPTD').className="visi2";
             $('#buttonExportToCSV').bind('click', function() {
                 var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
                 if (item.value=="pivot")
-                {
+                { window.FAOSTATDownloadSelectorsClassic.falseclick();
 				var footNotes="";
 				if(typeof FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]!="undefined")
 				{footNotes="<table><tr><td>"+FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]["E"]+"</td></tr></table>"}
+				var myFFlag="";
+				if(FAOSTATOLAP.option.showFlags==1){myFFlag=document.getElementById("myFlags").innerHTML}
 				FAOSTATOLAP.pivots[0].toExcel("<table><tr><td>FAOSTAT 2013</td></tr></table>",
-				"<table><tr><td>"+document.getElementById("myFlags").innerHTML+"</td></tr></table>"+footNotes);
+				"<table><tr><td>"+myFFlag+"</td></tr></table>"+footNotes);
 				
 			//	"<table><tr><td>"+FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]["E"]+
 				}
