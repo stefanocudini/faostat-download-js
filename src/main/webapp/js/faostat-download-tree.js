@@ -69,7 +69,6 @@ if (!window.FAOSTATDownloadTree) {
 //                    FAOSTATDownload.selectedDomainCode = item.value;
 //                    document.getElementById('output_area').innerHTML = '';
 //                });
-console.log("ici"+FAOSTATDownload.prefix + 'config/faostat-download-configuration.json' );
                 $.getJSON(FAOSTATDownload.prefix + 'config/faostat-download-configuration.json', function (data) {
 //                    FAOSTATDownloadTree.populateTree(data, selectedDomain);
 
