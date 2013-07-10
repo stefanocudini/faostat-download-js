@@ -208,32 +208,42 @@ if (!window.C) {
 			var outputType = 'html';
 			if (C.limit == null || C.limit == false)
 				outputType = 'excel';
-			$.ajax({
-				type : 'POST',
-				url : 'http://' + FAOSTATDownload.baseurl + '/wds/rest/table/' + outputType,
-				data : data,
-				success : function(response) {
-					if (C.limit != null && C.limit == true) {
-						document.getElementById('output_area').innerHTML = response;
-						$('#OLAP_IFRAME').css('display', 'none');
-						$("#data").fixedHeader({
-							width: '720px',
-							height: 500
-						});
-					} else {
-						var idx1 = 4 + response.indexOf('url=');
-						var idx2 = 4 + response.indexOf('.xls');
-						var url = response.substring(idx1, idx2);
-						window.open(url);
-					}
-					C.showCPINotes();
-				},
-				
-				error : function(err, b, c) {
-					//console.log(err.status + ", " + b + ", " + c);
-				}
-				
-			});
+
+            /** Stream the Excel through the hidden form */
+            $('#datasource').val(C.datasource);
+            $('#thousandSeparator').val(C.thousandSeparator);
+            $('#decimalSeparator').val(C.decimalSeparator);
+            $('#decimalNumbers').val(C.decimalNumbers);
+            $('#json').val(JSON.stringify(C.json));
+            $('#cssFilename').val(C.cssFilename);
+            $('#valueIndex').val(C.valueIndex);
+            document.excelForm.submit();
+
+//			$.ajax({
+//				type : 'POST',
+//				url : 'http://' + FAOSTATDownload.baseurl + '/wds/rest/table/' + outputType,
+//				data : data,
+//				success : function(response) {
+//					if (C.limit != null && C.limit == true) {
+//						document.getElementById('output_area').innerHTML = response;
+//						$('#OLAP_IFRAME').css('display', 'none');
+//						$("#data").fixedHeader({
+//							width: '720px',
+//							height: 500
+//						});
+//					} else {
+//						var idx1 = 4 + response.indexOf('url=');
+//						var idx2 = 4 + response.indexOf('.xls');
+//						var url = response.substring(idx1, idx2);
+//						window.open(url);
+//					}
+//					C.showCPINotes();
+//				},
+//
+//				error : function(err, b, c) {
+//					//console.log(err.status + ", " + b + ", " + c);
+//				}
+//			});
 			
 		},
 		

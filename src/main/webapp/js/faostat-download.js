@@ -4,7 +4,7 @@ if (!window.FAOSTATDownload) {
 		
         /** To be used to deploy this code under FENIX FAOSTAT */
         /*prefix : 'faostat-download-js/',*/
-        prefix : '/faostat-download-js/',
+        prefix : 'http://localhost:8080/faostat-download-js/',
 MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"+
 "Source: Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"},
 "QC":{"E":"Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"+
