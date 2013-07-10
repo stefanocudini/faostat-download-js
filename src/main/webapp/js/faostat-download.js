@@ -179,7 +179,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
         },
         standardDownload : function() {
             FAOSTATDownload.downloadType = 0;
-            FAOSTATDownload.showSelectionMode(true);
+            FAOSTATDownload.showSelectionMode(false);
             FAOSTATDownload.showDownloadOptionsAndButtons(true);
             FAOSTATDownload.showClassicOrWizard();
             CPI.removeCPITableNotes();

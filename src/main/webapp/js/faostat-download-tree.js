@@ -246,6 +246,10 @@ if (!window.FAOSTATDownloadTree) {
 
                     // Bind select
                     $('#jqxTree').on('select',function (event) {
+
+                        /** Clean the table */
+                        document.getElementById('output_area').innerHTML = '';
+
                         var args = event.args;
                         var item = $('#jqxTree').jqxTree('getItem', args.element);
                         if (item.parentId == 0) {

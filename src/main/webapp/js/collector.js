@@ -197,7 +197,8 @@ if (!window.C) {
 			}	
 		},
 		createTable : function() {
-			var data = {};
+
+            var data = {};
 			data.datasource = C.datasource;
 			data.thousandSeparator = C.thousandSeparator;
 			data.decimalSeparator = C.decimalSeparator;
@@ -217,33 +218,51 @@ if (!window.C) {
             $('#json').val(JSON.stringify(C.json));
             $('#cssFilename').val(C.cssFilename);
             $('#valueIndex').val(C.valueIndex);
-            document.excelForm.submit();
 
-//			$.ajax({
-//				type : 'POST',
-//				url : 'http://' + FAOSTATDownload.baseurl + '/wds/rest/table/' + outputType,
-//				data : data,
-//				success : function(response) {
-//					if (C.limit != null && C.limit == true) {
-//						document.getElementById('output_area').innerHTML = response;
-//						$('#OLAP_IFRAME').css('display', 'none');
-//						$("#data").fixedHeader({
-//							width: '720px',
-//							height: 500
-//						});
-//					} else {
-//						var idx1 = 4 + response.indexOf('url=');
-//						var idx2 = 4 + response.indexOf('.xls');
-//						var url = response.substring(idx1, idx2);
-//						window.open(url);
-//					}
-//					C.showCPINotes();
-//				},
-//
-//				error : function(err, b, c) {
-//					//console.log(err.status + ", " + b + ", " + c);
-//				}
-//			});
+            /** Show the table */
+            if (C.limit != null && C.limit == true) {
+
+                $.ajax({
+                    type : 'POST',
+                    url : 'http://' + FAOSTATDownload.baseurl + '/wds/rest/table/' + outputType,
+                    data : data,
+                    success : function(response) {
+                        document.getElementById('output_area').innerHTML = response;
+                        $('#output_area').append('<div>Please note: the preview is limited to ' + FAOSTATDownload.tablelimit + ' rows.</div>');
+                        $('#OLAP_IFRAME').css('display', 'none');
+                        $("#data").fixedHeader({
+                            width: '720px',
+                            height: 500
+                        });
+//                        if (C.limit != null && C.limit == true) {
+//                            document.getElementById('output_area').innerHTML = response;
+//                            $('#OLAP_IFRAME').css('display', 'none');
+//                            $("#data").fixedHeader({
+//                                width: '720px',
+//                                height: 500
+//                            });
+//                        } else {
+//                            var idx1 = 4 + response.indexOf('url=');
+//                            var idx2 = 4 + response.indexOf('.xls');
+//                            var url = response.substring(idx1, idx2);
+//                            window.open(url);
+//                        }
+                        C.showCPINotes();
+                    },
+
+                    error : function(err, b, c) {
+                        //console.log(err.status + ", " + b + ", " + c);
+                    }
+                });
+
+            }
+
+            /** Download the Excel */
+            else {
+                document.excelForm.submit();
+            }
+
+
 			
 		},
 		
