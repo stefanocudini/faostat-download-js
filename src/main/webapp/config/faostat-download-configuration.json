@@ -1,6 +1,6 @@
 {
-	"datasource": "faostat",
-	"baseurl": "ldvapp07.fao.org:8032",
+	"datasource": "faostat2",
+	"baseurl": "localhost:8080",
       
 	"tablelimit": 100
 }

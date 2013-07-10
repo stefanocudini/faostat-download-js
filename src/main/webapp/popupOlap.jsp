@@ -11,7 +11,7 @@ var CTOptionsPopUp={width: "100%",height: "95%",scrolling: "yes"};
 //CTOptionsPopUp={};
 function init2(){
 document.getElementById('myResult2').innerHTML="<table  class=\"pivot_table\" >"+parent.document.getElementById('pivot_table').innerHTML+"</table>";
-totChroma=$(".pivot_table").chromatable(CTOptionsPopUp);	
+//totChroma=$(".pivot_table").chromatable(CTOptionsPopUp);	
 }
 </script>
 <style>
