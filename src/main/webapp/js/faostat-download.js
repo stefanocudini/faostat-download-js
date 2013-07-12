@@ -135,10 +135,10 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
              });*/
             FAOSTATDownload.showSelectionMode(false);
             FAOSTATDownloadTree.init();
-            $('#listArea').load(FAOSTATDownload.prefix + 'welcome.html', function() {
+/*           $('#listArea').load(FAOSTATDownload.prefix + 'welcome.html', function() {
 //				FAOSTATDownloadOptions.init();
-            });
-			
+            });*/
+
         },
         showFB:function(){
             if (navigator.appVersion.indexOf("MSIE 7.") == -1 ){
@@ -259,6 +259,8 @@ document.getElementById('OLAPTD').className="visi2";
 					document.getElementById('testinline').className="invi";
 					}
             }
+
+
 			
 			
         },

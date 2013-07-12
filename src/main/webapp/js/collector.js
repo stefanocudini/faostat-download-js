@@ -3,7 +3,7 @@ if (!window.C) {
 	window.C = {			
 		datasource : '',	
 		json : {},	
-		cssFilename : 'faostat',
+		cssFilename : '',
 		thousandSeparator : '',
 		decimalSeparator : '',
 		decimalNumbers : '',
@@ -18,6 +18,7 @@ if (!window.C) {
 		summary_years_map : new Array(),
 		limit : true,
 		lang : 'E',
+        widthTable: 750,
 		/**
 		 * @returns {String} WDS URL to show the table
 		 * 
@@ -219,6 +220,8 @@ if (!window.C) {
             $('#cssFilename').val(C.cssFilename);
             $('#valueIndex').val(C.valueIndex);
 
+
+            _this = this;
             /** Show the table */
             if (C.limit != null && C.limit == true) {
 
@@ -227,8 +230,9 @@ if (!window.C) {
                     url : 'http://' + FAOSTATDownload.baseurl + '/wds/rest/table/' + outputType,
                     data : data,
                     success : function(response) {
-                        document.getElementById('output_area').innerHTML = response;
-                        $('#output_area').append('<div>Please note: the preview is limited to ' + FAOSTATDownload.tablelimit + ' rows.</div>');
+                        $('#output_area').append('<div class="single-result-table-title">Please note: the preview is limited to ' + FAOSTATDownload.tablelimit + ' rows.</div>');
+                        $('#output_area').append('<div style="padding-top:10px; width:'+ _this.widthTable +'">' + response + '</div>');
+
                         $('#OLAP_IFRAME').css('display', 'none');
                         $("#data").fixedHeader({
                             width: '720px',

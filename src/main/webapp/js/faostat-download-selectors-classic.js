@@ -626,7 +626,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
             else {
 
                 $(".faostat-download-tab").jqxTabs({ 
-                    width: '337', 
+                    width: '352',
                     height: '200', 
                     position: 'top',
                     animationType: 'fade',
@@ -803,8 +803,8 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
             $("#" + gridCode).jqxGrid({
-                width: '336',
-                height: 165,
+                width: '351',
+                height: 168,
                 source: dataAdapter,
                 columnsresize: true,
                 showheader: false,

@@ -1,10 +1,19 @@
 <div class='download-selection-buttons'>
-	<a id='buttonViewTables' class='btn download-btn'></a>
-	<a id='buttonExportToCSV' class='btn download-btn'></a>
+
+    <div class='single-result-buttons'>
+        <a id='buttonViewTables' class='btn'  title="Preview the data">
+            <div class='btn-preview-icon btnLeftIcon'></div>
+            <div id='buttonViewTables-text'class='btnText'></div>
+        </a>
+        <a id='buttonExportToCSV' class='btn'   title="Export the data">
+            <div class='btn-export-icon btnLeftIcon'></div>
+            <div id='buttonExportToCSV-text'class='btnText'></div>
+        </a>
+    </div>
 
 	<script>
-		$('#buttonViewTables').append($.i18n.prop('_preview'));
-		$('#buttonExportToCSV').append($.i18n.prop('_download'));
+		$('#buttonViewTables-text').append($.i18n.prop('_preview'));
+		$('#buttonExportToCSV-text').append($.i18n.prop('_download'));
 	</script>
 <div>
 <div class="spacer-one"><div>
