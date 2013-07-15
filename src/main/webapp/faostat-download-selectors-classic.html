@@ -1,68 +1,74 @@
-<div class='download-selector'>
-	<div class="obj-box obj-box-download">
-		<div class="faostat-download-tab" id="tabCountries">	
-			<ul>
-				<li id='li_countries'>Countries</li>
-				<li id='li_regions'>Regions</li>
-				<li id='li_special_groups'>Special Groups</li>
-			</ul>		
-		<div id="gridCountries"></div>			
-			<div class="faostat-download-list" id="gridRegions"></div>			
-			<div class="faostat-download-list" id="gridSpecialGroups"></div>					
-		</div>
-			
-		<div class='download-selection-buttons'>
-			<a id='buttonDeSelectAllCountries' class='btn download-btn'></a>
-			<a id='buttonSelectAllCountries' class='btn download-btn'></a>
-		</div>
-	</div>
-		
-	<div class="obj-box obj-box-download">
-		<div class="faostat-download-tab" id="tabElements">	
-			<ul>
-				<li id='li_elements'>Elements</li>
-			</ul>					
-			<div id="gridElements"></div>
-									
-		</div>
-		<div class='download-selection-buttons'>
-			<a id='buttonDeSelectAllElements' class='btn download-btn'></a>
-			<a id='buttonSelectAllElements' class='btn download-btn'></a>
-		</div>
-	</div>
-</div>
+
+    <div class="standard-title">Selectors</div>
+    <hr class="standard-hr">
+    <div class='download-selector'>
+        <div class="obj-box-download">
+            <div class="faostat-download-tab" id="tabCountries">
+                <ul>
+                    <li id='li_countries'>Countries</li>
+                    <li id='li_regions'>Regions</li>
+                    <li id='li_special_groups'>Special Groups</li>
+                </ul>
+            <div id="gridCountries"></div>
+                <div class="faostat-download-list" id="gridRegions"></div>
+                <div class="faostat-download-list" id="gridSpecialGroups"></div>
+            </div>
+
+            <div class='download-selection-buttons'>
+                <a id='buttonDeSelectAllCountries' class='btn download-btn'></a>
+                <a id='buttonSelectAllCountries' class='btn download-btn'></a>
+            </div>
+        </div>
+
+        <div class="obj-box-download">
+            <div class="faostat-download-tab" id="tabElements">
+                <ul>
+                    <li id='li_elements'>Elements</li>
+                </ul>
+                <div id="gridElements"></div>
+
+            </div>
+            <div class='download-selection-buttons'>
+                <a id='buttonDeSelectAllElements' class='btn download-btn'></a>
+                <a id='buttonSelectAllElements' class='btn download-btn'></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="spacer-one"></div>
 
 
-<div class='download-selector'>
-	<div class="obj-box obj-box-download">
-		<div class="faostat-download-tab" id="tabItems">		
-			<ul>
-				<li id='li_items'>Items</li>
-				<li id='li_items_aggregated'>Items Aggregated</li>
-			</ul>						
-			<div id="gridItems"></div>				
-			<div class="faostat-download-list" id="gridItemsAggregated"></div>	 					
-		</div>
+    <div class='download-selector'>
+        <div class="obj-box-download">
+            <div class="faostat-download-tab" id="tabItems">
+                <ul>
+                    <li id='li_items'>Items</li>
+                    <li id='li_items_aggregated'>Items Aggregated</li>
+                </ul>
+                <div id="gridItems"></div>
+                <div class="faostat-download-list" id="gridItemsAggregated"></div>
+            </div>
 
-		<div class='download-selection-buttons'>
-			<a id='buttonDeSelectAllItems' class='btn download-btn'></a>
-			<a id='buttonSelectAllItems' class='btn download-btn'></a>
-		</div>
-	</div>
+            <div class='download-selection-buttons'>
+                <a id='buttonDeSelectAllItems' class='btn download-btn'></a>
+                <a id='buttonSelectAllItems' class='btn download-btn'></a>
+            </div>
+        </div>
 
-	<div class="obj-box obj-box-download">
-		<div class="faostat-download-tab" id="tabYears"'>				
-			<ul>
-				<li id='li_years'>Years</li>
-			</ul>							
-			<div id="gridYears"></div>							
-		</div>
-		<div class='download-selection-buttons'>
-			<a id='buttonDeSelectAllYears' class='btn download-btn'></a>
-			<a id='buttonSelectAllYears' class='btn download-btn'></a>
-		</div>
-	</div>
-</div>
+        <div class="obj-box-download">
+            <div class="faostat-download-tab" id="tabYears">
+                <ul>
+                    <li id='li_years'>Years</li>
+                </ul>
+                <div id="gridYears"></div>
+            </div>
+            <div class='download-selection-buttons'>
+                <a id='buttonDeSelectAllYears' class='btn download-btn'></a>
+                <a id='buttonSelectAllYears' class='btn download-btn'></a>
+            </div>
+        </div>
+    </div>
+
 
 <div class="spacer-one"></div>
 
@@ -76,20 +82,20 @@
 
 <!-- Output options --> 
 <!-- REMOVE THE tables -->
-<div class="obj-box">
+<!--<div class="obj-box">-->
 	<div>
 		<div>
-			<div id='output_options_labels'>Output Options</div>
+			<div id='output_options_labels' class="standard-title">Output Options</div>
 			<hr class="standard-hr"> 
 		</div>
 	</div>
-	<div style='height: 100px;'>
-		<table style='width: 100%; font-family: sans-serif; font-size: 11px; padding: 8px; border-spacing: 8px;'>
+	<div class="download-output-options">
+		<table style='width: 100%;'>
 				<tr>
-					<td style='width: 25%; font-weight: bold;' id='wizard_output_type'></td>
-					<td style='width: 25%; font-weight: bold;' id='wizard_thousand_separator'></td>
-					<td style='width: 25%; font-weight: bold;' id='wizard_decimal_separator'></td>
-					<td style='width: 25%; font-weight: bold;' id='wizard_decimal_numbers'></td>
+					<td style='width: 25%;' class='compare-label' id='wizard_output_type'></td>
+					<td style='width: 25%;' class='compare-label' id='wizard_thousand_separator'></td>
+					<td style='width: 25%;' class='compare-label' id='wizard_decimal_separator'></td>
+					<td style='width: 25%;' class='compare-label' id='wizard_decimal_numbers'></td>
 				</tr>
 				<tr>
 					<td style='width: 25%;'><div id='options_output_type'></div></td>
@@ -98,20 +104,20 @@
 					<td style='width: 25%;'><div id='options_decimal_numbers'></div></td>
 				</tr>
 				<tr style="display:none;">
-					<td id='show_flags' style='width: 25%; font-weight: bold;'></td>
-					<td id='show_codes' style='width: 25%; font-weight: bold;'></td>
-					<td id='show_units' style='width: 25%; font-weight: bold;'></td>
-					<td id='show_null_values' style='width: 25%; font-weight: bold;'></td>
+					<td id='show_flags' style='width: 25%;'></td>
+					<td id='show_codes' style='width: 25%;'></td>
+					<td id='show_units' style='width: 25%;'></td>
+					<td id='show_null_values' style='width: 25%;'></td>
 				</tr> 
 				<tr>
-					<td style='width: 25%;'><div id='options_show_flags'>Show Flags</div></td>
-					<td style='width: 25%;'><div id='options_show_codes'>Show Codes</div></td>
-					<td style='width: 25%;'><div id='options_show_units'>Show Units</div></td>
-					<td style='width: 25%;'><div id='options_show_null_values'>Show Null Values</div></td>
+					<td style='width: 25%; padding-top:10px'><div id='options_show_flags' class='compare-label'>Show Flags</div></td>
+					<td style='width: 25%; padding-top:10px'><div id='options_show_codes' class='compare-label'>Show Codes</div></td>
+					<td style='width: 25%; padding-top:10px'><div id='options_show_units' class='compare-label'>Show Units</div></td>
+					<td style='width: 25%; padding-top:10px'><div id='options_show_null_values' class='compare-label'>Show Null Values</div></td>
 				</tr>
 		</table>
 	</div>
-</div>
+<!--</div>-->
 
 
 

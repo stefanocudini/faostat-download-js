@@ -1,6 +1,5 @@
 {
 	"datasource": "faostat2",
 	"baseurl": "localhost:8080",
-      
-	"tablelimit": 100
+	"tablelimit": 50
 }

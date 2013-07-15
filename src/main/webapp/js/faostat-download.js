@@ -4,7 +4,7 @@ if (!window.FAOSTATDownload) {
 		
         /** To be used to deploy this code under FENIX FAOSTAT */
         /*prefix : 'faostat-download-js/',*/
-        prefix : '/faostat-download-js/',
+        prefix : 'http://localhost:8080/faostat-download-js/',
 MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"+
 "Source: Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"},
 "QC":{"E":"Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"+
@@ -131,9 +131,10 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
              });*/
             FAOSTATDownload.showSelectionMode(false);
             FAOSTATDownloadTree.init();
-            $('#listArea').load(FAOSTATDownload.prefix + 'welcome.html', function() {
-            });
-			
+/*           $('#listArea').load(FAOSTATDownload.prefix + 'welcome.html', function() {
+//				FAOSTATDownloadOptions.init();
+            });*/
+
         },
         showFB:function(){
             if (navigator.appVersion.indexOf("MSIE 7.") == -1 ){
@@ -171,7 +172,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
         },
         standardDownload : function() {
             FAOSTATDownload.downloadType = 0;
-            FAOSTATDownload.showSelectionMode(true);
+            FAOSTATDownload.showSelectionMode(false);
             FAOSTATDownload.showDownloadOptionsAndButtons(true);
             FAOSTATDownload.showClassicOrWizard();
             CPI.removeCPITableNotes();
@@ -251,6 +252,8 @@ document.getElementById('OLAPTD').className="visi2";
 					document.getElementById('testinline').className="invi";
 					}
             }
+
+
 			
 			
         },

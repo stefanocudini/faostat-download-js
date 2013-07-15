@@ -241,11 +241,16 @@ if (!window.FAOSTATDownloadTree) {
 
                     // Initiate JQWidgets
                     $('#jqxTree').jqxTree({
+                        width: 154,
                         theme : FAOSTATDownload.theme
                     });
 
                     // Bind select
                     $('#jqxTree').on('select',function (event) {
+
+                        /** Clean the table */
+                        document.getElementById('output_area').innerHTML = '';
+
                         var args = event.args;
                         var item = $('#jqxTree').jqxTree('getItem', args.element);
                         if (item.parentId == 0) {
@@ -271,8 +276,6 @@ if (!window.FAOSTATDownloadTree) {
                         $("#jqxTree").jqxTree('expandItem', $('#' + FAOSTATDownload.groupCode)[0]);
                         $("#jqxTree").jqxTree('selectItem', $('#' + FAOSTATDownload.groupCode)[0]);
                         FAOSTATDownloadTree.loadDownloadNotes(FAOSTATDownload.groupCode);
-//                        var lbl = $('#metadata_tree').jqxTree('getItem', document.getElementById(FAOSTATBrowse.groupCode)).label;
-//                        FAOSTATBrowse.loadView(FAOSTATBrowse.groupCode, FAOSTATBrowse.domainCode, lbl);
                     }
 
                     // Expand Domain
@@ -280,10 +283,13 @@ if (!window.FAOSTATDownloadTree) {
                         $("#jqxTree").jqxTree('expandItem', $('#' + FAOSTATDownload.domainCode)[0]);
                         $("#jqxTree").jqxTree('selectItem', $('#' + FAOSTATDownload.domainCode)[0]);
                         FAOSTATDownload.showClassicOrWizard();
-//                        var lbl = $('#metadata_tree').jqxTree('getItem', document.getElementById(FAOSTATBrowse.domainCode)).label;
-//                        FAOSTATBrowse.loadView(FAOSTATBrowse.groupCode, FAOSTATBrowse.domainCode, lbl);
                     }
 
+                    /** Scroll panel */
+                        $('.tree-sidebar-scroll').jScrollPane({
+                            autoReinitialise: true,
+                            mouseWheelSpeed: 30
+                        });
                 },
 
                 error : function(err,b,c) {
