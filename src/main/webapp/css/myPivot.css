@@ -1,8 +1,9 @@
+/*PIVOT TABLE CSS
 
+Created by Jacques
+Modified by Nicola */
 
-/*PIVOT TABLE*/
-
-
+/*Reset CSS  - This is specific for the initial state (Welcome image has to disappear after loading) */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -19,70 +20,60 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
-	/*font: inherit;  < NS */ 
-	/*vertical-align: baseline;*/
 }
-/* HTML5 display-role reset for older browsers */
-/*
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
- 
- 
-body{
-	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif !important;	 
-}
- */
- 
+
  
  /*JQWIDGET MODIFICATOR*/
+
 .jqx-tree {
 	border: none !important;
 }
  
-.pivot_table {
-	border-collapse: collapse;
-	margin: 1em;
-	font-size: 12px !important;
-	color:#333333;
-	
+ 
+
+/*PIVOT TABLE */
+
+/* Actually the real Pivot Table Holder */
+#ptest{
+	overflow:auto;
+	width:775px;
+	height:500px
 }
-#ptest{overflow:auto;width:700px;height:500px}
-.pivot_table th, .pivot_table td {
-	border: 1px solid #a1a5a4;
-	padding: 3px;
+	
+
+.pivot_table {
+    width: 100%;
+    border: 1px solid #E6E6E6;
+    border-collapse: collapse;
+    font-size:12px;
+    color:#666666;	
 }
 
-#hor-minimalist-b thead{display:none}
+.pivot_table tbody tr:hover td {
+    background-color:#2471AA;
+    color: #FFFFFF;
+}
+
+
+.pivot_table th, .pivot_table td {
+	border: 1px solid #E6E6E6;
+	padding: 10px;
+	text-align: center;
+}
 
 .pivot_table th {
-	color:#fff;
+	color:#FFFFFF;
+	background-color: #90aec3;
+    border-image: none;
+    font-weight: normal;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+	padding: 10px;	
 }
 
-.pivot_table td {
-	text-align: right;
-}
 
+/* Special Cell */
 .pivot_table td.gtotal {
 	background-color: #3A9BCC;
 }
@@ -96,62 +87,68 @@ body{
 }
 
 .pivot_table .odd {
-	background-color: #fff;
-/*background-color: #fff;*/
+	background-color: #FFFFFF;
+
 }
 
 .pivot_table .even {
 	background-color: #eceded;
+	border: 1px solid #FFFFFF;
+}
+/* -------------------------- */
+
+.olap-box {
+	position:relative;
 }
 
+#drag-selectors{
+	position:absolute;
+	left:-170px;
+}
+/* Cell on left-top of the table*/
 .pivot_table th.h1 {
 	background-color: #bbd1dc;
-	border: 1px solid #fff;
-}
-
-.pivot_table th.h2 {
-	background: #3a9bcc; /* Old browsers */
-	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzNhOWJjYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM2N2IyZDgiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-	background: -moz-linear-gradient(top, #3a9bcc 0%, #67b2d8 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3a9bcc), color-stop(100%,#67b2d8)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #3a9bcc 0%,#67b2d8 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #3a9bcc 0%,#67b2d8 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #3a9bcc 0%,#67b2d8 100%); /* IE10+ */
-	background: linear-gradient(to bottom, #3a9bcc 0%,#67b2d8 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3a9bcc', endColorstr='#67b2d8',GradientType=0 ); /* IE6-8 */
-	
-	border: 1px solid #fff;
-	padding-bottom: 10px; 
-	padding-top: 10px;
-	
-	
-	line-height: 15pt;
-	
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=hIEfix.png,sizingMethod=crop);
-	zoom:1;
-
-
-	*background-color:#3a9bcc !important;
-	
 }
 
 
 
-
-
-
-
-.pivot_table td:hover {
-	background-color: #ddd;
+/* Flag Table initial state */
+#hor-minimalist-b thead{
+	display:none
 }
 
+/*Invisible Element*/
 .pivot_chart, .pivot_row_chart, .pivot_col_chart {
 	height: 200px;
 	margin-bottom: 1.5em;
 	margin-top: 0.5em;
 }
+
 /* END PIVOT TABLE*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*FBS*/
 
 
@@ -162,68 +159,6 @@ body{
 .visi2{display:block;}
 
 
-/*
-#mainTD{	margin-top: -25px;}
-#mainTD #header{
-	background-image:url(img/tabBg.gif);
-	background-repeat:no-repeat;
-	width:718px;
-	height:90px;
-	font-family:Arial, Helvetica, sans-serif;
-	
-	color:#333;
-	font-size:10px;
-	background-size: 718px 93px;
-}
-
-
-#mainTD  #choiches{
-	*width:315px;
-	height:50px;
-	margin-top: 8px; 
-	margin-left: 0px;
-	margin-left:10px;
-	*padding-top: 1px;
-}
-
-#mainTD #choiches select{
-	margin-top: 8px; 
-	margin-left: 5px; 
-	width: 260px;
-}
-
-#mainTD #choiches fieldset{
-	margin-top: -5px;
-}
-
-#mainTD #otherO{text-align:left}
-
-#mainTD #yearSelect{
-	left:300px;
-	width:120px;
-	height:50px;
-	position:relative;
-	text-align:center;
-	display:block;
-	margin-top: -50px;
-}
-
-#mainTD #finalizeData{
-text-align:left;
-
-	left:435px;
-	width:270px;
-	height:50px;
-	position:relative;
-	display:block;
-	margin-top: -52px;
-}
-
-#mainTD #finalizeData input{
-	display:inline;
-	clear:left;
-}
-*/
 
 
 
@@ -238,7 +173,6 @@ text-align:left;
  width:718px;
  height:90px;
  font-family:Arial, Helvetica, sans-serif;
- /*font-weight:bold;*/
  color:#333;
  font-size:10px;
  background-size: 718px 93px;
@@ -506,7 +440,7 @@ border-right:1px solid #235C79;
 
 
 
-<!-- Bottoni TAB -->
+
 
 #mainTD .myButtonS
 {
@@ -600,7 +534,7 @@ color:black;
 	padding:5px 4px 5px 4px;
 	background-color:#43a0cf;
 	line-height:120%;
-	font-weight:bold;
+
 	
 	font-size:10px;
 
@@ -615,7 +549,7 @@ color:black;
 	border-bottom:solid 1px #1a4d66;
 	border-left:solid 1px #96cae4;
 	
-	font-weight: bold;
+
 	text-align:left;
 	background-color:#307395;
 	word-wrap: break-word;
@@ -632,7 +566,6 @@ color:black;
 	
 	text-align:center;
 	
-	font-weight: bold;
 	background-color:#43a0cf;
 	word-wrap: break-word;
 	min-width:50px;
@@ -652,7 +585,7 @@ color:black;
 }
 
 #mainTD thead td{
-	font-weight:bold;
+
 }
 #mainTD thead th{width:10px}
 /*#mainTD ._scrolling ,._thead{margin-right:16px}*/
@@ -789,7 +722,7 @@ overflow:auto;}
 }
 
 .tab_selected {
-	font-weight: bold;
+
 }
 
 div.tab:hover, div.tab.hover {
@@ -816,7 +749,7 @@ div.panelbar_option:hover {
 }
 
 .panelbar_option_selected {
-	font-weight: bold;
+
 }
 
 .panelbar_option_upper {
@@ -906,7 +839,7 @@ div.panelbar_option:hover {
 }
 
 .calendar thead {
-	font-weight: bold;
+
 }
 
 .calendar thead td {
@@ -961,7 +894,6 @@ td.calendar_selected {
 	cursor: pointer;*/
 	color: #1445A8;
 	background: #EFF3FB url(images/unselected.gif) no-repeat left;
-	font-weight: bold;
 	font-size: 11px;
 	padding: 2px 4px 2px 19px;
 	margin: 0px 0px 0px 0px;
@@ -972,7 +904,6 @@ td.calendar_selected {
 	.menuDimSel{
 	color: #EFF3FB;
 	background: #1445A8 url(images/selected.gif) no-repeat left;
-	font-weight: bold;
 	font-size: 11px;
 	padding: 2px 4px 2px 19px;
 	margin: 0px 0px 0px 0px;
@@ -1090,7 +1021,6 @@ div.combo_list_option:hover, .combo_list_option.hover {
 }
 
 .combo_box_value {
-	font-weight: bold;
 	display: block;
 	border: 1px solid #000;
 	padding: 1px;
@@ -1129,7 +1059,6 @@ div.combo_button_option:hover {
 }
 
 .combo_button_text {
-	font-weight: bold;
 	color: #eee;
 	font-size: 90%;
 }
@@ -1164,7 +1093,6 @@ div.combo_button_option:hover {
 
 #gd_cart {
 	padding: 3px;
-	font-weight: bold;
 	margin-left: 150px;
 	width: 130px;
 	height: 140px;
@@ -1191,7 +1119,7 @@ div.combo_button_option:hover {
 	text-align: center;
 }
 .compatibility .head {
-	font-weight: bold;
+
 }
 .compatibility .ok {
 	background-color: #4e4;
@@ -1336,38 +1264,14 @@ div.combo_button_option:hover {
   top: 0px; left: 10px}
   
   
-  /*LEGACY FROM COUNTRYSTAT*/
-  /*
-#ODC_COL{min-width:150px;min-height:50px;background-color:#ececec;display:block;float:left;font-weight: bold;border: 1px solid #DDD;color: #0073EA;}
-#ODC_ROW{min-width:150px;min-height:50px;background-color:#cecece;display:block;float:left;font-weight: bold;border: 1px solid #DDD;color: #0073EA;}
-	     
-#ODC2_COL .Col{margin:0 5px 5px 5px;padding: 5px;background-color:#ffffff;border: 1px solid #DDD;font-weight: bold;color: #0073EA;} 
-#ODC2_ROW .row{margin:0 5px 5px 5px;padding: 5px;background-color:#eeeeee;border: 1px solid #DDD;font-weight: bold;color: #0073EA;}
-	    
-	    
-#ODC_NESTED{min-width:150px;min-height:50px;background-color:#ececec;display:block;float:left;font-weight: bold;border: 1px solid #DDD;color: #0073EA;}
-#ODC_NESTED legend{margin:0 5px 5px 5px;padding: 5px;background-color:#CECECE;border: 1px solid #DDD;font-weight: bold;color: black;}
-	     
-	    
-#pivot_content{clear:both;float:left;}
-#ODC_ROW legend{margin:0 5px 5px 5px;padding: 5px;background-color:#CECECE;border: 1px solid #DDD;font-weight: bold;color: black;}
-#ODC_COL legend{margin:0 5px 5px 5px;padding: 5px;background-color:#ECECEC;border: 1px solid #DDD;font-weight: bold;color: black;}
-#NbDecimal{clear:both;float:left;}
-#DimRowCol{clear:both;float:left}
-#olapGenConf{font-weight: bold;color: black;text-align:center}
-#olapGenConf li{display:inline;float:left}
-#olapGenConf table{width:100%;background-color:White}
-#conflegend{cursor:pointer;
-width:100%;
-border-color: #5E8CB3;
-font-weight: bold;
-background-color: #CFDDE9;}
-#Foptions{float:left;clear:both}*/
+  
 
 /*COUNTRYSTAT*/
  #ODC_COL{min-width:150px;min-height:50px;background-color:#ececec;display:block;float:left;font-weight: bold;border: 1px solid #DDD;color: #0073EA;}
-	     #ODC_ROW{min-width:150px;min-height:50px;background-color:#cecece;display:block;float:left;font-weight: bold;border: 1px solid #DDD;color: #0073EA;}
-		  #ODC_ROWS{min-width:150px;min-height:50px;background-color:#cecece;display:block;float:left;font-weight: bold;border: 1px solid #DDD;color: #0073EA;}
+	     #ODC_ROW{min-width:150px;min-height:50px;background-color:#cecece;display:block;font-weight: bold;border: 1px solid #DDD;color: #0073EA;}
+		  #ODC_ROWS{min-width:150px;min-height:50px;background-color:#cecece;display:block;
+		 /* float:left;*/
+		  font-weight: bold;border: 1px solid #DDD;color: #0073EA;}
 		 
 			#ODC_NESTED{min-width:150px;min-height:50px;background-color:#cecece;display:block;float:left;font-weight: bold;border: 1px solid #DDD;color: #0073EA;}
 	     

@@ -92,8 +92,6 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
             /**
              * Translate download type labels
              */
-//			document.getElementById('bulk_download_label').innerHTML = I18N.translate('_bulk_download_label');
-//			document.getElementById('standard_download_label').innerHTML = I18N.translate('_standard_download_label');
 
             $('#linkCodelistsButton').jqxSwitchButton({
                 height: 27,
@@ -116,9 +114,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
              mode: 'radio',
              theme: FAOSTATDownload.theme
              });
-
              $('#downloadType').jqxButtonGroup('setSelection', 0);
-
              $('#downloadType').bind('click', function() {
              var downloadType = $('#downloadType').jqxButtonGroup('getSelection');
              if (downloadType == 1) {
@@ -136,7 +132,6 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
             FAOSTATDownload.showSelectionMode(false);
             FAOSTATDownloadTree.init();
             $('#listArea').load(FAOSTATDownload.prefix + 'welcome.html', function() {
-//				FAOSTATDownloadOptions.init();
             });
 			
         },
@@ -155,9 +150,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
                         FAOSTATFBS.lang=FAOSTATDownload.language;
                         FAOSTATFBS.init();
                     },
-                    error : function(err,b,c) {
-                        alert(err.status + ", " + b + ", " + c);
-                    }
+                    error : function(err,b,c) {alert(err.status + ", " + b + ", " + c);}
                 });
             }
             else{
@@ -166,8 +159,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
                 document.getElementById('mainTD').className="visi2";
                 document.getElementById('mainTD').innerHTML = "<iframe src=\""+FAOSTATDownload.prefix + "FBS.html\" width=\"800\" height=\"600\"/>" ;
             }
-        }
-        ,
+        },
         bulkDownload : function() {
             FAOSTATDownload.downloadType = 1;
             FAOSTATDownload.showSelectionMode(false);
@@ -279,7 +271,7 @@ document.getElementById('OLAPTD').className="visi2";
                     label: I18N.translate('_pivot'), 
                     value: 'pivot'
                 },
-		{
+				{
                     label: I18N.translate('_table'),  
                     value: 'table'
                 }], 
@@ -540,12 +532,13 @@ document.getElementById('OLAPTD').className="visi2";
             $('#buttonExportToCSV').bind('click', function() {
                 var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
                 if (item.value=="pivot")
-                { window.FAOSTATDownloadSelectorsClassic.falseclick();
+                {// window.FAOSTATDownloadSelectorsClassic.falseclick();
 				var footNotes="";
 				if(typeof FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]!="undefined")
 				{footNotes="<table><tr><td>"+FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]["E"]+"</td></tr></table>"}
 				var myFFlag="";
-				if(FAOSTATOLAP.option.showFlags==1){myFFlag=document.getElementById("myFlags").innerHTML}
+				if(FAOSTATOLAP.option.showFlags==1)
+				{myFFlag=document.getElementById("myFlags").innerHTML;}
 				FAOSTATOLAP.pivots[0].toExcel("<table><tr><td>FAOSTAT 2013</td></tr></table>",
 				"<table><tr><td>"+myFFlag+"</td></tr></table>"+footNotes);
 				

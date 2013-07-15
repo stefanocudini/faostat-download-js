@@ -9,6 +9,7 @@
 
     </head>
     <body-->
+	  <div class="obj-box olap-box">
 <script>
     OLAP={};
     OLAP.window=1;
@@ -66,20 +67,19 @@
             </tr>
         </tbody>
     </table>
-    <input type="checkbox" id="shownestedby"   onChange="javascript:changeNestedBy()"/>
+   
+</div>
+<div id="tree"></div>
+
+<form id="MainForm"><div id="ODC"></div></form>
+<div id="drag-selectors">
+ <input type="checkbox" id="shownestedby"   onChange="javascript:changeNestedBy()"/>
     <label id="tradolapalone1">
         <script>
             //document.write(traduction['nested_by'][lang]);
             document.getElementById("tradolapalone1").innerHTML=traduction['nested_by'][lang];
         </script>
     </label>
-</div>
-<div id="tree"></div>
-
-<form id="MainForm"><div id="ODC"></div></form>
-<table>
-    <tr>
-        <td>
             <fieldset id="FODC2" class="visi">	
                 <legend onclick="javascript:changeVisi('ODC2')" 
                         style="cursor:pointer;font-weight:bold;" class="invi">OLAP Dimension Configuration</legend>
@@ -104,51 +104,49 @@
                 </fieldset>
             </fieldset>
             <div id="DimRowCol">	
-                <fieldset id="ODC_ROWS">	
-                    <legend id="tradolapalone2">
+                <div id="ODC_ROWS">	
+                    <div id="tradolapalone2">
                         <script>
                             // document.write(traduction['Rows'][lang]);
                             document.getElementById("tradolapalone2").innerHTML=traduction['Rows'][lang];
                         </script>
-                    </legend>		
+                    </div>		
                     <div>		
-                        <fieldset id="ODC_NESTED">
-                            <legend id="tradolapalone3">
+                        <div id="ODC_NESTED">
+                            <div id="tradolapalone3">
                                 <script>
                                     //document.write(traduction['nested_by'][lang]);
                                     document.getElementById("tradolapalone3").innerHTML=traduction['nested_by'][lang];
                                 </script>
-                            </legend>
+                            </div>
                             <div id="ODC2_NESTED"></div>
-                        </fieldset>		
-                        <fieldset id="ODC_ROW">
-                            <legend id="legendrow">
+                        </div>		
+                        <div id="ODC_ROW">
+                            <div id="legendrow">
                                 <script>
                                     //    document.write(traduction['other_rows'][lang]);
                                     document.getElementById("legendrow").innerHTML=traduction['other_rows'][lang];
                                 </script>
-                            </legend>
+                            </div>
                             <div id="ODC2_ROW">
                             </div>
-                        </fieldset>	
+                        </div>	
                     </div>		
-                </fieldset>      
-                <fieldset id="ODC_COL">
-                    <legend id="tradolapalone4">
+                </div>      
+                <div id="ODC_COL">
+                    <div id="tradolapalone4">
                         <script>
                             document.getElementById("tradolapalone4").innerHTML=traduction['Cols'][lang];
                                  
                             // document.write(traduction['Cols'][lang]);
                         </script>
-                    </legend>
+                    </div>
                     <div id="ODC2_COL">
                     </div>
-                </fieldset>		
+                </div>		
             </div>	
 
-        </td>
-    </tr>
-</table>
+        </div>
 
 <table>
     <tr>
@@ -157,7 +155,7 @@
                 <legend  onclick="javascript:changeVisi('pivot_content')" 
                          style="cursor:pointer;font-weight:bold;">&nbsp;</legend>	
 						 <center>
-						 <div class="various myButton" id="btnFS" data-fancybox-type="iframe" href="/faostat-download-js/popupOlap.jsp" target="myFanzy"style="background-color:#ececec"><img src="/faostat-download-js/images/full.png" style="width:15px;display:inline"><p class="up" style="display:inline">Full screen</p></div></center>
+						 <a class="various myButton btn " id="btnFS" data-fancybox-type="iframe" href="/faostat-download-js/popupOlap.jsp" target="myFanzy"style="background-color:#ececec"><img src="/faostat-download-js/images/fullOLAP.png" >Full screen</a></center>
                 <div id="pivot_content" class="visi"></div>
             </fieldset>	
         </td>
@@ -192,5 +190,6 @@
 </form>
 
 <div id="chart2"></div>
+</div>
 <!--/body>
 </html-->
