@@ -222,7 +222,7 @@ if (!window.FAOSTATDownloadTree) {
             $.ajax({
 
                 type: 'GET',
-                url: 'http://' + FAOSTATDownload.baseurl + '/wds/rest/groupsanddomains/' + FAOSTATDownload.datasource + '/' + lang,
+                url: 'http://' + FAOSTATDownload.baseurl + '/wds/rest/groupsanddomains/' + FAOSTATDownload.datasource + '/' + FAOSTATDownload.language,
                 dataType: 'json',
 
                 success : function(response) {
