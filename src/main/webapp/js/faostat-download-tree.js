@@ -261,6 +261,7 @@ if (!window.FAOSTATDownloadTree) {
                             FAOSTATDownloadTree.loadDownloadNotes(FAOSTATDownload.groupCode);
 
                         } else {
+                            $('#standardDownload').prop('checked', true);
                             FAOSTATDownload.groupCode = item.parentId;
                             FAOSTATDownload.domainCode = item.id;
                             $("#jqxTree").jqxTree('expandItem', $('#' + FAOSTATDownload.domainCode)[0]);
