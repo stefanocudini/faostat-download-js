@@ -1,23 +1,22 @@
-/*! fancyBox v2.1.4 fancyapps.com | fancyapps.com/fancybox/#license */
-.fancybox-wrap,
-.fancybox-skin,
-.fancybox-outer,
-.fancybox-inner,
-.fancybox-image,
-.fancybox-wrap iframe,
-.fancybox-wrap object,
-.fancybox-nav,
-.fancybox-nav span,
-.fancybox-tmp
+body .fancybox-wrap,
+body .fancybox-skin,
+body .fancybox-outer,
+body .fancybox-inner,
+body .fancybox-image,
+/*body .fancybox-wrap iframe,
+body .fancybox-wrap object,*/
+body .fancybox-nav,
+/*body .fancybox-nav span,*/
+body .fancybox-tmp
 {
 	padding: 0;
 	margin: 0;
 	border: 0;
 	outline: none;
-	vertical-align: top;
+	vertical-align:top;
 }
 
-.fancybox-wrap {
+.fancybox-wrap{
 	position: absolute;
 	top: 0;
 	left: 0;
