@@ -673,22 +673,31 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
             } catch (err) { }
             document.getElementById('li_years').innerHTML = I18N.translate('_years');
             document.getElementById('output_options_labels').innerHTML = I18N.translate('_outputOptions');
-            // $('#buttonSelectAllCountries').attr('value', I18N.translate('_selectAll'));
- 	    $('#buttonSelectAllCountries').append(I18N.translate('_selectAll'));
-            // $('#buttonDeSelectAllCountries').attr('value', I18N.translate('_clearSelection'));
-            $('#buttonDeSelectAllCountries').append(I18N.translate('_clearSelection'));
-            // $('#buttonSelectAllElements').attr('value', I18N.translate('_selectAll'));
-  	    $('#buttonSelectAllElements').append(I18N.translate('_selectAll'));
-	    //$('#buttonDeSelectAllElements').attr('value', I18N.translate('_clearSelection'))
-            $('#buttonDeSelectAllElements').append(I18N.translate('_clearSelection'));
-            //$('#buttonSelectAllItems').attr('value', I18N.translate('_selectAll'));
-	    $('#buttonSelectAllItems').append(I18N.translate('_selectAll'));
-            // $('#buttonDeSelectAllItems').attr('value', I18N.translate('_clearSelection'));
-            $('#buttonDeSelectAllItems').append(I18N.translate('_clearSelection'));
-            //$('#buttonSelectAllYears').attr('value', I18N.translate('_selectAll'));
-            $('#buttonSelectAllYears').append(I18N.translate('_selectAll'));
-            // $('#buttonDeSelectAllYears').attr('value', I18N.translate('_clearSelection'));
-            $('#buttonDeSelectAllYears').append(I18N.translate('_clearSelection'));
+
+ 	    $('#buttonSelectAllCountries-text').append(I18N.translate('_selectAll'));
+	    $('#buttonSelectAllCountries-text').addClass('btnText');
+
+            $('#buttonDeSelectAllCountries-text').append(I18N.translate('_clearSelection'));
+            $('#buttonDeSelectAllCountries-text').addClass('btnText');
+
+  	    $('#buttonSelectAllElements-text').append(I18N.translate('_selectAll'));
+	    $('#buttonSelectAllElements-text').addClass('btnText');
+
+            $('#buttonDeSelectAllElements-text').append(I18N.translate('_clearSelection'));
+            $('#buttonDeSelectAllElements-text').addClass('btnText');
+
+	    $('#buttonSelectAllItems-text').append(I18N.translate('_selectAll'));
+            $('#buttonSelectAllItems-text').addClass('btnText');
+
+            $('#buttonDeSelectAllItems-text').append(I18N.translate('_clearSelection'));
+            $('#buttonDeSelectAllItems-text').addClass('btnText');
+
+            $('#buttonSelectAllYears-text').append(I18N.translate('_selectAll'));
+            $('#buttonSelectAllYears-text').addClass('btnText');
+
+            $('#buttonDeSelectAllYears-text').append(I18N.translate('_clearSelection'));
+            $('#buttonDeSelectAllYears-text').addClass('btnText');
+
         },
         populateGrid : function(codingSystem, gridCode, domainCode) {
             var	yearTemp=[{
