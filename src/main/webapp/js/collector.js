@@ -230,6 +230,7 @@ if (!window.C) {
                     url : 'http://' + FAOSTATDownload.baseurl + '/wds/rest/table/' + outputType,
                     data : data,
                     success : function(response) {
+                        $('#output_area').empty();
                         $('#output_area').append('<div class="single-result-table-title">Please note: the preview is limited to ' + FAOSTATDownload.tablelimit + ' rows.</div>');
                         $('#output_area').append('<div style="padding-top:10px; width:'+ _this.widthTable +'">' + response + '</div>');
 
