@@ -551,6 +551,7 @@ document.getElementById('OLAPTD').className="visi2";
             });
             // view table
             $('#buttonViewTables').bind('click', function() {
+//                document.geElementById('output_area').innerHTML = '';
                 var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
                 if (item.value=="pivot"){ window.FAOSTATDownloadSelectorsClassic.falseclick();
                 } else {

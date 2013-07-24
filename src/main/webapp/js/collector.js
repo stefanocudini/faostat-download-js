@@ -197,6 +197,7 @@ if (!window.C) {
 				C.createTable();			
 			}	
 		},
+
 		createTable : function() {
 
             var data = {};
@@ -212,24 +213,26 @@ if (!window.C) {
 				outputType = 'excel';
 
             /** Stream the Excel through the hidden form */
-            $('#datasource').val(C.datasource);
-            $('#thousandSeparator').val(C.thousandSeparator);
-            $('#decimalSeparator').val(C.decimalSeparator);
-            $('#decimalNumbers').val(C.decimalNumbers);
-            $('#json').val(JSON.stringify(C.json));
-            $('#cssFilename').val(C.cssFilename);
-            $('#valueIndex').val(C.valueIndex);
-
+            $('#datasource_WQ').val(C.datasource);
+            $('#thousandSeparator_WQ').val(C.thousandSeparator);
+            $('#decimalSeparator_WQ').val(C.decimalSeparator);
+            $('#decimalNumbers_WQ').val(C.decimalNumbers);
+            $('#json_WQ').val(JSON.stringify(C.json));
+            $('#cssFilename_WQ').val(C.cssFilename);
+            $('#valueIndex_WQ').val(C.valueIndex);
 
             _this = this;
             /** Show the table */
             if (C.limit != null && C.limit == true) {
 
                 $.ajax({
+
                     type : 'POST',
                     url : 'http://' + FAOSTATDownload.baseurl + '/wds/rest/table/' + outputType,
                     data : data,
+
                     success : function(response) {
+
                         $('#output_area').empty();
                         $('#output_area').append('<div class="single-result-table-title">Please note: the preview is limited to ' + FAOSTATDownload.tablelimit + ' rows.</div>');
                         $('#output_area').append('<div style="padding-top:10px; width:'+ _this.widthTable +'">' + response + '</div>');
@@ -239,6 +242,7 @@ if (!window.C) {
                             width: '720px',
                             height: 500
                         });
+
 //                        if (C.limit != null && C.limit == true) {
 //                            document.getElementById('output_area').innerHTML = response;
 //                            $('#OLAP_IFRAME').css('display', 'none');
@@ -252,19 +256,34 @@ if (!window.C) {
 //                            var url = response.substring(idx1, idx2);
 //                            window.open(url);
 //                        }
+
                         C.showCPINotes();
+
                     },
 
                     error : function(err, b, c) {
                         //console.log(err.status + ", " + b + ", " + c);
                     }
+
                 });
 
             }
 
             /** Download the Excel */
             else {
-                document.excelForm.submit();
+
+                $.getJSON(FAOSTATDownload.prefix + 'config/quotes.json', function (data) {
+                    $('#quote_WQ').val(data[C.lang + '_quote']);
+                    if (FAOSTATDownload.domainCode == 'AA' || FAOSTATDownload.domainCode == 'AR' || FAOSTATDownload.domainCode == 'AE') {
+                        $('#title_WQ').val(data[FAOSTATDownload.domainCode][C.lang + '_title']);
+                        $('#subtitle_WQ').val(data[FAOSTATDownload.domainCode][C.lang + '_subtitle']);
+                    } else {
+                        $('#title_WQ').val('');
+                        $('#subtitle_WQ').val('');
+                    }
+                    document.excelFormWithQuotes.submit();
+                });
+
             }
 
 
