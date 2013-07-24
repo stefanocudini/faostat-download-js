@@ -1,7 +1,7 @@
 {
-    "E_quote" : "Downloaded from FAOSTAT",
-    "F_quote" : "Téléchargé à partir de FAOSTAT",
-    "S_quote" : "Descargado de FAOSTAT",
+    "E_quote" : "Source: FAOSTAT, Food and Agriculture Organization of the United Nations (FAO)",
+    "F_quote" : "Source: FAOSTAT, Food and Agriculture Organization of the United Nations (FAO)",
+    "S_quote" : "Source: FAOSTAT, Food and Agriculture Organization of the United Nations (FAO)",
     "AA" : {
         "E_title" : "ASTI (Agricultural Science and Technology Indicators). 2012. ASTI database. International Food Policy Research Institute, Washington, DC. (see asti.cgiar.org).",
         "F_title" : "ASTI (Agricultural Science and Technology Indicators). 2012. ASTI database. International Food Policy Research Institute, Washington, DC. (see asti.cgiar.org).",
