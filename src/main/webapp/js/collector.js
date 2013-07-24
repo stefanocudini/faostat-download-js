@@ -529,30 +529,30 @@ if (!window.C) {
 			/**
 			 * Include the Domain name
 			 */
-			C.json["selects"] = [{"aggregation":"NONE", "column":"DOM.DomainNameE", "alias":"Domain"}];	
-			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"A.AreaName" + C.lang, "alias":"Country"};
+			C.json["selects"] = [{"aggregation":"NONE", "column": "DOM.DomainName" + C.lang, "alias": $.i18n.prop('_export_domain')}];
+			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"A.AreaName" + C.lang, "alias": $.i18n.prop('_export_country')};
 			if (C.showCodes)
-				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.AreaCode", "alias":"Country_Code"};
+				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.AreaCode", "alias": $.i18n.prop('_export_country_code')};
 			
-			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"I.ItemName" + C.lang, "alias":"Item"};
-			
-			if (C.showCodes)
-				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.ItemCode", "alias":"Item_Code"};
-			
-			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"E.ElementName" + C.lang, "alias":"Element"};
+			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"I.ItemName" + C.lang, "alias": $.i18n.prop('_export_item')};
 			
 			if (C.showCodes)
-				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementCode", "alias":"Element_Code"};
+				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.ItemCode", "alias": $.i18n.prop('_export_item_code')};
 			
-			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.Year", "alias":"Year"};
+			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"E.ElementName" + C.lang, "alias": $.i18n.prop('_export_element')};
+			
+			if (C.showCodes)
+				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementCode", "alias": $.i18n.prop('_export_element_code')};
+			
+			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.Year", "alias": $.i18n.prop('_export_year')};
 			
 			if (C.showUnits)
-				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"E.UnitName" + C.lang, "alias":"Unit"};
+				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"E.UnitName" + C.lang, "alias": $.i18n.prop('_export_unit')};
 			
-			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.Value", "alias":"Value"};
+			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.Value", "alias": $.i18n.prop('_export_value')};
 			
 			if (C.showFlags)
-				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.Flag", "alias":"Flag"};
+				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.Flag", "alias": $.i18n.prop('_export_flag')};
 			
 			C.valueColumnIndex = C.getValueColumnIndex(C.json);
 			
