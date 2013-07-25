@@ -6,23 +6,19 @@ if (!window.CPI) {
 		fillCountriesList : function() {
 			var source = {
 				datatype : "json",
-				datafields : [ {
-					name : 'code'
-				}, {
-					name : 'label'
-				} ],
-				url : 'http://' + FAOSTATDownload.baseurl
-						+ '/bletchley/rest/codes/countries/'
-						+ FAOSTATDownload.datasource + '/CC/'
-						+ FAOSTATDownload.language
+				datafields : [
+                    {name : 'code'},
+                    {name : 'label'}
+                ],
+				url : 'http://' + FAOSTATDownload.baseurl + '/bletchley/rest/codes/countries/' + FAOSTATDownload.datasource + '/CC/' + FAOSTATDownload.language
 			};
 			var dataAdapter = new $.jqx.dataAdapter(source);
 			$("#cpi_dropdown").jqxDropDownList({
 				source : dataAdapter,
 				displayMember : 'label',
 				valueMember : 'code',
-				width : '100%',
-				height : '25',
+//				width : '100%',
+				height : '25px',
 //				selectedIndex : 0,
 				theme : FAOSTATDownload.theme
 			});
