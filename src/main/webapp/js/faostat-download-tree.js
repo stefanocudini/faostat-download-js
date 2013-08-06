@@ -256,6 +256,7 @@ if (!window.FAOSTATDownloadTree) {
                         if (item.parentId == 0) {
                             FAOSTATDownload.groupCode = item.id;
                             FAOSTATDownload.domainCode = 'null';
+ 				FAOSTATDownload.selectedDomainCode = FAOSTATDownload.groupCode; // added SIMONE 
                             $("#jqxTree").jqxTree('expandItem', $('#' + FAOSTATDownload.groupCode)[0]);
                             $("#jqxTree").jqxTree('selectItem', $('#' + FAOSTATDownload.groupCode)[0]);
                             FAOSTATDownloadTree.loadDownloadNotes(FAOSTATDownload.groupCode);
@@ -264,9 +265,11 @@ if (!window.FAOSTATDownloadTree) {
                             $('#standardDownload').prop('checked', true);
                             FAOSTATDownload.groupCode = item.parentId;
                             FAOSTATDownload.domainCode = item.id;
+ 				FAOSTATDownload.selectedDomainCode = FAOSTATDownload.domainCode; // added SIMONE 
                             $("#jqxTree").jqxTree('expandItem', $('#' + FAOSTATDownload.domainCode)[0]);
                             $("#jqxTree").jqxTree('selectItem', $('#' + FAOSTATDownload.domainCode)[0]);
                             FAOSTATDownload.showClassicOrWizard();
+			   
 
                         }
 //                        FAOSTATBrowse.loadView(FAOSTATBrowse.groupCode, FAOSTATBrowse.domainCode, item.label);
