@@ -338,14 +338,13 @@ if (!window.FAOSTATDownloadTree) {
                     try {
                         document.getElementById('listArea').innerHTML = "";
                         document.getElementById('output_area').innerHTML = "";
- 			document.getElementById('testinline').innerHTML = "";
+ 			            document.getElementById('testinline').innerHTML = "";
                         $("#domainNameTitle").remove();
                         $("#bulkDownloadsList").remove();
                         $("#break").remove();
                         $("#listArea").append("<div id='domainNameTitle' class='standard-title'>" + response[1][1] + " (" + response[1][4].substring(0, 10) + ")</div>");
-			$("#listArea").append("<hr class='standard-hr'>");
-                       
-                        var s = FAOSTATDownloadTree.createList(response);
+			            $("#listArea").append("<hr class='standard-hr'>");
+                       var s = FAOSTATDownloadTree.createList(response);
                         $("#listArea").append(s);
                     } catch (err) {
                         FAOSTATDownloadTree.loadDownloadNotes(item.value);
