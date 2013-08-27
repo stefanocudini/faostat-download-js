@@ -222,14 +222,16 @@ if (!window.C) {
 		createTable : function() {
 
             var data = {};
-			data.datasource = C.datasource;
+
+            data.datasource = C.datasource;
 			data.thousandSeparator = C.thousandSeparator;
 			data.decimalSeparator = C.decimalSeparator;
 			data.decimalNumbers = C.decimalNumbers;
 			data.json = JSON.stringify(C.json);
 			data.cssFilename = C.cssFilename;
 			data.valueIndex = C.valueColumnIndex;
-			var outputType = 'html';
+
+            var outputType = 'html';
 			if (C.limit == null || C.limit == false)
 				outputType = 'excel';
 
@@ -577,17 +579,17 @@ if (!window.C) {
 			C.json["selects"] = [{"aggregation":"NONE", "column": "DOM.DomainName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_domain')}];
 			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"A.AreaName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_country')};
 			if (C.showCodes)
-				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.AreaCode", "alias": $.i18n.prop('_export_country_code')};
+				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.AreaCode", "alias": $.i18n.prop('_export_country_code').replace(' ', '_')};
 			
 			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"I.ItemName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_item')};
 			
 			if (C.showCodes)
-				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.ItemCode", "alias": $.i18n.prop('_export_item_code')};
+				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.ItemCode", "alias": $.i18n.prop('_export_item_code').replace(' ', '_')};
 			
 			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"E.ElementName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_element')};
 			
 			if (C.showCodes)
-				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementCode", "alias": $.i18n.prop('_export_element_code')};
+				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementCode", "alias": $.i18n.prop('_export_element_code').replace(' ', '_')};
 			
 			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.Year", "alias": $.i18n.prop('_export_year')};
 			
