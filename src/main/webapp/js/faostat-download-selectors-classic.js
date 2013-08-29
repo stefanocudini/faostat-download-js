@@ -529,7 +529,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                                 url:"/faostat-download-js/olapalone.html",
                                 data:test,
                                 success:function(response){
-                                    
+                                    STATS.showPivotDownloadStandard();
                                     var    ccr=response;
                                     $("#testinline").html(ccr);
                                     init0();
