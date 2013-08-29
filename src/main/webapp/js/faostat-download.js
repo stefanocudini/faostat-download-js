@@ -6,47 +6,30 @@ if (!window.FAOSTATDownload) {
         /*prefix : 'faostat-download-js/',*/
         prefix : 'http://localhost:8080/faostat-download-js/',
 MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"+
-"Source: Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"},
-"QC":{"E":"Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"+
 "Source: Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"}
 },
         theme : "faostat",
-
         countriesTabSelectedIndex : 0,
-
         itemsTabSelectedIndex : 0,
-
         shift : false,
-
         /** base URL for WDS, default: fenixapps.fao.org */
         baseurl : "",
-
         /** datasource for WDS, default: faostat */
         datasource : "",
-
         /** maximum rows number shown in the interface */
         tablelimit : "",
-
         /** language for the tree, default: en */
         language : "E",
-
         /** this code is set when a leaf of the tree is clicked, to be used by other JS's */
         selectedDomainCode : "",
-
         item : null,
-
         /** flag to determine wheter codelists must be linked or not */
         linkCodelists : false,
-
         /** determine which download interface must be shown */
         showWizard : false,
-
         downloadType : 0,
-
         groupCode : null,
-
         domainCode : null,
-
         /**
 		 * This function initiate the user interface and links controllers to the tree
 		 */
@@ -57,8 +40,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
              * will be passed as a parameter rather than
              * read it from the URL
              */
-            FAOSTATDownload.language = language;
-			
+            FAOSTATDownload.language = language;	
             FAOSTATDownload.groupCode = groupCode != '*' ? groupCode : null;
             FAOSTATDownload.domainCode = domainCode != '*' ? domainCode : null;
 
@@ -142,8 +124,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
                     type: 'GET',
                     url: FAOSTATDownload.prefix + 'FBSN.html',
                     dataType: 'html',
-                    success : function(response) {
-					
+                    success : function(response) {	
                         document.getElementById('OLAPTD').className="invi";
                         document.getElementById('trWizardMode').className="invi";
                         document.getElementById('mainTD').className="visi2";
@@ -188,20 +169,14 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
             }
         },
         showSelectionMode : function(show) {
-            if (show) {
-                $('#settings-section').show();
-            } else {
-                $('#settings-section').hide();
-            }
+            if (show) { $('#settings-section').show();} 
+            else {$('#settings-section').hide();}
         },
         showClassicOrWizard : function() {
             if (FAOSTATDownload.domainCode.length > 1) {
-			
-			if( FAOSTATDownload.domainCode!="*")
-				{
+                if( FAOSTATDownload.domainCode!="*"){
                 // Wizard
-			try{document.getElementById('testinline').className="visi2";}
-			catch(err){}
+               try{document.getElementById('testinline').className="visi2";}catch(err){}
                 if(FAOSTATDownload.domainCode=="FB" /*&&
                     FAOSTATDownload.item.hasItems == false*/){
                     //alert('la')
@@ -223,16 +198,12 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
                             url: FAOSTATDownload.prefix + 'faostat-download-selectors-classic.html',
                             dataType: 'html',
                             success : function(response) {
-							
                                 document.getElementById('listArea').innerHTML = response;
                                 FAOSTATDownloadSelectorsClassic.initUI();
                                 FAOSTATDownloadSelectorsClassic.translateUI();
-								FAOSTATDownload.showDownloadOptionsAndButtons(true);
-								
+                                FAOSTATDownload.showDownloadOptionsAndButtons(true);
                             },
-                            error : function(err,b,c) {
-                                alert(err.status + ", " + b + ", " + c);
-                            }
+                            error : function(err,b,c) {alert(err.status + ", " + b + ", " + c);}
                         });
                     }
                 }
@@ -245,72 +216,63 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
                 // Upgrade the URL
                 var domainCode = (FAOSTATDownload.domainCode == 'null') ? '*' : FAOSTATDownload.domainCode;
                 CORE.upgradeURL('download', FAOSTATDownload.groupCode, domainCode, FAOSTATDownload.language);}
-else{//just the metadata
-document.getElementById('OLAPTD').className="visi2";
-                    document.getElementById('trWizardMode').className="visi2";
-                    document.getElementById('mainTD').className="invi";
-					document.getElementById('testinline').className="invi";
-					}
-            }
-
-
-			
-			
-        },
-
-	// BUTTONS AND OPTIONS SECTION 
-        initOutputOptions : function() {
-            var width = '140';
-
-            $(".output_options").jqxExpander({
-                width: '100%',   
-                theme: FAOSTATDownload.theme
-            });
-			
-            $(".output_options").jqxExpander('collapse'); 
-			
-            $("#options_output_type").jqxDropDownList({
-                source: [ {
-                    label: I18N.translate('_pivot'), 
-                    value: 'pivot'
-                },
-				{
-                    label: I18N.translate('_table'),  
-                    value: 'table'
-                }], 
-                width: width, 
-                height: '25',
-                selectedIndex: 0, 
-                theme: FAOSTATDownload.theme 
-            });
-            $("#options_thousand_separator").jqxDropDownList({
-                source: [{
-                    label: I18N.translate('_comma'), 
-                    value: ',',
-                    olap_value:1
-                },
-
-                {
-                    label: I18N.translate('_period'), 
-                    value: '.',
-                    olap_value:2
-                }, 
-                {
-                    label: I18N.translate('_space'), 
-                    value: ' ',
-                    olap_value:3
-                }, 
-                {
-                    label: I18N.translate('_none'), 
-                    value: ' ',
-                    olap_value:4
-                }],
-                width: width, 
-                height: '25',
-                selectedIndex: 0, 
-                theme: FAOSTATDownload.theme 
-            });
-            $("#options_thousand_separator").bind('change', function (event) 
+            else{//just the metadata
+              document.getElementById('OLAPTD').className="visi2";
+              document.getElementById('trWizardMode').className="visi2";
+              document.getElementById('mainTD').className="invi";
+              document.getElementById('testinline').className="invi";
+          }
+      }
+  },
+  // BUTTONS AND OPTIONS SECTION 
+ initOutputOptions : function() {
+     var width = '140';
+     $(".output_options").jqxExpander({
+         width: '100%', 
+         theme: FAOSTATDownload.theme
+     });
+     $(".output_options").jqxExpander('collapse'); 
+     $("#options_output_type").jqxDropDownList({
+         source: [ {
+                 label: I18N.translate('_pivot'), 
+                 value: 'pivot'
+             },
+             {
+                 label: I18N.translate('_table'), 
+                 value: 'table'
+             }], 
+         width: width, 
+         height: '25',
+         selectedIndex: 0, 
+         theme: FAOSTATDownload.theme 
+     });
+     $("#options_thousand_separator").jqxDropDownList({
+         source: [{
+                 label: I18N.translate('_comma'), 
+                 value: ',',
+                 olap_value:1
+             },
+             {
+                 label: I18N.translate('_period'), 
+                 value: '.',
+                 olap_value:2
+             },
+             {
+                 label: I18N.translate('_space'), 
+                 value: ' ',
+                 olap_value:3
+             }, 
+             {
+                 label: I18N.translate('_none'), 
+                 value: ' ',
+                 olap_value:4
+             }],
+         width: width, 
+         height: '25',
+         selectedIndex: 0, 
+         theme: FAOSTATDownload.theme 
+     });
+     $("#options_thousand_separator").bind('change', function (event) 
             {
                 var ts = $('#options_thousand_separator').jqxDropDownList('getSelectedItem').originalItem.olap_value.toString();
                 document.getElementById("option").value=document.getElementById("option").value.replace(/thousandSeparator:./g,"thousandSeparator:"+ts+"");
@@ -416,7 +378,7 @@ document.getElementById('OLAPTD').className="visi2";
                if(item){checked=1;}
                // var checked = item.index;
                 var v=0;
-                if (checked==0) {
+                if (checked==1) {
                     FAOSTATOLAP.option.showFlags=1;
                     v=1;   
                 } else {
@@ -451,8 +413,8 @@ document.getElementById('OLAPTD').className="visi2";
             });
             $("#options_show_codes").bind('change', function (event) { 
                   var item = event.args.checked;
-                var checked =0;
-               if(item){checked=1;}
+                var checked =1;
+               if(item){checked=0;}
                 if(checked==1){
                     FAOSTATOLAP.option.showCode=0;
                 }
@@ -483,8 +445,8 @@ document.getElementById('OLAPTD').className="visi2";
             });
             $("#options_show_units").bind('change', function (event) {
                  var item = event.args.checked;
-                var checked =0;
-               if(item){checked=1;}
+                var checked =1;
+               if(item){checked=0;}
                 if (checked==0) {
                     document.getElementById("option").value=document.getElementById("option").value.replace("showUnits:0","showUnits:1");
                     v=1;
