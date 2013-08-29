@@ -368,7 +368,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
             */
 
             $("#options_show_flags").jqxCheckBox({
-                checked : true,
+                checked : false,
                 theme: FAOSTATDownload.theme
             });
             $("#options_show_flags").bind('change', function (event) {
@@ -440,7 +440,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
             });
             */
             $("#options_show_units").jqxCheckBox({
-                checked : true,
+                checked : false,
                 theme: FAOSTATDownload.theme
             });
             $("#options_show_units").bind('change', function (event) {
