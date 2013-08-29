@@ -1,5 +1,5 @@
 if (!window.FAOSTATDownload) {
-	
+    
     window.FAOSTATDownload = {
 		
         /** To be used to deploy this code under FENIX FAOSTAT */
@@ -147,7 +147,8 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
             FAOSTATDownload.showSelectionMode(false);
             FAOSTATDownload.showDownloadOptionsAndButtons(false);
             var item = {};
-            item.value = FAOSTATDownload.selectedDomainCode;
+            // item.value = FAOSTATDownload.selectedDomainCode;
+            item.value = FAOSTATDownload.domainCode;
             FAOSTATDownloadTree.showBulkDownloads(item);
             CPI.removeCPITableNotes();
         },
@@ -513,12 +514,15 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
             });
             // view table
             $('#buttonViewTables').bind('click', function() {
+		$('#testinline').empty();
+//                document.geElementById('output_area').innerHTML = '';
                 var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
                 if (item.value=="pivot"){ window.FAOSTATDownloadSelectorsClassic.falseclick();
                 } else {
                     C.collect(true);
                     STATS.showTableDownloadStandard(FAOSTATDownload.selectedDomainCode);
                 }
+		
             });
         },
         showDialog : function(dialogCode, text) {

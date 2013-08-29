@@ -1,24 +1,43 @@
 if (!window.C) {
 
-	window.C = {			
-		datasource : '',	
-		json : {},	
+	window.C = {
+
+		datasource : '',
+
+		json : {},
+
 		cssFilename : '',
+
 		thousandSeparator : '',
+
 		decimalSeparator : '',
+
 		decimalNumbers : '',
+
 		showFlags : true,
+
 		showCodes : false,
+
 		showUnits : true,
+
 		showNullValues : true,
+
 		valueColumnIndex : -1,
+
 		summary_countries_map : new Array(),
+
 		summary_elements_map : new Array(),
+
 		summary_items_map : new Array(),
+
 		summary_years_map : new Array(),
+
 		limit : true,
+
 		lang : 'E',
+
         widthTable: 750,
+
 		/**
 		 * @returns {String} WDS URL to show the table
 		 * 
@@ -29,13 +48,6 @@ if (!window.C) {
 		collect : function(limit) {
 			
 			C.setLanguageForSQL();
-			
-			/*
-				C.showFlags = $('#options_show_flags').jqxDropDownList('getSelectedItem').originalItem.value;
-				C.showCodes = $('#options_show_codes').jqxDropDownList('getSelectedItem').originalItem.value;
-				C.showUnits = $('#options_show_units').jqxDropDownList('getSelectedItem').originalItem.value;
-				C.showNullValues = $('#options_show_null_values').jqxDropDownList('getSelectedItem').originalItem.value;
-			*/
 			C.showFlags = $('#options_show_flags').val();
 			C.showCodes = $('#options_show_codes').val();
 			C.showUnits = $('#options_show_units').val();
@@ -47,34 +59,45 @@ if (!window.C) {
 			C.decimalSeparator = $("#options_decimal_separator").jqxDropDownList('getSelectedItem').value;
 			C.decimalNumbers = $("#options_decimal_numbers").jqxDropDownList('getSelectedItem').value;
 						
-			if (FAOSTATDownload.showWizard) {C.collect_wizard();} 
-			else {C.collect_classic();	}
+			if (FAOSTATDownload.showWizard) {
+                C.collect_wizard();
+            } else {
+                C.collect_classic();
+            }
+
 		},
+
 		setLanguageForSQL : function() {
 			switch(FAOSTATDownload.language) {
 				case 'en' : C.lang = 'E'; break;
 				case 'fr' : C.lang = 'F'; break;
 				case 'es' : C.lang = 'S'; break;
 			}
-		},	
+		},
+
 		collect_classic : function() {
-//			C.collectListCodes();
 			C.createJSONClassic();		
 		},
+
 		collect_wizard : function() {
 			C.createJSONWizard();
 			C.createTable();
 		},
+
 		createJSONClassic : function() {
 			C.collectValuesFromClassicInterface();
 		},
+
 		/**
 		 * Collect codes for Areas and Items if there's any 'list'
 		 * type of code
 		 */
 		collectListCodes : function() {
+
 			var callListCodesREST = C.callListCodesREST();
-			if (callListCodesREST) {
+
+            if (callListCodesREST) {
+
 				var countries = JSON.stringify(C.summary_countries_map);
 				var items = JSON.stringify(C.summary_items_map);
 				
@@ -101,7 +124,7 @@ if (!window.C) {
 					type : 'POST',
                     url : 'http://' + FAOSTATDownload.baseurl + '/bletchley/rest/codes/list/post',
                     data : data,
-//					url : 'http://' + FAOSTATDownload.baseurl + '/bletchley/rest/codes/list/' + FAOSTATDownload.datasource + '/' + FAOSTATDownload.selectedDomainCode + '/' + FAOSTATDownload.language + '/' + countries + '/' + items,
+
 					success : function(response) {						
 						
 						var codes = $.parseJSON(response);		
@@ -170,9 +193,6 @@ if (!window.C) {
 								
 							}
 							
-//							console.log(backup_items);
-//							console.log(backup_countries);
-							
 							for (var z = 0 ; z < backup_items.length ; z++) 
 								C.summary_items_map.push(backup_items[z]);
 							
@@ -187,7 +207,7 @@ if (!window.C) {
 					},	
 					
 					error : function(err, b, c) {
-						//console.log('ERROR! ' + err.status + ", " + b + ", " + c);
+
 					}	
 					
 				});
@@ -195,78 +215,100 @@ if (!window.C) {
 			} else {				
 				C.createJSONWizard();
 				C.createTable();			
-			}	
+			}
+
 		},
+
 		createTable : function() {
 
             var data = {};
-			data.datasource = C.datasource;
+
+            data.datasource = C.datasource;
 			data.thousandSeparator = C.thousandSeparator;
 			data.decimalSeparator = C.decimalSeparator;
 			data.decimalNumbers = C.decimalNumbers;
 			data.json = JSON.stringify(C.json);
 			data.cssFilename = C.cssFilename;
 			data.valueIndex = C.valueColumnIndex;
-			var outputType = 'html';
+
+            var outputType = 'html';
 			if (C.limit == null || C.limit == false)
 				outputType = 'excel';
 
             /** Stream the Excel through the hidden form */
-            $('#datasource').val(C.datasource);
-            $('#thousandSeparator').val(C.thousandSeparator);
-            $('#decimalSeparator').val(C.decimalSeparator);
-            $('#decimalNumbers').val(C.decimalNumbers);
-            $('#json').val(JSON.stringify(C.json));
-            $('#cssFilename').val(C.cssFilename);
-            $('#valueIndex').val(C.valueIndex);
-
+            $('#datasource_WQ').val(C.datasource);
+            $('#thousandSeparator_WQ').val(C.thousandSeparator);
+            $('#decimalSeparator_WQ').val(C.decimalSeparator);
+            $('#decimalNumbers_WQ').val(C.decimalNumbers);
+            $('#json_WQ').val(JSON.stringify(C.json));
+            $('#cssFilename_WQ').val(C.cssFilename);
+            $('#valueIndex_WQ').val(C.valueIndex);
 
             _this = this;
+
             /** Show the table */
             if (C.limit != null && C.limit == true) {
 
                 $.ajax({
+
                     type : 'POST',
                     url : 'http://' + FAOSTATDownload.baseurl + '/wds/rest/table/' + outputType,
                     data : data,
+
                     success : function(response) {
+
+                        $('#output_area').empty();
                         $('#output_area').append('<div class="single-result-table-title">Please note: the preview is limited to ' + FAOSTATDownload.tablelimit + ' rows.</div>');
                         $('#output_area').append('<div style="padding-top:10px; width:'+ _this.widthTable +'">' + response + '</div>');
 
                         $('#OLAP_IFRAME').css('display', 'none');
-                        $("#data").fixedHeader({
-                            width: '720px',
-                            height: 500
-                        });
-//                        if (C.limit != null && C.limit == true) {
-//                            document.getElementById('output_area').innerHTML = response;
-//                            $('#OLAP_IFRAME').css('display', 'none');
-//                            $("#data").fixedHeader({
-//                                width: '720px',
-//                                height: 500
-//                            });
-//                        } else {
-//                            var idx1 = 4 + response.indexOf('url=');
-//                            var idx2 = 4 + response.indexOf('.xls');
-//                            var url = response.substring(idx1, idx2);
-//                            window.open(url);
-//                        }
+//                        $("#data").fixedHeader({
+//                            width: '720px',
+//                            height: 500
+//                        });
+
+                        /* Track on Google Analytics */
+                        if (outputType == 'excel') {
+                            STATS.exportTableDownloadStandard(FAOSTATDownload.domainCode);
+                        } else {
+                            STATS.showTableDownloadStandard();
+                        }
+
                         C.showCPINotes();
+
                     },
 
                     error : function(err, b, c) {
-                        //console.log(err.status + ", " + b + ", " + c);
+
                     }
+
                 });
 
             }
 
             /** Download the Excel */
             else {
-                document.excelForm.submit();
+
+                /* Track on Google Analytics */
+                STATS.exportTableDownloadStandard(FAOSTATDownload.domainCode);
+
+                $.getJSON(FAOSTATDownload.prefix + 'config/quotes.json', function (data) {
+
+                    $('#quote_WQ').val(data[C.lang + '_quote']);
+
+                    if (FAOSTATDownload.domainCode == 'AA' || FAOSTATDownload.domainCode == 'AR' || FAOSTATDownload.domainCode == 'AE') {
+                        $('#title_WQ').val(data[FAOSTATDownload.domainCode][C.lang + '_title']);
+                        $('#subtitle_WQ').val(data[FAOSTATDownload.domainCode][C.lang + '_subtitle']);
+                    } else {
+                        $('#title_WQ').val('');
+                        $('#subtitle_WQ').val('');
+                    }
+
+                    document.excelFormWithQuotes.submit();
+
+                });
+
             }
-
-
 			
 		},
 		
@@ -309,13 +351,13 @@ if (!window.C) {
 				json.years = years;
 				
 				data.json = JSON.stringify(json);
-				//console.log(data);
-				//console.log(JSON.stringify(json));
 				
 				$.ajax({
+
 					type : 'POST',
 					url : 'http://' + FAOSTATDownload.baseurl + '/wds/rest/notes/cpinotes',
 					data : data,
+
 					success : function(response) {
 						
 						var html = '<br>';
@@ -336,7 +378,7 @@ if (!window.C) {
 					},
 					
 					error : function(err, b, c) {
-						//console.log(err.status + ", " + b + ", " + c);
+
 					}
 					
 				});
@@ -356,6 +398,7 @@ if (!window.C) {
 					return true;
 			
 			return false;
+
 		},
 		
 		collectValuesFromClassicInterface : function() {
@@ -367,8 +410,9 @@ if (!window.C) {
 			
 			var countries_rowindexes = null;
 			var countries_rows = null;
+
 			switch (FAOSTATDownload.countriesTabSelectedIndex) {
-				case 0:
+                case 0:
 					countries_rowindexes = $('#gridCountries').jqxGrid('getselectedrowindexes');
 					countries_rows = $('#gridCountries').jqxGrid('getrows');
 				break;
@@ -381,6 +425,7 @@ if (!window.C) {
 					countries_rows = $('#gridSpecialGroups').jqxGrid('getrows');
 				break;
 			}
+
 			for (var i = 0 ; i < countries_rowindexes.length ; i++) {
 				var country_row = countries_rows[countries_rowindexes[i]];
 				C.summary_countries_map.push(country_row);
@@ -388,14 +433,17 @@ if (!window.C) {
 			
 			var elements_rowindexes = $('#gridElements').jqxGrid('getselectedrowindexes');
 			var elements_rows = $('#gridElements').jqxGrid('getrows');
-			for (var i = 0 ; i < elements_rowindexes.length ; i++) {
+
+            for (var i = 0 ; i < elements_rowindexes.length ; i++) {
 				var elements_row = elements_rows[elements_rowindexes[i]];
 				C.summary_elements_map.push(elements_row);
 			}
 			
 			var items_rowindexes = null;
 			var items_rows = null;
-			if (FAOSTATDownload.selectedDomainCode != 'GY') {
+
+            if (FAOSTATDownload.selectedDomainCode != 'GY') {
+
 				switch (FAOSTATDownload.itemsTabSelectedIndex) {
 					case 0:
 						items_rowindexes = $('#gridItems').jqxGrid('getselectedrowindexes');
@@ -406,10 +454,12 @@ if (!window.C) {
 						items_rows = $('#gridItemsAggregated').jqxGrid('getrows');
 					break;
 				}
+
 			} else {
 				items_rowindexes = $('#gridItemsAggregated').jqxGrid('getselectedrowindexes');
 				items_rows = $('#gridItemsAggregated').jqxGrid('getrows');
 			}
+
 			for (var i = 0 ; i < items_rowindexes.length ; i++) {
 				var items_row = items_rows[items_rowindexes[i]];
 				C.summary_items_map.push(items_row);
@@ -417,7 +467,8 @@ if (!window.C) {
 			
 			var years_rowindexes = $('#gridYears').jqxGrid('getselectedrowindexes');
 			var years_rows = $('#gridYears').jqxGrid('getrows');
-			for (var i = 0 ; i < years_rowindexes.length ; i++) {
+
+            for (var i = 0 ; i < years_rowindexes.length ; i++) {
 				var years_row = years_rows[years_rowindexes[i]];
 				C.summary_years_map.push(years_row);
 			}
@@ -438,9 +489,7 @@ if (!window.C) {
 		},
 		
 		createJSONTradeMatrix : function() {
-	
-//			C.json["selects"] = [{"aggregation":"NONE", "column":"A1.AreaNameE", "alias":"Reporter_Area"}];
-			
+
 			/**
 			 * Include domain name
 			 */
@@ -496,7 +545,6 @@ if (!window.C) {
 			                    {"datatype":"DATE","column":"D.ReporterAreaCode","operator":"=","value":"A1.AreaCode","ins":[]},
 			                    {"datatype":"DATE","column":"D.DomainCode","operator":"=","value":"DOM.DomainCode","ins":[]},
 			                    {"datatype":"DATE","column":"D.ItemCode","operator":"=","value":"I.ItemCode","ins":[]},
-//			                    {"datatype":"DATE","column":"D.ElementListCode","operator":"=","value":"E.ElementListCode","ins":[]},
 			                    {"datatype":"DATE","column":"D.ElementCode","operator":"=","value":"E.ElementCode","ins":[]}];
 			
 			if (elements != null)
@@ -528,30 +576,30 @@ if (!window.C) {
 			/**
 			 * Include the Domain name
 			 */
-			C.json["selects"] = [{"aggregation":"NONE", "column":"DOM.DomainNameE", "alias":"Domain"}];	
-			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"A.AreaName" + C.lang, "alias":"Country"};
+			C.json["selects"] = [{"aggregation":"NONE", "column": "DOM.DomainName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_domain')}];
+			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"A.AreaName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_country')};
 			if (C.showCodes)
-				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.AreaCode", "alias":"Country_Code"};
+				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.AreaCode", "alias": $.i18n.prop('_export_country_code').replace(' ', '_')};
 			
-			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"I.ItemName" + C.lang, "alias":"Item"};
-			
-			if (C.showCodes)
-				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.ItemCode", "alias":"Item_Code"};
-			
-			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"E.ElementName" + C.lang, "alias":"Element"};
+			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"I.ItemName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_item')};
 			
 			if (C.showCodes)
-				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementCode", "alias":"Element_Code"};
+				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.ItemCode", "alias": $.i18n.prop('_export_item_code').replace(' ', '_')};
 			
-			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.Year", "alias":"Year"};
+			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"E.ElementName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_element')};
+			
+			if (C.showCodes)
+				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementCode", "alias": $.i18n.prop('_export_element_code').replace(' ', '_')};
+			
+			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.Year", "alias": $.i18n.prop('_export_year')};
 			
 			if (C.showUnits)
-				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"E.UnitName" + C.lang, "alias":"Unit"};
+				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"E.UnitName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_unit')};
 			
-			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.Value", "alias":"Value"};
+			C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.Value", "alias": $.i18n.prop('_export_value')};
 			
 			if (C.showFlags)
-				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.Flag", "alias":"Flag"};
+				C.json["selects"][C.json["selects"].length] = {"aggregation":"NONE", "column":"D.Flag", "alias": $.i18n.prop('_export_flag')};
 			
 			C.valueColumnIndex = C.getValueColumnIndex(C.json);
 			
@@ -571,7 +619,6 @@ if (!window.C) {
 			                    {"datatype":"DATE","column":"D.AreaCode","operator":"=","value":"A.AreaCode","ins":[]},
 			                    {"datatype":"DATE","column":"D.DomainCode","operator":"=","value":"DOM.DomainCode","ins":[]},
 			                    {"datatype":"DATE","column":"D.ItemCode","operator":"=","value":"I.ItemCode","ins":[]},
-//			                    {"datatype":"DATE","column":"D.ElementListCode","operator":"=","value":"E.ElementListCode","ins":[]}];
 			                    {"datatype":"DATE","column":"D.ElementCode","operator":"=","value":"E.ElementCode","ins":[]}];
 			
 			if (elements != null)
@@ -626,6 +673,7 @@ if (!window.C) {
 			}
 			return ins;
 		},
+
 		elements : function() {
 			var ins = new Array();
 			if (FAOSTATDownload.showWizard) {
@@ -647,6 +695,7 @@ if (!window.C) {
 			}
 			return ins;
 		},
+
 		countries : function() {
 			var ins = new Array();
 			if (FAOSTATDownload.showWizard) {
@@ -668,6 +717,7 @@ if (!window.C) {
 			}
 			return ins;
 		},
+
 		years : function() {
 			var ins = new Array();
 			if (FAOSTATDownload.showWizard) {

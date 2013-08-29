@@ -222,7 +222,7 @@ if (!window.FAOSTATDownloadTree) {
             $.ajax({
 
                 type: 'GET',
-                url: 'http://' + FAOSTATDownload.baseurl + '/wds/rest/groupsanddomains/' + FAOSTATDownload.datasource + '/' + lang,
+                url: 'http://' + FAOSTATDownload.baseurl + '/wds/rest/groupsanddomains/' + FAOSTATDownload.datasource + '/' + FAOSTATDownload.language,
                 dataType: 'json',
 
                 success : function(response) {
@@ -256,16 +256,20 @@ if (!window.FAOSTATDownloadTree) {
                         if (item.parentId == 0) {
                             FAOSTATDownload.groupCode = item.id;
                             FAOSTATDownload.domainCode = 'null';
+ 				FAOSTATDownload.selectedDomainCode = FAOSTATDownload.groupCode; // added SIMONE 
                             $("#jqxTree").jqxTree('expandItem', $('#' + FAOSTATDownload.groupCode)[0]);
                             $("#jqxTree").jqxTree('selectItem', $('#' + FAOSTATDownload.groupCode)[0]);
                             FAOSTATDownloadTree.loadDownloadNotes(FAOSTATDownload.groupCode);
 
                         } else {
+                            $('#standardDownload').prop('checked', true);
                             FAOSTATDownload.groupCode = item.parentId;
                             FAOSTATDownload.domainCode = item.id;
+ 				FAOSTATDownload.selectedDomainCode = FAOSTATDownload.domainCode; // added SIMONE 
                             $("#jqxTree").jqxTree('expandItem', $('#' + FAOSTATDownload.domainCode)[0]);
                             $("#jqxTree").jqxTree('selectItem', $('#' + FAOSTATDownload.domainCode)[0]);
                             FAOSTATDownload.showClassicOrWizard();
+			   
 
                         }
 //                        FAOSTATBrowse.loadView(FAOSTATBrowse.groupCode, FAOSTATBrowse.domainCode, item.label);
@@ -334,14 +338,13 @@ if (!window.FAOSTATDownloadTree) {
                     try {
                         document.getElementById('listArea').innerHTML = "";
                         document.getElementById('output_area').innerHTML = "";
- 			document.getElementById('testinline').innerHTML = "";
+ 			            document.getElementById('testinline').innerHTML = "";
                         $("#domainNameTitle").remove();
                         $("#bulkDownloadsList").remove();
                         $("#break").remove();
                         $("#listArea").append("<div id='domainNameTitle' class='standard-title'>" + response[1][1] + " (" + response[1][4].substring(0, 10) + ")</div>");
-			$("#listArea").append("<hr class='standard-hr'>");
-                       
-                        var s = FAOSTATDownloadTree.createList(response);
+			            $("#listArea").append("<hr class='standard-hr'>");
+                       var s = FAOSTATDownloadTree.createList(response);
                         $("#listArea").append(s);
                     } catch (err) {
                         FAOSTATDownloadTree.loadDownloadNotes(item.value);
