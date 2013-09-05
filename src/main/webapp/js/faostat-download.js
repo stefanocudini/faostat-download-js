@@ -499,6 +499,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
                 var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
                 if (item.value=="pivot")
                 {// window.FAOSTATDownloadSelectorsClassic.falseclick();
+                     STATS.exportPivotDownloadStandard();
 				var footNotes="";
 				if(typeof FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]!="undefined")
 				{footNotes="<table><tr><td>"+FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]["E"]+"</td></tr></table>"}
