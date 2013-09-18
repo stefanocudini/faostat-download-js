@@ -515,6 +515,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
             });
             // view table
             $('#buttonViewTables').bind('click', function() {
+                $('#buttonExportToCSV')[0].style.display="inline-block";
 		$('#testinline').empty();
 //                document.geElementById('output_area').innerHTML = '';
                 var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
