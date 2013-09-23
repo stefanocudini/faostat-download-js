@@ -816,7 +816,10 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                 }],
                 theme: FAOSTATDownload.theme
             });
-            
+              $("#" + gridCode).on('rowselect', function (event) {
+                  document.getElementById('buttonExportToCSV').style.display="none";
+                  $('#testinline').empty();
+              });
             var targetCodingSystem = FAOSTATDownloadSelectorsClassic.getCodingSystemFromGridCode(gridCode);
             $("#buttonSelectAll" + targetCodingSystem).bind('click', function() {
                 FAOSTATDownloadSelectorsClassic.selectAll(gridCode, true);
