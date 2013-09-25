@@ -125,6 +125,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
                     url: FAOSTATDownload.prefix + 'FBSN.html',
                     dataType: 'html',
                     success : function(response) {	
+                        document.getElementById("testinline").innerHTML="";
                         document.getElementById('OLAPTD').className="invi";
                         document.getElementById('trWizardMode').className="invi";
                         document.getElementById('mainTD').className="visi2";
