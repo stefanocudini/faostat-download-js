@@ -816,7 +816,17 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                 }],
                 theme: FAOSTATDownload.theme
             });
-            
+            $("#" + gridCode).on('rowselect', function (event) {
+			  var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
+          
+                if (item.value!="pivot"){  
+          $('#buttonExportToCSV')[0].style.display="inline-block";}
+		   else{document.getElementById('buttonExportToCSV').style.display="none";
+				  $('#testinline').empty();}
+			 
+                  
+              });
+			
             var targetCodingSystem = FAOSTATDownloadSelectorsClassic.getCodingSystemFromGridCode(gridCode);
             $("#buttonSelectAll" + targetCodingSystem).bind('click', function() {
                 FAOSTATDownloadSelectorsClassic.selectAll(gridCode, true);

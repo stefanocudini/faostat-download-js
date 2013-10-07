@@ -363,7 +363,7 @@ if (!window.FAOSTATDownloadTree) {
             var root = 'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/';
             var s = "";
             s += "<ul id='bulkDownloadsList' class='bullet-list'>";
-            for (var i = 1; i < response.length; i++) {
+            for (var i = 0; i < response.length; i++) {
                 var zip = response[i][2].replace(".csv", ".zip");
                 s += "<li><a onclick='STATS.exportTableDownloadBulk(FAOSTATDownload.selectedDomainCode);' href='" + root + zip + "'>" + response[i][3] + "</li></a>";
             }

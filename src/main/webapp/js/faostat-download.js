@@ -247,6 +247,15 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
          selectedIndex: 0, 
          theme: FAOSTATDownload.theme 
      });
+      $("#options_output_type").on('change',function(event){
+            var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
+          
+                if (item.value!="pivot"){  
+          $('#buttonExportToCSV')[0].style.display="inline-block";}
+      else{$('#buttonExportToCSV')[0].style.display="none";}
+      
+      
+      });
      $("#options_thousand_separator").jqxDropDownList({
          source: [{
                  label: I18N.translate('_comma'), 
@@ -511,10 +520,13 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
 				
 			//	"<table><tr><td>"+FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]["E"]+
 				}
-                else{   C.collect(false); }
+                else{
+                    
+                    C.collect(false); }
             });
             // view table
             $('#buttonViewTables').bind('click', function() {
+                $('#buttonExportToCSV')[0].style.display="inline-block";
 		$('#testinline').empty();
 //                document.geElementById('output_area').innerHTML = '';
                 var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
