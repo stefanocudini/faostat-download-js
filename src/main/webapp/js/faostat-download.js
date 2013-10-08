@@ -3,33 +3,56 @@ if (!window.FAOSTATDownload) {
     window.FAOSTATDownload = {
 		
         /** To be used to deploy this code under FENIX FAOSTAT */
-        /*prefix : 'faostat-download-js/',*/
-        prefix : 'http://faostat3.fao.org/faostat-download-js/',
-MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"+
-"Source: Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"}
-},
+        prefix : 'http://localhost:8080/faostat-download-js/',
+
+        MyMetaData : {
+            "AS" : {
+                "E" : "Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)" +
+                      "Source: Agricultural Science and Technology Indicators (ASTI) intiative International Food Policy Research Institute (IFPRI)"
+            }
+        },
+
         theme : "faostat",
+
         countriesTabSelectedIndex : 0,
+
         itemsTabSelectedIndex : 0,
+
         shift : false,
+
         /** base URL for WDS, default: fenixapps.fao.org */
         baseurl : "",
+
         /** datasource for WDS, default: faostat */
         datasource : "",
+
         /** maximum rows number shown in the interface */
         tablelimit : "",
+
         /** language for the tree, default: en */
         language : "E",
+
         /** this code is set when a leaf of the tree is clicked, to be used by other JS's */
         selectedDomainCode : "",
+
         item : null,
+
         /** flag to determine wheter codelists must be linked or not */
         linkCodelists : false,
+
         /** determine which download interface must be shown */
         showWizard : false,
+
         downloadType : 0,
+
         groupCode : null,
+
         domainCode : null,
+
+        init : function(groupCode, domainCode, language) {
+            FAOSTATDownload.initUI(groupCode, domainCode, language);
+        },
+
         /**
 		 * This function initiate the user interface and links controllers to the tree
 		 */
@@ -74,7 +97,6 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
             /**
              * Translate download type labels
              */
-
             $('#linkCodelistsButton').jqxSwitchButton({
                 height: 27,
                 width: 150,
@@ -83,6 +105,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
                 onLabel: I18N.translate('_wizard'),
                 offLabel: I18N.translate('_classic')
             });
+
             $('#linkCodelistsButton').bind('change', function (event) {
                 FAOSTATDownload.showWizard = event.args.check;
                 FAOSTATDownload.showClassicOrWizard();
@@ -90,34 +113,12 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
                 CPI.removeCPITableNotes();
             });
 
-
-            /*
-             $("#downloadType").jqxButtonGroup({
-             mode: 'radio',
-             theme: FAOSTATDownload.theme
-             });
-             $('#downloadType').jqxButtonGroup('setSelection', 0);
-             $('#downloadType').bind('click', function() {
-             var downloadType = $('#downloadType').jqxButtonGroup('getSelection');
-             if (downloadType == 1) {
-             FAOSTATDownload.showSelectionMode(false);
-             FAOSTATDownload.showDownloadOptionsAndButtons(false);
-             var item = {};
-             item.value = FAOSTATDownload.selectedDomainCode;
-             FAOSTATDownloadTree.showBulkDownloads(item);
-             } else {
-             FAOSTATDownload.showSelectionMode(true);
-             FAOSTATDownload.showDownloadOptionsAndButtons(true);
-             FAOSTATDownload.showClassicOrWizard();
-             }
-             });*/
             FAOSTATDownload.showSelectionMode(false);
+
             FAOSTATDownloadTree.init();
-/*           $('#listArea').load(FAOSTATDownload.prefix + 'welcome.html', function() {
-//				FAOSTATDownloadOptions.init();
-            });*/
 
         },
+
         showFB:function(){
             if (navigator.appVersion.indexOf("MSIE 7.") == -1 ){
                 $.ajax({
@@ -142,6 +143,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
                 document.getElementById('mainTD').innerHTML = "<iframe src=\""+FAOSTATDownload.prefix + "FBS.html\" width=\"800\" height=\"600\"/>" ;
             }
         },
+
         bulkDownload : function() {
             FAOSTATDownload.downloadType = 1;
             FAOSTATDownload.showSelectionMode(false);
@@ -152,6 +154,7 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
             FAOSTATDownloadTree.showBulkDownloads(item);
             CPI.removeCPITableNotes();
         },
+
         standardDownload : function() {
             FAOSTATDownload.downloadType = 0;
             FAOSTATDownload.showSelectionMode(false);
@@ -159,9 +162,9 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
             FAOSTATDownload.showClassicOrWizard();
             CPI.removeCPITableNotes();
         },
+
         showDownloadOptionsAndButtons : function(show) {
-		
-            if (show) {
+		    if (show) {
                 $('#output_options').show();
                 $('#output_buttons').show();
             } else {
@@ -169,10 +172,15 @@ MyMetaData:{"AS":{"E":"Agricultural Science and Technology Indicators (ASTI) int
                 $('#output_buttons').hide();
             }
         },
+
         showSelectionMode : function(show) {
-            if (show) { $('#settings-section').show();} 
-            else {$('#settings-section').hide();}
+            if (show) {
+                $('#settings-section').show();
+            } else {
+                $('#settings-section').hide();
+            }
         },
+
         showClassicOrWizard : function() {
             if (FAOSTATDownload.domainCode.length > 1) {
                 if( FAOSTATDownload.domainCode!="*"){

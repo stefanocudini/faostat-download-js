@@ -740,101 +740,135 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                 FAOSTATDownloadSelectorsClassic.createGrid(codingSystem, gridCode, null);
             }
         },
+
         createGrid : function(codingSystem, gridCode, response) {
-            var data = new Array();
-            if (response != null) {
-                if (codingSystem == 'regions' || codingSystem == 'specialgroups' ||
-                    codingSystem == 'itemsaggregated') {
+//            var data = new Array();
+//            if (response != null) {
+//                if (codingSystem == 'regions' || codingSystem == 'specialgroups' || codingSystem == 'itemsaggregated') {
+//                    if (FAOSTATDownload.domainCode != 'GY') {
+//                        for (var i = 0 ; i < response.length ; i++) {
+//                            var row = {};
+//                            switch (response[i].type) {
+//                                case 'list':
+//                                    row["label"] = response[i].label + ' ' + $.i18n.prop('_list');
+//                                    break;
+//                                case 'total':
+//                                    row["label"] = response[i].label + ' ' + $.i18n.prop('_total');
+//                                    break;
+//                            }
+//                            row["code"] = response[i].code;
+//                            row["type"] = response[i].type;
+//                            data[i] = row;
+//                        }
+//                    } else {
+//                        var counter = 0;
+//                        for (var i = 0 ; i < response.length ; i++) {
+//                            var row = {};
+//                            switch (response[i].type) {
+//                                case 'list':
+//                                    if (codingSystem == 'regions' || codingSystem == 'specialgroups') {
+//                                        row["label"] = response[i].label + ' ' + $.i18n.prop('_list');
+//                                    } else {
+//                                        row["label"] = response[i].label;
+//                                    }
+//                                    break;
+//                                case 'total':
+//                                    row["label"] = response[i].label + ' ' + $.i18n.prop('_total');
+//                                    break;
+//                            }
+//                            row["code"] = response[i].code;
+//                            row["type"] = response[i].type;
+//                            if (codingSystem != 'itemsaggregated')
+//                                data[counter++] = row;
+//                            if (codingSystem == 'itemsaggregated' && response[i].type != 'total')
+//                                data[counter++] = row;
+//                        }
+//
+//                    }
+//                } else {
+//                    for (var i = 0 ; i < response.length ; i++) {
+//                        var row = {};
+//                        if (codingSystem == 'elements') {
+//                            row["label"] = response[i].label + ' (' + response[i].unit + ')';
+//                        } else {
+//                            row["label"] = response[i].label;
+//                        }
+//                        row["code"] = response[i].code;
+//                        data[i] = row;
+//                    }
+//                }
+//            }
+//            var source = {
+//                localdata: data,
+//                datatype: "array"
+//            };
+//            var dataAdapter = new $.jqx.dataAdapter(source);
+//            $("#" + gridCode).jqxGrid({
+//                width: '351',
+//                height: 168,
+//                source: dataAdapter,
+//                columnsresize: true,
+//                showheader: false,
+//                selectionmode: 'multiplerowsextended',
+//                columns: [{
+//                    text: I18N.translate('_label'),
+//                    datafield: 'label'
+//                }],
+//                theme: FAOSTATDownload.theme
+//            });
+//            $("#" + gridCode).on('rowselect', function (event) {
+//                var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
+//                if (item.value!="pivot") {
+//                    $('#buttonExportToCSV')[0].style.display="inline-block";
+//                } else{
+//                    document.getElementById('buttonExportToCSV').style.display="none";
+//				    $('#testinline').empty();
+//                }
+//            });
+//            var targetCodingSystem = FAOSTATDownloadSelectorsClassic.getCodingSystemFromGridCode(gridCode);
+//            $("#buttonSelectAll" + targetCodingSystem).bind('click', function() {
+//                FAOSTATDownloadSelectorsClassic.selectAll(gridCode, true);
+//            });
+//            $("#buttonDeSelectAll" + targetCodingSystem).bind('click', function() {
+//                FAOSTATDownloadSelectorsClassic.selectAll(gridCode, false);
+//            });
+
+            var select = '';
+            var lbl = null;
+            select += '<select id="' + gridCode + '_select" multiple="multiple" style="width: 100%; height: 100%; border: 0px;">';
+            for (var i = 0 ; i < response.length ; i++) {
+                if (codingSystem == 'regions' || codingSystem == 'specialgroups' || codingSystem == 'itemsaggregated') {
                     if (FAOSTATDownload.domainCode != 'GY') {
-                        for (var i = 0 ; i < response.length ; i++) {
-                            var row = {};
-                            switch (response[i].type) {
-                                case 'list':
-                                    row["label"] = response[i].label + ' ' + $.i18n.prop('_list');
-                                    break;
-                                case 'total':
-                                    row["label"] = response[i].label + ' ' + $.i18n.prop('_total');
-                                    break;
-                            }
-                            row["code"] = response[i].code;
-                            row["type"] = response[i].type;
-                            data[i] = row;
+                        switch (response[i].type) {
+                            case 'list': lbl = response[i].label + ' ' + $.i18n.prop('_list'); break;
+                            case 'total': lbl = response[i].label + ' ' + $.i18n.prop('_total'); break;
                         }
                     } else {
-                        var counter = 0;
-                        for (var i = 0 ; i < response.length ; i++) {
-                            var row = {};
-                            switch (response[i].type) {
-                                case 'list':
-                                    if (codingSystem == 'regions' || codingSystem == 'specialgroups') {
-                                        row["label"] = response[i].label + ' ' + $.i18n.prop('_list');
-                                    } else {
-                                        row["label"] = response[i].label;
-                                    }
-                                    break;
-                                case 'total':
-                                    row["label"] = response[i].label + ' ' + $.i18n.prop('_total'); 
-                                    break;
-                            }
-                            row["code"] = response[i].code;
-                            row["type"] = response[i].type;
-                            if (codingSystem != 'itemsaggregated')
-                                data[counter++] = row;
-                            if (codingSystem == 'itemsaggregated' && response[i].type != 'total')
-                                data[counter++] = row;
+                        switch (response[i].type) {
+                            case 'list':
+                                if (codingSystem == 'regions' || codingSystem == 'specialgroups') {
+                                    lbl = response[i].label + ' ' + $.i18n.prop('_list');
+                                } else {
+                                    lbl = response[i].label;
+                                }
+                                break;
+                            case 'total': lbl = response[i].label + ' ' + $.i18n.prop('_total'); break;
                         }
-						
                     }
                 } else {
-                    for (var i = 0 ; i < response.length ; i++) {
-                        var row = {};
-                        if (codingSystem == 'elements') {
-                            row["label"] = response[i].label + ' (' + response[i].unit + ')';
-                        } else {
-                            row["label"] = response[i].label;
-                        }
-                        row["code"] = response[i].code;
-                        data[i] = row;
+                    if (codingSystem == 'elements') {
+                        lbl = response[i].label + ' (' + response[i].unit + ')';
+                    } else {
+                        lbl = response[i].label;
                     }
                 }
+                select += '<option class="grid-element" data-faostat="' + response[i].code + '" data-label="' + lbl + '" data-type="' + response[i].type + '">' + lbl + '</option>';
             }
-            var source = {
-                localdata: data,
-                datatype: "array"
-            };
-            var dataAdapter = new $.jqx.dataAdapter(source);
-            $("#" + gridCode).jqxGrid({
-                width: '351',
-                height: 168,
-                source: dataAdapter,
-                columnsresize: true,
-                showheader: false,
-                selectionmode: 'multiplerowsextended',
-                columns: [{
-                    text: I18N.translate('_label'), 
-                    datafield: 'label'
-                }],
-                theme: FAOSTATDownload.theme
-            });
-            $("#" + gridCode).on('rowselect', function (event) {
-			  var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
-          
-                if (item.value!="pivot"){  
-          $('#buttonExportToCSV')[0].style.display="inline-block";}
-		   else{document.getElementById('buttonExportToCSV').style.display="none";
-				  $('#testinline').empty();}
-			 
-                  
-              });
-			
-            var targetCodingSystem = FAOSTATDownloadSelectorsClassic.getCodingSystemFromGridCode(gridCode);
-            $("#buttonSelectAll" + targetCodingSystem).bind('click', function() {
-                FAOSTATDownloadSelectorsClassic.selectAll(gridCode, true);
-            });
-            $("#buttonDeSelectAll" + targetCodingSystem).bind('click', function() {
-                FAOSTATDownloadSelectorsClassic.selectAll(gridCode, false);
-            });
+            select += '</select>';
+            document.getElementById(gridCode).innerHTML = select;
+
         },
+
         getCodingSystemFromGridCode : function(gridCode) {
             return gridCode.substring("grid".length);
         }
