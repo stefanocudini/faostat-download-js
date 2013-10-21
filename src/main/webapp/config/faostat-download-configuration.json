@@ -1,5 +1,5 @@
 {
 	"datasource": "faostat2",
-	"baseurl": "faostat3.fao.org",
+	"baseurl": "localhost:8080",
 	"tablelimit": 50
 }
