@@ -253,26 +253,29 @@ if (!window.FAOSTATDownloadTree) {
 
                         var args = event.args;
                         var item = $('#jqxTree').jqxTree('getItem', args.element);
+
+                        /* Show metadata. */
                         if (item.parentId == 0) {
                             FAOSTATDownload.groupCode = item.id;
                             FAOSTATDownload.domainCode = 'null';
- 				FAOSTATDownload.selectedDomainCode = FAOSTATDownload.groupCode; // added SIMONE 
+ 				            FAOSTATDownload.selectedDomainCode = FAOSTATDownload.groupCode; // added SIMONE
                             $("#jqxTree").jqxTree('expandItem', $('#' + FAOSTATDownload.groupCode)[0]);
                             $("#jqxTree").jqxTree('selectItem', $('#' + FAOSTATDownload.groupCode)[0]);
                             FAOSTATDownloadTree.loadDownloadNotes(FAOSTATDownload.groupCode);
+                        }
 
-                        } else {
+                        /* Show selectors. */
+                        else {
                             $('#standardDownload').prop('checked', true);
                             FAOSTATDownload.groupCode = item.parentId;
                             FAOSTATDownload.domainCode = item.id;
- 				FAOSTATDownload.selectedDomainCode = FAOSTATDownload.domainCode; // added SIMONE 
+ 				            FAOSTATDownload.selectedDomainCode = FAOSTATDownload.domainCode; // added SIMONE
                             $("#jqxTree").jqxTree('expandItem', $('#' + FAOSTATDownload.domainCode)[0]);
                             $("#jqxTree").jqxTree('selectItem', $('#' + FAOSTATDownload.domainCode)[0]);
-                            FAOSTATDownload.showClassicOrWizard();
-			   
-
+//                            FAOSTATDownload.showClassicOrWizard();
+                            F3DWLD.buildF3DWLD(item.parentId, item.id, FAOSTATDownload.language);
                         }
-//                        FAOSTATBrowse.loadView(FAOSTATBrowse.groupCode, FAOSTATBrowse.domainCode, item.label);
+
                     });
 
                     // Expand Group
@@ -286,7 +289,7 @@ if (!window.FAOSTATDownloadTree) {
                     else {
                         $("#jqxTree").jqxTree('expandItem', $('#' + FAOSTATDownload.domainCode)[0]);
                         $("#jqxTree").jqxTree('selectItem', $('#' + FAOSTATDownload.domainCode)[0]);
-                        FAOSTATDownload.showClassicOrWizard();
+//                        FAOSTATDownload.showClassicOrWizard();
                     }
 
                     /** Scroll panel */
