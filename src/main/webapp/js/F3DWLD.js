@@ -636,6 +636,10 @@ var F3DWLD = (function() {
 
     function buildF3DWLD(groupCode, domainCode, language) {
 
+        /* Upgrade the URL. */
+        var domainCodeURL = (domainCode == 'null') ? '*' : domainCode;
+        CORE.upgradeURL('download', groupCode, domainCodeURL, language);
+
         $.getJSON(CONFIG.prefix + CONFIG.configurationURL, function (data) {
 
             F3DWLD.CONFIG.baseurl      =   data.baseurl;
