@@ -68,9 +68,9 @@
             <fieldset id="Foptions" class="visi">
                 <legend  onclick="javascript:changeVisi('pivot_options')"
                          style="cursor:pointer;font-weight:bold;">Options</legend>
-                <div id="pivot_options" class="visi">Aggregate function:
+                <div id="pivot_options" class="visi">Aggregate function:<br/>
                     <select id="pivot_agg"><option value=1>SUM</option></select>
-                    <br/>Subtotals aggregate functions:
+                    <br/>Subtotals aggregate functions:<br/>
                     <select id="pivot_agg_totals"></select>
                     <br/>
                     <textarea id=test cols="50" rows=7 style="display:none;"></textarea>
@@ -87,8 +87,9 @@
         </fieldset>
         <div id="DimRowCol">
             <div id="ODC_ROWS">
-		<div class="nested-checkbox">		
-		<input type="checkbox" id="shownestedby"   onChange="javascript:changeNestedBy()"/>
+		<div class="nested-checkbox">	
+                    <br/>
+		<input type="checkbox" id="shownestedby"   onChange="javascript:changeNestedBy()" checked/>
 			<label id="tradolapalone1">
 			    <script>
 				document.getElementById("tradolapalone1").innerHTML=traduction['nested_by'][lang];
@@ -171,7 +172,7 @@
     <fieldset id="FgraphOption" class="invi">
         <legend onclick="javascript:changeVisi('graphtypeD')"
                 style="cursor:pointer;font-weight:bold;">Graph options</legend>
-        <div id="graphtypeD" class="visi">	Graph type:
+        <div id="graphtypeD" class="visi">Graph type:
             <select id="graph_typeF" onchange="javascript:reinitgraph()">
                 <option value=1>basic column</option>
                 <option value=3>stacked column</option>
