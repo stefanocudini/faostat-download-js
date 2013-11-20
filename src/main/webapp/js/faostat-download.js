@@ -517,6 +517,8 @@ if (!window.FAOSTATDownload) {
                 var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
                 if (item.value=="pivot")
                 {// window.FAOSTATDownloadSelectorsClassic.falseclick();
+                     
+                     
                      STATS.exportPivotDownloadStandard();
 				var footNotes="";
 				if(typeof FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]!="undefined")
@@ -539,7 +541,12 @@ if (!window.FAOSTATDownload) {
 		$('#testinline').empty();
 //                document.geElementById('output_area').innerHTML = '';
                 var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
-                if (item.value=="pivot"){ window.FAOSTATDownloadSelectorsClassic.falseclick();
+                if (item.value=="pivot"){
+                   /* alert("test");
+                     C.collect(true);
+                     console.log(C);
+                    window.FAOSTATDownloadSelectorsClassic.falseclick();
+                */
                 } else {
                     C.collect(true);
                     STATS.showTableDownloadStandard(FAOSTATDownload.selectedDomainCode);
