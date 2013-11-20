@@ -684,7 +684,19 @@ var F3DWLD = (function() {
                 F3DWLD.CONFIG.dsd = json.dsd;
 
                 /* Build UI structure. */
-                buildUIStructure();
+                
+              if(F3DWLD.CONFIG.domainCode=="FB" /*&& F3DWLD.CONFIG.groupCode!="FB"*/)
+				{
+				 
+                    document.getElementById('trWizardMode').className="visi2";
+					document.getElementById('OLAPTD').className="invi";
+                    document.getElementById('mainTD').className="invi";
+					document.getElementById('testinline').className="invi";
+				FAOSTATDownload.showFB();}
+				else{
+				document.getElementById('OLAPTD').className="visi2";
+				 document.getElementById('mainTD').className="invi";
+				buildUIStructure();}
 
             },
 
@@ -893,7 +905,23 @@ var F3DWLD = (function() {
             $('#testinline').empty();
             var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
             if (item.value=="pivot") {
-                window.FAOSTATDownloadSelectorsClassic.falseclick();
+                getTabSelection();
+			getOptions(false);
+			getGridsValues();
+			   try{document.getElementById('testinline').className="visi2";}catch(err){}
+             
+               window.FAOSTATDownloadSelectorsClassic.falseclick();
+			/*	myNewOlap();
+	$(function(){
+	var derivers = $.pivotUtilities.derivers;
+var renderers = $.extend($.pivotUtilities.renderers,$.pivotUtilities.gchart_renderers);
+	$.post( "/wds/rest/table/json", FAOSTATOLAP2.queryParams).done(function( data ) 
+	{
+	data=FAOSTATOLAP2.attr.concat(data);
+	$("#newOlap").pivotUI(data, FAOSTATOLAP2.options);
+	});
+	});*/
+                           
             } else {
                 collectAndQueryWDS(true);
                 STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
