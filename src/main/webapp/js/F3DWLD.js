@@ -1173,6 +1173,45 @@ var F3DWLD = (function() {
         return s;
     };
 
+    function selectAll(gridCode, isSelected) {
+        getTabSelection();
+        var grid = '';
+        switch (gridCode) {
+            case 'gridCountries' :
+                switch (F3DWLD.CONFIG.tabsSelection.countries) {
+                    case 0: grid = 'gridCountries_select'; break;
+                    case 1: grid = 'gridRegions_select'; break;
+                    case 2: grid = 'gridSpecialGroups_select'; break;
+                }
+                break;
+            case 'gridCountries_dst' :
+                switch (F3DWLD.CONFIG.tabsSelection.countries) {
+                    case 0: grid = 'gridCountries_dst_select'; break;
+                    case 1: grid = 'gridRegions_dst_select'; break;
+                    case 2: grid = 'gridSpecialGroups_dst_select'; break;
+                }
+                break;
+            case 'gridElements' :
+                switch (F3DWLD.CONFIG.tabsSelection.elements) {
+                    case 0: grid = 'gridElements_select'; break;
+                }
+                break;
+            case 'gridItems' :
+                switch (F3DWLD.CONFIG.tabsSelection.items) {
+                    case 0: grid = 'gridItems_select'; break;
+                    case 1: grid = 'gridItemsAggregated_select'; break;
+                }
+                break;
+            case 'gridYears' :
+                switch (F3DWLD.CONFIG.tabsSelection.years) {
+                    case 0: grid = 'gridYears_select'; break;
+                }
+                break;
+        }
+        var selected = (isSelected == 'true') ? 'selected' : '';
+        $('#' + grid + ' option').prop('selected', selected);
+    };
+
     function buildSelector(column) {
         var s = '';
         s += '<div class="obj-box-download">';
@@ -1189,11 +1228,11 @@ var F3DWLD = (function() {
                 s += '<div class="faostat-download-list" id="gridSpecialGroups"></div>';
                 s += '</div>';
                 s += '<div class="download-selection-buttons">';
-                s += '<a id="buttonSelectAllCountries" class="btn">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridCountries\', \'' + true + '\');" id="buttonSelectAllCountries" class="btn">';
                 s += '<div class="btn-select-all-icon btnLeftIcon"></div>';
                 s += '<div id="buttonSelectAllCountries-text"></div>';
                 s += '</a>';
-                s += '<a id="buttonDeSelectAllCountries" class="btn">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridCountries\', \'' + false + '\');" id="buttonDeSelectAllCountries" class="btn">';
                 s += '<div class="btn-clear-all-icon btnLeftIcon"></div>';
                 s += '<div id="buttonDeSelectAllCountries-text"></div>';
                 s += '</a>';
@@ -1211,11 +1250,11 @@ var F3DWLD = (function() {
                 s += '<div class="faostat-download-list" id="gridSpecialGroups_dst"></div>';
                 s += '</div>';
                 s += '<div class="download-selection-buttons">';
-                s += '<a id="buttonSelectAllCountries_dst" class="btn">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridCountries_dst\', \'' + true + '\');" id="buttonSelectAllCountries_dst" class="btn">';
                 s += '<div class="btn-select-all-icon btnLeftIcon"></div>';
                 s += '<div id="buttonSelectAllCountries-text_dst"></div>';
                 s += '</a>';
-                s += '<a id="buttonDeSelectAllCountries_dst" class="btn">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridCountries_dst\', \'' + false + '\');" id="buttonDeSelectAllCountries_dst" class="btn">';
                 s += '<div class="btn-clear-all-icon btnLeftIcon"></div>';
                 s += '<div id="buttonDeSelectAllCountries-text_dst"></div>';
                 s += '</a>';
@@ -1231,11 +1270,11 @@ var F3DWLD = (function() {
                 s += '<div class="faostat-download-list" id="gridItemsAggregated"></div>';
                 s += '</div>';
                 s += '<div class="download-selection-buttons">';
-                s += '<a id="buttonSelectAllItems" class="btn">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridItems\', \'' + true + '\');" id="buttonSelectAllItems" class="btn">';
                 s += '<div class="btn-select-all-icon btnLeftIcon"></div>';
                 s += '<div id="buttonSelectAllItems-text"></div>';
                 s += '</a>';
-                s += '<a id="buttonDeSelectAllItems" class="btn">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridItems\', \'' + false + '\');" id="buttonDeSelectAllItems" class="btn">';
                 s += '<div class="btn-clear-all-icon btnLeftIcon"></div>';
                 s += '<div id="buttonDeSelectAllItems-text"></div>';
                 s += '</a>';
@@ -1249,11 +1288,11 @@ var F3DWLD = (function() {
                 s += '<div id="gridElements"></div>';
                 s += '</div>';
                 s += '<div class="download-selection-buttons">';
-                s += '<a id="buttonSelectAllElements" class="btn">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridElements\', \'' + true + '\');" id="buttonSelectAllElements" class="btn">';
                 s += '<div class="btn-select-all-icon btnLeftIcon"></div>';
                 s += '<div id="buttonSelectAllElements-text"></div>';
                 s += '</a>';
-                s += '<a id="buttonDeSelectAllElements" class="btn">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridElements\', \'' + false + '\');" id="buttonDeSelectAllElements" class="btn">';
                 s += '<div class="btn-clear-all-icon btnLeftIcon"></div>';
                 s += '<div id="buttonDeSelectAllElements-text"></div>';
                 s += '</a>';
@@ -1267,11 +1306,11 @@ var F3DWLD = (function() {
                 s += '<div id="gridYears"></div>';
                 s += '</div>';
                 s += '<div class="download-selection-buttons">';
-                s += '<a id="buttonSelectAllYears" class="btn">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridYears\', \'' + true + '\');" id="buttonSelectAllYears" class="btn">';
                 s += '<div class="btn-select-all-icon btnLeftIcon"></div>';
                 s += '<div id="buttonSelectAllYears-text"></div>';
                 s += '</a>';
-                s += '<a id="buttonDeSelectAllYears" class="btn">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridYears\', \'' + false + '\');" id="buttonDeSelectAllYears" class="btn">';
                 s += '<div class="btn-clear-all-icon btnLeftIcon"></div>';
                 s += '<div id="buttonDeSelectAllYears-text"></div>';
                 s += '</a>';
@@ -1284,7 +1323,8 @@ var F3DWLD = (function() {
 
     return {
         CONFIG      :   CONFIG,
-        buildF3DWLD :   buildF3DWLD
+        buildF3DWLD :   buildF3DWLD,
+        selectAll   :   selectAll
     };
 
 })();
