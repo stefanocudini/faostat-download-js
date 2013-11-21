@@ -684,7 +684,7 @@ var F3DWLD = (function() {
                 F3DWLD.CONFIG.dsd = json.dsd;
 
                 /* Build UI structure. */
-                
+             			    $('#testinline').empty();
               if(F3DWLD.CONFIG.domainCode=="FB" /*&& F3DWLD.CONFIG.groupCode!="FB"*/)
 				{
 				 
