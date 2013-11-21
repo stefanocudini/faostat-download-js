@@ -801,7 +801,7 @@ var F3DWLD = (function() {
 
                 var select = '';
                 var lbl = null;
-                select += '<select id="' + gridCode + '_select" multiple="multiple" style="width: 100%; height: 100%; border: 0px;">';
+                select += '<select id="' + gridCode + '_select" multiple="multiple" style="width: 100%; height: 100%; border: 0px;" onchange="myclean()">';
                 for (var i = 0 ; i < json.length ; i++) {
                     if (codingSystem == 'regions' || codingSystem == 'specialgroups' || codingSystem == 'itemsaggregated') {
                         if (F3DWLD.CONFIG.domainCode != 'GY') {
@@ -1033,7 +1033,7 @@ var renderers = $.extend($.pivotUtilities.renderers,$.pivotUtilities.gchart_rend
             checked : false,
             theme: F3DWLD.CONFIG.theme
         });
-        $('options_show_flags').bind('change', function (event) {
+        $('#options_show_flags').bind('change', function (event) {
             var item = event.args.checked;
             var checked = 0;
             if(item)
