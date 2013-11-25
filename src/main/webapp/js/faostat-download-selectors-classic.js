@@ -50,7 +50,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                 document.getElementById("n").value=4;
                 document.getElementById("d").value="ElementCode#AreaCode#ItemCode#Year";
             }
-            else if(FAOSTATDownload.domainCode=="FT" ||FAOSTATDownload.domainCode=="TM")	{
+            else if(FAOSTATDownload.domainCode=="FT" ||FAOSTATDownload.domainCode=="TM")    {
                 document.getElementById('id').value="T0M";
                 document.getElementById("n").value=5;
                 document.getElementById("d").value="ElementCode#ReporterAreaCode#ItemCode#Year#PartnerAreaCode";
@@ -238,16 +238,29 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                 var mesItemsXML="{name:'ItemCode','nb':'1','val':{";
                 var arrItem=$('#gridItemsAggregated').jqxGrid('selectedrowindexes');
                 var listItem="";
+                var mySelecteds=F3DWLD.CONFIG.selectedValues;
+                
                 if (FAOSTATDownload.domainCode != 'GY') {
-                    switch (FAOSTATDownload.itemsTabSelectedIndex) {
+                    /*switch (FAOSTATDownload.itemsTabSelectedIndex) {
                         case 0:
-                            if ($('#gridItems').jqxGrid('selectedrowindexes') != null) {
-                                for(i=0;i<$('#gridItems').jqxGrid('selectedrowindexes').length;i++) {
-                                    arr=$('#gridItems').jqxGrid('getrowdata',$('#gridItems').jqxGrid('selectedrowindexes')[i]);
+                            if ($('#gridItems').jqxGrid('selectedrowindexes') != null) {*/
+                                for(i=0;i<mySelecteds.items.length;i++) {
+                                 arr=mySelecteds.items[i];
+                                if(arr.type=="list")
+                                {
+                                    if(listItem==""){
+                                        listItem="[{code:'"+arr.code+"',type:'list'}";
+                                    }
+                                    else{
+                                        listItem+=",{code:'"+arr.code+"',type:'list'}";
+                                    }
+                                }else{
+                                   
+                                    
                                     if(mesItems=="") {
-                                        mesItems=$('#gridItems').jqxGrid('getrowdata',$('#gridItems').jqxGrid('selectedrowindexes')[i]).code;
+                                        mesItems=arr.code;
                                     } else {
-                                        mesItems+=","+$('#gridItems').jqxGrid('getrowdata',$('#gridItems').jqxGrid('selectedrowindexes')[i]).code;
+                                        mesItems+=","+arr.code;
                                     }
                                     if(bItem!=0) {
                                         mesItemsXML+=",";
@@ -255,8 +268,10 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                                         bItem=1;
                                     }
                                     mesItemsXML+="'"+arr.code+"':{'E':'"+arr.label.replace(/'/g," ")+"'}";
+                                
                                 }
-                            }
+                                }
+                            }/*
                             break;
                         case 1:
                             for(i=0;arrItem!=null &&i<arrItem.length;i++) {
@@ -286,10 +301,11 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                             }
                             break;
                         case 2:
-					
+                    
                             break;
-                    }
-                } else {
+                    }*/
+                    
+                /*} else {
                     for(i=0;arrItem!=null &&i<arrItem.length;i++) {
                         if($('#gridItemsAggregated').jqxGrid('getrowdata',$('#gridItemsAggregated').jqxGrid('selectedrowindexes')[i]).type=="list")
                         {
@@ -317,7 +333,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                             mesItemsXML+="'"+arr.code+"':{'E':'"+arr.label.replace(/'/g," ")+"'}";
                         }
                     }
-                }
+                }*/
                 if(listItem!=""){
                     listItem+="]";
                 }
@@ -326,13 +342,19 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                 }
                 var mesElements="";
                 var mesElementsXML="{name:'ElementCode','nb':'1','val':{";
-                for(i=0;i<$('#gridElements').jqxGrid('selectedrowindexes').length;i++) {
-                    arr=$('#gridElements').jqxGrid('getrowdata',$('#gridElements').jqxGrid('selectedrowindexes')[i]);
+                
+                //for(i=0;i<$('#gridElements').jqxGrid('selectedrowindexes').length;i++) {
+                for(i=0;i<mySelecteds.elements.length;i++) {
+                   // arr=$('#gridElements').jqxGrid('getrowdata',$('#gridElements').jqxGrid('selectedrowindexes')[i]);
+                   arr=mySelecteds.elements[i];
                     if(mesElements=="") {
-                        mesElements=$('#gridElements').jqxGrid('getrowdata',$('#gridElements').jqxGrid('selectedrowindexes')[i]).code;
+                        //mesElements=$('#gridElements').jqxGrid('getrowdata',$('#gridElements').jqxGrid('selectedrowindexes')[i]).code;
+                        mesElements=arr.code;
                     } 
                     else {
-                        mesElements+=","+$('#gridElements').jqxGrid('getrowdata',$('#gridElements').jqxGrid('selectedrowindexes')[i]).code;
+                        //mesElements+=","+$('#gridElements').jqxGrid('getrowdata',$('#gridElements').jqxGrid('selectedrowindexes')[i]).code;
+                    mesElements+=","+arr.code;
+                    
                     }
                     if(i!=0) {
                         mesElementsXML+=",";
@@ -344,14 +366,26 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                 var bCountry=0;
                 var mesCountriesXML="{'name':'AreaCode','nb':'1','val':{";
                 var listCountry="";
-                switch (FAOSTATDownload.countriesTabSelectedIndex) {
-                    case 0:
-                        for(i=0;i<$('#gridCountries').jqxGrid('selectedrowindexes').length;i++) {
-                            arr=$('#gridCountries').jqxGrid('getrowdata',$('#gridCountries').jqxGrid('selectedrowindexes')[i]);
+                console.log(FAOSTATDownload.countriesTabSelectedIndex);
+                /*switch (FAOSTATDownload.countriesTabSelectedIndex) {
+                    case 0:*/
+                      //  for(i=0;i<$('#gridCountries').jqxGrid('selectedrowindexes').length;i++) {
+  for(i=0;i<mySelecteds.countries.length;i++) {
+                                                
+                    arr=mySelecteds.countries[i];   //arr=$('#gridCountries').jqxGrid('getrowdata',$('#gridCountries').jqxGrid('selectedrowindexes')[i]);
+                    if(arr.type=="list"){
+                                if(listCountry==""){
+                                    listCountry="[{code:'"+arr.code+"',type:'list'}";
+                                }
+                                else{
+                                    listCountry+=",{code:'"+arr.code+"',type:'list'}";
+                                }
+                            }
+                            else{
                             if(mesCountries=="") {
-                                mesCountries=$('#gridCountries').jqxGrid('getrowdata',$('#gridCountries').jqxGrid('selectedrowindexes')[i]).code;
+                                mesCountries=arr.code;
                             } else {
-                                mesCountries+=","+$('#gridCountries').jqxGrid('getrowdata',$('#gridCountries').jqxGrid('selectedrowindexes')[i]).code;
+                                mesCountries+=","+arr.code;
                             }
                             if(bCountry!=0) {
                                 mesCountriesXML+=",";
@@ -360,6 +394,9 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                             }
                             mesCountriesXML+="'"+arr.code+"':{'E':'"+arr.label.replace(/'/g," ")+"'}";
                         }
+                        }
+                        
+                        /*
                         break;
                     case 1:
                         for(i=0;i<$('#gridRegions').jqxGrid('selectedrowindexes').length;i++) {
@@ -384,7 +421,8 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                                 }else{
                                     bCountry=1;
                                 }
-                                mesCountriesXML+="'"+arr.code+"':{'E':'"+arr.label.replace(/'/g," ")+"'}";
+                                mesCountriesXML+="'"+arr.code+"':{'E':'"+arr.label.replace(/'/g," 
+                                ")+"'}";
                             }
                         }
                         break;
@@ -415,7 +453,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                             }
                         }
                         break;
-                }
+                }*/
                 if(listCountry!="" || listCountry == null){
                     listCountry+="]";
                 }else{
@@ -427,11 +465,12 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                 data.language = FAOSTATDownload.language;
                 data.countries = listCountry;
                 data.items = listItem;
+                
                 $.ajax({
                     type : 'POST',
                     url : 'http://' + FAOSTATDownload.baseurl + '/bletchley/rest/codes/list/post',
                     data : data,
-                    success : function(response) {	
+                    success : function(response) {  
                         if(response.constructor === String){
                             response = jQuery.parseJSON(response);
                         };
@@ -473,17 +512,18 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                         mesItemsXML+="}}";
                         var mesYears="";
                         var mesYearsXML="{'name':'Year',nb:'1','val':{";
-                        for(i=0;i<$('#gridYears').jqxGrid('selectedrowindexes').length;i++) {
-                            arr=$('#gridYears').jqxGrid('getrowdata',$('#gridYears').jqxGrid('selectedrowindexes')[i]);
+                        for(i=0;i<mySelecteds.years.length;i++) {
+                            arr=mySelecteds.years[i];
                             if(mesYears=="") {
-                                mesYears=$('#gridYears').jqxGrid('getrowdata',$('#gridYears').jqxGrid('selectedrowindexes')[i]).code;
+                                mesYears=arr.code;
                             } else {
-                                mesYears+=","+$('#gridYears').jqxGrid('getrowdata',$('#gridYears').jqxGrid('selectedrowindexes')[i]).code;
+                                mesYears+=","+arr.code;
                             }
                             if(i!=0) {
                                 mesYearsXML+=",";
                             }
-                            mesYearsXML+="'"+arr.code+"':{'E':'"+arr.label.replace(/'/g," ")+"'}";
+                            
+                            mesYearsXML+="'"+arr.code+"':{'E':'"+arr.label.toString().replace(/'/g," ")+"'}";
                         }
                         mesYearsXML+="}}";
                         document.getElementById('xml').value="{["+mesElementsXML+","+mesCountriesXML+","+mesItemsXML+","+mesYearsXML+"]}";
@@ -502,9 +542,9 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                             document.getElementById('c').value=document.getElementById('c').value="0,1,2#3,4";
                         }
                         else{
-                            document.getElementById('option').value=document.getElementById('option').value.replace("nestedby:1","nestedby:0");
+                            document.getElementById('option').value=document.getElementById('option').value.replace("nestedby:0","nestedby:1");
                             document.getElementById('a').value=document.getElementById('a').value="0#0#0#0";
-                            document.getElementById('c').value=document.getElementById('c').value="0,1#2,3";
+                            document.getElementById('c').value=document.getElementById('c').value="0,1,2#3";
                         }
                         document.getElementById('domain').value=FAOSTATDownload.domainCode;
                         if(mesElements=="" || mesCountries=="" || mesItems=="" ||mesYears=="" )
@@ -537,7 +577,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                             });
                         }
                     },
-                    error : function(err, b, c) {}	
+                    error : function(err, b, c) {}  
                 });
             }  
         },
@@ -598,16 +638,16 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
         },
         initUI : function() {
             FAOSTATDownload.initOutputOptions();
-			document.getElementById('selection_mode').innerHTML = I18N.translate('_selection_mode');
-			document.getElementById('wizard_output_type').innerHTML = I18N.translate('_outputType');
-			document.getElementById('wizard_thousand_separator').innerHTML = I18N.translate('_thousandSeparator');
-			document.getElementById('wizard_decimal_separator').innerHTML = I18N.translate('_decimalSeparator');
-			document.getElementById('wizard_decimal_numbers').innerHTML = I18N.translate('_decimalNumbers');
-			document.getElementById('show_flags').innerHTML = I18N.translate('_show_flags_label');
-			document.getElementById('show_codes').innerHTML = I18N.translate('_show_codes_label');
-			document.getElementById('show_units').innerHTML = I18N.translate('_show_units_label');
-			document.getElementById('show_null_values').innerHTML = I18N.translate('_show_null_values_label');
-			FAOSTATDownloadSelectorsClassic.initOLAP();
+            document.getElementById('selection_mode').innerHTML = I18N.translate('_selection_mode');
+            document.getElementById('wizard_output_type').innerHTML = I18N.translate('_outputType');
+            document.getElementById('wizard_thousand_separator').innerHTML = I18N.translate('_thousandSeparator');
+            document.getElementById('wizard_decimal_separator').innerHTML = I18N.translate('_decimalSeparator');
+            document.getElementById('wizard_decimal_numbers').innerHTML = I18N.translate('_decimalNumbers');
+            document.getElementById('show_flags').innerHTML = I18N.translate('_show_flags_label');
+            document.getElementById('show_codes').innerHTML = I18N.translate('_show_codes_label');
+            document.getElementById('show_units').innerHTML = I18N.translate('_show_units_label');
+            document.getElementById('show_null_values').innerHTML = I18N.translate('_show_null_values_label');
+            FAOSTATDownloadSelectorsClassic.initOLAP();
             if ($.url().param('lang') != null) {
             //FAOSTATDownload.language = $.url().param('lang');
             } else {
@@ -625,26 +665,26 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                     selectionTracker: 'checked',
                     theme: FAOSTATDownload.theme
                 });
-				
+                
                 $("#tabCountries").bind('tabclick', function (event) { 
                     FAOSTATDownload.countriesTabSelectedIndex = event.args.item;
                 }); 
-				
+                
                 $("#tabItems").bind('tabclick', function (event) { 
                     FAOSTATDownload.itemsTabSelectedIndex = event.args.item;
                 });
-				
+                
                 if (FAOSTATDownload.domainCode == 'GY') {
                     $('#tabItems').jqxTabs('removeAt', 0); 
                     $('#tabItems').jqxTabs('setTitleAt', 0, $.i18n.prop('_items')); 
                 }
-				
+                
                 /** $(".faostat-download-button").jqxButton({ 
                     width: '100%', 
                     height: '25', 
                     theme: FAOSTATDownload.theme 
                 });**/
-				
+                
                 $.getJSON(FAOSTATDownload.prefix + 'config/faostat-download-configuration.json', function(data) {
                     FAOSTATDownloadSelectorsClassic.populateGrid("countries", "gridCountries", FAOSTATDownload.domainCode);
                     FAOSTATDownloadSelectorsClassic.populateGrid("regions", "gridRegions", FAOSTATDownload.domainCode);
@@ -652,7 +692,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                     FAOSTATDownloadSelectorsClassic.populateGrid("items", "gridItems", FAOSTATDownload.domainCode);
                     FAOSTATDownloadSelectorsClassic.populateGrid("itemsaggregated", "gridItemsAggregated", FAOSTATDownload.domainCode);
                     FAOSTATDownloadSelectorsClassic.populateGrid("elements", "gridElements", FAOSTATDownload.domainCode);
-                    FAOSTATDownloadSelectorsClassic.populateGrid("years", "gridYears", FAOSTATDownload.domainCode);	
+                    FAOSTATDownloadSelectorsClassic.populateGrid("years", "gridYears", FAOSTATDownload.domainCode); 
                 });
             }
         },
@@ -674,19 +714,19 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
             document.getElementById('li_years').innerHTML = I18N.translate('_years');
             document.getElementById('output_options_labels').innerHTML = I18N.translate('_outputOptions');
 
- 	    $('#buttonSelectAllCountries-text').append(I18N.translate('_selectAll'));
-	    $('#buttonSelectAllCountries-text').addClass('btnText');
+        $('#buttonSelectAllCountries-text').append(I18N.translate('_selectAll'));
+        $('#buttonSelectAllCountries-text').addClass('btnText');
 
             $('#buttonDeSelectAllCountries-text').append(I18N.translate('_clearSelection'));
             $('#buttonDeSelectAllCountries-text').addClass('btnText');
 
-  	    $('#buttonSelectAllElements-text').append(I18N.translate('_selectAll'));
-	    $('#buttonSelectAllElements-text').addClass('btnText');
+        $('#buttonSelectAllElements-text').append(I18N.translate('_selectAll'));
+        $('#buttonSelectAllElements-text').addClass('btnText');
 
             $('#buttonDeSelectAllElements-text').append(I18N.translate('_clearSelection'));
             $('#buttonDeSelectAllElements-text').addClass('btnText');
 
-	    $('#buttonSelectAllItems-text').append(I18N.translate('_selectAll'));
+        $('#buttonSelectAllItems-text').append(I18N.translate('_selectAll'));
             $('#buttonSelectAllItems-text').addClass('btnText');
 
             $('#buttonDeSelectAllItems-text').append(I18N.translate('_clearSelection'));
@@ -700,7 +740,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
 
         },
         populateGrid : function(codingSystem, gridCode, domainCode) {
-            var	yearTemp=[{
+            var yearTemp=[{
                 "code":"2000",
                 "label":"2000"
             },{
@@ -822,7 +862,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
 //                    $('#buttonExportToCSV')[0].style.display="inline-block";
 //                } else{
 //                    document.getElementById('buttonExportToCSV').style.display="none";
-//				    $('#testinline').empty();
+//                  $('#testinline').empty();
 //                }
 //            });
 //            var targetCodingSystem = FAOSTATDownloadSelectorsClassic.getCodingSystemFromGridCode(gridCode);

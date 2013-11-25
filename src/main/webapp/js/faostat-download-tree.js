@@ -347,7 +347,7 @@ if (!window.FAOSTATDownloadTree) {
                         $("#break").remove();
                         $("#listArea").append("<div id='domainNameTitle' class='standard-title'>" + response[1][1] + " (" + response[1][4].substring(0, 10) + ")</div>");
 			            $("#listArea").append("<hr class='standard-hr'>");
-                       var s = FAOSTATDownloadTree.createList(response);
+                        var s = FAOSTATDownloadTree.createList(response);
                         $("#listArea").append(s);
                     } catch (err) {
                         FAOSTATDownloadTree.loadDownloadNotes(item.value);
