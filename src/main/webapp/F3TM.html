@@ -1,0 +1,215 @@
+<div class="standard-title">Selectors</div>
+
+<hr class="standard-hr">
+
+<div class='download-selector'>
+
+    <div class="obj-box-download">
+
+        <div class="faostat-download-tab" id="tabCountries_reporter">
+            <ul>
+                <li id='li_countries_reporter'>Countries</li>
+                <li id='li_regions_reporter'>Regions</li>
+                <li id='li_special_groups_reporter'>Special Groups</li>
+            </ul>
+            <div id="gridCountries_reporter"></div>
+            <div class="faostat-download-list" id="gridRegions_reporter"></div>
+            <div class="faostat-download-list" id="gridSpecialGroups_reporter"></div>
+        </div>
+
+        <div class='download-selection-buttons'>
+            <a id='buttonSelectAllCountries_reporter' class='btn' title="Export the data">
+                <div class='btn-select-all-icon btnLeftIcon'></div>
+                <div id='buttonSelectAllCountries-text_reporter'></div>
+            </a>
+            <a id='buttonDeSelectAllCountries_reporter' class='btn' title="Export the data">
+                <div class='btn-clear-all-icon btnLeftIcon'></div>
+                <div id='buttonDeSelectAllCountries-text_reporter'></div>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="obj-box-download">
+
+        <div class="faostat-download-tab" id="tabCountries_partner">
+            <ul>
+                <li id='li_countries_partner'>Countries</li>
+                <li id='li_regions_partner'>Regions</li>
+                <li id='li_special_groups_partner'>Special Groups</li>
+            </ul>
+            <div id="gridCountries_partner"></div>
+            <div class="faostat-download-list" id="gridRegions_partner"></div>
+            <div class="faostat-download-list" id="gridSpecialGroups_partner"></div>
+        </div>
+
+        <div class='download-selection-buttons'>
+            <a id='buttonSelectAllCountries_partner' class='btn' title="Export the data">
+                <div class='btn-select-all-icon btnLeftIcon'></div>
+                <div id='buttonSelectAllCountries-text_partner'></div>
+            </a>
+            <a id='buttonDeSelectAllCountries_partner' class='btn' title="Export the data">
+                <div class='btn-clear-all-icon btnLeftIcon'></div>
+                <div id='buttonDeSelectAllCountries-text_partner'></div>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="spacer-one"></div>
+
+<div class='download-selector'>
+
+    <div class="obj-box-download">
+
+        <div class="faostat-download-tab" id="tabItems">
+            <ul>
+                <li id='li_items'>Items</li>
+                <li id='li_items_aggregated'>Items Aggregated</li>
+            </ul>
+            <div id="gridItems"></div>
+            <div class="faostat-download-list" id="gridItemsAggregated"></div>
+        </div>
+
+        <div class='download-selection-buttons'>
+            <a id='buttonSelectAllItems' class='btn' title="Export the data">
+                <div class='btn-select-all-icon btnLeftIcon'></div>
+                <div id='buttonSelectAllItems-text'></div>
+            </a>
+            <a id='buttonDeSelectAllItems' class='btn' title="Export the data">
+                <div class='btn-clear-all-icon btnLeftIcon'></div>
+                <div id='buttonDeSelectAllItems-text'></div>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="obj-box-download">
+
+        <div class="faostat-download-tab" id="tabElements">
+            <ul>
+                <li id='li_elements'>Elements</li>
+            </ul>
+            <div id="gridElements"></div>
+        </div>
+
+        <div class='download-selection-buttons'>
+            <a id='buttonSelectAllElements' class='btn' title="Export the data">
+                <div class='btn-select-all-icon btnLeftIcon'></div>
+                <div id='buttonSelectAllElements-text'></div>
+            </a>
+            <a id='buttonDeSelectAllElements' class='btn' title="Export the data">
+                <div class='btn-clear-all-icon btnLeftIcon'></div>
+                <div id='buttonDeSelectAllElements-text'></div>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="spacer-one"></div>
+
+<style>
+    #agg, #col, #row {
+        list-style-type: none;
+        margin: 0;
+        padding: 0 0 2.5em;
+        float: left;
+        margin-right: 10px;
+    }
+    #agg li, #row li, #col li {
+        margin: 0 5px 5px 5px;
+        padding: 5px;
+    }
+</style>
+
+<div>
+    <div>
+        <div id='output_options_labels' class="standard-title">Output Options</div>
+        <hr class="standard-hr">
+    </div>
+</div>
+
+<div class="download-output-options">
+    <table style='width: 100%;'>
+        <tr>
+            <td style='width: 25%;' class='compare-label' id='wizard_output_type'></td>
+            <td style='width: 25%;' class='compare-label' id='wizard_thousand_separator'></td>
+            <td style='width: 25%;' class='compare-label' id='wizard_decimal_separator'></td>
+            <td style='width: 25%;' class='compare-label' id='wizard_decimal_numbers'></td>
+        </tr>
+        <tr>
+            <td style='width: 25%;'>
+                <div id='options_output_type'></div>
+            </td>
+            <td style='width: 25%;'>
+                <div id='options_thousand_separator'></div>
+            </td>
+            <td style='width: 25%;'>
+                <div id='options_decimal_separator'></div>
+            </td>
+            <td style='width: 25%;'>
+                <div id='options_decimal_numbers'></div>
+            </td>
+        </tr>
+        <tr style="display:none;">
+            <td id='show_flags' style='width: 25%;'></td>
+            <td id='show_codes' style='width: 25%;'></td>
+            <td id='show_units' style='width: 25%;'></td>
+            <td id='show_null_values' style='width: 25%;'></td>
+        </tr>
+        <tr>
+            <td style='width: 25%; padding-top:10px'>
+                <div id='options_show_flags' class='compare-label'>Show Flags</div>
+            </td>
+            <td style='width: 25%; padding-top:10px'>
+                <div id='options_show_codes' class='compare-label'>Show Codes</div>
+            </td>
+            <td style='width: 25%; padding-top:10px'>
+                <div id='options_show_units' class='compare-label'>Show Units</div>
+            </td>
+            <td style='width: 25%; padding-top:10px'>
+                <div id='options_show_null_values' class='compare-label'>Show Null Values</div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<table style='width: 720px; margin-left: 22px;'>
+    <tr>
+        <td>
+            <div class="demo" style="float:left;width:100%; margin-top: 16px;display:none">
+                <div>
+                    <div style='margin-top: 0px;'>
+                        <div style='margin-left: 0px; float: left;' id='olapDimensionConfiguration'>Pivot Dimensions
+                            Configuration
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div style='margin-top: 5px; margin-left: 5px; '>
+                        <ul id="agg" class="connectedSortable" style="display:none">
+                            <li class="ui-state-default ui-state-disabled">Not Used</li>
+                        </ul>
+                        <ul id="nestedBy" class="connectedSortable">
+                            <li class="ui-state-default ui-state-disabled">Nested By</li>
+                        </ul>
+                        <ul id="row" class="connectedSortable">
+                            <li class="ui-state-default ui-state-disabled">Rows</li>
+                            <li class="ui-state-default" id="sel_2">Items</li>
+                            <li class="ui-state-default" id="sel_3">Years</li>
+                        </ul>
+                        <ul id="col" class="connectedSortable">
+                            <li class="ui-state-default ui-state-disabled">Columns</li>
+                            <li class="ui-state-default" id="sel_0">Elements</li>
+                            <li class="ui-state-default" id="sel_1">countries</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
