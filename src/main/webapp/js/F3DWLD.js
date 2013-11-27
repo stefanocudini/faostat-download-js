@@ -373,7 +373,7 @@ var F3DWLD = (function() {
 
                     $('#output_area').empty();
                     $('#output_area').append('<div class="single-result-table-title">Please note: the preview is limited to ' + F3DWLD.CONFIG.tablelimit + ' rows.</div>');
-                    $('#output_area').append('<div style="padding-top:10px; width:'+ F3DWLD.CONFIG.widthTable +'">' + response + '</div>');
+                    $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:'+ F3DWLD.CONFIG.widthTable +'">' + response + '</div>');
 
                     $('#OLAP_IFRAME').css('display', 'none');
                     $('#output_area').css('margin', '0');
