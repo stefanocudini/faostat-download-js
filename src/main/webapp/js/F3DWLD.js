@@ -647,6 +647,7 @@ var F3DWLD = (function() {
             F3DWLD.CONFIG.tablelimit   =   data.tablelimit;
             F3DWLD.CONFIG.groupCode    =   groupCode;
             F3DWLD.CONFIG.domainCode   =   domainCode;
+            F3DWLD.CONFIG.lang         =   language;
 
             switch (language) {
                 case 'FR' : F3DWLD.CONFIG.lang = 'F'; break;
