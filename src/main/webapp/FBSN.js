@@ -65,7 +65,7 @@ FAOSTATFBS.traduction={
         supply:"Disponibilite",
         utilisation:"Utilisation",
         showcode:"Voir Code",
-        domestic:"Disponibilité intérieure /Utilisation"
+        domestic:"DisponibilitÃ© intÃ©rieure /Utilisation"
     },
 
     E:{
@@ -109,44 +109,48 @@ FAOSTATFBS.myIndex={
     5072:3,
     5911:4,
     5301:5,
-    5521:6,
-    5527:7,
-    5131:8,
-    5154:9,
-    5142:10,
-    645:11,
-    664:12,
-    674:13,
-    684:14
+    5142:6,
+    5131:7,
+    5521:8,
+	5527:9,
+    5123:10,
+    5154:11,
+    645:12,
+    664:13,
+    674:14,
+    684:15
 };
 
 FAOSTATFBS.myIndexNoDom={
     5511:1,
     5611:2,
     5072:3,
-    5911:5,
+    5123:9,
     5301:4,
-    5521:6,
-    5527:7,
-    5131:8,
-    5154:9,
-    5142:10,
-    645:11,
-    664:12,
-    674:13,
-    684:14
+    5521:7,
+    5527:8,
+    5131:6,
+	5911:10,
+    5154:11,
+    5142:5,
+    645:12,
+    664:13,
+    674:14,
+    684:15
 };
-//Waste out {t:"Waste",v:5123},
+//Waste out {t:"Waste",v:5123},t:"Exp.",    v:5911,
 FAOSTATFBS.header=[
 {
     t:"Prod.",
     v:5511,
     E:"Prod-"
+	
 },
 {
     t:"Impo.",
     v:5611,
     E:"Impo-"
+	
 },
 {
     t:"Stock Var.",
@@ -164,6 +168,17 @@ FAOSTATFBS.header=[
     E:"Total"
 },
 {
+    t:"Food",
+    v:5142,
+    E:"Alimentos"
+},
+{
+    t3:"Processing",
+    t:"Food Manu",
+    v:5131,
+    E:"Manu/alim"
+},
+{
     t:"Feed",
     v:5521,
     E:"Alim-"
@@ -174,10 +189,9 @@ FAOSTATFBS.header=[
     E:"Semi-"
 },
 {
-    t3:"Processing",
-    t:"Food Manu",
-    v:5131,
-    E:"Manu/alim"
+    t:"Waste",
+    v:5123,
+    E:"Waste"
 },
  
 {
@@ -186,11 +200,6 @@ FAOSTATFBS.header=[
     v:5154,
     E:"Usos"
 },//;628
-{
-    t:"Food",
-    v:5142,
-    E:"Alimentos"
-},
 {
     t:"Kg / Yr",
     v:645,
@@ -236,9 +245,15 @@ FAOSTATFBS.headerNoDom=[
     E:"Total"
 },
 {
-    t:"Exp.",
-    v:5911,
-    E:"Exp-"
+    t:"Food",
+    v:5142,
+    E:"Alimentos"
+},
+{
+    t3:"Processing",
+    t:"Food Manu",
+    v:5131,
+    E:"Manu/alim"
 },
 {
     t:"Feed",
@@ -251,10 +266,14 @@ FAOSTATFBS.headerNoDom=[
     E:"Semi-"
 },
 {
-    t3:"Processing",
-    t:"Food Manu",
-    v:5131,
-    E:"Manu/alim"
+    t:"Waste",
+    v:5123,
+    E:"Waste"
+},
+ {
+    t:"Exp.",
+    v:5911,
+    E:"Exp."
 },
  
 {
@@ -263,11 +282,7 @@ FAOSTATFBS.headerNoDom=[
     v:5154,
     E:"Usos"
 },//;628
-{
-    t:"Food",
-    v:5142,
-    E:"Alimentos"
-},
+
 {
     t:"Kg / Yr",
     v:645,
@@ -869,9 +884,9 @@ FAOSTATFBS.showData=function()
                     var cell = document.createElement("th");
                     cell.setAttribute("id","thTitle");
                     if(document.getElementById("showCode").checked){
-                        cell.colSpan=12;
+                        cell.colSpan=13;
                     }else{
-                        cell.colSpan=11;
+                        cell.colSpan=12;
                     }
                     var txtCell = document.createTextNode(document.getElementById("sCountry").getElementsByTagName("option")[document.getElementById("sCountry").selectedIndex].innerHTML);
                     cell.appendChild(txtCell);
@@ -902,9 +917,9 @@ FAOSTATFBS.showData=function()
                     //  row.style.height="40px";
                     var cell = document.createElement("th");
                     if(document.getElementById("showCode").checked){
-                        cell.colSpan=11;
+                        cell.colSpan=12;
                     }else{
-                        cell.colSpan=10;
+                        cell.colSpan=11;
                     }
                     cell.setAttribute("id","emptyPop");
                     cell.setAttribute("class","thPopEmpty");
@@ -940,7 +955,7 @@ FAOSTATFBS.showData=function()
 	
                     var myA=document.createElement("div");
                     myA.setAttribute("class","various myButton");
-                    myA.setAttribute("id","btnFS");
+                    myA.setAttribute("id","btnFS2");
                     myA.setAttribute("data-fancybox-type","iframe");
                     myA.setAttribute("href","/faostat-download-js/popup.jsp");
                     myA.setAttribute("target","myFanzy");
@@ -1021,11 +1036,11 @@ FAOSTATFBS.showData=function()
 
                     var cell = document.createElement("th");
                     if(document.getElementById("showDomestic").checked){
-                        cell.colSpan=5;
+                        cell.colSpan=6;
                         var txtCell = document.createTextNode(FAOSTATFBS.traduction[FAOSTATFBS.lang].domesticutilization);//trad
                     }
                     else{
-                        cell.colSpan=6;
+                        cell.colSpan=7;
                         var txtCell = document.createTextNode(FAOSTATFBS.traduction[FAOSTATFBS.lang].utilisation);//trad
                     }
                     cell.setAttribute("class","bgBlue");
@@ -1044,7 +1059,7 @@ FAOSTATFBS.showData=function()
                     var row = document.createElement("tr");
                     {
                         var cell = document.createElement("th");
-                        cell.colSpan=10;
+                        cell.colSpan=11;
                         var txtCell = document.createTextNode(FAOSTATFBS.traduction[FAOSTATFBS.lang].metricstons);//trad
                         cell.appendChild(txtCell);
                         row.appendChild(cell);
@@ -1347,9 +1362,9 @@ else
             var cell = document.createElement("th");
 
             if(document.getElementById("showCode").checked){
-                cell.colSpan=12;
+                cell.colSpan=13;
             }else{
-                cell.colSpan=11;
+                cell.colSpan=12;
             }
             cell.setAttribute("id","thTitle");
             var txtCell = document.createTextNode(document.getElementById("sItem").getElementsByTagName("option")[document.getElementById("sItem").selectedIndex].innerHTML);
@@ -1375,10 +1390,10 @@ else
             //row.style.height="40px";
             var cell = document.createElement("th");
             if(document.getElementById("showCode").checked){
-                cell.colSpan=16;
+                cell.colSpan=17;
             }
             else{
-                cell.colSpan=15;
+                cell.colSpan=16;
             }
             cell.setAttribute("id","emptyPop");
             cell.setAttribute("class","thPopEmpty");
@@ -1413,7 +1428,7 @@ else
 	
             var myA=document.createElement("div");
             myA.setAttribute("class","various myButton");
-            myA.setAttribute("id","btnFS");
+            myA.setAttribute("id","btnFS2");
             myA.setAttribute("data-fancybox-type","iframe");
             myA.setAttribute("href","/faostat-download-js/popup.jsp");
             myA.setAttribute("target","myFanzy");
@@ -1430,9 +1445,9 @@ else
             row.setAttribute("class","invi");
             var cell = document.createElement("th");
             if(document.getElementById("showCode").checked){
-                cell.colSpan=16;
+                cell.colSpan=17;
             }else{
-                cell.colSpan=15;
+                cell.colSpan=16;
             }
             cell.appendChild(myFilter2Button);
             cell.appendChild(myFilter3Button);
@@ -1481,11 +1496,11 @@ else
 
             var cell = document.createElement("th");
             if(document.getElementById("showDomestic").checked){
-                cell.colSpan=5;
+                cell.colSpan=6;
                 var txtCell = document.createTextNode(FAOSTATFBS.traduction[FAOSTATFBS.lang].domesticutilization);
             }
             else{
-                cell.colSpan=6;
+                cell.colSpan=7;
                 var txtCell = document.createTextNode(FAOSTATFBS.traduction[FAOSTATFBS.lang].utilisation);
             }
             //trad
@@ -1506,7 +1521,7 @@ else
             var row = document.createElement("tr");
 
             var cell = document.createElement("th");
-            cell.colSpan=10;
+            cell.colSpan=11;
             var txtCell = document.createTextNode(FAOSTATFBS.traduction[FAOSTATFBS.lang].metricstons);//trad
             cell.appendChild(txtCell);
             row.appendChild(cell);
@@ -1849,7 +1864,7 @@ FAOSTATFBS.writeTR=function(tb,line,id)
     var row = document.createElement("tr");
     row.setAttribute("id",id);
     row.setAttribute("class","visifb");
-    for(var i=0;i<15;i++)
+    for(var i=0;i<16;i++)
     {
         if(i==0){ 
             var text="";
@@ -1893,7 +1908,7 @@ FAOSTATFBS.writeTR=function(tb,line,id)
                 if(i<6){
                     cell.className="td1";
                 }
-                else if(i<11){
+                else if(i<12){
                             cell.className="td2";
                         }
                 else{
@@ -1904,7 +1919,7 @@ FAOSTATFBS.writeTR=function(tb,line,id)
                 if(i<5){
                     cell.className="td1";
                 }
-                else if(i<11){
+                else if(i<12){
                     cell.className="td2";
                 }
                 else{
