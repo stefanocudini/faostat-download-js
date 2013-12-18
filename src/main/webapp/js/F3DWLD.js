@@ -1,7 +1,7 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        prefix              :   'http://localhost:8080/faostat-download-js/',
+        prefix              :   'http://faostat3.fao.org:10200/faostat-download-js/',
         configurationURL    :   'config/faostat-download-configuration.json',
         dbPrefix            :   'FAOSTAT_',
         dsdURL              :   'http://hqlprfenixapp2.hq.un.fao.org:4242/d3sp/service/msd/dm/',
@@ -35,7 +35,6 @@ var F3DWLD = (function() {
     function collectListCodes() {
 
         var doTheCall = callListCodesREST();
-        console.log('doTheCall? ' + doTheCall);
 
         if (doTheCall) {
 
