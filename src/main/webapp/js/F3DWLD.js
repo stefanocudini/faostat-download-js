@@ -1,10 +1,10 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        prefix              :   'http://faostat3.fao.org:10200/faostat-download-js/',
+        prefix              :   'http://faostat3.fao.org/faostat-download-js/',
         configurationURL    :   'config/faostat-download-configuration.json',
         dbPrefix            :   'FAOSTAT_',
-        dsdURL              :   'http://hqlprfenixapp2.hq.un.fao.org:4242/d3sp/service/msd/dm/',
+	dsdURL              :   'http://faostat3.fao.org/d3sp/service/msd/dm/',
         theme               :   'faostat',
         tradeMatrices       :   ['FT', 'TM'],
         lang                :   'E',
@@ -684,7 +684,7 @@ var F3DWLD = (function() {
                 F3DWLD.CONFIG.dsd = json.dsd;
 
                 /* Build UI structure. */
-             			    $('#testinline').empty();
+                			    $('#testinline').empty();
               if(F3DWLD.CONFIG.domainCode=="FB" /*&& F3DWLD.CONFIG.groupCode!="FB"*/)
 				{
 				 
@@ -712,6 +712,8 @@ var F3DWLD = (function() {
     };
 
     function buildUIStructure() {
+        $('#mainTD').hide();
+        $('#OLAPTD').show();
         var s = '';
         s += '<div class="standard-title">' + $.i18n.prop('_selectors') + '</div>';
         s += '<hr class="standard-hr">';
