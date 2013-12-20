@@ -73,8 +73,10 @@ if (!window.FAOSTATDownloadTree) {
 //                    FAOSTATDownloadTree.populateTree(data, selectedDomain);
 
                     FAOSTATDownloadTree.populateTree(data, FAOSTATDownload.groupCode);
-                }).error(function(jqXHR, textStatus, errorThrown) {console.log("error " + textStatus);
-        console.log("incoming Text " + jqXHR.responseText); });
+                }).error(function(jqXHR, textStatus, errorThrown) {
+                    console.log("error " + textStatus);
+                    console.log("incoming Text " + jqXHR.responseText); 
+                });
 
             }
 
@@ -166,6 +168,10 @@ if (!window.FAOSTATDownloadTree) {
                 FAOSTATDownload.showDownloadOptionsAndButtons(false);
 				document.getElementById('testinline').className="invi";
                 FAOSTATDownloadTree.innerLinks();
+
+                $('#mainTD').hide();
+                $('#OLAPTD').show();
+
             });
 
             // Upgrade the URL
@@ -337,6 +343,11 @@ if (!window.FAOSTATDownloadTree) {
                 url: 'http://' + FAOSTATDownload.baseurl + '/wds/rest/bulkdownloads/' + FAOSTATDownload.datasource + '/' + item.value + '/' + FAOSTATDownload.language,
                 dataType: 'json',
                 success: function (response) {
+                    if (item.value == 'FB' || item.value == 'FL') {
+                        $('#mainTD').hide();
+                        $('#OLAPTD').show();
+                    
+                    }
                     $('#OLAP_IFRAME').css('display', 'none');
                     try {
                         document.getElementById('listArea').innerHTML = "";
