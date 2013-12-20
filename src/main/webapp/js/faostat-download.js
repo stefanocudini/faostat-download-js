@@ -3,7 +3,7 @@ if (!window.FAOSTATDownload) {
     window.FAOSTATDownload = {
 		
         /** To be used to deploy this code under FENIX FAOSTAT */
-        prefix : 'http://faostat3.fao.org:10200/faostat-download-js/',
+        prefix : 'http://faostat3.fao.org/faostat-download-js/',
 
         MyMetaData : {
             "AS" : {
@@ -120,6 +120,9 @@ if (!window.FAOSTATDownload) {
         },
 
         showFB:function(){
+  $('#mainTD').show();
+                        $('#OLAPTD').hide();
+
             if (navigator.appVersion.indexOf("MSIE 7.") == -1 ){
                 $.ajax({
                     type: 'GET',
@@ -152,6 +155,8 @@ if (!window.FAOSTATDownload) {
             var item = {};
             // item.value = FAOSTATDownload.selectedDomainCode;
             item.value = FAOSTATDownload.domainCode;
+            if (FAOSTATDownload.domainCode == 'null' || FAOSTATDownload.domainCode == '*' || FAOSTATDownload.domainCode == null || FAOSTATDownload.domainCode == 'FB')
+              item.value = 'FB';
             FAOSTATDownloadTree.showBulkDownloads(item);
             CPI.removeCPITableNotes();
         },
@@ -203,6 +208,8 @@ if (!window.FAOSTATDownload) {
                         });
                     } // classic
                     else {
+
+
                         $.ajax({
                             type: 'GET',
                             url: FAOSTATDownload.prefix + 'faostat-download-selectors-classic.html',
@@ -517,8 +524,6 @@ if (!window.FAOSTATDownload) {
                 var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
                 if (item.value=="pivot")
                 {// window.FAOSTATDownloadSelectorsClassic.falseclick();
-                     
-                     
                      STATS.exportPivotDownloadStandard();
 				var footNotes="";
 				if(typeof FAOSTATDownload.MyMetaData[FAOSTATDownload.domainCode]!="undefined")
@@ -541,12 +546,7 @@ if (!window.FAOSTATDownload) {
 		$('#testinline').empty();
 //                document.geElementById('output_area').innerHTML = '';
                 var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
-                if (item.value=="pivot"){
-                   /* alert("test");
-                     C.collect(true);
-                     console.log(C);
-                    window.FAOSTATDownloadSelectorsClassic.falseclick();
-                */
+                if (item.value=="pivot"){ window.FAOSTATDownloadSelectorsClassic.falseclick();
                 } else {
                     C.collect(true);
                     STATS.showTableDownloadStandard(FAOSTATDownload.selectedDomainCode);
