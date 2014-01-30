@@ -1,10 +1,11 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        prefix              :   'http://faostat3.fao.org/faostat-download-js/',
+        prefix              :   'http://localhost:8080/faostat-download-js/',
+        CPINotes_url        :   'http://localhost:8080/wds/rest/procedures/cpinotes',
         configurationURL    :   'config/faostat-download-configuration.json',
         dbPrefix            :   'FAOSTAT_',
-	dsdURL              :   'http://faostat3.fao.org/d3sp/service/msd/dm/',
+	    dsdURL              :   'http://faostat3.fao.org/d3sp/service/msd/dm/',
         theme               :   'faostat',
         tradeMatrices       :   ['FT', 'TM'],
         lang                :   'E',
@@ -374,6 +375,10 @@ var F3DWLD = (function() {
                     $('#output_area').append('<div class="single-result-table-title">Please note: the preview is limited to ' + F3DWLD.CONFIG.tablelimit + ' rows.</div>');
                     $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:'+ F3DWLD.CONFIG.widthTable +'">' + response + '</div>');
 
+                    if (F3DWLD.CONFIG.domainCode == 'CP') {
+                        getCPINotesByProcedures();
+                    }
+
                     $('#OLAP_IFRAME').css('display', 'none');
                     $('#output_area').css('margin', '0');
 
@@ -420,6 +425,57 @@ var F3DWLD = (function() {
 
         }
 
+    };
+
+    function getCPINotesByProcedures() {
+
+        var s = '<H1>CPI Notes</H1>';
+        s += '<br>';
+
+        var url = F3DWLD.CONFIG.CPINotes_url + '/' + F3DWLD.CONFIG.datasource + '/';
+        url += JSON.stringify(collectCountries()) + '/';
+        url += JSON.stringify(collectYears()) + '/';
+        url += JSON.stringify(collectItems()) + '/';
+        url += F3DWLD.CONFIG.lang;
+
+        $.ajax({
+
+            type : 'GET',
+            url  : url,
+
+            success : function(response) {
+
+                var json = response;
+                if (typeof(json) == 'string')
+                    json = $.parseJSON(response);
+
+                s += '<table class="dataTable">';
+                s += '<thead>';
+                s += '<tr>';
+                s += '<th>Country</th><th>Year</th><th>Item</th><th>Note</th>';
+                s += '</tr>';
+                s += '</thead>';
+                s += '<tbody>';
+                for (var i = 0 ; i < json.length ; i++) {
+                    s += '<tr>';
+                    for (var j = 0 ; j < json[i].length ; j++)
+                        s += '<td>' + json[i][j] + '</td>';
+                    s += '</tr>';
+                }
+                s += '</tbody>';
+                s += '</table>';
+
+                $('#output_area').append('<br>');
+                $('#output_area').append(s);
+            },
+
+            error : function(err, b, c) {
+
+            }
+
+        });
+
+        return s;
     };
 
     function showCPINotes() {
@@ -825,7 +881,10 @@ var F3DWLD = (function() {
                         }
                     } else {
                         if (codingSystem == 'elements') {
-                            lbl = json[i].label + ' (' + json[i].unit + ')';
+                            if (json[i].unit.length > 0)
+                                lbl = json[i].label + ' (' + json[i].unit + ')';
+                            else
+                                lbl = json[i].label;
                         } else {
                             lbl = json[i].label;
                         }
