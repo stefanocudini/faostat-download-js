@@ -389,7 +389,7 @@ var F3DWLD = (function() {
                         STATS.showTableDownloadStandard();
                     }
 
-                    showCPINotes();
+//                    showCPINotes();
 
                 },
 
@@ -432,16 +432,20 @@ var F3DWLD = (function() {
         var s = '<H1>CPI Notes</H1>';
         s += '<br>';
 
-        var url = F3DWLD.CONFIG.CPINotes_url + '/' + F3DWLD.CONFIG.datasource + '/';
-        url += JSON.stringify(collectCountries()) + '/';
-        url += JSON.stringify(collectYears()) + '/';
-        url += JSON.stringify(collectItems()) + '/';
-        url += F3DWLD.CONFIG.lang;
+        var data = {};
+        var p = {};
+        p.datasource = F3DWLD.CONFIG.datasource;
+        p.lang = F3DWLD.CONFIG.lang;
+        p.areaCodes = collectCountries();
+        p.yearCodes = collectYears();
+        p.itemCodes = collectItems();
+        data.payload = JSON.stringify(p);
 
         $.ajax({
 
-            type : 'GET',
-            url  : url,
+            type : 'POST',
+            url  : F3DWLD.CONFIG.CPINotes_url,
+            data : data,
 
             success : function(response) {
 
@@ -467,6 +471,7 @@ var F3DWLD = (function() {
 
                 $('#output_area').append('<br>');
                 $('#output_area').append(s);
+
             },
 
             error : function(err, b, c) {
