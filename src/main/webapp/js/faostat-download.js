@@ -50,7 +50,6 @@ if (!window.FAOSTATDownload) {
         domainCode : null,
 
         init : function(groupCode, domainCode, language) {
-            console.log(groupCode);
             FAOSTATDownload.initUI(groupCode, domainCode, language);
         },
 

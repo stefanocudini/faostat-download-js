@@ -745,27 +745,24 @@ var F3DWLD = (function() {
                 F3DWLD.CONFIG.dsd = json.dsd;
 
                 /* Build UI structure. */
-                			    $('#testinline').empty();
-              if(F3DWLD.CONFIG.domainCode=="FB" /*&& F3DWLD.CONFIG.groupCode!="FB"*/)
-				{
-				 
-                    document.getElementById('trWizardMode').className="visi2";
-					document.getElementById('OLAPTD').className="invi";
-                    document.getElementById('mainTD').className="invi";
-					document.getElementById('testinline').className="invi";
-				FAOSTATDownload.showFB();}
-				else{
-				document.getElementById('OLAPTD').className="visi2";
-				 document.getElementById('mainTD').className="invi";
-				buildUIStructure();}
+                $('#testinline').empty();
+                if(F3DWLD.CONFIG.domainCode == 'FB') {
+				    document.getElementById('trWizardMode').className = 'visi2';
+					document.getElementById('OLAPTD').className = 'invi';
+                    document.getElementById('mainTD').className = 'invi';
+					document.getElementById('testinline').className = 'invi' ;
+				    FAOSTATDownload.showFB();
+                } else {
+				    document.getElementById('OLAPTD').className = 'visi2';
+				    document.getElementById('mainTD').className = 'invi';
+				    buildUIStructure();
+                }
 
             },
 
             /* Error */
             error : function(err, b, c) {
-                console.log(err);
-                console.log(b);
-                console.log(c);
+                alert('Domain code ' + F3DWLD.CONFIG.domainCode + ' has no DSD.');
             }
 
         });
@@ -773,6 +770,10 @@ var F3DWLD = (function() {
     };
 
     function buildUIStructure() {
+
+        for (var i = 0 ; i < F3DWLD.CONFIG.dsd.columns.length ; i++)
+            console.log(F3DWLD.CONFIG.dsd.columns[i].dimension.name);
+
         $('#mainTD').hide();
         $('#OLAPTD').show();
         var s = '';
@@ -945,6 +946,22 @@ var F3DWLD = (function() {
         $('#buttonSelectAllYears-text').addClass('btnText');
         $('#buttonDeSelectAllYears-text').append($.i18n.prop('_clearSelection'));
         $('#buttonDeSelectAllYears-text').addClass('btnText');
+        $('#buttonSelectAllFlows-text').append($.i18n.prop('_selectAll'));
+        $('#buttonSelectAllFlows-text').addClass('btnText');
+        $('#buttonDeSelectAllFlows-text').append($.i18n.prop('_clearSelection'));
+        $('#buttonDeSelectAllFlows-text').addClass('btnText');
+        $('#buttonSelectAllPurposes-text').append($.i18n.prop('_selectAll'));
+        $('#buttonSelectAllPurposes-text').addClass('btnText');
+        $('#buttonDeSelectAllPurposes-text').append($.i18n.prop('_clearSelection'));
+        $('#buttonDeSelectAllPurposes-text').addClass('btnText');
+        $('#buttonSelectAllCountries-text_donor').append($.i18n.prop('_selectAll'));
+        $('#buttonSelectAllCountries-text_donor').addClass('btnText');
+        $('#buttonDeSelectAllCountries-text_donor').append($.i18n.prop('_clearSelection'));
+        $('#buttonDeSelectAllCountries-text_donor').addClass('btnText');
+        $('#buttonSelectAllCountries-text_recipient').append($.i18n.prop('_selectAll'));
+        $('#buttonSelectAllCountries-text_recipient').addClass('btnText');
+        $('#buttonDeSelectAllCountries-text_recipient').append($.i18n.prop('_clearSelection'));
+        $('#buttonDeSelectAllCountries-text_recipient').addClass('btnText');
 
         /* Download button. */
         $('#buttonExportToCSV').bind('click', function() {
@@ -1358,6 +1375,42 @@ var renderers = $.extend($.pivotUtilities.renderers,$.pivotUtilities.gchart_rend
                 s += '</a>';
                 s += '</div>';
                 break;
+            case 'GEO_DONOR' :
+                s += '<div class="faostat-download-tab" id="tabCountries_donor">';
+                s += '<ul>';
+                s += '<li id="li_countries_donor">' + $.i18n.prop('_donors') + '</li>';
+                s += '</ul>';
+                s += ' <div id="gridCountries_donor"></div>';
+                s += '</div>';
+                s += '<div class="download-selection-buttons">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridCountries_donor\', \'' + true + '\');" id="buttonSelectAllCountries_donor" class="btn">';
+                s += '<div class="btn-select-all-icon btnLeftIcon"></div>';
+                s += '<div id="buttonSelectAllCountries-text_donor"></div>';
+                s += '</a>';
+                s += '<a onclick="F3DWLD.selectAll(\'gridCountries_donor\', \'' + false + '\');" id="buttonDeSelectAllCountries_donor" class="btn">';
+                s += '<div class="btn-clear-all-icon btnLeftIcon"></div>';
+                s += '<div id="buttonDeSelectAllCountries-text_donor"></div>';
+                s += '</a>';
+                s += '</div>';
+                break;
+            case 'GEO_RECIPIENT' :
+                s += '<div class="faostat-download-tab" id="tabCountries_recipient">';
+                s += '<ul>';
+                s += '<li id="li_countries_recipient">' + $.i18n.prop('_recipients') + '</li>';
+                s += '</ul>';
+                s += ' <div id="gridCountries_recipient"></div>';
+                s += '</div>';
+                s += '<div class="download-selection-buttons">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridCountries_recipient\', \'' + true + '\');" id="buttonSelectAllCountries_recipient" class="btn">';
+                s += '<div class="btn-select-all-icon btnLeftIcon"></div>';
+                s += '<div id="buttonSelectAllCountries-text_recipient"></div>';
+                s += '</a>';
+                s += '<a onclick="F3DWLD.selectAll(\'gridCountries_recipient\', \'' + false + '\');" id="buttonDeSelectAllCountries_recipient" class="btn">';
+                s += '<div class="btn-clear-all-icon btnLeftIcon"></div>';
+                s += '<div id="buttonDeSelectAllCountries-text_recipient"></div>';
+                s += '</a>';
+                s += '</div>';
+                break;
             case 'ITEM' :
                 s += '<div class="faostat-download-tab" id="tabItems">';
                 s += '<ul>';
@@ -1393,6 +1446,42 @@ var renderers = $.extend($.pivotUtilities.renderers,$.pivotUtilities.gchart_rend
                 s += '<a onclick="F3DWLD.selectAll(\'gridElements\', \'' + false + '\');" id="buttonDeSelectAllElements" class="btn">';
                 s += '<div class="btn-clear-all-icon btnLeftIcon"></div>';
                 s += '<div id="buttonDeSelectAllElements-text"></div>';
+                s += '</a>';
+                s += '</div>';
+                break;
+            case 'PURPOSE' :
+                s += '<div class="faostat-download-tab" id="tabPurposes">';
+                s += '<ul>';
+                s += '<li id="li_purposes">' + $.i18n.prop('_purposes') + '</li>';
+                s += '</ul>';
+                s += '<div id="gridPurposes"></div>';
+                s += '</div>';
+                s += '<div class="download-selection-buttons">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridPurposes\', \'' + true + '\');" id="buttonSelectAllPurposes" class="btn">';
+                s += '<div class="btn-select-all-icon btnLeftIcon"></div>';
+                s += '<div id="buttonSelectAllPurposes-text"></div>';
+                s += '</a>';
+                s += '<a onclick="F3DWLD.selectAll(\'gridPurposes\', \'' + false + '\');" id="buttonDeSelectAllPurposes" class="btn">';
+                s += '<div class="btn-clear-all-icon btnLeftIcon"></div>';
+                s += '<div id="buttonDeSelectAllPurposes-text"></div>';
+                s += '</a>';
+                s += '</div>';
+                break;
+            case 'FLOW' :
+                s += '<div class="faostat-download-tab" id="tabFlows">';
+                s += '<ul>';
+                s += '<li id="li_flows">' + $.i18n.prop('_flows') + '</li>';
+                s += '</ul>';
+                s += '<div id="gridFlows"></div>';
+                s += '</div>';
+                s += '<div class="download-selection-buttons">';
+                s += '<a onclick="F3DWLD.selectAll(\'gridFlows\', \'' + true + '\');" id="buttonSelectAllFlows" class="btn">';
+                s += '<div class="btn-select-all-icon btnLeftIcon"></div>';
+                s += '<div id="buttonSelectAllFlows-text"></div>';
+                s += '</a>';
+                s += '<a onclick="F3DWLD.selectAll(\'gridFlows\', \'' + false + '\');" id="buttonDeSelectAllFlows" class="btn">';
+                s += '<div class="btn-clear-all-icon btnLeftIcon"></div>';
+                s += '<div id="buttonDeSelectAllFlows-text"></div>';
                 s += '</a>';
                 s += '</div>';
                 break;
