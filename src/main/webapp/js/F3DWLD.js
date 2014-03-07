@@ -192,7 +192,7 @@ var F3DWLD = (function() {
         F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"E.ElementName" + F3DWLD.CONFIG.lang, "alias": $.i18n.prop('_export_element')};
 
         if (F3DWLD.CONFIG.wdsPayload.showCodes)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementCode", "alias": $.i18n.prop('_export_element_code').replace(' ', '_')};
+            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementListCode", "alias": $.i18n.prop('_export_element_code').replace(' ', '_')};
 
         F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.Year", "alias": $.i18n.prop('_export_year')};
 
@@ -228,7 +228,7 @@ var F3DWLD = (function() {
                                                    {"datatype": "DATE", "column": "D.ElementCode", "operator": "=","value": "E.ElementCode", "ins": []}];
 
         if (elements != null)
-            F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype": "TEXT", "column": "D.ElementCode", "operator": "IN", "value": "E.ElementCode", "ins": elements};
+            F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype": "TEXT", "column": "D.ElementListCode", "operator": "IN", "value": "E.ElementListCode", "ins": elements};
         if (countries != null)
             F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype":"TEXT","column":"D.ReporterAreaCode","operator":"IN","value":"A1.AreaCode","ins": countries};
         if (countries_dst != null)
@@ -275,7 +275,7 @@ var F3DWLD = (function() {
         F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"E.ElementName" + F3DWLD.CONFIG.lang, "alias": $.i18n.prop('_export_element')};
 
         if (F3DWLD.CONFIG.wdsPayload.showCodes)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementCode", "alias": $.i18n.prop('_export_element_code').replace(' ', '_')};
+            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementListCode", "alias": $.i18n.prop('_export_element_code').replace(' ', '_')};
 
         F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.Year", "alias": $.i18n.prop('_export_year')};
 
@@ -308,7 +308,7 @@ var F3DWLD = (function() {
                                                    {"datatype": "DATE", "column": "D.ElementCode", "operator": "=","value": "E.ElementCode", "ins": []}];
 
         if (elements != null)
-            F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype": "TEXT", "column": "D.ElementCode", "operator": "IN", "value": "E.ElementCode", "ins": elements};
+            F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype": "TEXT", "column": "D.ElementListCode", "operator": "IN", "value": "E.ElementListCode", "ins": elements};
         if (countries != null)
             F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype":"TEXT","column":"D.AreaCode","operator":"IN","value":"A.AreaCode","ins": countries};
         if (items != null)
@@ -930,14 +930,14 @@ var F3DWLD = (function() {
                                 }
                             }
                         } else {
-                            if (codingSystem == 'elements') {
-                                if (json[i].unit.length > 0)
-                                    lbl = json[i].label + ' (' + json[i].unit + ')';
-                                else
-                                    lbl = json[i].label;
-                            } else {
+//                            if (codingSystem == 'elements') {
+//                                if (json[i].unit.length > 0)
+//                                    lbl = json[i].label + ' (' + json[i].unit + ')';
+//                                else
+//                                    lbl = json[i].label;
+//                            } else {
                                 lbl = json[i].label;
-                            }
+//                            }
                         }
                         var option = '<option class="grid-element" data-faostat="' + json[i].code + '" data-label="' + lbl + '" data-type="' + json[i].type + '">' + lbl + '</option>';
                         select += option;
