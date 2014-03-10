@@ -841,7 +841,6 @@ var F3DWLD = (function() {
             enhanceUIGrid('elements', 'gridElements');
         } else {
             if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
-                console.log(F3DWLD.CONFIG.domainCode);
                 enhanceUIGrid('reporters', 'gridCountries');
                 enhanceUIGrid('partners', 'gridCountries_dst');
                 enhanceUIGrid('regions', 'gridRegions_dst');
@@ -850,11 +849,11 @@ var F3DWLD = (function() {
                 enhanceUIGrid('countries', 'gridCountries');
                 enhanceUIGrid('regions', 'gridRegions');
                 enhanceUIGrid('specialgroups', 'gridSpecialGroups');
-                enhanceUIGrid('items', 'gridItems');
-                enhanceUIGrid('itemsaggregated', 'gridItemsAggregated');
-                enhanceUIGrid('elements', 'gridElements');
-                enhanceUIGrid('years', 'gridYears');
             }
+            enhanceUIGrid('items', 'gridItems');
+            enhanceUIGrid('itemsaggregated', 'gridItemsAggregated');
+            enhanceUIGrid('elements', 'gridElements');
+            enhanceUIGrid('years', 'gridYears');
         }
     };
 
