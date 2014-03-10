@@ -840,17 +840,20 @@ var F3DWLD = (function() {
             enhanceUIGrid('year', 'gridYears');
             enhanceUIGrid('elements', 'gridElements');
         } else {
-            enhanceUIGrid('countries', 'gridCountries');
-            enhanceUIGrid('regions', 'gridRegions');
-            enhanceUIGrid('specialgroups', 'gridSpecialGroups');
-            enhanceUIGrid('items', 'gridItems');
-            enhanceUIGrid('itemsaggregated', 'gridItemsAggregated');
-            enhanceUIGrid('elements', 'gridElements');
-            enhanceUIGrid('years', 'gridYears');
             if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
-                enhanceUIGrid('countries', 'gridCountries_dst');
+                console.log(F3DWLD.CONFIG.domainCode);
+                enhanceUIGrid('reporters', 'gridCountries');
+                enhanceUIGrid('partners', 'gridCountries_dst');
                 enhanceUIGrid('regions', 'gridRegions_dst');
                 enhanceUIGrid('specialgroups', 'gridSpecialGroups_dst');
+            } else {
+                enhanceUIGrid('countries', 'gridCountries');
+                enhanceUIGrid('regions', 'gridRegions');
+                enhanceUIGrid('specialgroups', 'gridSpecialGroups');
+                enhanceUIGrid('items', 'gridItems');
+                enhanceUIGrid('itemsaggregated', 'gridItemsAggregated');
+                enhanceUIGrid('elements', 'gridElements');
+                enhanceUIGrid('years', 'gridYears');
             }
         }
     };
@@ -911,7 +914,7 @@ var F3DWLD = (function() {
                     var lbl = null;
                     select += '<select id="' + gridCode + '_select" multiple="multiple" style="width: 100%; height: 100%; border: 0px;" onchange="myclean()">';
                     for (var i = 0 ; i < json.length ; i++) {
-                        if (codingSystem == 'regions' || codingSystem == 'specialgroups' || codingSystem == 'itemsaggregated') {
+//                        if (codingSystem == 'regions' || codingSystem == 'specialgroups' || codingSystem == 'itemsaggregated') {
                             if (F3DWLD.CONFIG.domainCode != 'GY') {
                                 switch (json[i].type) {
                                     case 'list': lbl = json[i].label + ' ' + $.i18n.prop('_list'); break;
@@ -929,7 +932,7 @@ var F3DWLD = (function() {
                                     case 'total': lbl = json[i].label + ' ' + $.i18n.prop('_total'); break;
                                 }
                             }
-                        } else {
+//                        } else {
 //                            if (codingSystem == 'elements') {
 //                                if (json[i].unit.length > 0)
 //                                    lbl = json[i].label + ' (' + json[i].unit + ')';
@@ -938,7 +941,7 @@ var F3DWLD = (function() {
 //                            } else {
                                 lbl = json[i].label;
 //                            }
-                        }
+//                        }
                         var option = '<option class="grid-element" data-faostat="' + json[i].code + '" data-label="' + lbl + '" data-type="' + json[i].type + '">' + lbl + '</option>';
                         select += option;
                     }
@@ -1382,7 +1385,11 @@ var F3DWLD = (function() {
             case 'GEO' :
                 s += '<div class="faostat-download-tab" id="tabCountries">';
                 s += '<ul>';
-                s += '<li id="li_countries">' + $.i18n.prop('_countries') + '</li>';
+                if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
+                    s += '<li id="li_countries">' + $.i18n.prop('_reporters') + '</li>';
+                } else {
+                    s += '<li id="li_countries">' + $.i18n.prop('_countries') + '</li>';
+                }
                 s += '<li id="li_regions">' + $.i18n.prop('_regions') + '</li>';
                 s += '<li id="li_special_groups">' + $.i18n.prop('_special_groups') + '</li>';
                 s += '</ul>';
@@ -1404,7 +1411,7 @@ var F3DWLD = (function() {
             case 'GEO_DST' :
                 s += '<div class="faostat-download-tab" id="tabCountries_dst">';
                 s += '<ul>';
-                s += '<li id="li_countries_dst">' + $.i18n.prop('_countries') + '</li>';
+                s += '<li id="li_countries_dst">' + $.i18n.prop('_partners') + '</li>';
                 s += '<li id="li_regions_dst">' + $.i18n.prop('_regions') + '</li>';
                 s += '<li id="li_special_groups_dst">' + $.i18n.prop('_special_groups') + '</li>';
                 s += '</ul>';
