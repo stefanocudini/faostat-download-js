@@ -10,6 +10,7 @@ var F3DWLD = (function() {
         theme               :   'faostat',
         tradeMatrices       :   ['FT', 'TM'],
         lang                :   'E',
+        lang_ISO2           :   'en',
         outputLimit         :   50,
         widthTable          :   '100%',
         baseurl             :   null,
@@ -711,15 +712,37 @@ var F3DWLD = (function() {
             F3DWLD.CONFIG.lang         =   language;
 
             switch (language) {
-                case 'FR' : F3DWLD.CONFIG.lang = 'F'; break;
-                case 'ES' : F3DWLD.CONFIG.lang = 'S'; break;
+                case 'FR' :
+                    F3DWLD.CONFIG.lang = 'F';
+                    F3DWLD.CONFIG.lang_ISO2 = 'fr';
+                    break;
+                case 'F' :
+                    F3DWLD.CONFIG.lang = 'F';
+                    F3DWLD.CONFIG.lang_ISO2 = 'fr';
+                    break;
+                case 'ES' :
+                    F3DWLD.CONFIG.lang = 'S';
+                    F3DWLD.CONFIG.lang_ISO2 = 'es';
+                    break;
+                case 'S' :
+                    F3DWLD.CONFIG.lang = 'S';
+                    F3DWLD.CONFIG.lang_ISO2 = 'es';
+                    break;
+                case 'EN' :
+                    F3DWLD.CONFIG.lang = 'E';
+                    F3DWLD.CONFIG.lang_ISO2 = 'en';
+                    break;
+                case 'E' :
+                    F3DWLD.CONFIG.lang = 'E';
+                    F3DWLD.CONFIG.lang_ISO2 = 'en';
+                    break;
             }
 
             $.i18n.properties({
                 name        :   'I18N',
                 path        :   F3DWLD.CONFIG.prefix + 'I18N/',
                 mode        :   'both',
-                language    :   F3DWLD.CONFIG.lang
+                language    :   F3DWLD.CONFIG.lang_ISO2
             });
 
             loadDSD();
