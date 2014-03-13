@@ -1,0 +1,478 @@
+<div id='crf_box'>
+
+    <style type='text/css'>
+        #G1TABLE table {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        #G1TABLE td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        .header {
+            font-weight: bold;
+            text-align: center;
+        }
+        .header-left {
+            font-weight: bold;
+            text-align: left;
+        }
+        .gray {
+            background-color: #D0DED0;
+        }
+        .green {
+            background-color: #41AE76;
+        }
+    </style>
+
+    <div class='standard-title'>Selectors</div>
+    <hr class='standard-hr'>
+
+    <table style='width: 100%; border-collapse: collapse;'>
+        <tr>
+            <td style='width: 25%;'>
+                <div class='standard-title'>Country</div>
+                <select id='countries' style='width: 100%;'>
+                </select>
+            </td>
+            <td style='width: 25%;'>
+                <div class='standard-title'>Year</div>
+                <select id='years' style='width: 100%;'>
+                </select>
+            </td>
+            <td style='width: 50%;'>
+                <div class='standard-title'>&nbsp;</div>
+                <a id='' class='btn' onclick='' style='width: 100%; height: 19px;'>
+                    <div class='btn-preview-icon btnLeftIcon'></div>
+                    <div id='-text' class='btnText'>Preview</div>
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <!--<table style='width: 100%;'>-->
+        <!--<tr>-->
+            <!--<td style='width: 100%;'>-->
+                <!--&lt;!&ndash;<button onclick='createCRF_G1(); createCRF_G2();' style='width: 100%;'>&ndash;&gt;-->
+                    <!--&lt;!&ndash;Create CRF&ndash;&gt;-->
+                <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                <!--<a id='' class='btn' onclick='' style='width: 100%;'>-->
+                    <!--<div class='btn-preview-icon btnLeftIcon'></div>-->
+                    <!--<div id='-text' class='btnText'>Preview</div>-->
+                <!--</a>-->
+            <!--</td>-->
+            <!--&lt;!&ndash;<td style='width: 50%;'>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a id='' class='btn' onclick='' style='width: 100%;'>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class='btn-export-icon btnLeftIcon'></div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div id='-text' class='btnText'>Download</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</a>&ndash;&gt;-->
+            <!--&lt;!&ndash;</td>&ndash;&gt;-->
+        <!--</tr>-->
+    <!--</table>-->
+
+    <br>
+
+    <div id='G1' style='width: 100%;'>
+        <table id='G1TABLE' style='width: 100%; border-collapse: collapse;'>
+            <tr>
+                <td class='header' rowspan='2'>CRF Code</td>
+                <td class='header' rowspan='2'>GREENHOUSE GAS SOURCE AND SINK CATEGORIES</td>
+                <td class='header'>CO<sub>2</sub></td>
+                <td class='header'>CH<sub>4</sub></td>
+                <td class='header'>N<sub>2</sub>O</td>
+                <td class='header'>NO<sub>x</sub></td>
+                <td class='header'>CO</td>
+                <td class='header'>NMVOC</td>
+                <td class='header'>CO<sub>2eq</sub></td>
+            </tr>
+            <tr>
+                <td colspan='6' class='header'>kt</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class='header'>3</td>
+                <td class='header-left'>Total agriculture</td>
+                <td><div id='1711_7244'></div></td>
+                <td><div id='1711_7243'></div></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td><div id='1711_7231'></div></td>
+            </tr>
+            <tr>
+                <td class='header'>3A</td>
+                <td class='header-left'>Enteric fermentation</td>
+                <td><div id='1755_72254'></div></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td><div id='5058_7231'></div></td>
+            </tr>
+            <tr>
+                <td class='header'>3B</td>
+                <td class='header-left'>Manure management</td>
+                <td><div id='1755_72256'></div></td>
+                <td><div id='1755_72306'></div></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td><div id='5059_7231'></div></td>
+            </tr>
+            <tr>
+                <td class='header'>3C</td>
+                <td class='header-left'>Rice cultivation</td>
+                <td><div id='27_72225'></div></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td><div id='5060_7231'></div></td>
+            </tr>
+            <tr>
+                <td class='header'>3D</td>
+                <td class='header-left'>Agricultural soils</td>
+                <td class='gray'></td>
+                <td><div id='1709_7243'></div></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td><div id='960_?'></div></td>
+            </tr>
+            <tr>
+                <td class='header'>3E</td>
+                <td class='header-left'>Prescribed burning of savannahs</td>
+                <td><div id='6795_72259'></div></td>
+                <td><div id='6795_72309'></div></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td><div id='5065_7231'></div></td>
+            </tr>
+            <tr>
+                <td class='header'>3F</td>
+                <td class='header-left'>Field burning of agricultural residues</td>
+                <td><div id='1712_72259'></div></td>
+                <td><div id='1712_72307'></div></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td><div id='5066_7231'></div></td>
+            </tr>
+            <tr>
+                <td class='header'>3G</td>
+                <td class='header-left'>Liming</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header'>3H</td>
+                <td class='header-left'>Urea application</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header'>3I</td>
+                <td class='header-left'>Other carbon-containing fertilizers</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header'>3J</td>
+                <td class='header-left'>Other (please specify)</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+        </table>
+        <table style='width: 100%;'>
+            <tr>
+                <td style='width: 50%;'>
+                    &nbsp;
+                </td>
+                <td style='width: 50%;'>
+                    <!--<button onclick='exportExcel("G1");' style='width: 100%;'>-->
+                        <!--Export This Table in Excel-->
+                    <!--</button>-->
+                    <a id='' class='btn' onclick='exportExcel("G1");' style='width: 100%; height: 19px;'>
+                        <div class='btn-export-icon btnLeftIcon'></div>
+                        <div id='-text' class='btnText'>Download Table</div>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br>
+
+    <div id='G2'>
+        <table style='width: 100%;'>
+            <tr>
+                <td class='header' rowspan='2'>GREENHOUSE GAS SOURCE AND SINK CATEGORIES</td>
+                <td class='header'>Net CO<sub>2</sub> emissions/removals</td>
+                <td class='header'>CH<sub>4</sub></td>
+                <td class='header'>N<sub>2</sub>O</td>
+                <td class='header'>NO<sub>x</sub></td>
+                <td class='header'>CO</td>
+                <td class='header'>NMVOC</td>
+            </tr>
+            <tr>
+                <td colspan='6' class='header'>kt</td>
+            </tr>
+            <tr>
+                <td class='header-left'>4. Total LULUCF</td>
+                <td>
+                    <div class='sum'>
+                        <div id='1707_7233'></div>
+                    </div>
+                </td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 8px;'>A. Forest land</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 16px;'>1. Forest land remaining forest land</td>
+                <td>
+                    <div class='sum'>
+                        <div id='6751_72992'></div>
+                        <div id='6797_719411'></div>
+                    </div>
+                </td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 16px;'>2. Land converted to forest land</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 8px;'>B. Cropland</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 16px;'>1. Cropland remaining cropland</td>
+                <td>
+                    <div class='sum'>
+                        <div id='6727_72330'></div>
+                        <div id='6726_719411'></div>
+                    </div>
+                </td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 16px;'>2. Land converted to cropland</td>
+                <td>
+                    <div class='sum'>
+                        <div id='6750_72332'></div>
+                        <div id='6796_719411'></div>
+                    </div>
+                </td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 8px;'>C. Grassland</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 16px;'>1. Grassland remaining grassland</td>
+                <td>
+                    <div class='sum'>
+                        <div id='6728_72331'></div>
+                    </div>
+                </td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 16px;'>2. Land converted to grassland</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 8px;'>D. Wetlands</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 16px;'>1. Wetlands remaining wetlands</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 16px;'>2. Land converted to wetlands</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 8px;'>E. Settlements</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 16px;'>1. Settlements remaining settlements</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 16px;'>2. Land converted to settlements</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 8px;'>F. Other land</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 16px;'>1. Other land remaining other land</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 16px;'>2. Land converted to other land</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 8px;'>G. Harvested wood products</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+            <tr>
+                <td class='header-left' style='padding-left: 8px;'>H. Other (please specify)</td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+                <td class='gray'></td>
+            </tr>
+        </table>
+        <table style='width: 100%;'>
+            <tr>
+                <td colspan='7'>
+                    <!--<button onclick='exportExcel("G2");' style='width: 100%;'>-->
+                        <!--Export This Table in Excel-->
+                    <!--</button>-->
+                    <a id='' class='btn' onclick='exportExcel("G2");' style='width: 100%; height: 19px;'>
+                        <div class='btn-export-icon btnLeftIcon'></div>
+                        <div id='-text' class='btnText'>Download Table</div>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
