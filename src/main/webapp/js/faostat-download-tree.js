@@ -282,6 +282,12 @@ if (!window.FAOSTATDownloadTree) {
                             F3DWLD.buildF3DWLD(item.parentId, item.id, FAOSTATDownload.language);
                         }
 
+                        if (FAOSTATDownload.groupCode == 'G1' || FAOSTATDownload.groupCode == 'G2') {
+                            $('#crf').css('display', 'inline');
+                        } else {
+                            $('#crf').css('display', 'none');
+                        }
+
                     });
 
                     // Expand Group
