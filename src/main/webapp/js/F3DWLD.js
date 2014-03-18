@@ -865,9 +865,11 @@ var F3DWLD = (function() {
         } else {
             if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
                 enhanceUIGrid('reporters', 'gridCountries');
+                enhanceUIGrid('reporters_geo_groups', 'gridRegions');
+                enhanceUIGrid('reporters_special_groups', 'gridSpecialGroups');
                 enhanceUIGrid('partners', 'gridCountries_dst');
-                enhanceUIGrid('regions', 'gridRegions_dst');
-                enhanceUIGrid('specialgroups', 'gridSpecialGroups_dst');
+                enhanceUIGrid('partners_geo_groups', 'gridRegions_dst');
+                enhanceUIGrid('partners_special_groups', 'gridSpecialGroups_dst');
             } else {
                 enhanceUIGrid('countries', 'gridCountries');
                 enhanceUIGrid('regions', 'gridRegions');
@@ -932,26 +934,42 @@ var F3DWLD = (function() {
                     if (typeof(json) == 'string')
                         json = $.parseJSON(response);
 
+//                    console.log(json);
+
                     var select = '';
                     var lbl = null;
                     select += '<select id="' + gridCode + '_select" multiple="multiple" style="width: 100%; height: 100%; border: 0px;" onchange="myclean()">';
                     for (var i = 0 ; i < json.length ; i++) {
+
+                        if (codingSystem == 'regions')
+                            console.log(json[i]);
+
 //                        if (codingSystem == 'regions' || codingSystem == 'specialgroups' || codingSystem == 'itemsaggregated') {
                             if (F3DWLD.CONFIG.domainCode != 'GY') {
                                 switch (json[i].type) {
-                                    case 'list': lbl = json[i].label + ' ' + $.i18n.prop('_list'); break;
-                                    case 'total': lbl = json[i].label + ' ' + $.i18n.prop('_total'); break;
+                                    case 'list':
+//                                        lbl = json[i].label + ' ' + $.i18n.prop('_list');
+                                        lbl = json[i].label;
+                                        break;
+                                    case 'total':
+//                                        lbl = json[i].label + ' ' + $.i18n.prop('_total');
+                                        lbl = json[i].label;
+                                        break;
                                 }
                             } else {
-                                switch (response[i].type) {
+                                switch (json[i].type) {
                                     case 'list':
                                         if (codingSystem == 'regions' || codingSystem == 'specialgroups') {
-                                            lbl = json[i].label + ' ' + $.i18n.prop('_list');
+//                                            lbl = json[i].label + ' ' + $.i18n.prop('_list');
+                                            lbl = json[i].label;
                                         } else {
                                             lbl = json[i].label;
                                         }
                                         break;
-                                    case 'total': lbl = json[i].label + ' ' + $.i18n.prop('_total'); break;
+                                    case 'total':
+//                                        lbl = json[i].label + ' ' + $.i18n.prop('_total');
+                                        lbl = json[i].label;
+                                        break;
                                 }
                             }
 //                        } else {
