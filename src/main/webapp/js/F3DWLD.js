@@ -4,6 +4,8 @@ var F3DWLD = (function() {
         prefix              :   'http://localhost:8080/faostat-download-js/',
         CPINotes_url        :   'http://localhost:8080/wds/rest/procedures/cpinotes',
         ODA_url             :   'http://localhost:8080/wds/rest/procedures/oda',
+        data_url            :   'http://lprapp16.fao.org:5012/wds/rest',
+        codes_url           :   'http://lprapp16.fao.org:5012/bletchley/rest',
         configurationURL    :   'config/faostat-download-configuration.json',
         dbPrefix            :   'FAOSTAT_',
 	    dsdURL              :   'http://faostat3.fao.org/d3sp/service/msd/dm/',
@@ -73,9 +75,9 @@ var F3DWLD = (function() {
 
             $.ajax({
 
-                type : 'POST',
-                url : 'http://' + F3DWLD.CONFIG.baseurl + '/bletchley/rest/codes/listForTradeMatrix/post',
-                data : data,
+                type    :   'POST',
+                url     :   F3DWLD.CONFIG.codes_url + '/codes/listForTradeMatrix/post',
+                data    :   data,
 
                 success : function(response) {
 
@@ -367,9 +369,9 @@ var F3DWLD = (function() {
 
             $.ajax({
 
-                type : 'POST',
-                url : 'http://' + F3DWLD.CONFIG.baseurl + '/wds/rest/table/' + outputType,
-                data : data,
+                type    :   'POST',
+                url     :   F3DWLD.CONFIG.data_url + '/table/' + outputType,
+                data    :   data,
 
                 success : function(response) {
 
@@ -527,9 +529,9 @@ var F3DWLD = (function() {
 
             $.ajax({
 
-                type : 'POST',
-                url : 'http://' + F3DWLD.CONFIG.baseurl + '/wds/rest/notes/cpinotes',
-                data : data,
+                type    :   'POST',
+                url     :   F3DWLD.CONFIG.data_url + '/notes/cpinotes',
+                data    :   data,
 
                 success : function(response) {
 
@@ -924,9 +926,9 @@ var F3DWLD = (function() {
 
             $.ajax({
 
-                type: 'GET',
-                url: 'http://' + F3DWLD.CONFIG.baseurl + '/bletchley/rest/codes/' + codingSystem + '/' + F3DWLD.CONFIG.datasource + '/' + F3DWLD.CONFIG.domainCode + '/' + F3DWLD.CONFIG.lang,
-                dataType: 'json',
+                type        :   'GET',
+                url         :   F3DWLD.CONFIG.codes_url + '/codes/' + codingSystem + '/' + F3DWLD.CONFIG.datasource + '/' + F3DWLD.CONFIG.domainCode + '/' + F3DWLD.CONFIG.lang,
+                dataType    :   'json',
 
                 success : function(response) {
 
