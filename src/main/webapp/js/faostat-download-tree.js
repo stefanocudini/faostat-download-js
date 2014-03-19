@@ -227,9 +227,9 @@ if (!window.FAOSTATDownloadTree) {
 
             $.ajax({
 
-                type: 'GET',
-                url: 'http://' + FAOSTATDownload.baseurl + '/wds/rest/groupsanddomains/' + FAOSTATDownload.datasource + '/' + FAOSTATDownload.language,
-                dataType: 'json',
+                type        :   'GET',
+                url         :   F3DWLD.CONFIG.data_url + '/groupsanddomains/' + FAOSTATDownload.datasource + '/' + FAOSTATDownload.language,
+                dataType    :   'json',
 
                 success : function(response) {
 
