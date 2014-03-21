@@ -48,20 +48,6 @@
         </div>
     </div>
 
-    <!--<table style='width: 100%; border-collapse: collapse;'>-->
-        <!--<tr>-->
-            <!--<td style='width: 25%;'>-->
-                <!---->
-            <!--</td>-->
-            <!--<td style='width: 25%;'>-->
-                <!---->
-            <!--</td>-->
-            <!--<td style='width: 50%;'>-->
-                <!---->
-            <!--</td>-->
-        <!--</tr>-->
-    <!--</table>-->
-
     <br>
 
     <div id='G1' style='width: 100%;'>
@@ -207,7 +193,8 @@
         <div style='height: 8px;'></div>
         <div>
             <div style='float: right;'>
-                <a id='' class='btn' onclick='CRF.exportExcel("G1");' style='width: 100%; height: 19px; margin-left: -25px;'>
+                <a id='' class='btn' onclick='tableToExcel("G1TABLE", "CRF G1");' style='width: 100%; height: 19px; margin-left: -25px;'>
+                <!--<a id='' class='btn' onclick='CRF.exportExcel("G1");' style='width: 100%; height: 19px; margin-left: -25px;'>-->
                     <div class='btn-export-icon btnLeftIcon'></div>
                     <div id='-text' class='btnText'>Download Table</div>
                 </a>
@@ -258,8 +245,9 @@
                 <td class='header-left' style='padding-left: 16px;'>1. Forest land remaining forest land</td>
                 <td>
                     <div class='sum'>
-                        <div id='6751_72992'></div>
-                        <div id='6797_719411'></div>
+                        <div id='6751_72992' style='display: none;' class='addend'></div>
+                        <div id='6797_719411' style='display: none;' class='addend'></div>
+                        <div id='6751_72992 6797_719411'></div>
                     </div>
                 </td>
                 <td class='gray'></td>
@@ -290,8 +278,9 @@
                 <td class='header-left' style='padding-left: 16px;'>1. Cropland remaining cropland</td>
                 <td>
                     <div class='sum'>
-                        <div id='6727_72330'></div>
-                        <div id='6726_719411'></div>
+                        <div id='6727_72330' style='display: none;' class='addend'></div>
+                        <div id='6726_719411' style='display: none;' class='addend'></div>
+                        <div id='6727_72330 6726_719411'></div>
                     </div>
                 </td>
                 <td class='gray'></td>
@@ -304,8 +293,9 @@
                 <td class='header-left' style='padding-left: 16px;'>2. Land converted to cropland</td>
                 <td>
                     <div class='sum'>
-                        <div id='6750_72332'></div>
-                        <div id='6796_719411'></div>
+                        <div id='6750_72332' style='display: none;' class='addend'></div>
+                        <div id='6796_719411' style='display: none;' class='addend'></div>
+                        <div id='6750_72332 6796_719411'></div>
                     </div>
                 </td>
                 <td class='gray'></td>
@@ -448,7 +438,8 @@
         <div style='height: 8px;'></div>
         <div>
             <div style='float: right;'>
-                <a id='' class='btn' onclick='exportExcel("G2");' style='width: 100%; height: 19px; margin-left: -25px;'>
+                <a id='' class='btn' onclick='CRF.exportExcel("G2");' style='width: 100%; height: 19px; margin-left: -25px;'>
+                <!--<a id='' class='btn' onclick='tableToExcel("G2TABLE", "CRF G2");' style='width: 100%; height: 19px; margin-left: -25px;'>-->
                     <div class='btn-export-icon btnLeftIcon'></div>
                     <div id='-text' class='btnText'>Download Table</div>
                 </a>
