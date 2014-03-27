@@ -192,7 +192,7 @@ var F3DWLD = (function() {
         if (F3DWLD.CONFIG.wdsPayload.showCodes)
             F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.ItemCode", "alias": $.i18n.prop('_export_item_code').replace(' ', '_')};
 
-        F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"E.ElementName" + F3DWLD.CONFIG.lang, "alias": $.i18n.prop('_export_element')};
+        F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"E.ElementUnitName" + F3DWLD.CONFIG.lang, "alias": $.i18n.prop('_export_element')};
 
         if (F3DWLD.CONFIG.wdsPayload.showCodes)
             F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementCode", "alias": $.i18n.prop('_export_element_code').replace(' ', '_')};
@@ -245,7 +245,7 @@ var F3DWLD = (function() {
                                                      {"column":"A1.AreaName" + F3DWLD.CONFIG.lang, "direction":"ASC"},
                                                      {"column":"A2.AreaName" + F3DWLD.CONFIG.lang, "direction":"ASC"},
                                                      {"column":"I.ItemName" + F3DWLD.CONFIG.lang, "direction":"ASC"},
-                                                     {"column":"E.ElementName" + F3DWLD.CONFIG.lang, "direction":"ASC"}];
+                                                     {"column":"E.ElementUnitName" + F3DWLD.CONFIG.lang, "direction":"ASC"}];
 
         if (F3DWLD.CONFIG.wdsPayload.limit) {
             F3DWLD.CONFIG.wdsPayload.json["limit"] = FAOSTATDownload.tablelimit;

@@ -41,9 +41,9 @@
         </div>
         <div style='display: inline-block; padding: 4px;'>
             <div class='standard-title'>&nbsp;</div>
-            <a id='' class='btn' onclick='CRF.createCRF_G1(); CRF.createCRF_G2();' style='width: 100%; height: 19px;'>
+            <a class='btn' onclick='CRF.createCRF_G1(); CRF.createCRF_G2();' style='width: 100%; height: 19px;'>
                 <div class='btn-preview-icon btnLeftIcon'></div>
-                <div id='-text' class='btnText'>Preview</div>
+                <div id='preview-text' class='btnText'>Preview</div>
             </a>
         </div>
     </div>
@@ -51,7 +51,11 @@
     <br>
 
     <div id='G1' style='width: 100%;'>
-        <div class='standard-title'>Emissions: <div class='standard-title' id='G1_country_label' style='display: inline-block;'></div> <div style='display: inline-block;' class='standard-title' id='G1_year_label'></div></div>
+        <div class='standard-title'>
+            <div style='display: inline-block;' class='standard-title' id='G1_emissions_label'>Emissions</div>:
+            <div style='display: inline-block;' class='standard-title' id='G1_country_label'></div>
+            <div style='display: inline-block;' class='standard-title' id='G1_year_label'></div>
+        </div>
         <table id='G1TABLE' style='width: 100%; border-collapse: collapse;'>
             <tr>
                 <td class='header' rowspan='2'>CRF Code</td>
@@ -193,10 +197,9 @@
         <div style='height: 8px;'></div>
         <div>
             <div style='float: right;'>
-                <a id='' class='btn' onclick='tableToExcel("G1TABLE", "CRF G1");' style='width: 100%; height: 19px; margin-left: -25px;'>
-                <!--<a id='' class='btn' onclick='CRF.exportExcel("G1");' style='width: 100%; height: 19px; margin-left: -25px;'>-->
+                <a class='btn' onclick='tableToExcel("G1TABLE", "CRF G1");' style='width: 100%; height: 19px; margin-left: -25px;'>
                     <div class='btn-export-icon btnLeftIcon'></div>
-                    <div id='-text' class='btnText'>Download Table</div>
+                    <div id='download-text-1' class='btnText'>Download Table</div>
                 </a>
             </div>
         </div>
@@ -439,9 +442,8 @@
         <div>
             <div style='float: right;'>
                 <a id='' class='btn' onclick='CRF.exportExcel("G2");' style='width: 100%; height: 19px; margin-left: -25px;'>
-                <!--<a id='' class='btn' onclick='tableToExcel("G2TABLE", "CRF G2");' style='width: 100%; height: 19px; margin-left: -25px;'>-->
                     <div class='btn-export-icon btnLeftIcon'></div>
-                    <div id='-text' class='btnText'>Download Table</div>
+                    <div id='download-text-2' class='btnText'>Download Table</div>
                 </a>
             </div>
         </div>
