@@ -3,7 +3,7 @@
 <script>
 $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
 </script>
-<div class="backBtn"><p class='goto' id='G2'> < Back </p></div>
+    <div class="backBtn"><p class='goto' id='G1'><div id='back_label' style='width: 100%; text-align: center;'></div></p></div>
 <br>
 GHG emissions data from cropland are currently limited to emissions from cultivated
 organic soils. They are those associated with carbon losses from drained organic soils.
@@ -59,5 +59,7 @@ Temporary meadows and pastures is the land temporarily cultivated with herbaceou
 <a id='PDF' href='EntericFermentation.pdf' target='_blank'>Show Metadata</a>
 <script>
 $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/Cropland.pdf');
+document.getElementById('PDF').innerHTML = $.i18n.prop('_show_metadata');
+document.getElementById('G1').innerHTML = $.i18n.prop('_back');
 </script>
 </div>
