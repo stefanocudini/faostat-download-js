@@ -8,9 +8,13 @@ $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
 Greenhouse gas (GHG) emissions from direct energy use consist of carbon dioxide, methane and nitrous oxide gases associated with fuel burning and electricity generation in agriculture (including fisheries. Computed at Tier 1 following the 2006 IPCC Guidelines for National GHG Inventories, Vol.2, Ch. 2 and 3. Available by country, with global coverage and relative to the period 1990 onwards, with annual updates.
 <br><br>
 <a id='PDF' href='Energy_Use.pdf' target='_blank'>Show Metadata</a>
-<script>
-$('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/Energy_Use.pdf');
-document.getElementById('PDF').innerHTML = $.i18n.prop('_show_metadata');
-document.getElementById('G1').innerHTML = $.i18n.prop('_back');
-</script>
+    <script>
+        switch (F3DWLD.CONFIG.lang) {
+            case 'E': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/EN/GN.pdf'); break;
+            case 'F': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/FR/GN.pdf'); break;
+            case 'S': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/ES/GN.pdf'); break;
+        }
+        document.getElementById('PDF').innerHTML = $.i18n.prop('_show_metadata');
+        document.getElementById('back_label').innerHTML = $.i18n.prop('_back');
+    </script>
 </div>
