@@ -1,11 +1,11 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        prefix              :   'http://localhost:8080/faostat-download-js/',
-        CPINotes_url        :   'http://localhost:8080/wds/rest/procedures/cpinotes',
-        ODA_url             :   'http://localhost:8080/wds/rest/procedures/oda',
-        data_url            :   'http://localhost:8080/wds/rest',
-        codes_url           :   'http://localhost:8080/bletchley/rest',
+        prefix              :   'http://faostat3.fao.org:10300/faostat-download-js/',
+        CPINotes_url        :   'http://lprapp16.fao.org:5012/wds/rest/procedures/cpinotes',
+        ODA_url             :   'http://lprapp16.fao.org:5012/wds/rest/procedures/oda',
+        data_url            :   'http://lprapp16.fao.org:5012/wds/rest',
+        codes_url           :   'http://lprapp16.fao.org:5012/bletchley/rest',
         configurationURL    :   'config/faostat-download-configuration.json',
         dbPrefix            :   'FAOSTAT_',
 	    dsdURL              :   'http://faostat3.fao.org/d3sp/service/msd/dm/',
@@ -278,7 +278,7 @@ var F3DWLD = (function() {
         F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"E.ElementUnitName" + F3DWLD.CONFIG.lang, "alias": $.i18n.prop('_export_element')};
 
         if (F3DWLD.CONFIG.wdsPayload.showCodes)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementListCode", "alias": $.i18n.prop('_export_element_code').replace(' ', '_')};
+            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementCode", "alias": $.i18n.prop('_export_element_code').replace(' ', '_')};
 
         F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.Year", "alias": $.i18n.prop('_export_year')};
 
