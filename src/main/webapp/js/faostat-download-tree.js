@@ -183,7 +183,7 @@ if (!window.FAOSTATDownloadTree) {
         innerLinks: function () {
             $('.goto').attr('style', 'cursor: pointer; text-decoration: underline;');
             $('.goto').click(function () {
-                var id = $(this).attr('id');
+                var id = $(this).attr('id').substring(0, $(this).attr('id').indexOf('_'));
                 FAOSTATDownloadTree.loadDownloadNotes(id);
             });
         },
