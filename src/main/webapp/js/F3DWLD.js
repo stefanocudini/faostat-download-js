@@ -1,11 +1,11 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        prefix              :   'http://faostat3.fao.org:10300/faostat-download-js/',
-        CPINotes_url        :   'http://lprapp16.fao.org:5012/wds/rest/procedures/cpinotes',
-        ODA_url             :   'http://lprapp16.fao.org:5012/wds/rest/procedures/oda',
-        data_url            :   'http://lprapp16.fao.org:5012/wds/rest',
-        codes_url           :   'http://lprapp16.fao.org:5012/bletchley/rest',
+        prefix              :   'http://localhost:8080/faostat-download-js/',
+        CPINotes_url        :   'http://localhost:8080/wds/rest/procedures/cpinotes',
+        ODA_url             :   'http://localhost:8080/wds/rest/procedures/oda',
+        data_url            :   'http://localhost:8080/wds/rest',
+        codes_url           :   'http://localhost:8080/bletchley/rest',
         configurationURL    :   'config/faostat-download-configuration.json',
         dbPrefix            :   'FAOSTAT_',
 	    dsdURL              :   'http://faostat3.fao.org/d3sp/service/msd/dm/',
@@ -80,6 +80,8 @@ var F3DWLD = (function() {
                 data    :   data,
 
                 success : function(response) {
+
+                    console.log(response);
 
                     var codes = response;
                     if (typeof(codes) == 'string')
@@ -158,6 +160,10 @@ var F3DWLD = (function() {
 
         for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.items.length ; i++)
             if (F3DWLD.CONFIG.selectedValues.items[i].type == 'list')
+                return true;
+
+        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.itemsAggregated.length ; i++)
+            if (F3DWLD.CONFIG.selectedValues.itemsAggregated[i].type == 'list')
                 return true;
 
         return false;
@@ -635,6 +641,7 @@ var F3DWLD = (function() {
         F3DWLD.CONFIG.selectedValues.countries_dst = [];
         F3DWLD.CONFIG.selectedValues.elements = [];
         F3DWLD.CONFIG.selectedValues.items = [];
+        F3DWLD.CONFIG.selectedValues.itemsAggregated = [];
         F3DWLD.CONFIG.selectedValues.years = [];
 
         /* Init variables. */
@@ -661,6 +668,7 @@ var F3DWLD = (function() {
         getGridValues(countryGridName, F3DWLD.CONFIG.selectedValues.countries);
         getGridValues('gridElements', F3DWLD.CONFIG.selectedValues.elements);
         getGridValues(itemsGridName, F3DWLD.CONFIG.selectedValues.items);
+        getGridValues(itemsGridName, F3DWLD.CONFIG.selectedValues.itemsAggregated);
         getGridValues('gridYears', F3DWLD.CONFIG.selectedValues.years);
         if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1)
             getGridValues(countryGridName_dst, F3DWLD.CONFIG.selectedValues.countries_dst);
@@ -668,6 +676,10 @@ var F3DWLD = (function() {
     };
 
     function getGridValues(tableCode, map) {
+
+        console.log(tableCode);
+        console.log(map);
+
         $('#' + tableCode).find('option:selected').each(function(k, v) {
             var tmp = {};
             tmp.code = $(v).data('faostat');
@@ -675,6 +687,9 @@ var F3DWLD = (function() {
             tmp.type = $(v).data('type');;
             map.push(tmp);
         });
+
+        console.log(map);
+
     };
 
     function getOptions(limitOutput) {
@@ -693,6 +708,8 @@ var F3DWLD = (function() {
         F3DWLD.CONFIG.tabsSelection.countries = $('#tabCountries').jqxTabs('selectedItem');
         F3DWLD.CONFIG.tabsSelection.elements = $('#tabElements').jqxTabs('selectedItem');
         F3DWLD.CONFIG.tabsSelection.items = $('#tabItems').jqxTabs('selectedItem');
+        if (F3DWLD.CONFIG.domainCode == 'GY')
+            F3DWLD.CONFIG.tabsSelection.items = 1;
         F3DWLD.CONFIG.tabsSelection.years = $('#tabYears').jqxTabs('selectedItem');
         if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1)
             F3DWLD.CONFIG.tabsSelection.countries_dst = $('#tabCountries_dst').jqxTabs('selectedItem');
