@@ -1,5 +1,5 @@
 <div class="download-notes">
-<div class="noteHead"> <h2>Burning Crop Residues</h2> <img id='DOMAIN_IMG' src="images/G2.png" width="50" height="50" /></div>
+<div class="noteHead"> <h2>Combusti&oacute;n - residuos agr&iacute;colas</h2> <img id='DOMAIN_IMG' src="images/G2.png" width="50" height="50" /></div>
 <script>
 $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
 </script>
@@ -9,15 +9,15 @@ $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
         </div>
     </div>
 <br>
-Greenhouse Gas (GHG) emissions from burning crop residues consist of methane and nitrous oxide gases produced by the combustion of a percentage of the crop residues burnt on-site. Computed at Tier 1 following the 2006 IPCC Guidelines for National GHG Inventories, Vol. 4, Ch. 2 and 5. Available by country, with global coverage and relative to the period 1990 onwards, with annual updates.
+<p>Las emisiones de gases de efecto invernadero (GEI) procedentes de la combusti&oacute;n de residuos agr&iacute;colas consisten en los gases metano y &oacute;xido nitroso producidos por la combusti&oacute;n de un porcentaje de residuos agr&iacute;colas quemados in situ. Calculados en el Nivel 1 seg&uacute;n las Directrices para los inventarios nacionales de GEI del Grupo Intergubernamental de Expertos sobre el Cambio Clim&aacute;tico de 2006; disponibles por pa&iacute;ses, con cobertura global y relativos al per&iacute;odo 1961-presente, con actualizaciones anuales y proyecciones para 2030 y 2050. </p>
 <br><br>
-<a id='PDF' href='BurningCropResidues.pdf' target='_blank'>Show Metadata</a>
+<a id='PDF' href='/faostat-download-js/PDF/ES/CombustionDeResiduosAgricolas.pdf' target='_blank'>Show Metadata</a>
     <script>
-        switch (F3DWLD.CONFIG.lang) {
+        /*switch (F3DWLD.CONFIG.lang) {
             case 'E': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/EN/GB.pdf'); break;
             case 'F': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/FR/GB.pdf'); break;
             case 'S': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/ES/GB.pdf'); break;
-        }
+        }*/
         document.getElementById('PDF').innerHTML = $.i18n.prop('_show_metadata');
         document.getElementById('back_label').innerHTML = $.i18n.prop('_back');
     </script>

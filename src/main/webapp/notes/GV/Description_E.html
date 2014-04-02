@@ -1,5 +1,5 @@
 <div class="download-notes">
-<div class="noteHead"> <h2>Cultivated Organic Soils</h2> <img id='DOMAIN_IMG' src="images/G2.png" width="50" height="50" /></div>
+<div class="noteHead"> <h2>Cultivation of Organic Soils</h2> <img id='DOMAIN_IMG' src="images/G2.png" width="50" height="50" /></div>
 <script>
 $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
 </script>
@@ -9,15 +9,15 @@ $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
         </div>
     </div>
 <br>
-Greenhouse gas (GHG) emissions data from organic soils are those associated with nitrous oxide gas emissions from drained histosols under cropland and grassland.Computed at Tier 1 and complemented by geo-spatial data, following the 2006 IPCC Guidelines for National GHG Inventories, Vol. 4, Ch. 11. Available by country, with global coverage and relative to the period 1990 onwards with annual updates.
+<p>Greenhouse gas (GHG) emissions data from cultivation of organic soils are those associated with nitrous oxide gas emissions from drained histosols under cropland and grassland. Data is computed at Tier 1 and complemented by geo-spatial data, following the 2006 IPCC Guidelines for National GHG Inventories. Available by country, with global coverage and relative to the period 1990 to present and projections for 2030 and 2050. </p>
 <br><br>
-<a id='PDF' href='OrganicSoils.pdf' target='_blank'>Show Metadata</a>
+<a id='PDF' href='/faostat-download-js/PDF/EN/CultivationOfOrganicSoils.pdf' target='_blank'>Show Metadata</a>
     <script>
-        switch (F3DWLD.CONFIG.lang) {
+        /*switch (F3DWLD.CONFIG.lang) {
             case 'E': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/EN/GV.pdf'); break;
             case 'F': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/FR/GV.pdf'); break;
             case 'S': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/ES/GV.pdf'); break;
-        }
+        }*/
         document.getElementById('PDF').innerHTML = $.i18n.prop('_show_metadata');
         document.getElementById('back_label').innerHTML = $.i18n.prop('_back');
     </script>

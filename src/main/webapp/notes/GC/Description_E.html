@@ -9,13 +9,9 @@ $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
         </div>
     </div>
 <br>
-GHG emissions data from cropland are currently limited to emissions from cultivated
-organic soils. They are those associated with carbon losses from drained organic soils.
-Computed at Tier 1 following the 2006 IPCC Guidelines for National Greenhouse Gas
-Inventories, Vol. 4, Chapter 5. Available by country, with global coverage and relative to
-the period 1990-2010 with annual updates.
+<p>Greenhouse gas (GHG) emissions data from cropland are currently limited to emissions from cropland organic soils. They are those associated with carbon losses from drained histosols under cropland. Data is computed at Tier 1 and complemented by use of geo-spatial data, following the 2006 IPCC Guidelines for National GHG Inventories. Available by country, with global coverage and relative to the period 1990 to present. </p>
 <br><br>
-The mapping between IPCC and FAOSTAT definition of cropland is reported below:
+<!--The mapping between IPCC and FAOSTAT definition of cropland is reported below:
 <br><br>
 <table style='width: 100%; border-collapse: collapse; border: 1px solid #399BCC;' cellspacing='10px' cellpadding='10px'>
 	<thead>
@@ -44,15 +40,15 @@ The mapping between IPCC and FAOSTAT definition of cropland is reported below:
 			</td>
 		</tr>
 	</tbody>
-</table>
+</table>-->
 <br><br>
-<a id='PDF' href='EntericFermentation.pdf' target='_blank'>Show Metadata</a>
+<a id='PDF' href='/faostat-download-js/PDF/EN/Cropland.pdf' target='_blank'>Show Metadata</a>
     <script>
-        switch (F3DWLD.CONFIG.lang) {
+        /*switch (F3DWLD.CONFIG.lang) {
             case 'E': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/EN/GC.pdf'); break;
             case 'F': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/FR/GC.pdf'); break;
             case 'S': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/ES/GC.pdf'); break;
-        }
+        }*/
         document.getElementById('PDF').innerHTML = $.i18n.prop('_show_metadata');
         document.getElementById('back_label').innerHTML = $.i18n.prop('_back');
     </script>

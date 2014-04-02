@@ -58,7 +58,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
             else{
                 document.getElementById('id').value="Ware0house";
                 document.getElementById("n").value=4;
-                document.getElementById("d").value="ElementCode#AreaCode#ItemCode#Year";
+                document.getElementById("d").value="ElementListCode#AreaCode#ItemCode#Year";
             }
             if (FAOSTATDownload.showWizard) {
                 monXML="";
@@ -366,7 +366,7 @@ if (!window.FAOSTATDownloadSelectorsClassic) {
                 var bCountry=0;
                 var mesCountriesXML="{'name':'AreaCode','nb':'1','val':{";
                 var listCountry="";
-                console.log(FAOSTATDownload.countriesTabSelectedIndex);
+//                console.log(FAOSTATDownload.countriesTabSelectedIndex);
                 /*switch (FAOSTATDownload.countriesTabSelectedIndex) {
                     case 0:*/
                       //  for(i=0;i<$('#gridCountries').jqxGrid('selectedrowindexes').length;i++) {

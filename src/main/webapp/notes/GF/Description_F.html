@@ -1,5 +1,5 @@
 <div class="download-notes">
-<div class="noteHead"> <h2>Forest Land</h2> <img id='DOMAIN_IMG' src="images/G2.png" width="50" height="50" /></div>
+<div class="noteHead"> <h2>Terres foresti&egrave;res</h2> <img id='DOMAIN_IMG' src="images/G2.png" width="50" height="50" /></div>
 <script>
 $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G2.png');
 </script>
@@ -9,9 +9,9 @@ $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G2.png');
         </div>
     </div>
 <br>
-GHG emissions data from forest land are currently limited to emissions from net forest conversion to non-forest land. They consist of the balance of CO<sub style='font-size: 8px;'>2</sub> sources and sinks associated with deforestation and afforestation activities within a country. UNFCCC parties report these data in a more disaggregated fashion, under various LULUCF categories. They are computed following the 2006 IPCC Guidelines for National Greenhouse Gas Inventories, Vol. 4, Chapters 1, 2, 3, and 4; available by country, with global coverage and relative to the period 1990-2010, with annual updates.
+<p>Les &eacute;missions/absorptions nettes annuelles de CO2 imputables aux terres foresti&egrave;res se composent des gains/pertes nets du stock de carbone dans le bassin de biomasse vivante (biomasse a&eacute;rienne et souterraine), associ&eacute;s aux terres foresti&egrave;res (gestion foresti&egrave;re) et &agrave; la conversion nette des for&ecirc;ts. Ces donn&eacute;es sont calcul&eacute;es selon le niveau 1 et la m&eacute;thode 1, avec la m&eacute;thode des diff&eacute;rences de stocks, suivant les Lignes directrices de 2006 du GIEC pour les inventaires nationaux de GES (GIEC, 2006) et utilisant les donn&eacute;es des superficies et des stocks de carbone, compil&eacute;es par les pays dans l'Evaluation des ressources foresti&egrave;res mondiales de la FAO (FRA) de 2010; ces donn&eacute;es sont disponibles par pays, d'une couverture mondiale et relatives &agrave; la p&eacute;riode de 1990 &agrave; nos jours, avec des mises &agrave; jour p&eacute;riodiques en ligne avec FRA. </p>
 <br><br>
-The mapping between IPCC and FAOSTAT definition of forest land is reported below:
+<!--The mapping between IPCC and FAOSTAT definition of forest land is reported below:
 <br><br>
 <table style='width: 100%;' cellspacing='10px'>
 	<thead>
@@ -48,15 +48,15 @@ The mapping between IPCC and FAOSTAT definition of forest land is reported below
 			</td>
 		</tr>
 	</tbody>
-</table>
+</table>-->
 <br><br>
-<a id='PDF' href='Forest_land.pdf' target='_blank'>Show Metadata</a>
+<a id='PDF' href='/faostat-download-js/PDF/FR/TerresForestieres.pdf' target='_blank'>Show Metadata</a>
     <script>
-        switch (F3DWLD.CONFIG.lang) {
+        /*switch (F3DWLD.CONFIG.lang) {
             case 'E': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/EN/GF.pdf'); break;
             case 'F': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/FR/GF.pdf'); break;
             case 'S': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/ES/GF.pdf'); break;
-        }
+        }*/
         document.getElementById('PDF').innerHTML = $.i18n.prop('_show_metadata');
         document.getElementById('back_label').innerHTML = $.i18n.prop('_back');
     </script>

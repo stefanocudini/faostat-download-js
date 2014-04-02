@@ -1,5 +1,5 @@
 <div class="download-notes">
-<div class="noteHead"> <h2>Manure left on Pasture</h2> <img id='DOMAIN_IMG' src="images/G1.png" width="50" height="50" /></div>
+<div class="noteHead"> <h2>Fumier déposée sur des pâturages</h2> <img id='DOMAIN_IMG' src="images/G1.png" width="50" height="50" /></div>
 <script>
 $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
 </script>
@@ -9,15 +9,15 @@ $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
         </div>
     </div>
 <br>
-GHG emissions data from manure left on pasture consist of nitrous oxide gas from nitrogen additions to managed soils from grazing livestock. Computed at Tier 1 following the 2006 IPCC Guidelines for National Greenhouse Gas Inventories, Vol. 4, Chapter 10 and 11; available by country, with global coverage and relative to the period 1990-2010, with annual updates.
+Les données d'émissions de gaz à effet de serre (GES) imputables au fumier laissé sur les pâturages se composent des gaz d'oxyde nitreux issus d'ajouts d'azote aux sols gérés provenant du bétail pâturant. Ces données sont calculées selon la méthode de niveau 1 des Lignes directrices de 2006 du GIEC pour les inventaires nationaux de GES, disponibles par pays, avec une couverture mondiale et relatives à une période partant de 1961 à nos jours, avec des mises à jour annuelles et des projections à l'horizon 2030 et 2050.
 <br><br>
-<a id='PDF' href='ManureLeftOnPastures.pdf' target='_blank'>Show Metadata</a>
+<a id='PDF' href='/faostat-download-js/PDF/FR/FumierDeposeSurDesPaturages.pdf' target='_blank'>Show Metadata</a>
     <script>
-        switch (F3DWLD.CONFIG.lang) {
+     /*   switch (F3DWLD.CONFIG.lang) {
             case 'E': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/EN/GP.pdf'); break;
             case 'F': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/FR/GP.pdf'); break;
             case 'S': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/ES/GP.pdf'); break;
-        }
+        }*/
         document.getElementById('PDF').innerHTML = $.i18n.prop('_show_metadata');
         document.getElementById('back_label').innerHTML = $.i18n.prop('_back');
     </script>

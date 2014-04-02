@@ -1,5 +1,5 @@
 <div class="download-notes">
-<div class="noteHead"> <h2>Crop Residues</h2> <img id='DOMAIN_IMG' src="images/G1.png" width="50" height="50" /></div>
+<div class="noteHead"> <h2>R&eacute;sidus de r&eacute;coltes</h2> <img id='DOMAIN_IMG' src="images/G1.png" width="50" height="50" /></div>
 <script>
 $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
 </script>
@@ -9,15 +9,15 @@ $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
         </div>
     </div>
 <br>
-GHG emissions from crop residues consist of nitrous oxide gas from decomposition of nitrogen in crop residues left on managed soils. Computed at Tier 1 following the 2006 IPCC Guidelines for National Greenhouse Gas Inventories, Vol. 4, Chapter 2 and 11.; available by country, with global coverage and relative to the period 1990-2010, with annual updates.
+<p>Les &eacute;missions de gaz &agrave; effet de serre (GES) imputables aux r&eacute;sidus de cultures sont constitu&eacute;es des gaz d'oxyde nitreux provenant de la d&eacute;composition de l'azote dans les r&eacute;sidus de cultures laiss&eacute;s sur les sols g&eacute;r&eacute;s. Ces donn&eacute;es sont calcul&eacute;es selon la m&eacute;thode de niveau 1 des Lignes directrices de 2006 du GIEC pour les inventaires nationaux de GES; disponibles par pays, avec une couverture mondiale et relatives &agrave; une p&eacute;riode partant de 1961 &agrave; nos jours avec des mises &agrave; jour annuelles, et des projections &agrave; l'horizon 2030 et 2050. </p>
 <br><br>
-<a id='PDF' href='CropResidues.pdf' target='_blank'>Show Metadata</a>
+<a id='PDF' href='/faostat-download-js/PDF/FR/ResidusDeRecoltes.pdf' target='_blank'>Show Metadata</a>
     <script>
-        switch (F3DWLD.CONFIG.lang) {
+      /*  switch (F3DWLD.CONFIG.lang) {
             case 'E': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/EN/GA.pdf'); break;
             case 'F': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/FR/GA.pdf'); break;
             case 'S': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/ES/GA.pdf'); break;
-        }
+        }*/
         document.getElementById('PDF').innerHTML = $.i18n.prop('_show_metadata');
         document.getElementById('back_label').innerHTML = $.i18n.prop('_back');
     </script>

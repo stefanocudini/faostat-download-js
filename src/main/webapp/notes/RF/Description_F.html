@@ -1,164 +1,447 @@
+<style type="text/css">
+	.dataTable {
+		width: 100% !important;
+		border: 1px solid #E6E6E6 !important;
+		border-collapse: collapse !important;
+		font-size: 12px !important;
+	}
+</style>
+<script type="text/javascript">
+	function toggleDiv(element){
+ if(document.getElementById(element).style.display=="none"){document.getElementById(element).style.display="block"}
+     	else{document.getElementById(element).style.display="none"}
+} 
+</script>
 <div class="download-notes">
-<div class="noteHead"> <h2>Engrais </h2> <img id='DOMAIN_IMG' src="images/R.png" width="50" height="50" /></div>
+<div class="noteHead"> <h2>Engrais</h2> <img id='DOMAIN_IMG' src="images/R.png" width="50" height="50" /></div>
 <script>
 $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/R.png');
 </script>
-<div class="backBtn"><p class='goto' id='R'> < Back </p></div>
-<br>
-Le module concernant les engrais contient des donn&eacute;es sommaires &agrave; compter de l’ann&eacute;e 2002. Il est &eacute;tabli depuis 2006 &agrave; l’aide d’une m&eacute;thodologie r&eacute;vis&eacute;e et de nouveaux formats de diffusion. On peut acc&eacute;der &agrave; la pr&eacute;c&eacute;dente s&eacute;rie de donn&eacute;es concernant les engrais (donn&eacute;es de 1961 &agrave; 2002) dans les « Archives des engrais » du site web FAOSTAT. Les deux modules doivent être utilis&eacute;s s&eacute;par&eacute;ment. On ne peut pas les r&eacute;unir pour cr&eacute;er une s&eacute;rie chronologique plus longue &agrave; cause des changements suivants, adopt&eacute;s depuis 2002: nouvelle m&eacute;thodologie d’&eacute;laboration des donn&eacute;es concernant les engrais, passage &agrave; la seule ann&eacute;e civile et abandon de l’utilisation &agrave; la fois de l’ann&eacute;e civile et des campagnes engrais, classification r&eacute;vis&eacute;e des diff&eacute;rents engrais, ajout du paramètre relatif &agrave; la non-utilisation d’engrais dans le bilan engrais et utilisation de nouvelles sources pour certaines donn&eacute;es (par exemple UN COMTRADE, la base de donn&eacute;es statistiques sur le commerce des marchandises de l’ONU). 
+<div class="backBtn"><p class='goto' id='R'> < Arriére </p></div>
+
+<br />
+<p><strong>Agr&eacute;gats<br /><br />
+</strong>Les agr&eacute;gats continentaux et mondiaux ne comprennent que les donn&eacute;es des pays &eacute;num&eacute;r&eacute;s.<br />
+Les estimations relatives aux pays qui n&rsquo;ont fourni aucune donn&eacute;e ne sont pas incluses dans ces agr&eacute;gats.</p>
+<p>Merci de noter qu’en raison de l’absence temporaire des données sur la production chinoise d’azote en 2010, les agrégats géographiques pour l’azote ne sont pas publiés.</p><br />
 
 
-<br/><br/>
-Les donn&eacute;es statistiques relatives aux engrais sont en g&eacute;n&eacute;ral communiqu&eacute;es par les pays sous la forme de poids des produits au moyen du questionnaire de la FAO sur les ressources agricoles – engrais. Elles sont ensuite converties en nutriments et valid&eacute;es en vue d’assurer leur coh&eacute;rence avec les totaux r&eacute;capitulatifs concernant la production, les importations, les exportations et la consommation de trois types d’engrais, les engrais azot&eacute;s (N), phosphat&eacute;s (P205) et potassiques (K20), et des engrais compos&eacute;s (NP, PK, NK et NPK). 
-
-
-<br/><br/> 
-<b>Agr&eacute;gats
-</b></br></br>
-Les agr&eacute;gats continentaux et mondiaux ne comprennent que les donn&eacute;es des pays &eacute;num&eacute;r&eacute;s.
-Les estimations relatives aux pays qui n’ont fourni aucune donn&eacute;e ne sont pas incluses dans ces agr&eacute;gats.
-Merci de noter qu’en raison de l’absence temporaire des donn&eacute;es sur la production chinoise d’azote en 2010, les agr&eacute;gats g&eacute;ographiques pour l’azote ne sont pas publi&eacute;s.
-
-
-</br></br>
-<ul class='bullet-list'>
-	<li><b>Australia:</b> Consumption data 2007 refer to fertilizer year (July/June).</li>
-	<li><b>Bangladesh: </b>Due to confidentiality of production data since 2008, production figures may be underestimated for N and overestimated for P<sub>2</sub>0<sub>5</sub>.</li>
-	<li><b>Bulgaria: </b>Due to confidentiality of production data since 2008, production figures may be overestimated.</li>
-	<li><b>Canada: </b>Production and export data refer to fertilizer year (July/June).</li>
-	<li><b>Colombia: </b>Data refer to 68.8% of the country (22 departments out of 32).</li>
-	<li><b>Cyprus: </b>Data refer to agricultural activities only in the Government controlled area of the country due to the Turkish invasion of 1974.</li>
-	<li><b>Czech Republic: </b>Consumption data refer to fertilizer year and exclude self-employed farmers. Due to confidentiality of production data since 2007, production figures may be overestimated for N and underestimated for P<sub>2</sub>0<sub>5</sub>. </li>
-	<li><b>Ethiopia: </b>Consumption from 2004 onwards refers to fertilizer year. </li>
-	<li><b>France: </b>Data refer to fertilizer year until 2008. Production data from 2008 onwards are not derived from the same surveys as prior years (Current source: the Annual Survey on Production), thus there may be discrepancies among the figures. Due to confidentiality of some data, production may be underestimated.</li>
-	<li><b>Georgia: </b>Uncontrolled territories are not covered.</li>
-	<li><b>Germany: </b>Consumption data refer to fertilizer year.</li>
-	<li><b>India: </b>Data refer to fertilizer year (April/March). Export data for 2007, 2008 and 2009 refer to calendar year.</li>
-	<li><b>Ireland: </b>Data refer to fertilizer year (October/September).</li>
-	<li><b>Japan: </b>Data refer to fertilizer year (July/June). Industrial use is included. Non-fertilizer use data from 2006 and production data 2009 are estimated and this may affect consumption data. </li>
-	<li><b>Kazakhstan: </b>Consumption of P<sub>2</sub>0<sub>5</sub> includes ground phosphate rock. </li>
-	<li><b>Kyrgyzstan: </b>Consumption data refer to fertilizer year. </li>
-	<li><b>Latvia: </b>Actual consumption refers to fertilizer year. </li>
-	<li><b>Mexico: </b>From 2007 the country changed the source for collecting data and this may result in inconsistencies in the time series. </li>
-	<li><b>Myanmar: </b>Production data refer to fertilizer year. </li>
-	<li><b>Nepal: </b>Imports by informal and unorganized sectors are not included. Data refer to fertilizer year.</li>
-	<li><b>Netherlands: </b>Actual consumption refers to fertilizer year. </li>
-	<li><b>New Zealand: </b>Due to confidentiality of production data since 2007 production figures may be overestimated for N and underestimated for P<sub>2</sub>0<sub>5</sub>. </li>
-	<li><b>Poland: </b>Actual consumption refers to fertilizer year.</li>
-	<li><b>Russian Federation: </b>Trade data (imports and exports) includes Belarus.</li>
-	<li><b>Serbia: </b>Not including Kosovo.</li>
-	<li><b>Serbia and Montenegro: </b>Data refer only to Serbia. Kosovo is not included.</li>
-	<li><b>Seychelles: </b>Data do not refer to the whole country: only the Seychelles Agricultural Agency Agricultural requisite stores are taken into account. </li>
-	<li><b>Slovakia: </b>Data on consumption refers to fertilizer year. </li>
-	<li><b>Tanzania: </b>Data on consumption refers to fertilizer year. </li>
-	<li><b>Thailand: </b>Due to non availability of production data since 2007, production figures for N may be overestimated. </li>
-	<li><b>Ukraine: </b>Due to partial confidentiality of production data since 2007, production figures for P<sub>2</sub>0<sub>5</sub> may be underestimated. </li>
-	<li><b>United Kingdom: </b>Consumption data refer to fertilizer year (July/June). Data include Northern Ireland.</li>
-	<li><b>USA: </b>Please note that with reference to the N totals, there might be double counting of Ammonia.</li>
-</ul>
-</br>
-<b>About the Fertilizer module</b></br></br>
-The Fertilizer dataset contains summary data from 2002 onwards. This dataset has been prepared using a revised methodology and new dissemination formats starting in 2006. The previous fertilizer data series in FAOSTAT (data from 1961 to 2002) can be found in the Fertilizer Archive. The two sets should be used separately and not combined in order to create longer time series. This is due to the following changes from 2002 including: a change in the underlying fertilizer data methodology; the move to the use of calendar rather than a mixture of calendar and fertilizer year; revised classification of the fertilizer items; the addition of the non-fertilizer use parameter in the fertilizer balance and the use of new data sources for some data (e.g. UN COMTRADE).
-</br></br>
-The fertilizer statistics data are generally received from individual countries in product weight through the new FAO Questionnaire on Agricultural Resources – Fertilizers and then converted to nutrients and validated for consistency regarding summary totals of production, import, export, non-fertilizer use and consumption for the three types of fertilizers: nitrogen (N), phosphate (P<sub>2</sub>0<sub>5</sub>), potash (K<sub>2</sub>0) and including complex fertilizers (NP, PK, NK and NPK).
-</br></br></br>
-<b><u>Concepts and definitions</u></b></br></br>
-<b>Used for crop production</b></br></br>
-The 'Used for crop production' concept refers to the total quantity of fertilizers applied to the soil to increase crop yields. Used for crop production is here referred to as 'Actual Consumption' and is defined as actual deliveries to agriculture by the manufacturers or actual quantity consumed by a country for agriculture production.</br></br>
-<b>Fertilizer Resource Utilization Account (FRUA) </b></br></br>
-The Fertilizer Resource Utilization Account format provides a summary of: Production, Imports, Exports, Non-Fertilizer use and Consumption for the three plant nutrients nitrogenous (N), phosphate (P<sub>2</sub>0<sub>5</sub>) and potash. (K<sub>2</sub>0). The equation used in the accounting format is seen below:</br></br>
-<p width='100%' align='center'>
-<u>Production (P) + Imports (M) - Exports (X) - Non-Fertilizer use (NF)= Consumption (C)</u>
-<br/>
-P + M – X – NF = C
+<p><a onclick="toggleDiv('hideCN');" href="javascript:void(0)"><strong>Pour en savoir plus /Cacher</strong></a></p>
+<div id="hideCN" style="DISPLAY: none">
+<div id="addCN">
+<br />
+<p><strong>Allemagne	</strong><br />
+Les données de consommation se rapportent à la campagne engrais.<br> <br />
+<strong>Australie	</strong><br />
+Les données de consommation se rapportent à la campagne engrais (de juillet à juin).<br> <br />
+<strong>Bangladesh	</strong><br />
+Les données de production et de consommation se rapportent à la campagne engrais.<br> <br />
+<strong>Bulgarie	</strong><br />
+En raison du caractère confidentiel des données de production jusqu’en 2008, les chiffres être surestimés.<br>	<br />
+<strong>Canada	</strong><br />
+Les données de production et d’exportation se rapportent à la campagne engrais (de juillet à juin).<br> <br />
+<strong>Chine, continentale</strong><br />
+Les données sur les Engrais Azotés (total d’élément fertilisant N) peuvent être plus élevées que les autres chiffres rapportés en raison d’un éventuel double comptage de l’azote utilisé dans la production des engrais composés.<br><br />
+<strong>Chypre	</strong><br />
+Les données se rapportent aux seules activités agricoles pratiquées dans la partie du territoire administrée par le gouvernement chypriote, suite à l’invasion turque de 1974. <br><br />
+<strong>Colombie	</strong><br />
+Les données concernent 68,8% du territoire national (22 des 32 départements).<br>	<br />
+<strong>États-Unis D’amérique	</strong><br />
+Veuillez noter qu'il est possible que l'ammoniac soit comptabilisé en double dans les totaux relatifs aux engrais azotés.<br> <br />
+<strong>Éthiopie	</strong><br />
+À partir de 2004, les données de consommation se rapportent à la campagne engrais. <br />
+À partir de 2007, les données d’importations incluent les stocks non utilisés des années précédentes.<br> <br />
+<strong>Fédération de Russie</strong><br />
+Les donnés de commerce comprennent le Bélarus. <br />
+À partir de 2010 les données d’échanges bilatéraux avec le Kazakhstan ne sont pas prises en compte.<br> <br />
+<strong>France	</strong><br />
+Les données se rapportent à la campagne engrais jusqu’en 2008. <br />
+À partir de 2008, les données de la production ne proviennent plus des mêmes enquêtes que précédemment, mais d’une nouvelle Enquête annuelle sur la production, ce qui pourrait entraîner des incohérences dans les chiffres. En raison du caractère confidentiel de certaines données, les chiffres de la production pourraient être sous estimés.<br> <br />
+<strong>Géorgie	</strong><br />
+Les territoires non contrôlés par le gouvernement ne sont pas prises en compte.<br>	<br />
+<strong>Inde	</strong><br />
+Les données se rapportent à la campagne engrais (d’avril à mars). Les données des exportations des années 2007-2010  se rapportent à l’année civile.<br>	<br />                                     
+<strong>Irlande	</strong><br />
+Les données se rapportent à la campagne engrais.<br> <br />
+<strong>Japon	</strong><br />
+Les données se rapportent à la campagne engrais (de juillet à juin). Les usages industriels sont pris en compte. Les données relatives à l’utilisation de produits autres que des engrais à partir de 2006 sont des estimations et pourraient altérer les chiffres relatifs à la consommation.<br> <br />
+<strong>Kirghizistan	</strong><br />
+Les données de consommation se rapportent à la campagne engrais. <br>	<br />
+<strong>Lettonie	</strong><br />
+Les données de la consommation effective se rapportent à la campagne engrais.<br>	<br />
+<strong>Mali</strong><br />
+Les données de production se rapportent à la campagne engrais.<br> <br />
+<strong>Mexique	</strong><br />
+À partir de 2007, le pays a changé de source pour recueillir les données, ce qui pourrait se traduire par des incohérences dans la série chronologique.<br> <br />
+<strong>Myanmar	</strong><br />
+Les données de production se rapportent à la campagne engrais. <br><br />
+<strong>Népal	</strong><br />
+Les importations des secteurs informels et non structurés ne sont pas prises en compte. Les données se rapportent à la campagne engrais. <br><br />
+<strong>Nouvelle-Zélande	</strong><br />
+En raison du caractère confidentiel des données de production jusqu’en de 2007, les chiffres de la production d’engrais azotés (N) pourraient être surestimés et ceux de la production d’engrais phosphatés (P<sub>2</sub>O<sub>5</sub>), sous-estimés.<br> <br />
+<strong>Pays-Bas	</strong><br />
+Les données de la consommation effective se rapportent à la campagne engrais.<br>	<br />
+<strong>Pologne	</strong><br />
+Les données de la consommation effective se rapportent à la campagne engrais.<br>	<br />
+<strong>République Tchèque	</strong><br />
+Les données de consommation se rapportent à la campagne engrais et ne prennent pas en compte les agriculteurs indépendants. En raison du caractère confidentiel des données de production à partir de 2007, les chiffres de la production d’engrais azotés (N) pourraient être surestimés et ceux de la production d’engrais phosphatés (P<sub>2</sub>O<sub>5</sub>), sous-estimés.<br> <br />
+<strong>Royaume-Uni	</strong><br />
+Les données de consommation se rapportent à la campagne engrais (de juillet à juin).  Les données comprennent l’Irlande du Nord.<br>	<br />
+<strong>Serbie-Et-Monténégro	</strong><br />
+Les données ne concernent que la Serbie. Le Kosovo n’est pas pris en compte.<br> <br />
+<strong>Serbie	</strong><br />
+Le Kosovo n’est pas pris en compte. 
+En raison du caractère confidentiel des données de production à partir de 2007, les chiffres pourraient être sous-estimés.<br> <br />
+<strong>Seychelles	</strong><br />
+Les données ne concernent pas l’ensemble du pays: seules les réserves agricoles nécessaires de l’Agence agricole nationale sont prises en compte.<br>	<br />
+<strong>Slovaquie	</strong><br />
+Les données de consommation se rapportent à la campagne engrais.<br>	<br />
+<strong>Suède</strong><br />
+Les données de consommation se rapportent à la campagne engrais.<br>	<br />
+<strong>Tanzanie	</strong><br />
+Les données de consommation se rapportent à la campagne engrais.<br>	<br />
+<strong>Thaïlande	</strong><br />
+En raison de l’absence de données de production jusqu’en 2007, les chiffres de la production d’engrais azotés (N) pourraient être surestimés.<br>	<br />
+<strong>Ukraine	</strong><br />
+En raison du caractère en partie confidentiel des données de production jusqu’en 2007, les chiffres de la production d’engrais phosphatés (P<sub>2</sub>O<sub>5</sub>) pourraient être sous estimés.<br> <br />
 </p>
-When data is not known for either fertilizer production or consumption, then the other items are used to derive the residual data. When this occurs, the data is labelled as apparent (e.g. apparent production). When the import or export data are not available, then mirror trade flows are used to estimate the data (see Trade flow matrix section).</br></br>
-The summary N, P<sub>2</sub>0<sub>5</sub>, and K<sub>2</sub>0 totals for the items in the Fertilizer Resource Utilization Account are based on the following scenarios:
-</br></br>
-<ul class='bullet-list'>
-	<li><b>Production:</b> P = (– M) + X + NF + C<br/>Production = -(Imports) + Exports + Non-fertilizer use + Consumption</li><br/>
-	<li><b>Production with mirror imports:</b> P = (- mM) + X + NF + C<br/>Production = - (Mirror imports) + Exports + Non-fertilizer use + Consumption<br/><br/>The concept of mirror imports is applied as proxy for a country actual imports figures, for example, when all the characteristics of the variables satisfying the equation are official data (as is formulated in equation a) but the reported information on a given year for imports is not in harmony with current trend. In such a case, all countries exporting such a commodity to that country will be recorded, reviewed and analysed. The result is referred to as mirror imports (mM).</li><br/>
-	<li><b>Production with mirror exports:</b> P = (- M) + mX + NF + C<br/>Production = - (Imports) + Mirror exports (mX) + Non-fertilizer use + Consumption<br/><br/>The concept of mirror exports is applied as a proxy for a country actual exports figures, for example, when all the characteristics of the variables satisfying the equation are official data (as is formulated in equation a) but the reported information on a given year for exports is not in harmony with current trend. In such a case, all countries importing such a commodity from that country will be recorded, reviewed and analysed. The results of such analysis are referred to as mirror exports (mX).</li><br/>
-	<li><b>Apparent Consumption:</b> AC = P + M – NF - X)<br/>Apparent consumption = Production + Imports - Non-fertilizer use - Exports<br/><br/>Apparent consumption figures are developed based on the underlying assumption that supply equals consumption. However, actual apparent consumption may be underestimated due to the following:
-	<ul class='bullet-list'>
-		<li>Non-fertilizer use assumed to be zero in the absence of data;</li>
-		<li>Stocks of fertilizer assumed to be zero or stable;</li>
-		<li>Country imports or exports of fertilizer data not available and assumed to be zero.</li>
-	</ul>
-Due to diverse country practices on the collection, compilation and reporting of fertilizer data, the application of the apparent consumption equation in the FRUA may occasionally produce a negative balance. In such cases it is assumed that country consumption depended on available fertilizer stocks. If country consumption results into a negative balance the negative balance is set to zero“0” with a flag (Z) indicating the adjustment. It is normal practice for countries not to disclose data on stocks, so they are assumed to be stable. For example, a non producing country imports for a calendar year may be of a low magnitude but at the same time reporting high consumption. In such a scenario, it is assumed that country consumption is depended on stock of some mineral fertilizers that have not been used previously.
-</li><br/>
-	<li><b>Apparent Production:</b> AP = X + C - NF - M<br/>Apparent production = Exports + Used for crop production (actual consumption) - Non-fertilizer use - Imports</br></br>When consumption data is available for a country, but actual production is not available or is not considered reliable, the apparent production data is derived. Apparent consumption figures are developed based on the underlying assumption that actual consumption and movement in trade equals the availability of domestic production. Reasons for distortion in the actual apparent production calculated may be due to the following:
-	<ul class='bullet-list'>
-		<li>Non-fertilizer use assumed to be zero (in the absence of data).</li>
-		<li>Stock assumed to be zero or stable.</li>
-		<li>Production data for the years under review not available. </li>
-	</ul>
-</li><br/>
-</ul>
-<b><u>Trade flow matrix</u></b></br></br>
-A Trade flow matrix is a statistical cross tabulation of all trade flows (imports and exports) between trading partners. For example, the imports of mineral fertilizers for a country are equal to the exports of countries that export mineral fertilizers to it. When data is missing for imports or exports for a country, then the counterpart country trade flow data are used as estimates. 
-</br></br>
-<b>Mirror trade (Mirror imports, Mirror exports)</b></br></br>
-Mirror trade information, as indicated in FRAU equations b and c, is used as proxy in order to adjust imports or exports data for those countries reporting figures that are inconsistent, low or high and missing data. </br></br>
-	<ul class='bullet-list'>
-		<li><u>Mirror imports (mM)</u> - the estimation of mirror imports for any particular commodity- for example, all countries export figures for such a commodity to country X are analysed and summed as a proxy for country X total imports.</li>
-		<li><u>Mirror exports mX)</u> - the estimation of mirror exports for any particular commodity - for example, all countries import figures for such a commodity to country X are analysed and summed as a proxy for country X total exports.</li>
-	</ul>
-</br></br>
-<b><u>Specific issues on fertilizer statistics</u></b></br></br>
-<b>Commodity aggregates (totals)</b></br></br>
-As far as possible the data provided by individual countries through the fertilizer resources questionnaire are considered official for computing and summarizing the various level aggregates. In the case where official data are not available from the country for certain products or certain years, reliable information from other sources are used for the period not covered by official data. The details of individual countries data are analysed for building a harmonized trend in the time series on total production, imports, exports, and consumption in nutrient contents for the three types of straight fertilizers - N, P<sub>2</sub>0<sub>5</sub> and K<sub>2</sub>0.
-</br></br>
-<b>Country aggregates (regional totals) </b></br></br>
-Continental and regional aggregates only include data for reporting countries. 
-</br></br>
-<b>Double counting and intermediate use</b></br></br>
-Country fertilizer data is carefully scrutinized in an attempt to eliminate any products intended for intermediate use (straight fertilizers and ammonium phosphate domestically produced or imported are often used to manufacture other fertilizers) thus avoiding double counting.
-</br></br>
-For example, ammonia which is sometimes exported may be at times be incorporated in the production figures of the country. Country data is examined to identify and eliminate (whenever possible) from its production data, such imports that would otherwise inflate overall country production figures. 
-</br></br>
-In principle, only Rock phosphate and Ammonia reported for direct application is included in the fertilizer totals.
-</br></br>
-<b><u>Data sources</u></b></br></br>
-The main source of data is the FAO Questionnaire on Agricultural Resources – Fertilizers sent to countries and it can be found in the ESS Website, Agro-Environmental Indicators section, <a href='http://www.fao.org/economic/ess/ess-agri/ess-resource-meth/en/' target='_blank'>http://www.fao.org/economic/ess/ess-agri/ess-resource-meth/en/</a>.
-</br></br>
-Additional data sources may include: national publications, national websites, publications and Yearbooks related to group of countries, country project reports, studies available in other FAO Divisions, economic journals, country trade data received from custom departments and data discussed with industry experts. The main additional source of trade data is the United Nations Statistics Division COMTRADE database. In the case of COMTRADE data, import for technical use of products might be included. Further details on the technical methodology used for production data in the FAOSTAT Fertilizer dataset can be found in the 'Country notes for the Fertilizer module'.
-</br></br>
-<b><u>Reference period</u></b></br></br>
-The review and analysis starts from 2002. Some countries compile fertilizer data on a calendar year basis, while others are on a split-year basis (fertilizer year). For the purpose of data dissemination, the concept of a calendar year (January to December) has been adopted. Fertilizer data reported by a country following a split year basis will be treated on a calendar year basis, January to December. If a country data was reported produced, imported, exported or consumed, for example, in June 2004/July 2005, it will be recorded to represent the calendar year 2004.
-</br></br>
-<b><u>Units of measurement</u></b></br></br>
-All figures are calculated in metric tons of plant nutrients. Nitrogen is generally expressed in the elemental form (N). Phosphate and Potash are expressed as the oxide form, P<sub>2</sub>0<sub>5</sub> and K<sub>2</sub>0.
-</br></br>
-<b>Conversion factors</b></br></br>
-The following table of commonly used conversion factors for fertilizers is the basis for data conversion of the data received through the FAO fertilizer resources questionnaire. It should be noted that nutrient contents might vary from country to country. The percentages given in the table below regarding commodity weight for individual fertilizers is a default technical conversation factor used in the case a country has failed to provide information on the process and utilization of data reported (countries are requested to provide their specific technical conversion factors if they differ from the default value).
-<table class="hor-minimalist-b">
-	<thead>
-		<tr>
-			<th scope='col'>Commodity</th>
-			<th>Conversion factor</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr><td>Ammonia, anhydrous</td><td>82% N</td></tr>
-		<tr><td>Ammonium nitrate</td><td>33% N</td></tr>
-		<tr><td>Ammonium sulphate</td><td>21% N</td></tr>
-		<tr><td>Calcium ammonium nitrate</td><td>21% N</td></tr>
-		<tr><td>Urea</td><td>46% N</td></tr>
-		<tr><td>Urea and ammonium nitrate solutions</td><td>32% N</td></tr>
-		<tr><td>Superphosphate above 35%</td><td>46% P<sub>2</sub>0<sub>5</sub></td></tr>
-		<tr><td>Superphosphate, other</td><td>18% P<sub>2</sub>0<sub>5</sub></td></tr>
-		<tr><td>Phosphate rock</td><td>30% P<sub>2</sub>0<sub>5</sub></td></tr>
-		<tr><td>Potassium chloride (Muriate of potash)</td><td>60% K<sub>2</sub>0</td></tr>
-		<tr><td>Potassium sulphate</td><td>50% K<sub>2</sub></td></tr>
-		<tr><td>Diammonium phosphate (DAP)</td><td>18% N and 46% P<sub>2</sub>0<sub>5</sub></td></tr>
-		<tr><td>Monoammonium phosphate (MAP)</td><td>11% N and 52% P<sub>2</sub>0<sub>5</sub></td></tr>
-		<tr><td>Other NP compounds</td><td>20% N and 25% P<sub>2</sub>0<sub>5</sub></td></tr>
-		<tr><td>NPK complex</td><td>15% N, 15% P<sub>2</sub>0<sub>5</sub> and 15% K<sub>2</sub>0</td></tr>
-		<tr><td>NPK blends</td><td>15% N, 15% P<sub>2</sub>0<sub>5</sub> and 15% K<sub>2</sub>0</td></tr>
-		<tr><td>PK compounds</td><td>20% P<sub>2</sub>0<sub>5</sub> and 25% K<sub>2</sub>0</td></tr>
-		<tr><td>Potassium nitrate</td><td>13% N and 45% K<sub>2</sub>0</td></tr>
-	</tbody>
-</table>
-<br /><br /><br />
+
 </div>
+</div>
+<br />
+
+<b>A propos du module Engrais</b></br></br>
+<p>Le module concernant les engrais contient des données sommaires à compter de l’année 2002. Il est établi depuis 2006 à l’aide d’une méthodologie révisée et de nouveaux formats de diffusion. On peut accéder à la précédente série de données concernant les engrais (données de 1961 à 2002) dans les « Archives des engrais » du site web FAOSTAT. Les deux modules doivent être utilisés séparément. On ne peut pas les réunir pour créer une série chronologique plus longue à cause des changements suivants, adoptés depuis 2002: nouvelle méthodologie d’élaboration des données concernant les engrais, passage à la seule année civile et abandon de l’utilisation à la fois de l’année civile et des campagnes engrais, classification révisée des différents engrais, ajout du paramètre relatif à la non-utilisation d’engrais dans le bilan engrais et utilisation de nouvelles sources pour certaines données (par exemple UN COMTRADE, la base de données statistiques sur le commerce des marchandises de l’ONU). </p>
+
+<p>Les données statistiques relatives aux engrais sont en général communiquées par les pays sous la forme de poids des produits au moyen du questionnaire de la FAO sur les ressources agricoles – engrais. Elles sont ensuite converties en nutriments et validées en vue d’assurer leur cohérence avec les totaux récapitulatifs concernant la production, les importations, les exportations et la consommation de trois types d’engrais, les engrais azotés (N), phosphatés (P<sub>2</sub>0<sub>5</sub>) et potassiques (K<sub>2</sub>0), et des engrais composés (NP, PK, NK et NPK). </p><br />
+
+<p><a onclick="toggleDiv('texthid');" href="javascript:void(0)"><strong>Pour en savoir plus /Cacher</strong></a></p>
+<div id="texthid" style="DISPLAY: none">
+<div id="addText">
+<br />
+<h3>Données sur les engrais compilées dans FAOSTAT</h3><br />
+<p><u><strong>Concepts et définitions</strong></u></p><br />
+<p><strong>Utilisation a des fins agricoles</strong></p>
+<p>L’expression ‘utilisation a des fins agricoles’ s’applique à la quantité totale d’engrais qui a été mêlée au sol pour accroître les rendements agricoles. Le concept se traduit ici par ‘Consommation Effective’ et est défini comme les quantités effectivement livrées à l’agriculture par les fabricants ou la quantité effectivement consommée par un pays pour sa production agricole. </p><br />
+
+<b>Description des éléments</b></br></br>
+<table style="MARGIN: auto auto auto 30.65pt; WIDTH: 500pt; BORDER-COLLAPSE: collapse" border="0" cellspacing="0" cellpadding="0" width="469">
+    <tbody>
+        <tr style="HEIGHT: 20pt">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p><strong>Code</strong></p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p><strong>Élément</strong></p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p><strong>Définition proposée</strong></p>
+            </td>
+         </tr>
+            <tr style="HEIGHT: 30pt"; ALIGN="left">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5850</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Utilisation non fertilisante (tonnes)</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Quantité de produits fertilisants qui ne sont pas utilisés à des fins de production agricole/végétale, exprimée en poids du produit (tonnes).</p>
+            </td>
+         </tr>
+            <tr style="HEIGHT: 30pt"; ALIGN="left">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5849</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Utilisation non fertilisante (éléments nutritifs)</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Quantité de produits fertilisants qui ne sont pas utilisés à des fins de production agricole/végétale, exprimée en tonnes équivalent éléments nutritifs.</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 25pt"; ALIGN="left">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5157</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Consommation (tonnes)</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Quantité d'engrais consommés à des fins de production agricole, exprimée en poids du produit (tonnes).</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 25pt"; ALIGN="left">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5155</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Consommation d'éléments nutritifs (tonnes)</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Quantité d'engrais consommés à des fins de production agricole, exprimée en tonnes équivalent éléments nutritifs.</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 25pt"; ALIGN="left">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5515</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Production - Quantité d'éléments nutritifs</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Production totale d'engrais, exprimée en tonnes équivalent éléments nutritifs.</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 25pt"; ALIGN="left">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5615</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Importations - Quantité d'éléments nutritifs</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Quantité d'engrais importés, exprimée en tonnes équivalent éléments nutritifs.</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 25pt"; ALIGN="left">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5915</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Exportations - Quantité d'éléments nutritifs</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Quantité d'engrais exportés, exprimée en tonnes équivalent éléments nutritifs.</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 20pt"; ALIGN="left">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5510</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Production (tonnes)</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Production totale d'engrais, exprimée en poids du produit (tonnes).</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 20pt"; ALIGN="left">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5610</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Importations (tonnes)</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Quantité d'engrais importés, exprimée en poids du produit (tonnes).</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 20pt"; ALIGN="left">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5910</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Exportations (tonnes)</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Quantité d'engrais exportés, exprimée en poids du produit (tonnes).</p>
+            </td>
+         </tr>
+	</tbody>
+</table></br></br>
+<p><strong>Compte d’utilisation des ressources en engrais (Fertilizer Resource Utilization Account - FRUA) </strong></p>
+<p>La présentation sous la forme du Compte d’utilisation des ressources en engrais résume la production, les importations, les exportations, l’utilisation à des fins autres que la fertilisation et la consommation des trois nutriments que sont l’azote (N), le phosphate (P<sub>2</sub>0<sub>5</sub>) et la potasse (K20). L’équation utilisée est la suivante: </p>
+<p align="center"><u>2. Production (P) + Importations (M) - Exportations(X) &ndash; Utilisation &agrave; des fins autres que la fertilisation (NF)= Consommation (C)</u><br />
+P + M &ndash; X &ndash; NF = C
+</p>
+<p>En l’absence de données sur la production ou la consommation d’engrais, les données manquantes sont dérivées des autres rubriques. Dans ce cas, les données en question sont qualifiées d’apparentes (par ex. production apparente). S’il s’agit de données sur les importations ou les exportations on se sert des flux miroir pour obtenir des données miroir (voir section sur la matrice des flux commerciaux ci-après). </p>
+<p>Les totaux résumés de N, P<sub>2</sub>0<sub>5</sub> et K20 indiqués sous les rubriques du compte d’utilisation des ressources en engrais sont fondés sur les scénarios suivants: </p>
+ 
+<ol type="a">
+  <li><u>Production</u> P = (&ndash; M) + X + NF + C <br />
+ Production = ( &ndash; Importations) + Exportations + Utilisation &agrave; des fins autres que la fertilisation + Consommation<br />
+ <br />
+
+Lorsque les données sur un pays sont toutes disponibles, alors P = la production effective du pays; M = les importations effectives, X = les exportations effectives, C = la consommation effective et NF = l’utilisation effective à des fins autres que la fertilisation. <br />
+ </li>
+ <li><u>Production avec importations miroir</u> P = (-mM) + X + NF + C <br />
+Production = (-Importations miroir)+Exportations+Utilisation à des fins autres que la fertilisation+Consommation<br />
+<br />
+Le concept d’importations miroir est appliqué comme variable de substitution pour les chiffres réels d’importation d’un pays, par exemple, quand toutes les caractéristiques des variables satisfaisant l’équation sont des données officielles (comme le formule l’équation a), mais que les informations fournies sur une année donnée d’importations ne sont pas conformes à la tendance actuelle. Dans un tel cas, les données concernant tous les pays exportant ce produit vers le pays en question seront enregistrées, examinées et analysées. Les résultats sont appelés importations miroir (mM). <br /></li>
+ <li><u>Production avec exportations miroir</u> P = (-M )+ mX + NF + C<br />
+Production = (-Importations)+Exportations miroir+Utilisation à des fins autres que la fertilisation+Consommation<br />
+<br />
+Le concept d’exportations miroir est appliqué comme variable de substitution pour les chiffres réels d’exportation d’un pays, par exemple, quand toutes les caractéristiques des variables satisfaisant l’équation sont des données officielles (comme le formule l’équation a), mais que les informations fournies sur une année donnée d’exportations ne sont pas conformes à la tendance actuelle. Dans un tel cas, les données concernant tous les pays important ce produit du pays en question seront enregistrées, examinées et analysées. Les résultats de cette analyse sont appelés exportations miroir (mX). <br /></li>
+  <li><u>Consommation apparente</u> AC = P + M –NF -X <br />
+Consommation apparente = Production+Importations-Utilisation à des fins autres que la fertilisation-Exportations <br />
+<br />
+La consommation apparente est calculée en partant de l’hypothèse selon laquelle l’offre est égale à la consommation. Cependant, la consommation apparente peut être sous-estimée pour les motifs suivants: <br />
+  &bull; En l’absence de données, l’utilisation à des fins autres que la fertilisation est supposée nulle; <br />
+  &bull; Les stocks sont supposés être égaux à zéro ou stables; <br />
+  &bull; Les données sur les importations ou les exportations d’engrais par les différents pays ne sont pas disponibles et sont supposées êtres nulles. <br />
+<br />
+En raison de la diversité des pratiques selon les pays en matière de collecte, de compilation et de notification des données sur les engrais, l’application de l’équation relative à la consommation apparente dans le FRUA peut parfois aboutir à un solde négatif. Dans de tels cas, on suppose que la consommation du pays dépendait des stocks disponibles d’engrais. Si la consommation d’un pays aboutit à un solde négatif, le solde est fixé à «0», avec le signe coventionelle ‘Z’. Il arrive fréquemment que les pays ne fournissent pas de données concernant leurs stocks, qui sont donc supposés stables. Par exemple, les importations d’un pays non producteur pour une année civile peuvent être faibles, mais ce pays peut parallèlement déclarer une consommation élevée. Dans un tel scénario, on suppose que la consommation du pays dépend des stocks de certains engrais minéraux qui n’ont pas été utilisés précédemment. </li>
+  <li><u>Production apparente</u> AP = X + C - (NF + M) <br />
+Production apparente = Exportations + Utilisation pour la production agricole (consommation effective) - Utilisation à des fins autres que la fertilisation - Importations<br />
+<br />
+Lorsque les données relatives à la consommation sont disponibles pour un pays, mais que celles concernant la production effective ne le sont pas ou sont considérées comme non fiables, les données concernant la production apparente sont calculées par dérivation. <br />
+La consommation apparente est calculée en partant de l’hypothèse selon laquelle la consommation effective et les flux commerciaux sont égaux à la production nationale disponible. Les distorsions affectant le calcul de la production apparente peuvent s’expliquer par les raisons suivantes: <br />
+  &bull;L’utilisation à des fins autres que la fertilisation est supposée être nulle (en l’absence de données). <br />
+  &bull;Les stocks sont supposés égaux à zéro ou stables. <br />
+  &bull;Les données concernant la production des années analysées ne sont pas disponibles. <br />
+ <br />
+  </li>
+</ol>
+<p><strong><u>Matrice des flux commerciaux</u></strong></p>
+<p>Une matrice des flux commerciaux est un tableau statistique croisé de tous les flux commerciaux (importations et exportations) entre les partenaires commerciaux. Par exemple, les importations d’engrais minéraux d’un pays sont égales aux exportations des pays exportant des engrais minéraux vers le pays en question. Lorsque des données manquent sur les importations ou les exportations d’un pays, les données concernant les flux commerciauxdu pays de contrepartie servent d’estimations. </p>
+<p><strong>Flux miroir (Importations miroir, Exportations miroir) </strong></p>
+<p>Comme l’indiquent les équations b et c du FRUA 2, les informations miroir sur les flux sont utilisées comme variables de substitution pour ajuster les données concernant les importations ou les exportations pour les pays fournissant des chiffres incohérents ou des données qui sont faibles, élevées ou lacunaires. </p>
+<ol type="a">
+  <li><u>Importations miroir (mM) </u> - estimation des importations miroir pour n’importe quel produit en particulier - par exemple, les chiffres des exportations de tous les pays pour un produit donné vers le pays X sont analysés et additionnés pour constituer une variable de substitution des importations totales du pays X. <br /></li>
+  <li><u>Exportations miroir (mX) </u> – estimation des exportations miroir pour n’importe quel pays en particulier – par exemple, les chiffres des importations de tous les pays pour un produit donné en provenance du pays X sont analysés et additionnés pour constituer une variable de substitution des exportations totales du pays X. <br />
+<br />
+Les chiffres des importations ou exportations miroir qui sont ainsi dérivés sont utilisés pour ajuster les données sur les importations ou les exportations fournies par un pays donné ou pour combler des lacunes dans les informations sur les flux. <br />
+<br />
+</li>
+</ol>
+<p><strong><u>Problèmes spécifiques posés par les statistiques sur les engrais: </u></strong></p><br />
+<p><strong>Agrégats par produit (totaux) </strong></p>
+<p>Dans la mesure possible, les données fournies par les pays par l’intermédiaire du questionnaire sur les ressources en engrais sont considérées comme officielles pour le calcul et la synthèse des agrégats à divers niveaux. Lorsque le pays ne fournit pas de données officielles pour certains produits ou certaines années, des informations fiables provenant d’autres sources sont utilisées pour la période non couverte par les données officielles. Les détails des données relatives aux différents pays sont analysés pour constituer une tendance harmonisée dans les séries temporelles sur la production, les importations, les exportations et la consommation totales en nutriments, pour les trois types d’engrais - N, P<sub>2</sub>0<sub>5</sub> et K<sub>2</sub>0. </p><br />
+<p><strong>Agrégats par pays (totaux régionaux) </strong></p>
+
+<p>Les agrégats continentaux et mondiaux ne comprennent que les données des pays énumérés. </p><br />
+
+<p><strong>Double comptage et utilisation intermédiaire</strong></p>
+
+<p>Les données sur les engrais par pays sont soigneusement examinées pour essayer d’éliminer tous les produits destinés à une utilisation intermédiaire (les engrais simples et le phosphate d’ammonium produits dans le pays ou importés sont souvent utilisés pour fabriquer d’autres engrais), ce qui évite le double comptage. </p>
+
+<p>Par exemple, l’ammoniac qui est parfois exporté peut dans certains cas être intégré dans les chiffres de production du pays. Les données par pays sont examinées pour identifier, et éliminer (si possible) des données sur la production, des importations qui, sinon, gonfleraient les chiffres de la production totale du pays.
+En principe, seuls le phosphate naturel et l’ammoniac déclarés servir à une application directe sont inclus dans le total des engrais. </p><br />
+
+<p><strong><u>Sources de données</u></strong></p>
+<p>Le questionnaire de la FAO sur les ressources agricoles – engrais constitue la principale source de données en la matière. Il est envoyé aux pays et on peut le trouver sur le site web de la Division de la Statistique, dans la section consacrée aux indicateurs agroenvironnementaux: <a target="_new" href="http://www.fao.org/economic/ess/ess-agri/ess-resource-meth/fr/">http://www.fao.org/economic/ess/ess-agri/ess-resource-meth/fr/</a></p>
+
+<p>Les autres sources de données concernant les engrais comprennent les publications nationales, les sites web des instituts nationaux des statistiques, les publications et annuaires statistiques liés à des groupes de pays, les rapports sur les projets réalisés par les pays, les études disponibles dans d’autres divisions de la FAO, les revues économiques ou encore les données relatives au commerce par pays fournies par les services des douanes et les spécialistes du secteur. En ce qui concerne les données relatives aux échanges commerciaux, la principale autre source de données est la base de données COMTRADE de la Division des statistiques de l'ONU, qui peut contenir les données relatives aux importations de produits à des fins industrielles. On trouvera davantage de détails sur la méthodologie adoptée pour élaborer les données du module FAOSTAT sur les engrais dans les ‘Notes sur les pays pour le module Engrais’. </p><br />
+
+<p><strong><u>Période de référence</u></strong></p>
+<p>L’analyse démarre en 2002. Certains pays rassemblent les données relatives aux engrais sur la base de l’année civile alors que d’autres le font sur une période de douze mois à cheval sur deux années (campagne engrais). Pour la diffusion des données, on a retenu le principe de l’année civile (de janvier à décembre). Les données fournies sur la base de la campagne seront converties en année civile. Par exemple, si les données d’un pays relatives à la production, à l’importation, à l’exportation ou à la consommation d’engrais correspondent à la période juin 2004-juillet 2005, elles seront imputées à l’année civile 2004. </p><br />
+
+<p><strong><u>Unités de mesure</u></strong></p>
+<p>Tous les chiffres sont calculés en tonnes de nutriments: N, P<sub>2</sub>0<sub>5</sub>, K<sub>2</sub>0. L’azote est généralement exprimé sous la forme élémentaire, N. Les phosphates et la potasse sont exprimés en oxydes, P<sub>2</sub>0<sub>5</sub> et K<sub>2</sub>0. </p><br />
+<p><strong>Facteurs de conversion</strong></p>
+<p>La table suivante des facteurs de conversion utilisés généralement pour des engrais constitue la base de la collecte de données dans le questionnaire de la FAO sur les ressources en engrais. Il faut noter que la teneur en nutriments peut varier d’un pays à l’autre. Les pourcentages indiqués dans le tableau pour le poids des engrais pris individuellement sont des facteurs techniques de conversion par défaut utilisés lorsqu’un pays n’a pas communiqué d’informations sur le processus et l’utilisation des données transmises (les pays sont priés de communiquer leurs facteurs techniques de conversion spécifiques s’ils diffèrent de la valeur par défaut). </p>
+<br />
+
+<table class="dataTable">
+    <thead>
+        <tr>
+            <th scope='col'>Produit</th>
+            <th>Facteur de conversion utilis&eacute; si aucune information n&rsquo;est fournie par le pays</th>
+        </tr>
+    </thead>
+
+<!--<p>
+<table cellspacing="0" cellpadding="0" width="60%" border="0">
+  <tbody>
+    <tr>
+      <td class="header" width="50%"><strong>Produit</strong></td>
+      <td class="header" width="50%"><strong>Facteur de conversion utilis&eacute; si aucune information n&rsquo;est fournie par le pays</strong></td>
+    </tr>-->
+    <tr>
+      <td class="first_column">Ammoniaque, anhydre</td>
+      <td>82% N</td>
+    </tr>
+    <tr>
+      <td class="first_column">Nitrate d&rsquo;ammoniaque</td>
+      <td>33% N</td>
+    </tr>
+    <tr>
+      <td class="first_column">Sulfate d&rsquo;ammoniaque</td>
+      <td>21% N</td>
+    </tr>
+    <tr>
+      <td class="first_column">Nitrate de calcium et d&rsquo;ammoniaque</td>
+      <td>21% N</td>
+    </tr>
+    <tr>
+      <td class="first_column">Ur&eacute;e</td>
+      <td>46% N</td>
+    </tr>
+    <tr>
+      <td class="first_column">Ur&eacute;e et solutions de nitrate d&rsquo;ammoniaque</td>
+      <td>32% N</td>
+    </tr>
+    <tr>
+      <td class="first_column">Superphosphates au-dessus de 35%</td>
+      <td>46% P<sub>2</sub>0<sub>5</sub></td>
+    </tr>
+    <tr>
+      <td class="first_column">Superphosphates, autres</td>
+      <td>18% P<sub>2</sub>0<sub>5</sub></td>
+    </tr>
+    <tr>
+      <td class="first_column">Phosphate naturel</td>
+      <td>30% P<sub>2</sub>0<sub>5</sub></td>
+    </tr>
+    <tr>
+      <td class="first_column">Chlorure de potassium</td>
+      <td>60% K<sub>2</sub>0</td>
+    </tr>
+    <tr>
+      <td class="first_column">Sulfate de potassium</td>
+      <td>50% K<sub>2</sub>0</td>
+    </tr>
+    <tr>
+      <td class="first_column">Phosphate diammonique <span style="mso-spacerun: yes">&nbsp;(DAP)</span></td>
+      <td>18% N et 46% P<sub>2</sub>0<sub>5</sub></td>
+    </tr>
+    <tr>
+      <td class="first_column">Phosphate monoammonique (MAP)</td>
+      <td>11% N et 52% P<sub>2</sub>0<sub>5</sub></td>
+    </tr>
+    <tr>
+      <td class="first_column">Autres engrais compos&eacute;s NP</td>
+      <td>20% N et 25% P<sub>2</sub>0<sub>5</sub></td>
+    </tr>
+    <tr>
+      <td class="first_column">Engrais complexes NPK</td>
+      <td>15% N, 15% P<sub>2</sub>0<sub>5</sub> et 15% K<sub>2</sub>0</td>
+    </tr>
+    <tr>
+      <td class="first_column">Engrais m&eacute;lang&eacute;s NPK</td>
+      <td>15% N, 15% P<sub>2</sub>0<sub>5</sub> et 15% K<sub>2</sub>0</td>
+    </tr>
+    <tr>
+      <td class="first_column">Engrais compos&eacute;s PK</td>
+      <td>20% P<sub>2</sub>0<sub>5</sub> et 25% K<sub>2</sub>0</td>
+    </tr>
+    <tr>
+      <td class="first_column">Nitrate de potassium</td>
+      <td>13% N et 45% K<sub>2</sub>0</td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<br />
+</div>
+</div>
+<br />
+<div id="links"><b>Fertilizer Links</b><br><br/>
+<p><!--<span class="link_arrows"><img alt="bullet-arrow" src="/Portals/_Faostat/images/images/link_arrows.gif" /></span>--><a target="_blank" href="http://www.fao.org/ag/agl/fertistat/"><strong>FertiStat - Fertilizer Use Statistics (FAO Plant Production and Protection Division)</strong></a>.</p>
+<p><!--<span class="link_arrows"><img alt="bullet-arrow" src="/Portals/_Faostat/images/images/link_arrows.gif" /></span>--><a target="_blank" href="http://www.fao.org/ag/agl/agll/nrdb/index.jsp?lang=en"><strong>FAO Nutrient Response Database (FERTIBASE)</strong></a>.</p>
+<p><!--<span class="link_arrows"><img alt="bullet-arrow" src="/Portals/_Faostat/images/images/link_arrows.gif" /></span>--><a target="_blank" href="http://comtrade.un.org"><strong>United Nations Commodity Trade Statistics Database (COMTRADE)</strong></a>.</p>
+<p><!--<span class="link_arrows"><img alt="bullet-arrow" src="/Portals/_Faostat/images/images/link_arrows.gif" /></span>--><a target="_blank" href="http://www.efma.org"><strong>European Fertilizer Manufacturers Association</strong></a>.</p>
+<p><!--<span class="link_arrows"><img alt="bullet-arrow" src="/Portals/_Faostat/images/images/link_arrows.gif" /></span>--><a target="_blank" href="http://www.fertilizer.org/ifa/"><strong>The International Fertilizer Industry Association (IFA)</strong></a>.</p>
+<p><!--<span class="link_arrows"><img alt="bullet-arrow" src="/Portals/_Faostat/images/images/link_arrows.gif" /></span>--><a target="_blank" href="http://www.tfi.org"><strong>The Fertilizer Institute</strong></a>.</p><br>
+</div>
+</div>
+

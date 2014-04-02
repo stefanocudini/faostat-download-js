@@ -9,15 +9,15 @@ $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
         </div>
     </div>
 <br>
-GHG Emissions from agriculture consists of non-CO<sub style='font-size: 8px;'>2</sub> gases methane (CH<sub style='font-size: 8px;'>4</sub>) and nitrous oxide (N<sub style='font-size: 8px;'>2</sub>O) from crop and livestock production and management activities. Computed at Tier 1 following IPCC Guidelines for National Greenhouse Gas Inventories; available by country, with global coverage and relative to the period 1990-2010, with annual updates.
+<p>Agricultura Total contiene todas las emisiones producidas en los diferentes subdominios de las emisiones agrícolas con el objeto de ofrecer una visión de conjunto de la contribución de la agricultura a la cantidad total de emisiones de GEI. Las emisiones de GEI procedentes de la agricultura consisten en los gases no CO2, metano (CH₄) y óxido nitroso (N₂O), generados por la producción agrícola y ganadera y las actividades de gestión. Calculados en el Nivel 1 según las Directrices para los inventarios nacionales de GEI del Grupo Intergubernamental de Expertos sobre el Cambio Climático de 2006; disponibles por país, con cobertura global y relativos al período desde 1961 al presente, con actualizaciones anuales.</p>
 <br><br>
-<a id='PDF' href='AgricultureTotal.pdf' target='_blank'>Show Metadata</a>
+<a id='PDF' href='/faostat-download-js/PDF/ES/AgriculturaTotal.pdf' target='_blank'>Show Metadata</a>
     <script>
-        switch (F3DWLD.CONFIG.lang) {
-            case 'E': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/EN/GT.pdf'); break;
-            case 'F': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/FR/GT.pdf'); break;
-            case 'S': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/ES/GT.pdf'); break;
-        }
+      /*  switch (F3DWLD.CONFIG.lang) {
+            case 'E': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/EN/AgricultureTotal.pdf'); break;
+            case 'F': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/FR/AgricultureTotal_fr.pdf'); break;
+            case 'S': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/ES/AgriculturaTotal.pdf'); break;
+        }*/
         document.getElementById('PDF').innerHTML = $.i18n.prop('_show_metadata');
         document.getElementById('back_label').innerHTML = $.i18n.prop('_back');
     </script>

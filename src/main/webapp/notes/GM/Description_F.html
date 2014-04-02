@@ -1,5 +1,5 @@
 <div class="download-notes">
-<div class="noteHead"> <h2>Manure Management</h2> <img id='DOMAIN_IMG' src="images/G1.png" width="50" height="50" /></div>
+<div class="noteHead"> <h2>Gestion du fumier</h2> <img id='DOMAIN_IMG' src="images/G1.png" width="50" height="50" /></div>
 <script>
 $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
 </script>
@@ -9,15 +9,15 @@ $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
         </div>
     </div>
 <br>
-GHG emissions from manure management consist of methane and nitrous oxide gases from  aerobic and anaerobic decomposition processes. Computed at Tier 1 following the 2006 IPCC Guidelines for National Greenhouse Gas Inventories, Vol. 4, Chapter 10; available by country, with global coverage and relative to the period 1990-2010, with annual updates.
+Les émissions de gaz à effet de serre (GES) imputables à la gestion du fumier sont constituées des gaz de méthane et d'oxyde nitreux produits par les processus de décomposition aérobie et anaérobie du fumier. Ces données sont calculées selon la méthode de niveau 1 conforme aux Lignes directrices du GIEC pour les inventaires nationaux des GES; disponibles par pays, avec une couverture mondiale et relatives à une période partant de 1961 à nos jours, avec des mises à jour annuelles, et des projections à l'horizon 2030 et 2050.
 <br><br>
-<a id='PDF' href='ManureManagement.pdf' target='_blank'>Show Metadata</a>
+<a id='PDF' href='/faostat-download-js/PDF/FR/GestionDuFumier.pdf' target='_blank'>Show Metadata</a>
     <script>
-        switch (F3DWLD.CONFIG.lang) {
+      /*  switch (F3DWLD.CONFIG.lang) {
             case 'E': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/EN/GM.pdf'); break;
             case 'F': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/FR/GM.pdf'); break;
             case 'S': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/ES/GM.pdf'); break;
-        }
+        }*/
         document.getElementById('PDF').innerHTML = $.i18n.prop('_show_metadata');
         document.getElementById('back_label').innerHTML = $.i18n.prop('_back');
     </script>

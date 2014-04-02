@@ -1,31 +1,37 @@
+<style type="text/css">
+	.dataTable {
+		width: 100% !important;
+		border: 1px solid #E6E6E6 !important;
+		border-collapse: collapse !important;
+		font-size: 12px !important;
+	}
+</style>
+<script type="text/javascript">
+	function toggleDiv(element){
+ if(document.getElementById(element).style.display=="none"){document.getElementById(element).style.display="block"}
+     	else{document.getElementById(element).style.display="none"}
+} 
+</script>
 <div class="download-notes">
 <div class="noteHead"> <h2>Fertilizers</h2> <img id='DOMAIN_IMG' src="images/R.png" width="50" height="50" /></div>
 <script>
 $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/R.png');
 </script>
-<div class="backBtn"><p class='goto' id='R'> < Back </p></div>
-<br>
-The Fertilizer dataset contains summary data from 2002 onwards. This dataset 
-has been prepared using a revised methodology and new dissemination formats 
-starting in 2006. The previous fertilizer data series in FAOSTAT 
-(data from 1961 to 2002) can be found in the Fertilizer Archive. The two sets 
-should be used separately and not combined in order to create longer time 
-series. This is due to the following changes from 2002 including: a change 
-in the underlying fertilizer data methodology; the move to the use of calendar 
-rather than a mixture of calendar and fertilizer year; revised classification 
-of the fertilizer items; the addition of the non-fertilizer use parameter in 
-the fertilizer balance and the use of new data sources for some data (e.g. UN COMTRADE).
-<br/><br/>
-The fertilizer statistics data are generally received from individual 
-countries in product weight through the new FAO Questionnaire on Agricultural 
-Resources – Fertilizers and then converted to nutrients and validated for 
-consistency regarding summary totals of production, import, export, non-fertilizer 
-use and consumption for the three types of fertilizers: nitrogen (N), phosphate 
-(P205), potash (K20) and including complex fertilizers (NP, PK, NK and NPK).
-<br/><br/> 
-<b>Aggregates</b></br></br>
-Continental and regional aggregates only include data for reporting countries. Estimates for non-reporting countries are not included in the continental and regional aggregates. 
+<div class="backBtn"><p class='goto' id='R'><strong> < Back </strong> </p></div>
+
+<br />
+
+<b>Country notes</b><br></br>
+<b>Aggregates:</b>
+Continental and regional aggregates only include data for reporting countries. Estimates for non-reporting countries are not included in the continental and regional aggregates.<br><br />
+Please be aware of the fact that, due to temporary not availability of the 2010 Nitrogen production figure for China, 2010 N production related geographical aggregates are not shown. 
 </br></br>
+
+<p><a onclick="toggleDiv('hideCN');" href="javascript:void(0)"><strong>Show more / Hide</strong></a></p>
+<div id="hideCN" style="DISPLAY: none">
+<div id="addCN">
+<p>
+
 <ul class='bullet-list'>
 	<li><b>Australia:</b> Consumption data 2007 refer to fertilizer year (July/June).</li>
 	<li><b>Bangladesh: </b>Due to confidentiality of production data since 2008, production figures may be underestimated for N and overestimated for P<sub>2</sub>0<sub>5</sub>.</li>
@@ -61,15 +67,162 @@ Continental and regional aggregates only include data for reporting countries. E
 	<li><b>United Kingdom: </b>Consumption data refer to fertilizer year (July/June). Data include Northern Ireland.</li>
 	<li><b>USA: </b>Please note that with reference to the N totals, there might be double counting of Ammonia.</li>
 </ul>
+
+</p>
+</div>
+</div>
+
 </br>
 <b>About the Fertilizer module</b></br></br>
 The Fertilizer dataset contains summary data from 2002 onwards. This dataset has been prepared using a revised methodology and new dissemination formats starting in 2006. The previous fertilizer data series in FAOSTAT (data from 1961 to 2002) can be found in the Fertilizer Archive. The two sets should be used separately and not combined in order to create longer time series. This is due to the following changes from 2002 including: a change in the underlying fertilizer data methodology; the move to the use of calendar rather than a mixture of calendar and fertilizer year; revised classification of the fertilizer items; the addition of the non-fertilizer use parameter in the fertilizer balance and the use of new data sources for some data (e.g. UN COMTRADE).
 </br></br>
 The fertilizer statistics data are generally received from individual countries in product weight through the new FAO Questionnaire on Agricultural Resources – Fertilizers and then converted to nutrients and validated for consistency regarding summary totals of production, import, export, non-fertilizer use and consumption for the three types of fertilizers: nitrogen (N), phosphate (P<sub>2</sub>0<sub>5</sub>), potash (K<sub>2</sub>0) and including complex fertilizers (NP, PK, NK and NPK).
-</br></br></br>
+</br></br>
+
+<p><a onclick="toggleDiv('texthid');" href="javascript:void(0)"><strong>Show more / Hide</strong></a></p>
+<div id="texthid" style="DISPLAY: none">
+<div id="addText"><br><br />
+
 <b><u>Concepts and definitions</u></b></br></br>
 <b>Used for crop production</b></br></br>
 The 'Used for crop production' concept refers to the total quantity of fertilizers applied to the soil to increase crop yields. Used for crop production is here referred to as 'Actual Consumption' and is defined as actual deliveries to agriculture by the manufacturers or actual quantity consumed by a country for agriculture production.</br></br>
+
+
+<b>Description of Elements</b></br></br>
+<table style="MARGIN: auto auto auto 30.65pt; WIDTH: 500pt; BORDER-COLLAPSE: collapse" border="0" cellspacing="0" cellpadding="0" width="469">
+    <tbody>
+        <tr style="HEIGHT: 20pt">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p><strong>Code</strong></p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p><strong>Label</strong></p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p><strong>Proposed definition</strong></p>
+            </td>
+         </tr>
+            <tr style="HEIGHT: 30pt">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5850</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Non-fertilizer use (tonnes)</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Non fertilizer use amount, refers to all fertilizer products which usage is other than for crop production/agriculture use, expressed in product weight (tonnes).</p>
+            </td>
+         </tr>
+            <tr style="HEIGHT: 30pt">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5849</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Non-fertilizer use in nutrients</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Non fertilizer use amount, refers to all fertilizer products which usage is other than for crop production/agriculture use expressed in tonnes of plant nutrient equivalent.</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 25pt">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5157</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Consumption (tonnes)</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Quantity of fertilizers consumed for agriculture production, expressed in product weight (tonnes).</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 25pt">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5155</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Consumption in nutrients (tonnes of nutrient)</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Quantity of fertilizers consumed for agriculture production, expressed in tonnes of plant nutrient equivalent.</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 25pt">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5515</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Production Quantity in nutrients</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Total amount of production of fertilizers, expressed in tonnes of plant nutrient equivalent.</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 25pt">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5615</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Import Quantity in nutrients</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Refers to quantity of fertilizers imported,  expressed in tonnes of plant nutrient equivalent.</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 25pt">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5915</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Export Quantity in nutrients</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Refers to quantity of fertilizers exported, expressed in tonnes of plant nutrient equivalent.</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 20pt">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5510</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Production (tonnes)</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Total production of fertilizers, expressed in product weight (tonnes).</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 20pt">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5610</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Import Quantity (tonnes)</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Refers to quantity of fertilizers imported  expressed in product weight (tonnes).</p>
+            </td>
+        
+         </tr>
+            <tr style="HEIGHT: 20pt">
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 10pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="250">
+            <p>5910</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 75pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Export Quantity (tonnes)</p>
+            </td>
+            <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: #f0f0f0; PADDING-BOTTOM: 0cm; BACKGROUND-COLOR: transparent; PADDING-LEFT: 5.4pt; WIDTH: 200pt; PADDING-RIGHT: 5.4pt; HEIGHT: 20pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0cm" valign="center" width="350">
+            <p>Refers to quantity of fertilizers exported, expressed in product weight (tonnes).</p>
+            </td>
+         </tr>
+	</tbody>
+</table></br></br>
+
 <b>Fertilizer Resource Utilization Account (FRUA) </b></br></br>
 The Fertilizer Resource Utilization Account format provides a summary of: Production, Imports, Exports, Non-Fertilizer use and Consumption for the three plant nutrients nitrogenous (N), phosphate (P<sub>2</sub>0<sub>5</sub>) and potash. (K<sub>2</sub>0). The equation used in the accounting format is seen below:</br></br>
 <p width='100%' align='center'>
@@ -137,7 +290,7 @@ All figures are calculated in metric tons of plant nutrients. Nitrogen is genera
 </br></br>
 <b>Conversion factors</b></br></br>
 The following table of commonly used conversion factors for fertilizers is the basis for data conversion of the data received through the FAO fertilizer resources questionnaire. It should be noted that nutrient contents might vary from country to country. The percentages given in the table below regarding commodity weight for individual fertilizers is a default technical conversation factor used in the case a country has failed to provide information on the process and utilization of data reported (countries are requested to provide their specific technical conversion factors if they differ from the default value).
-<table class="hor-minimalist-b">
+<table class="dataTable">
 	<thead>
 		<tr>
 			<th scope='col'>Commodity</th>
@@ -165,5 +318,19 @@ The following table of commonly used conversion factors for fertilizers is the b
 		<tr><td>Potassium nitrate</td><td>13% N and 45% K<sub>2</sub>0</td></tr>
 	</tbody>
 </table>
-<br /><br /><br />
+
+</p>
+</div>
+</div>
+
+<br /><br />
+<div id="links"><b>Fertilizer Links</b><br><br/>
+<p><!--<span class="link_arrows"><img alt="bullet-arrow" src="/Portals/_Faostat/images/images/link_arrows.gif" /></span>--><a target="_blank" href="http://www.fao.org/ag/agl/fertistat/"><strong>FertiStat - Fertilizer Use Statistics (FAO Plant Production and Protection Division)</strong></a>.</p>
+<p><!--<span class="link_arrows"><img alt="bullet-arrow" src="/Portals/_Faostat/images/images/link_arrows.gif" /></span>--><a target="_blank" href="http://www.fao.org/ag/agl/agll/nrdb/index.jsp?lang=en"><strong>FAO Nutrient Response Database (FERTIBASE)</strong></a>.</p>
+<p><!--<span class="link_arrows"><img alt="bullet-arrow" src="/Portals/_Faostat/images/images/link_arrows.gif" /></span>--><a target="_blank" href="http://comtrade.un.org"><strong>United Nations Commodity Trade Statistics Database (COMTRADE)</strong></a>.</p>
+<p><!--<span class="link_arrows"><img alt="bullet-arrow" src="/Portals/_Faostat/images/images/link_arrows.gif" /></span>--><a target="_blank" href="http://www.efma.org"><strong>European Fertilizer Manufacturers Association</strong></a>.</p>
+<p><!--<span class="link_arrows"><img alt="bullet-arrow" src="/Portals/_Faostat/images/images/link_arrows.gif" /></span>--><a target="_blank" href="http://www.fertilizer.org/ifa/"><strong>The International Fertilizer Industry Association (IFA)</strong></a>.</p>
+<p><!--<span class="link_arrows"><img alt="bullet-arrow" src="/Portals/_Faostat/images/images/link_arrows.gif" /></span>--><a target="_blank" href="http://www.tfi.org"><strong>The Fertilizer Institute</strong></a>.</p><br>
+</div>
+
 </div>

@@ -9,15 +9,20 @@ $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
         </div>
     </div>
 <br>
-GHG emissions from enteric fermentation consist of methane gas produced in digestive systems of ruminants and to a lesser extent of non-ruminants. Computed at Tier 1 following the 2006 IPCC Guidelines for National Greenhouse Gas Inventories, Vol. 4, Chapter 10; available by country, with global coverage and relative to the period 1990-2010, with annual updates.
+Greenhouse gas (GHG) emissions from enteric fermentation consist of methane gas 
+produced in digestive systems of ruminants and to a lesser extent of non-ruminants. 
+Computed at Tier 1 following the 2006 IPCC Guidelines for National GHG Inventories (IPCC, 
+2006); available by country, with global coverage and relative to the period 1961 to 
+present, with annual updates, and projections for 2030 and 2050. 
+
 <br><br>
-<a id='PDF' href='EntericFermentation.pdf' target='_blank'>Show Metadata</a>
+<a id='PDF' href='/faostat-download-js/PDF/EN/EntericFermentation.pdf' target='_blank'>Show Metadata</a>
     <script>
-        switch (F3DWLD.CONFIG.lang) {
-            case 'E': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/EN/GE.pdf'); break;
-            case 'F': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/FR/GE.pdf'); break;
-            case 'S': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/ES/GE.pdf'); break;
-        }
+       /* switch (F3DWLD.CONFIG.lang) {
+            case 'E': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/EN/EntericFermentation.pdf'); break;
+            case 'F': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/FR/FermentaciónEntérica.pdf'); break;
+            case 'S': $('#PDF').attr('href', FAOSTATDownload.prefix + 'PDF/ES/FermentationEntérique.pdf'); break;
+        }*/
         document.getElementById('PDF').innerHTML = $.i18n.prop('_show_metadata');
         document.getElementById('back_label').innerHTML = $.i18n.prop('_back');
     </script>
