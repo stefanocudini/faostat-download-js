@@ -154,8 +154,9 @@ if (!window.FAOSTATDownload) {
             FAOSTATDownload.showDownloadOptionsAndButtons(false);
             var item = {};
             // item.value = FAOSTATDownload.selectedDomainCode;
-            item.value = FAOSTATDownload.domainCode;
-            if (FAOSTATDownload.domainCode == 'null' || FAOSTATDownload.domainCode == '*' || FAOSTATDownload.domainCode == null || FAOSTATDownload.domainCode == 'FB')
+            item.value = (FAOSTATDownload.domainCode == 'null') ? FAOSTATDownload.groupCode : FAOSTATDownload.domainCode;
+//            if (FAOSTATDownload.domainCode == 'null' || FAOSTATDownload.domainCode == '*' || FAOSTATDownload.domainCode == null || FAOSTATDownload.domainCode == 'FB')
+            if (FAOSTATDownload.domainCode == 'FB')
               item.value = 'FB';
             FAOSTATDownloadTree.showBulkDownloads(item);
             CPI.removeCPITableNotes();

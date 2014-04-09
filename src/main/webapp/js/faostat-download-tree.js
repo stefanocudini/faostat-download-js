@@ -352,7 +352,6 @@ if (!window.FAOSTATDownloadTree) {
                     if (item.value == 'FB' || item.value == 'FL') {
                         $('#mainTD').hide();
                         $('#OLAPTD').show();
-                    
                     }
                     $('#OLAP_IFRAME').css('display', 'none');
                     try {
