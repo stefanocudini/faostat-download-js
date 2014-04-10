@@ -2,8 +2,13 @@
 <div class="noteHead"> <h2>&Eacute;missions - Agriculture</h2> <img id='DOMAIN_IMG' src="" width="50" height="50" /></div>
 <script>
 $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
+$('#GHG_STATIC').attr('src', FAOSTATDownload.prefix + 'images/GHG_STATIC.png');
+$('#GO2BROWSE').attr('href', 'http://' + CORE.baseURL + '/faostat-gateway/go/to/browse/G1/*/F');
+document.getElementById('GO2BROWSE_LABEL').innerHTML = $.i18n.prop('_go_to_browse')
 </script>
 <br/>
+    <div style='position: relative;'>
+        <div>
 <ul class='bullet-list-links'>
 	<h2>INDEX</h2>
 	<li class='goto' id='GT_notes'>Total Agriculture</li>
@@ -19,6 +24,14 @@ $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
 	<li class='goto' id='GH_notes'>Combustion - Savane</li>
 	<li class='goto' id='GN_notes'>Consommation d'&eacute;nergie</li>
 </ul>
+        </div>
+        <div style='position: absolute; top: 0px; right: 0px;'>
+            <a id='GO2BROWSE' href='' target='_blank' style='cursor: pointer;'>
+                <div id='GO2BROWSE_LABEL' class='standard-title'>Go to Browse Data</div>
+                <img id='GHG_STATIC' src='images/GHG_STATIC.png' style='padding-top: 8px;'>
+            </a>
+        </div>
+    </div>
 <br>
 La base de données <i>&Eacute;missions - Agriculture</i> de FAOSTAT fournit des estimations nationales d'&eacute;missions de gaz &agrave; effet de serre (GES) &agrave; partir des donn&eacute;es d'activités de FAOSTAT et calcul&eacute;es an niveau 1, en conformit&eacute; avec les lignes directrices de 2006 du Groupe d'experts intergouvernemental sur l'&eacute;volution du climat (GIEC) pour les inventaires nationaux des GES. Les d&eacute;tails techniques sur les donn&eacute;es d'activités sp&eacute;cifiques et sur les principales &eacute;tapes du calcul, y compris la correspondance entre les catégories d'utilisation des terres du GIEC et de FAOSTAT, sont fournis dans la section <i>Informations sur la m&eacute;thodologie et la qualit&eacute;</i> des m&eacute;tadonn&eacute;es pour chacun des secteurs du domaine.
 <br><br>

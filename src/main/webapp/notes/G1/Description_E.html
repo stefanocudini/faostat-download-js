@@ -2,23 +2,36 @@
 <div class="noteHead"> <h2>Emissions - Agriculture</h2> <img id='DOMAIN_IMG' src="" width="50" height="50" /></div>
 <script>
 $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
+$('#GHG_STATIC').attr('src', FAOSTATDownload.prefix + 'images/GHG_STATIC.png');
+$('#GO2BROWSE').attr('href', 'http://' + CORE.baseURL + '/faostat-gateway/go/to/browse/G1/*/E');
+document.getElementById('GO2BROWSE_LABEL').innerHTML = $.i18n.prop('_go_to_browse')
 </script>
 <br/>
-<ul class='bullet-list-links'>
-	<h2>INDEX</h2>
-	<li class='goto' id='GT_notes'>Agriculture Total</li>
-	<li class='goto' id='GE_notes'>Enteric Fermentation</li>
-	<li class='goto' id='GM_notes'>Manure Management</li>
-	<li class='goto' id='GR_notes'>Rice Cultivation</li>
-	<li class='goto' id='GY_notes'>Synthetic Fertilizers</li>
-	<li class='goto' id='GU_notes'>Manure applied to Soils</li>
-	<li class='goto' id='GP_notes'>Manure left on Pasture</li>
-	<li class='goto' id='GA_notes'>Crop Residues</li>
-	<li class='goto' id='GV_notes'>Cultivation of Organic Soils</li>
-	<li class='goto' id='GB_notes'>Burning - Crop Residues</li>
-	<li class='goto' id='GH_notes'>Burning - Savanna</li>
-	<li class='goto' id='GN_notes'>Energy Use</li>
-</ul>
+    <div style='position: relative;'>
+        <div>
+            <ul class='bullet-list-links'>
+                <h2>INDEX</h2>
+                <li class='goto' id='GT_notes'>Agriculture Total</li>
+                <li class='goto' id='GE_notes'>Enteric Fermentation</li>
+                <li class='goto' id='GM_notes'>Manure Management</li>
+                <li class='goto' id='GR_notes'>Rice Cultivation</li>
+                <li class='goto' id='GY_notes'>Synthetic Fertilizers</li>
+                <li class='goto' id='GU_notes'>Manure applied to Soils</li>
+                <li class='goto' id='GP_notes'>Manure left on Pasture</li>
+                <li class='goto' id='GA_notes'>Crop Residues</li>
+                <li class='goto' id='GV_notes'>Cultivation of Organic Soils</li>
+                <li class='goto' id='GB_notes'>Burning - Crop Residues</li>
+                <li class='goto' id='GH_notes'>Burning - Savanna</li>
+                <li class='goto' id='GN_notes'>Energy Use</li>
+            </ul>
+        </div>
+        <div style='position: absolute; top: 0px; right: 0px;'>
+            <a id='GO2BROWSE' href='' target='_blank' style='cursor: pointer;'>
+                <div id='GO2BROWSE_LABEL' class='standard-title'>Go to Browse Data</div>
+                <img id='GHG_STATIC' src='images/GHG_STATIC.png' style='padding-top: 8px;'>
+            </a>
+        </div>
+    </div>
 <br>
 The FAOSTAT Emissions Agriculture database provides country-level estimates of greenhouse gas (GHG) emissions based on FAOSTAT activity data and using Tier 1 computations, following 2006 Intergovernmental Panel on Climate Change (IPCC) Guidelines for National Greenhouse Gas Inventories. Technical details of specific activity data used and relevant computational steps employed are given in the <em>Methodology and Quality Information</em> section of the metadata for each of the sectors in the domain.
 <br><br>

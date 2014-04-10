@@ -3,8 +3,13 @@
                                                                                   height="50"/></div>
     <script>
         $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G2.png');
+        $('#GHG_STATIC').attr('src', FAOSTATDownload.prefix + 'images/GHG_STATIC.png');
+        $('#GO2BROWSE').attr('href', 'http://' + CORE.baseURL + '/faostat-gateway/go/to/browse/G2/*/F');
+        document.getElementById('GO2BROWSE_LABEL').innerHTML = $.i18n.prop('_go_to_browse')
     </script>
     <br/>
+    <div style='position: relative;'>
+        <div>
     <ul class='bullet-list-links'>
         <h2>INDEX</h2>
         <li class='goto' id='GL_notes'>Utilisation des terres total</li>
@@ -13,6 +18,15 @@
         <li class='goto' id='GG_notes'>Prairie</li>
         <li class='goto' id='GI_notes'>Combustion - Biomasse</li>
     </ul>
+        </div>
+        <div style='position: absolute; top: 0px; right: 0px;'>
+            <a id='GO2BROWSE' href='' target='_blank' style='cursor: pointer;'>
+                <div id='GO2BROWSE_LABEL' class='standard-title'>Go to Browse Data</div>
+                <img id='GHG_STATIC' src='images/GHG_STATIC.png' style='padding-top: 8px;'>
+            </a>
+        </div>
+    </div>
+    <div style='height: 125px;'></div>
     <br>
     La base de données Émissions - Utilisation des terres de FAOSTAT fournit des estimations nationales d’émissions de gaz à effet de serre (GES) à partir des données d’activités de FAOSTAT et calculées an niveau 1, en conformité avec les lignes directrices de 2006 du Groupe d'experts intergouvernemental sur l'évolution du climat (GIEC) pour les inventaires nationaux des GES. Les détails techniques sur les données d’activités spécifiques et sur les principales étapes du calcul, y compris la correspondance entre les catégories d’utilisation des terres du GIEC et de FAOSTAT, sont fournis dans la section Informations sur la méthodologie et la qualité des métadonnées pour chacun des secteurs du domaine.
     <br><br>
