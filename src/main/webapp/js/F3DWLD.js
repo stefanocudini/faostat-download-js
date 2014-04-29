@@ -953,7 +953,8 @@ var F3DWLD = (function() {
                     if (typeof(json) == 'string')
                         json = $.parseJSON(response);
 
-//                    console.log(json);
+                    if (codingSystem == 'items')
+                        console.log(response);
 
                     var select = '';
                     var lbl = null;
@@ -1023,7 +1024,12 @@ var F3DWLD = (function() {
                             $('#tabItems').jqxTabs('removeAt', 1);
                             break;
                         case 'items':
-                            $('#tabItems').jqxTabs('removeAt', 0);
+                            console.log(codingSystem);
+                            console.log(err);
+                            console.log(b);
+                            console.log(c);
+                            if (F3DWLD.CONFIG.domainCode != 'FS')
+                                $('#tabItems').jqxTabs('removeAt', 0);
                             break;
                     }
                 }
@@ -1287,6 +1293,15 @@ var F3DWLD = (function() {
             checked : true,
             theme: F3DWLD.CONFIG.theme
         });
+        $('#options_show_flags').jqxCheckBox({
+            checked : true,
+            theme: F3DWLD.CONFIG.theme
+        });
+        if (F3DWLD.CONFIG.domainCode == 'FS') {
+            $('#options_show_flags').jqxCheckBox('disable');
+        } else {
+            $('#options_show_flags').jqxCheckBox('enable');
+        }
     };
 
     function buildOLAP() {
