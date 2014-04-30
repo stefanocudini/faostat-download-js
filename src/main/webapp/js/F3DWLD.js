@@ -81,8 +81,6 @@ var F3DWLD = (function() {
 
                 success : function(response) {
 
-                    console.log(response);
-
                     var codes = response;
                     if (typeof(codes) == 'string')
                         codes = $.parseJSON(response);
@@ -293,8 +291,10 @@ var F3DWLD = (function() {
 
         F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.Value", "alias": $.i18n.prop('_export_value')};
 
-        if (F3DWLD.CONFIG.wdsPayload.showFlags)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.Flag", "alias": $.i18n.prop('_export_flag')};
+        if (F3DWLD.CONFIG.wdsPayload.showFlags) {
+            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation": "NONE", "column": "D.Flag", "alias": $.i18n.prop('_export_flag')};
+            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation": "NONE", "column": "F.FlagDescription" + F3DWLD.CONFIG.lang, "alias": $.i18n.prop('_export_flag_description')};
+        }
 
         F3DWLD.CONFIG.wdsPayload.valueColumnIndex = getValueColumnIndex(F3DWLD.CONFIG.wdsPayload.json);
 
@@ -302,7 +302,8 @@ var F3DWLD = (function() {
                                                   {"column":"Item", "alias":"I"},
                                                   {"column":"Element", "alias":"E"},
                                                   {"column":"Area", "alias":"A"},
-                                                  {"column":"Domain", "alias":"DOM"}];
+                                                  {"column":"Domain", "alias":"DOM"},
+                                                  {"column":"Flag", "alias":"F"}];
 
         var elements = collectElements();
         var countries = collectCountries();
@@ -314,7 +315,8 @@ var F3DWLD = (function() {
                                                    {"datatype": "DATE", "column": "D.AreaCode", "operator": "=","value": "A.AreaCode", "ins": []},
                                                    {"datatype": "DATE", "column": "D.DomainCode", "operator": "=","value": "DOM.DomainCode", "ins": []},
                                                    {"datatype": "DATE", "column": "D.ItemCode", "operator": "=","value": "I.ItemCode", "ins": []},
-                                                   {"datatype": "DATE", "column": "D.ElementCode", "operator": "=","value": "E.ElementCode", "ins": []}];
+                                                   {"datatype": "DATE", "column": "D.ElementCode", "operator": "=","value": "E.ElementCode", "ins": []},
+                                                   {"datatype": "DATE", "column": "D.Flag", "operator": "=","value": "F.Flag", "ins": []}];
 
         if (elements != null)
             F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype": "TEXT", "column": "D.ElementListCode", "operator": "IN", "value": "E.ElementListCode", "ins": elements};
@@ -676,10 +678,6 @@ var F3DWLD = (function() {
     };
 
     function getGridValues(tableCode, map) {
-
-        console.log(tableCode);
-        console.log(map);
-
         $('#' + tableCode).find('option:selected').each(function(k, v) {
             var tmp = {};
             tmp.code = $(v).data('faostat');
@@ -687,9 +685,6 @@ var F3DWLD = (function() {
             tmp.type = $(v).data('type');;
             map.push(tmp);
         });
-
-        console.log(map);
-
     };
 
     function getOptions(limitOutput) {
@@ -953,9 +948,6 @@ var F3DWLD = (function() {
                     if (typeof(json) == 'string')
                         json = $.parseJSON(response);
 
-                    if (codingSystem == 'items')
-                        console.log(response);
-
                     var select = '';
                     var lbl = null;
                     select += '<select id="' + gridCode + '_select" multiple="multiple" style="width: 100%; height: 100%; border: 0px;" onchange="myclean()">';
@@ -1024,10 +1016,6 @@ var F3DWLD = (function() {
                             $('#tabItems').jqxTabs('removeAt', 1);
                             break;
                         case 'items':
-                            console.log(codingSystem);
-                            console.log(err);
-                            console.log(b);
-                            console.log(c);
                             if (F3DWLD.CONFIG.domainCode != 'FS')
                                 $('#tabItems').jqxTabs('removeAt', 0);
                             break;
