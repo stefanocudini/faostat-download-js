@@ -5,7 +5,6 @@ var F3DWLD = (function() {
         CPINotes_url        :   'http://localhost:8080/wds/rest/procedures/cpinotes',
         ODA_url             :   'http://localhost:8080/wds/rest/procedures/oda',
         data_url            :   'http://localhost:8080/wds/rest',
-//        codes_url           :   'http://localhost:8080/bletchley/rest',
         codes_url           :   'http://localhost:8080/wds/rest/procedures/',
         configurationURL    :   'config/faostat-download-configuration.json',
         dbPrefix            :   'FAOSTAT_',
@@ -846,6 +845,7 @@ var F3DWLD = (function() {
                 columns = [];
             }
         }
+        s += buildSelectorsRow(columns);
         s += '<div class="spacer-one"></div>';
         s += buildOptions();
         s += buildButtons();
@@ -881,8 +881,14 @@ var F3DWLD = (function() {
         s += '</ul>';
 
         /** Grids */
-        for (var key in column)
-            s += ' <div class="faostat-download-list" id="grid_' + column[key].procedure + '"></div>';
+        for (var key in column) {
+            // TODO make it language-independant
+            if (key == 'Partner Countries') {
+                s += ' <div class="faostat-download-list" id="grid_usp_GetAreaList2"></div>';
+            } else {
+                s += ' <div class="faostat-download-list" id="grid_' + column[key].procedure + '"></div>';
+            }
+        }
         s += '</div>';
 
         /** Select All */
@@ -938,31 +944,19 @@ var F3DWLD = (function() {
     };
 
     function enhanceUIGrids() {
-        if (F3DWLD.CONFIG.domainCode == 'EA') {
-            enhanceUIGrid('donors', 'gridCountries_donor');
-            enhanceUIGrid('recipients', 'gridCountries_recipient');
-            enhanceUIGrid('flows', 'gridFlows');
-            enhanceUIGrid('purposes', 'gridPurposes');
-            enhanceUIGrid('year', 'gridYears');
-            enhanceUIGrid('elements', 'gridElements');
-        } else {
-//            if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
-//                enhanceUIGrid('reporters', 'grid_usp_GetAreaList1');
-//                enhanceUIGrid('reporters_geo_groups', 'grid_usp_GetAreaList2');
-//                enhanceUIGrid('reporters_special_groups', 'grid_usp_GetAreaList3');
-//                enhanceUIGrid('partners', 'gridCountries_dst');
-//                enhanceUIGrid('partners_geo_groups', 'gridRegions_dst');
-//                enhanceUIGrid('partners_special_groups', 'gridSpecialGroups_dst');
-//            } else {
-                enhanceUIGrid('countries', 'grid_usp_GetAreaList1');
-                enhanceUIGrid('regions', 'grid_usp_GetAreaList2');
-                enhanceUIGrid('specialgroups', 'grid_usp_GetAreaList3');
-//            }
-            enhanceUIGrid('items', 'grid_usp_GetItemList1');
-            enhanceUIGrid('itemsaggregated', 'grid_usp_GetItemList2');
-            enhanceUIGrid('elements', 'grid_usp_GetElementList');
-            enhanceUIGrid('years', 'grid_usp_GetYearList');
+
+        for (var listbox in F3DWLD.CONFIG.dsd) {
+            for (var tab in F3DWLD.CONFIG.dsd[listbox]) {
+                var codelist = tab.toLowerCase().replace(' ', '');
+                if (codelist == 'partnercountries') {
+                    // TODO make it language independant
+                    enhanceUIGrid(codelist, 'grid_usp_GetAreaList2');
+                } else {
+                    enhanceUIGrid(codelist, 'grid_' + F3DWLD.CONFIG.dsd[listbox][tab].procedure);
+                }
+            }
         }
+
     };
 
     function enhanceUIGrid(codingSystem, gridCode) {
