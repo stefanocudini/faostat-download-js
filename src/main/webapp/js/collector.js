@@ -414,19 +414,19 @@ if (!window.C) {
 
 			switch (FAOSTATDownload.countriesTabSelectedIndex) {
                 case 0:
-					countries_rowindexes = $('#gridCountries').jqxGrid('getselectedrowindexes');
-					countries_rows = $('#gridCountries').jqxGrid('getrows');
-                    countries_code = '#gridCountries_select';
+					countries_rowindexes = $('#grid_usp_GetAreaList1').jqxGrid('getselectedrowindexes');
+					countries_rows = $('#grid_usp_GetAreaList1').jqxGrid('getrows');
+                    countries_code = '#grid_usp_GetAreaList1_select';
 				break;
 				case 1:
-					countries_rowindexes = $('#gridRegions').jqxGrid('getselectedrowindexes');
-					countries_rows = $('#gridRegions').jqxGrid('getrows');
-                    countries_code = '#gridRegions_select';
+					countries_rowindexes = $('#grid_usp_GetAreaList2').jqxGrid('getselectedrowindexes');
+					countries_rows = $('#grid_usp_GetAreaList2').jqxGrid('getrows');
+                    countries_code = '#grid_usp_GetAreaList2_select';
 				break;
 				case 2:
-					countries_rowindexes = $('#gridSpecialGroups').jqxGrid('getselectedrowindexes');
-					countries_rows = $('#gridSpecialGroups').jqxGrid('getrows');
-                    countries_code = '#gridSpecialGroups_select';
+					countries_rowindexes = $('#grid_usp_GetAreaList3').jqxGrid('getselectedrowindexes');
+					countries_rows = $('#grid_usp_GetAreaList3').jqxGrid('getrows');
+                    countries_code = '#grid_usp_GetAreaList3_select';
 				break;
 			}
 
@@ -443,9 +443,9 @@ if (!window.C) {
                 C.summary_countries_map.push(tmp);
             });
 			
-			var elements_rowindexes = $('#gridElements').jqxGrid('getselectedrowindexes');
-			var elements_rows = $('#gridElements').jqxGrid('getrows');
-            var elements_code = '#gridElements_select';
+			var elements_rowindexes = $('#grid_usp_GetElementList').jqxGrid('getselectedrowindexes');
+			var elements_rows = $('#grid_usp_GetElementList').jqxGrid('getrows');
+            var elements_code = '#grid_usp_GetElementList_select';
 
 //            for (var i = 0 ; i < elements_rowindexes.length ; i++) {
 //				var elements_row = elements_rows[elements_rowindexes[i]];
@@ -469,21 +469,21 @@ if (!window.C) {
 
 				switch (FAOSTATDownload.itemsTabSelectedIndex) {
 					case 0:
-						items_rowindexes = $('#gridItems').jqxGrid('getselectedrowindexes');
-						items_rows = $('#gridItems').jqxGrid('getrows');
-                        items_code = '#gridItems_select';
+						items_rowindexes = $('#grid_usp_GetItemList1').jqxGrid('getselectedrowindexes');
+						items_rows = $('#grid_usp_GetItemList1').jqxGrid('getrows');
+                        items_code = '#grid_usp_GetItemList1_select';
 					break;
 					case 1:
-						items_rowindexes = $('#gridItemsAggregated').jqxGrid('getselectedrowindexes');
-						items_rows = $('#gridItemsAggregated').jqxGrid('getrows');
-                        items_code = '#gridItemsAggregated_select';
+						items_rowindexes = $('#grid_usp_GetItemList2').jqxGrid('getselectedrowindexes');
+						items_rows = $('#grid_usp_GetItemList2').jqxGrid('getrows');
+                        items_code = '#grid_usp_GetItemList2_select';
 					break;
 				}
 
 			} else {
-				items_rowindexes = $('#gridItemsAggregated').jqxGrid('getselectedrowindexes');
-				items_rows = $('#gridItemsAggregated').jqxGrid('getrows');
-                items_code = '#gridItemsAggregated_select';
+				items_rowindexes = $('#grid_usp_GetItemList2').jqxGrid('getselectedrowindexes');
+				items_rows = $('#grid_usp_GetItemList2').jqxGrid('getrows');
+                items_code = '#grid_usp_GetItemList2_select';
 			}
 
 //			for (var i = 0 ; i < items_rowindexes.length ; i++) {
@@ -499,9 +499,9 @@ if (!window.C) {
                 C.summary_items_map.push(tmp);
             });
 			
-			var years_rowindexes = $('#gridYears').jqxGrid('getselectedrowindexes');
-			var years_rows = $('#gridYears').jqxGrid('getrows');
-            var years_code = '#gridYears_select';
+			var years_rowindexes = $('#grid_usp_GetYearList').jqxGrid('getselectedrowindexes');
+			var years_rows = $('#grid_usp_GetYearList').jqxGrid('getrows');
+            var years_code = '#grid_usp_GetYearList_select';
 
 //            for (var i = 0 ; i < years_rowindexes.length ; i++) {
 //				var years_row = years_rows[years_rowindexes[i]];
@@ -615,6 +615,8 @@ if (!window.C) {
 		},
 		
 		createJSONStandard : function() {
+
+            console.log('createJSONStandard');
 			
 			/**
 			 * Include the Domain name
@@ -653,6 +655,7 @@ if (!window.C) {
 			                   {"column":"Domain", "alias":"DOM"}];
 			
 			var elements = C.elements();
+            console.log('call countries');
 			var countries = C.countries();
 			var items = C.items();
 			var years = C.years();
@@ -758,6 +761,7 @@ if (!window.C) {
 					}
 				}
 			}
+            console.log(ins);
 			return ins;
 		},
 
