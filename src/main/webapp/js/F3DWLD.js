@@ -1,29 +1,31 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        prefix              :   'http://localhost:8080/faostat-download-js/',
-        CPINotes_url        :   'http://localhost:8080/wds/rest/procedures/cpinotes',
-        ODA_url             :   'http://localhost:8080/wds/rest/procedures/oda',
-        data_url            :   'http://localhost:8080/wds/rest',
-        codes_url           :   'http://localhost:8080/wds/rest/procedures/',
-        configurationURL    :   'config/faostat-download-configuration.json',
-        dbPrefix            :   'FAOSTAT_',
-        dsdURL              :   'http://faostat3.fao.org/wds/rest/procedures/listboxes/faostatproddiss/',
-        theme               :   'faostat',
-        tradeMatrices       :   ['FT', 'TM'],
-        lang                :   'E',
-        lang_ISO2           :   'en',
-        outputLimit         :   50,
-        widthTable          :   '100%',
-        baseurl             :   null,
-        datasource          :   null,
-        tablelimit          :   null,
-        groupCode           :   null,
-        domainCode          :   null,
-        dsd                 :   null,
-        wdsPayload          :   {},
-        tabsSelection       :   {},
-        selectedValues      :   {}
+        prefix                  :   'http://localhost:8080/faostat-download-js/',
+        CPINotes_url            :   'http://localhost:8080/wds/rest/procedures/cpinotes',
+        ODA_url                 :   'http://localhost:8080/wds/rest/procedures/oda',
+        data_url                :   'http://localhost:8080/wds/rest',
+        procedures_data_url     :   'http://localhost:8080/wds/rest/procedures/data',
+        procedures_excel_url    :   'http://localhost:8080/wds/rest/procedures/excel',
+        codes_url               :   'http://localhost:8080/wds/rest/procedures/',
+        configurationURL        :   'config/faostat-download-configuration.json',
+        dbPrefix                :   'FAOSTAT_',
+        dsdURL                  :   'http://faostat3.fao.org/wds/rest/procedures/listboxes/faostatproddiss/',
+        theme                   :   'faostat',
+        tradeMatrices           :   ['FT', 'TM'],
+        lang                    :   'E',
+        lang_ISO2               :   'en',
+        outputLimit             :   50,
+        widthTable              :   '100%',
+        baseurl                 :   null,
+        datasource              :   null,
+        tablelimit              :   null,
+        groupCode               :   null,
+        domainCode              :   null,
+        dsd                     :   null,
+        wdsPayload              :   {},
+        tabsSelection           :   {},
+        selectedValues          :   {}
     };
 
     function collectAndQueryWDS(limitOutput) {
@@ -347,6 +349,87 @@ var F3DWLD = (function() {
 
     function createTable() {
 
+        console.log(collectCountries());
+
+        var p = {};
+        p.datasource = F3DWLD.CONFIG.datasource;
+        p.domainCode = F3DWLD.CONFIG.domainCode;
+        p.lang = F3DWLD.CONFIG.lang;
+        p.areaCodes = collectCountries();
+        p.itemCodes = collectItems();
+        p.elementListCodes = collectElements();
+        p.years = collectYears();
+        p.flags = $('#options_show_flags').val();
+        p.codes = $('#options_show_codes').val();
+        p.units = $('#options_show_units').val();
+        p.nullValues = $('#options_show_null_values').val();
+        p.thousandSeparator = $('#options_thousand_separator').jqxDropDownList('getSelectedItem').value;
+        p.decimalSeparator = $('#options_decimal_separator').jqxDropDownList('getSelectedItem').value;
+        p.decimalPlaces = $('#options_decimal_numbers').jqxDropDownList('getSelectedItem').value;
+        p.limit = F3DWLD.CONFIG.outputLimit;
+
+        var data = {};
+        data.payload = JSON.stringify(p);
+
+        console.log(p);
+
+        $.ajax({
+
+            type    :   'POST',
+            url     :   F3DWLD.CONFIG.procedures_data_url,
+            data    :   data,
+
+            success : function(response) {
+                var json = response;
+                if (typeof json == 's')
+                    json = $.parseJSON(response);
+                var s = '<table class="table table-condensed table-striped table-hover table-responsive">';
+                s += '<thead>';
+                s += '<tr>';
+                s += '<th>' + $.i18n.prop('_export_domain') + '</th>';
+                s += '<th>' + $.i18n.prop('_export_country') + '</th>';
+                if (p.codes)
+                    s += '<th>' + $.i18n.prop('_export_country_code') + '</th>';
+                s += '<th>' + $.i18n.prop('_export_item') + '</th>';
+                if (p.codes)
+                    s += '<th>' + $.i18n.prop('_export_item_code') + '</th>';
+                s += '<th>' + $.i18n.prop('_export_element') + '</th>';
+                if (p.codes)
+                    s += '<th>' + $.i18n.prop('_export_element_code') + '</th>';
+                s += '<th>' + $.i18n.prop('_export_year') + '</th>';
+                if (p.units)
+                    s += '<th>' + $.i18n.prop('_export_unit') + '</th>';
+                s += '<th>' + $.i18n.prop('_export_value') + '</th>';
+                if (p.flags)
+                    s += '<th>' + $.i18n.prop('_export_flag') + '</th>';
+                s += '</tr>';
+                s += '</thead>';
+                s += '<tfoot><tr><td colspan="7"><b>Please Note:</b> the table shows a preview of ' + F3DWLD.CONFIG.tablelimit + ' rows of your selection.</td></tr></tfoot>';
+                s += '<tbody>';
+                for (var i = 0 ; i < json.length ; i++) {
+                    s += '<tr>';
+                    for (var j = 1 ; j < json[i].length ; j++)
+                        s += '<td>' + json[i][j] + '</td>';
+                    s += '</tr>';
+                }
+                s += '</tbody>';
+                s += '</table>';
+
+                $('#output_area').empty();
+                $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:'+ F3DWLD.CONFIG.widthTable +'">' + s + '</div>');
+
+            },
+
+            error : function(err, b, c) {
+
+            }
+
+        });
+
+    };
+
+    function createTable_BACKUP() {
+
         var data = {};
 
         data.datasource = F3DWLD.CONFIG.wdsPayload.datasource;
@@ -369,8 +452,6 @@ var F3DWLD = (function() {
         $('#json_WQ').val(JSON.stringify(F3DWLD.CONFIG.wdsPayload.json));
         $('#cssFilename_WQ').val(F3DWLD.CONFIG.wdsPayload.cssFilename);
         $('#valueIndex_WQ').val(F3DWLD.CONFIG.wdsPayload.valueIndex);
-
-//        _this = this;
 
         /** Show the table */
         if (F3DWLD.CONFIG.wdsPayload.limit != null && F3DWLD.CONFIG.wdsPayload.limit == true) {
