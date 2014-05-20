@@ -371,8 +371,6 @@ var F3DWLD = (function() {
         var data = {};
         data.payload = JSON.stringify(p);
 
-        console.log(p);
-
         $.ajax({
 
             type    :   'POST',
@@ -404,7 +402,7 @@ var F3DWLD = (function() {
                     s += '<th>' + $.i18n.prop('_export_flag') + '</th>';
                 s += '</tr>';
                 s += '</thead>';
-                s += '<tfoot><tr><td colspan="7"><b>Please Note:</b> the table shows a preview of ' + F3DWLD.CONFIG.tablelimit + ' rows of your selection.</td></tr></tfoot>';
+                s += '<tfoot><tr><td colspan="12"><b>Please Note:</b> the table shows a preview of ' + F3DWLD.CONFIG.tablelimit + ' rows of your selection.</td></tr></tfoot>';
                 s += '<tbody>';
                 for (var i = 0 ; i < json.length ; i++) {
                     s += '<tr>';
@@ -416,7 +414,7 @@ var F3DWLD = (function() {
                 s += '</table>';
 
                 $('#output_area').empty();
-                $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:'+ F3DWLD.CONFIG.widthTable +'">' + s + '</div>');
+                $('#output_area').append('<div style="height: 300px; overflow: auto; padding-top:10px; width:'+ F3DWLD.CONFIG.widthTable +'">' + s + '</div>');
 
             },
 
