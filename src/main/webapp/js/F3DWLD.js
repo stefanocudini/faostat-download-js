@@ -656,11 +656,12 @@ var F3DWLD = (function() {
             case 2 : countryGridName = 'grid_usp_GetAreaList3'; break;
         }
         if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
-            switch (F3DWLD.CONFIG.tabsSelection.countries_dst) {
-                case 0 : countryGridName_dst = 'grid_usp_GetAreaList1'; break;
-                case 1 : countryGridName_dst = 'grid_usp_GetAreaList2'; break;
-                case 2 : countryGridName_dst = 'grid_usp_GetAreaList3'; break;
-            }
+//            switch (F3DWLD.CONFIG.tabsSelection.countries_dst) {
+//                case 0 : countryGridName_dst = 'grid_usp_GetAreaList2'; break;
+//                case 1 : countryGridName_dst = 'grid_usp_GetAreaList2'; break;
+//                case 2 : countryGridName_dst = 'grid_usp_GetAreaList3'; break;
+//            }
+            countryGridName_dst = 'grid_usp_GetAreaList2';
         }
         switch (F3DWLD.CONFIG.tabsSelection.items) {
             case 0 : itemsGridName = 'grid_usp_GetItemList1'; break;
@@ -672,19 +673,17 @@ var F3DWLD = (function() {
         getGridValues(itemsGridName, F3DWLD.CONFIG.selectedValues.items);
         getGridValues(itemsGridName, F3DWLD.CONFIG.selectedValues.itemsAggregated);
         getGridValues('grid_usp_GetYearList', F3DWLD.CONFIG.selectedValues.years);
-//        if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1)
-//            getGridValues(countryGridName_dst, F3DWLD.CONFIG.selectedValues.countries_dst);
+        if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1)
+            getGridValues(countryGridName_dst, F3DWLD.CONFIG.selectedValues.countries_dst);
 
     };
 
     function getGridValues(tableCode, map) {
         $('#' + tableCode).find('option:selected').each(function(k, v) {
-            console.log(tableCode);
             var tmp = {};
             tmp.code = $(v).data('faostat');
             tmp.label = $(v).data('label');
             tmp.type = $(v).data('type');
-            console.log(tmp);
             map.push(tmp);
         });
     };
