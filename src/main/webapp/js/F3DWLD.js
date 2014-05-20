@@ -1030,9 +1030,9 @@ var F3DWLD = (function() {
                 var codelist = tab.toLowerCase().replace(' ', '');
                 if (codelist == 'partnercountries') {
                     // TODO make it language independant
-                    enhanceUIGrid(codelist, 'grid_usp_GetAreaList2');
+                    enhanceUIGrid(F3DWLD.CONFIG.dsd[listbox][tab].procedure, 'grid_usp_GetAreaList2');
                 } else {
-                    enhanceUIGrid(codelist, 'grid_' + F3DWLD.CONFIG.dsd[listbox][tab].procedure);
+                    enhanceUIGrid(F3DWLD.CONFIG.dsd[listbox][tab].procedure, 'grid_' + F3DWLD.CONFIG.dsd[listbox][tab].procedure);
                 }
             }
         }
