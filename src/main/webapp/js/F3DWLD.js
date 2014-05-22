@@ -381,7 +381,7 @@ var F3DWLD = (function() {
                 var json = response;
                 if (typeof json == 's')
                     json = $.parseJSON(response);
-                var s = '<table class="table table-condensed table-striped table-hover table-responsive">';
+                var s = '<table class="dataTable">';
                 s += '<thead>';
                 s += '<tr>';
                 s += '<th>' + $.i18n.prop('_export_domain') + '</th>';
@@ -414,7 +414,7 @@ var F3DWLD = (function() {
                 s += '</table>';
 
                 $('#output_area').empty();
-                $('#output_area').append('<div style="height: 300px; overflow: auto; padding-top:10px; width:'+ F3DWLD.CONFIG.widthTable +'">' + s + '</div>');
+                $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:'+ F3DWLD.CONFIG.widthTable +'">' + s + '</div>');
 
             },
 
@@ -912,7 +912,14 @@ var F3DWLD = (function() {
         $('#mainTD').hide();
         $('#OLAPTD').show();
         var s = '';
+        s += '<div>';
         s += '<div class="standard-title">' + $.i18n.prop('_selectors') + '</div>';
+        s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;">';
+        s += '<ul><li id="bulk-root" class="bulk-root-mainbtn"><i class="fa fa-archive"></i> Bulk Downloads <i class="fa fa-caret-down"></i><ul>';
+        s += '<li>Africa: Algeria - Zimbabwe (1,450 KB)</li><li>Americas: Antigua and Barbuda - Venezuela (Bolivarian Republic of) (1,283 KB)</li><li>Asia: Afghanistan - Yemen (1,654 KB)</li><li>Europe: Albania - Yugoslav SFR (1,256 KB)</li><li>Oceania: American Samoa - Wallis and Futuna Islands (280 KB)</li><li>All_Area_Groups: Africa + (Total) - World + (Total) (2,782 KB)</li><li>All_Data: Afghanistan - Zimbabwe (18,361 KB)</li>';
+        s += '</ul></li></ul>';
+        s += '</div>';
+        s += '</div>';
         s += '<hr class="standard-hr">';
         var columns = [];
         var counter = 0;
@@ -924,14 +931,49 @@ var F3DWLD = (function() {
             }
         }
         s += buildSelectorsRow(columns);
-        s += '<div class="spacer-one"></div>';
+//        s += '<div class="spacer-one"></div>';
         s += buildOptions();
+        s += buildSummary();
         s += buildButtons();
         s += buildOLAP();
+        s += buildOptionsMenu();
         s += buildOutputArea();
         document.getElementById('listArea').innerHTML = s;
         enhanceUIStructure();
     };
+
+    function buildOptionsMenu() {
+        var s = '';
+        s += '<div style="position: relative;">';
+        s += '<div class="standard-title" id="output_options_labels">Output Preview (first 50 rows only)</div>';
+        s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">';
+        s += '<ul>';
+        s += '<li id="root"><i class="fa fa-cogs"></i> Options';
+        s += '<ul>';
+        s += '<li><b>Decimal Separator</b></li>';
+        s += '<li><div id="comma_menu">Comma (e.g. 1,000)</div></li>';
+        s += '<li><div id="dot_menu">Dot (e.g. 1.000)</div></li>';
+        s += '<li type="separator"></li>';
+        s += '<li><b>Thousand Separator</b></li>';
+        s += '<li><div id="enable_menu">Enable</div></li>';
+        s += '<li><div id="disable_menu">Disable</div></li>';
+        s += '<li type="separator"></li>';
+        s += '<li><b>Decimal Numbers</b></li>';
+        s += '<li><div id="increment"></div></li>';
+        s += '<li type="separator"></li>';
+        s += '<li><b>Show</b>';
+        s += '<ul>';
+        s += '<li><div id="flags_menu">Flags</div></li>';
+        s += '<li><div id="codes_menu">Codes</div></li>';
+        s += '<li><div id="units_menu">Units</div></li>';
+        s += '<li><div id="null_values_menu">Null Values</div></li>';
+        s += '</li></ul>';
+        s += '</ul>';
+        s += '</div>';
+        s += '</div>';
+        s += '<hr class="standard-hr">';
+        return s;
+    }
 
     function buildSelectorsRow(columns) {
         var s = '';
@@ -971,14 +1013,16 @@ var F3DWLD = (function() {
 
         /** Select All */
         s += '<div class="download-selection-buttons">';
-        s += '<a onclick="F3DWLD.selectAll(\'grid_' + column[Object.keys(column)[0]].procedure + '\', \'' + true + '\');" id="buttonSelectAll_' + column[Object.keys(column)[0]].procedure + '" class="btn">';
-        s += '<div class="btn-select-all-icon btnLeftIcon"></div>';
+        s += '<a onclick="F3DWLD.selectAll(\'grid_' + column[Object.keys(column)[0]].procedure + '\', \'' + true + '\');" id="buttonSelectAll_' + column[Object.keys(column)[0]].procedure + '" class="btn dwld">';
+//        s += '<div class="btn-select-all-icon btnLeftIcon"></div>';
+        s += '<i class="fa fa-check-circle-o"></i>';
         s += '<div id="buttonSelectAll_' + column[Object.keys(column)[0]].procedure + '-text"></div>';
         s += '</a>';
 
         /** De-select All */
-        s += '<a onclick="F3DWLD.selectAll(\'grid_' + column[Object.keys(column)[0]].procedure + '\', \'' + false + '\');" id="buttonDeSelectAll_' + column[Object.keys(column)[0]].procedure + '" class="btn">';
-        s += '<div class="btn-clear-all-icon btnLeftIcon"></div>';
+        s += '<a onclick="F3DWLD.selectAll(\'grid_' + column[Object.keys(column)[0]].procedure + '\', \'' + false + '\');" id="buttonDeSelectAll_' + column[Object.keys(column)[0]].procedure + '" class="btn dwld">';
+//        s += '<div class="btn-clear-all-icon btnLeftIcon"></div>';
+        s += '<i class="fa fa-times-circle-o"></i>';
         s += '<div id="buttonDeSelectAll_' + column[Object.keys(column)[0]].procedure + '-text"></div>';
         s += '</a>';
 
@@ -995,26 +1039,78 @@ var F3DWLD = (function() {
     };
 
     function buildButtons() {
-        var s = '';
-        s += '<div id="output_buttons" style="display: block;">';
-        s += '<div class="download-selection-buttons">';
-        s += '<div class="single-result-buttons">';
-        s += '<a class="btn" id="buttonViewTables">';
-        s += '<div class="btn-preview-icon btnLeftIcon"></div>';
-        s += '<div class="btnText" id="buttonViewTables-text">' + $.i18n.prop('_preview') + '</div>';
-        s += '</a>';
-        s += '<a style="display:none" class="btn" id="buttonExportToCSV">';
-        s += '<div class="btn-export-icon btnLeftIcon"></div>';
-        s += '<div class="btnText" id="buttonExportToCSV-text">' + $.i18n.prop('_download') + '</div>';
-        s += '</a>';
+        var s = '<br>';
+        s += '<div id="output_buttons">';
+        s += '<span class="standard-title table-selection-title">Display Output As </span>';
+        s += '<div id="radio_table" class="table-switch-radio">' +
+            '<span class="fa-stack">' +
+            '<i class="fa fa-table fa-stack-2x"></i>' +
+            '<i class=""></i>' +
+            '</span>' +
+            'TABLE'+
+            '</div>';
+        s += '<div id="radio_pivot" class="table-switch-radio pivot-btn"> ' +
+            '<span class="fa-stack">' +
+                '<i class="fa fa-table fa-stack-2x"></i>' +
+                '<i class="fa fa-rotate-right fa-stack-1x"></i>' +
+            '</span>' +
+            'PIVOT TABLE'+
+        '</div>';
+        s += '<div class="download-selection-buttons"><a class="btn btn-big" id="buttonSelectAll_usp_GetElementList"><i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">PREVIEW</div></a><a class="btn btn-big" id="buttonDeSelectAll_usp_GetElementList""><i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">DOWNLOAD</div></a></div>';
         s += '</div>';
-        s += '</div>';
-        s += '</div>';
-        s += '<div class="spacer-one"></div>';
         return s;
     };
 
+    function buildSummary() {
+        var s = '';
+        s += '<div class="standard-title" id="output_options_labels" style="font-size:16px !important;">Summary</div>';
+//        s += '<hr class="standard-hr">';
+        s += '<div style="color:#666"><i>Please use the selectors above to filter your query.</i></div>'
+
+        s += '<div class="compare-summary">';
+        s += '<div class="compare-summary-title">Area</div>';
+        s += '<div id="countries-summary" class="compare-summary-element"></div>';
+        s += '<br>';
+        s += '<div class="compare-summary-title">Item</div>';
+        s += '<div id="items-summary" class="compare-summary-element"></div>';
+        s += '<br>';
+        s += '<div class="compare-summary-title">Element</div>';
+        s += '<div id="elements-summary" class="compare-summary-element"></div>';
+        s += '<br>';
+        s += '<div class="compare-summary-title">Year</div>';
+        s += '<div id="years-summary" class="compare-summary-element"></div>';
+
+        s += '</div>';
+        return s;
+    }
+
     function enhanceUIStructure() {
+        $('#bulk-downloads-menu').jqxMenu({
+            autoOpen: false,
+            showTopLevelArrows: true,
+            width: '300px',
+            height: '30px',
+            autoCloseOnClick: false,
+            autoSizeMainItems: true
+        });
+        $('#options-menu').jqxMenu({
+            autoOpen: false,
+            showTopLevelArrows: true,
+            width: '90',
+            height: '30px',
+            autoCloseOnClick: false
+        });
+        $('#options-menu').jqxMenu('setItemOpenDirection', 'root', 'left', 'down');
+        $('#bulk-downloads-menu').jqxMenu('setItemOpenDirection', 'bulk-root', 'left', 'down');
+        $('#flags_menu').jqxCheckBox({ width: 120, height: 25, checked: true });
+        $('#codes_menu').jqxCheckBox({ width: 120, height: 25 });
+        $('#units_menu').jqxCheckBox({ width: 120, height: 25, checked: true });
+        $('#null_values_menu').jqxCheckBox({ width: 120, height: 25 });
+        $('#comma_menu').jqxRadioButton({ width: 120, height: 25, groupName: 'thousands'});
+        $('#dot_menu').jqxRadioButton({ width: 120, height: 25, checked: true, groupName: 'thousands' });
+        $('#enable_menu').jqxRadioButton({ width: 120, height: 25, checked: true, groupName: 'decimals' });
+        $('#disable_menu').jqxRadioButton({ width: 120, height: 25, groupName: 'decimals' });
+        $('#increment').jqxNumberInput({ width: '100%', height: '25px', inputMode: 'simple', spinButtons: true, spinButtonsStep: 1, decimalDigits: 0 });
         enhanceUITabs();
         enhanceUIOptions();
         enhanceUIButtons();
@@ -1037,6 +1133,83 @@ var F3DWLD = (function() {
 
     };
 
+    function findSummaryName(gridName) {
+        if (gridName.indexOf('grid_usp_GetArea') > -1)
+            return 'countries-summary';
+        else if (gridName.indexOf('grid_usp_GetItem') > -1)
+            return 'items-summary';
+        else if (gridName.indexOf('grid_usp_GetElement') > -1)
+            return 'elements-summary';
+        else if (gridName.indexOf('grid_usp_GetYear') > -1)
+            return 'years-summary';
+    }
+
+    function addToSummary(gridID, summaryID) {
+
+        summaryID = findSummaryName(gridID);
+
+//        $('#' + summaryID).empty();
+
+        var values = [];
+
+        $('#' + gridID + '_select').find('option:selected').each(function(k, v) {
+            var tmp = {};
+            tmp.code = $(v).data('faostat');
+            tmp.label = $(v).data('label');
+            tmp.type = $(v).data('type');
+            values.push(tmp);
+        });
+
+        if (F3DWLD.CONFIG.selectedValues.countries == null)
+            F3DWLD.CONFIG.selectedValues.countries = [];
+        if (F3DWLD.CONFIG.selectedValues.items == null)
+            F3DWLD.CONFIG.selectedValues.items = [];
+        if (F3DWLD.CONFIG.selectedValues.itemsAggregated == null)
+            F3DWLD.CONFIG.selectedValues.itemsAggregated = [];
+        if (F3DWLD.CONFIG.selectedValues.elements == null)
+            F3DWLD.CONFIG.selectedValues.elements = [];
+        if (F3DWLD.CONFIG.selectedValues.years == null)
+            F3DWLD.CONFIG.selectedValues.years = [];
+
+        // groups and domains
+        try {
+
+            if (values.length == null) {
+
+                $('#' + summaryID).append("<div class='summary-item-groupdomain'>" + values.label + "</div>") ;
+
+            } else {
+
+                var buffer = F3DWLD.CONFIG.selectedValues.countries;
+
+                for (var i = 0; i < values.length; i++) {
+
+                    if ($.inArray(values[i].code, buffer) < 0) {
+
+                        buffer.push(values[i].code);
+
+                        var itemID = "summary_" + values[i].code;
+                        var code = values[i].code;
+                        var title = "Click to remove it from the selection";
+
+                        $('#' + summaryID).append("<div id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
+                        $('#' + itemID).powerTip({placement: 's'});
+                        $('#' + itemID).on('click', function (e) {
+                            $('#' + e.target.id).empty();
+                        });
+
+                    }
+
+                }
+
+            }
+
+        } catch(err) {
+            console.log(err);
+        }
+
+    }
+
     function enhanceUIGrid(codingSystem, gridCode) {
 
         if (F3DWLD.CONFIG.domainCode == 'EA') {
@@ -1055,7 +1228,7 @@ var F3DWLD = (function() {
 
                     var select = '';
                     var lbl = null;
-                    select += '<select id="' + gridCode + '_select" multiple="multiple" style="width: 100%; height: 100%; border: 0px;" onchange="myclean()">';
+                    select += '<select id="' + gridCode + '_select" multiple="multiple" style="width: 100%; height: 100%; border: 0px;" onchange="myclean();">';
                     for (var i = 0 ; i < json.length ; i++) {
                         if (codingSystem == 'year' || codingSystem == 'elements')
                             lbl = json[i][1];
@@ -1091,7 +1264,7 @@ var F3DWLD = (function() {
 
                     var select = '';
                     var lbl = null;
-                    select += '<select id="' + gridCode + '_select" multiple="multiple" style="width: 100%; height: 100%; border: 0px;" onchange="myclean()">';
+                    select += '<select id="' + gridCode + '_select" multiple="multiple" style="width: 100%; height: 100%; border: 0px;" onchange="F3DWLD.addToSummary(\'' + gridCode + '\', \'countries-summary\');">';
 
                     for (var i = 0 ; i < json.length ; i++) {
 
@@ -1156,6 +1329,9 @@ var F3DWLD = (function() {
     };
 
     function enhanceUIButtons() {
+
+        $("#radio_table").jqxRadioButton({ checked: true });
+        $("#radio_pivot").jqxRadioButton({ checked: false });
 
         /* Select/Deselect all buttons. */
         $('#buttonSelectAll_usp_GetAreaList1-text').append($.i18n.prop('_selectAll'));
@@ -1241,7 +1417,7 @@ var F3DWLD = (function() {
     function enhanceUITabs() {
         $('.faostat-download-tab').jqxTabs({
             width: '352',
-            height: '200',
+            height: '130',
             position: 'top',
             animationType: 'fade',
             selectionTracker: 'checked',
@@ -1460,13 +1636,13 @@ var F3DWLD = (function() {
 
     function buildOptions() {
         var s = '';
+        s += '<div >';
         s += '<div>';
-        s += '<div>';
-        s += '<div id="output_options_labels" class="standard-title">' + $.i18n.prop('_outputOptions') + '</div>';
-        s += '<hr class="standard-hr">';
+        s += '<div style="display: none;"id="output_options_labels" class="standard-title">' + $.i18n.prop('_outputOptions') + '</div>';
+        s += '<hr  style="display: none;" class="standard-hr">';
         s += '</div>';
         s += '</div>';
-        s += '<div class="download-output-options">';
+        s += '<div class="download-output-options" style="display: none;">';
         s += '<table style="width: 100%;">';
         s += '<tr>';
         s += '<td style="width: 25%;" class="compare-label" id="wizard_output_type">' + $.i18n.prop('_outputType') + '</td>';
@@ -1567,9 +1743,10 @@ var F3DWLD = (function() {
 
 
     return {
-        CONFIG      :   CONFIG,
-        buildF3DWLD :   buildF3DWLD,
-        selectAll   :   selectAll
+        CONFIG          :   CONFIG,
+        buildF3DWLD     :   buildF3DWLD,
+        selectAll       :   selectAll,
+        addToSummary    :   addToSummary
     };
 
 })();

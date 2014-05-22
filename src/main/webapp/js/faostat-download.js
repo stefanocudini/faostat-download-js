@@ -97,21 +97,21 @@ if (!window.FAOSTATDownload) {
             /**
              * Translate download type labels
              */
-            $('#linkCodelistsButton').jqxSwitchButton({
-                height: 27,
-                width: 150,
-                theme: FAOSTATDownload.theme,
-                checked: false,
-                onLabel: I18N.translate('_wizard'),
-                offLabel: I18N.translate('_classic')
-            });
-
-            $('#linkCodelistsButton').bind('change', function (event) {
-                FAOSTATDownload.showWizard = event.args.check;
-                FAOSTATDownload.showClassicOrWizard();
-                document.getElementById('output_area').innerHTML = '';
-                CPI.removeCPITableNotes();
-            });
+//            $('#linkCodelistsButton').jqxSwitchButton({
+//                height: 27,
+//                width: 150,
+//                theme: FAOSTATDownload.theme,
+//                checked: false,
+//                onLabel: I18N.translate('_wizard'),
+//                offLabel: I18N.translate('_classic')
+//            });
+//
+//            $('#linkCodelistsButton').bind('change', function (event) {
+//                FAOSTATDownload.showWizard = event.args.check;
+//                FAOSTATDownload.showClassicOrWizard();
+//                document.getElementById('output_area').innerHTML = '';
+//                CPI.removeCPITableNotes();
+//            });
 
             FAOSTATDownload.showSelectionMode(false);
 
