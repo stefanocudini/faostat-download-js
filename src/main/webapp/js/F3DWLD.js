@@ -913,7 +913,7 @@ var F3DWLD = (function() {
         $('#OLAPTD').show();
         var s = '';
         s += '<div>';
-        s += '<div class="standard-title">' + $.i18n.prop('_selectors') + '</div>';
+        s += '<div class="standard-title">Filters / <a>Agro-Environmental Indicators > Air and Climate Change</a></div>';
         s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;">';
         s += '<ul><li id="bulk-root" class="bulk-root-mainbtn"><i class="fa fa-archive"></i> Bulk Downloads <i class="fa fa-caret-down"></i><ul>';
         s += '<li>Africa: Algeria - Zimbabwe (1,450 KB)</li><li>Americas: Antigua and Barbuda - Venezuela (Bolivarian Republic of) (1,283 KB)</li><li>Asia: Afghanistan - Yemen (1,654 KB)</li><li>Europe: Albania - Yugoslav SFR (1,256 KB)</li><li>Oceania: American Samoa - Wallis and Futuna Islands (280 KB)</li><li>All_Area_Groups: Africa + (Total) - World + (Total) (2,782 KB)</li><li>All_Data: Afghanistan - Zimbabwe (18,361 KB)</li>';
@@ -1144,6 +1144,17 @@ var F3DWLD = (function() {
             return 'years-summary';
     }
 
+    function findBuffer(gridName) {
+        if (gridName.indexOf('grid_usp_GetArea') > -1)
+            return F3DWLD.CONFIG.selectedValues.countries
+        else if (gridName.indexOf('grid_usp_GetItem') > -1)
+            return F3DWLD.CONFIG.selectedValues.items
+        else if (gridName.indexOf('grid_usp_GetElement') > -1)
+            return 'elements-summary';
+        else if (gridName.indexOf('grid_usp_GetYear') > -1)
+            return 'years-summary';
+    }
+
     function addToSummary(gridID, summaryID) {
 
         summaryID = findSummaryName(gridID);
@@ -1180,7 +1191,7 @@ var F3DWLD = (function() {
 
             } else {
 
-                var buffer = F3DWLD.CONFIG.selectedValues.countries;
+                var buffer = findBuffer(gridID);
 
                 for (var i = 0; i < values.length; i++) {
 
