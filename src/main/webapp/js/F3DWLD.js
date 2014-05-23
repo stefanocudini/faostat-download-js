@@ -349,8 +349,6 @@ var F3DWLD = (function() {
 
     function createTable() {
 
-        console.log(collectCountries());
-
         var p = {};
         p.datasource = F3DWLD.CONFIG.datasource;
         p.domainCode = F3DWLD.CONFIG.domainCode;
@@ -359,18 +357,17 @@ var F3DWLD = (function() {
         p.itemCodes = collectItems();
         p.elementListCodes = collectElements();
         p.years = collectYears();
-        p.flags = $('#options_show_flags').val();
-        p.codes = $('#options_show_codes').val();
-        p.units = $('#options_show_units').val();
-        p.nullValues = $('#options_show_null_values').val();
-        p.thousandSeparator = $('#options_thousand_separator').jqxDropDownList('getSelectedItem').value;
-        p.decimalSeparator = $('#options_decimal_separator').jqxDropDownList('getSelectedItem').value;
-        p.decimalPlaces = $('#options_decimal_numbers').jqxDropDownList('getSelectedItem').value;
+        p.flags = F3DWLD.CONFIG.wdsPayload.showFlags;
+        p.codes = F3DWLD.CONFIG.wdsPayload.showCodes;
+        p.units = F3DWLD.CONFIG.wdsPayload.showUnits;
+        p.nullValues = F3DWLD.CONFIG.wdsPayload.showNullValues;
+        p.thousandSeparator = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
+        p.decimalSeparator = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
+        p.decimalPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
         p.limit = F3DWLD.CONFIG.outputLimit;
 
         var data = {};
         data.payload = JSON.stringify(p);
-        console.log(data.payload);
 
         $.ajax({
 
@@ -403,7 +400,7 @@ var F3DWLD = (function() {
                     s += '<th>' + $.i18n.prop('_export_flag') + '</th>';
                 s += '</tr>';
                 s += '</thead>';
-                s += '<tfoot><tr><td colspan="12"><b>Please Note:</b> the table shows a preview of ' + F3DWLD.CONFIG.tablelimit + ' rows of your selection.</td></tr></tfoot>';
+//                s += '<tfoot><tr><td colspan="12"><b>Please Note:</b> the table shows a preview of ' + F3DWLD.CONFIG.tablelimit + ' rows of your selection.</td></tr></tfoot>';
                 s += '<tbody>';
                 for (var i = 0 ; i < json.length ; i++) {
                     s += '<tr>';
@@ -758,18 +755,6 @@ var F3DWLD = (function() {
 
     };
 
-    function getOptions(limitOutput) {
-        F3DWLD.CONFIG.wdsPayload.showFlags = $('#options_show_flags').val();
-        F3DWLD.CONFIG.wdsPayload.showCodes = $('#options_show_codes').val();
-        F3DWLD.CONFIG.wdsPayload.showUnits = $('#options_show_units').val();
-        F3DWLD.CONFIG.wdsPayload.showNullValues = $('#options_show_null_values').val();
-        F3DWLD.CONFIG.wdsPayload.limit = limitOutput;
-        F3DWLD.CONFIG.wdsPayload.datasource = F3DWLD.CONFIG.datasource;
-        F3DWLD.CONFIG.wdsPayload.thousandSeparator = $('#options_thousand_separator').jqxDropDownList('getSelectedItem').value;
-        F3DWLD.CONFIG.wdsPayload.decimalSeparator = $('#options_decimal_separator').jqxDropDownList('getSelectedItem').value;
-        F3DWLD.CONFIG.wdsPayload.decimalNumbers = $('#options_decimal_numbers').jqxDropDownList('getSelectedItem').value;
-    };
-
     function getTabSelection() {
         F3DWLD.CONFIG.tabsSelection.countries = $('#tab_ListBox1').jqxTabs('selectedItem');
         F3DWLD.CONFIG.tabsSelection.elements = $('#tab_ListBox3').jqxTabs('selectedItem');
@@ -952,7 +937,7 @@ var F3DWLD = (function() {
         s += '<li><b>Decimal Numbers</b></li>';
         s += '<li><div id="increment"></div></li>';
         s += '<li type="separator"></li>';
-        s += '<li><b>Show</b>';
+        s += '<li id="menu_show"><b>Show</b>';
         s += '<ul>';
         s += '<li><div id="flags_menu">Flags</div></li>';
         s += '<li><div id="codes_menu">Codes</div></li>';
@@ -1053,7 +1038,7 @@ var F3DWLD = (function() {
     };
 
     function preview() {
-        console.log('preview');
+//        console.log('preview');
         collectAndQueryWDS(true);
         STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
     }
@@ -1062,7 +1047,7 @@ var F3DWLD = (function() {
         var s = '';
         s += '<div class="standard-title" id="output_options_labels" style="font-size:16px !important;">Summary</div>';
 //        s += '<hr class="standard-hr">';
-        s += '<div style="color:#666"><i>Please use the selectors above to filter your query.</i></div>'
+        s += '<div id="summary_tip" style="color:#666"><i>Please use the selectors above to filter your query.</i></div>'
 
         s += '<div class="compare-summary">';
         s += '<div class="compare-summary-title">Area</div>';
@@ -1095,9 +1080,10 @@ var F3DWLD = (function() {
             showTopLevelArrows: true,
             width: '90',
             height: '30px',
-            autoCloseOnClick: false
+            autoCloseOnClick: false,
+            rtl: true
         });
-        $('#options-menu').jqxMenu('setItemOpenDirection', 'root', 'left', 'down');
+        $('#options-menu').jqxMenu('setItemOpenDirection', 'root', 'right', 'down');
         $('#bulk-downloads-menu').jqxMenu('setItemOpenDirection', 'bulk-root', 'left', 'down');
         $('#flags_menu').jqxCheckBox({ width: 120, height: 25, checked: true });
         $('#codes_menu').jqxCheckBox({ width: 120, height: 25 });
@@ -1108,10 +1094,67 @@ var F3DWLD = (function() {
         $('#enable_menu').jqxRadioButton({ width: 120, height: 25, checked: true, groupName: 'decimals' });
         $('#disable_menu').jqxRadioButton({ width: 120, height: 25, groupName: 'decimals' });
         $('#increment').jqxNumberInput({ width: '100%', height: '25px', inputMode: 'simple', spinButtons: true, spinButtonsStep: 1, decimalDigits: 0 });
+        F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
+        F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
+        $('#dot_menu').bind('change', function (event) {
+            if (event.args.checked) {
+                F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
+                F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
+            } else {
+                F3DWLD.CONFIG.wdsPayload.decimalSeparator = ',';
+                F3DWLD.CONFIG.wdsPayload.thousandSeparator = '.';
+            }
+            preview();
+        });
+        $('#disable_menu').bind('change', function (event) {
+            console.log(event.args);
+            if (event.args.checked) {
+                F3DWLD.CONFIG.wdsPayload.thousandSeparator = '';
+            } else {
+                F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
+            }
+            preview();
+        });
+        F3DWLD.CONFIG.wdsPayload.showFlags = true;
+        F3DWLD.CONFIG.wdsPayload.showCodes = false;
+        F3DWLD.CONFIG.wdsPayload.showUnits = true;
+        F3DWLD.CONFIG.wdsPayload.showNullValues = false;
+        $("#flags_menu").bind('change', function (event) {
+            var checked = event.args.checked;
+            F3DWLD.CONFIG.wdsPayload.showFlags = checked;
+            preview();
+        });
+        $("#codes_menu").bind('change', function (event) {
+            var checked = event.args.checked;
+            F3DWLD.CONFIG.wdsPayload.showCodes = checked;
+            preview();
+        });
+        $("#units_menu").bind('change', function (event) {
+            var checked = event.args.checked;
+            F3DWLD.CONFIG.wdsPayload.showUnits = checked;
+            preview();
+        });
+        $("#null_values_menu").bind('change', function (event) {
+            var checked = event.args.checked;
+            F3DWLD.CONFIG.wdsPayload.showNullValues = checked;
+            preview();
+        });
         enhanceUITabs();
         enhanceUIOptions();
         enhanceUIButtons();
         enhanceUIGrids();
+    };
+
+    function getOptions(limitOutput) {
+//        F3DWLD.CONFIG.wdsPayload.showFlags = $('#options_show_flags').val();
+//        F3DWLD.CONFIG.wdsPayload.showCodes = $('#options_show_codes').val();
+//        F3DWLD.CONFIG.wdsPayload.showUnits = $('#options_show_units').val();
+//        F3DWLD.CONFIG.wdsPayload.showNullValues = $('#options_show_null_values').val();
+//        F3DWLD.CONFIG.wdsPayload.limit = limitOutput;
+//        F3DWLD.CONFIG.wdsPayload.datasource = F3DWLD.CONFIG.datasource;
+//        F3DWLD.CONFIG.wdsPayload.thousandSeparator = $('#options_thousand_separator').jqxDropDownList('getSelectedItem').value;
+//        F3DWLD.CONFIG.wdsPayload.decimalSeparator = $('#options_decimal_separator').jqxDropDownList('getSelectedItem').value;
+//        F3DWLD.CONFIG.wdsPayload.decimalNumbers = $('#options_decimal_numbers').jqxDropDownList('getSelectedItem').value;
     };
 
     function enhanceUIGrids() {
