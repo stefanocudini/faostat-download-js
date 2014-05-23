@@ -1,13 +1,13 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        prefix                  :   'http://localhost:8080/faostat-download-js/',
-        CPINotes_url            :   'http://localhost:8080/wds/rest/procedures/cpinotes',
-        ODA_url                 :   'http://localhost:8080/wds/rest/procedures/oda',
-        data_url                :   'http://localhost:8080/wds/rest',
-        procedures_data_url     :   'http://localhost:8080/wds/rest/procedures/data',
-        procedures_excel_url    :   'http://localhost:8080/wds/rest/procedures/excel',
-        codes_url               :   'http://localhost:8080/wds/rest/procedures/',
+        prefix                  :   'http://168.202.28.210:8080/faostat-download-js/',
+        CPINotes_url            :   'http://168.202.28.210:8080/wds/rest/procedures/cpinotes',
+        ODA_url                 :   'http://168.202.28.210:8080/wds/rest/procedures/oda',
+        data_url                :   'http://168.202.28.210:8080/wds/rest',
+        procedures_data_url     :   'http://168.202.28.210:8080/wds/rest/procedures/data',
+        procedures_excel_url    :   'http://168.202.28.210:8080/wds/rest/procedures/excel',
+        codes_url               :   'http://168.202.28.210:8080/wds/rest/procedures/',
         configurationURL        :   'config/faostat-download-configuration.json',
         dbPrefix                :   'FAOSTAT_',
         dsdURL                  :   'http://faostat3.fao.org/wds/rest/procedures/listboxes/faostatproddiss/',
@@ -404,14 +404,19 @@ var F3DWLD = (function() {
                 s += '<tbody>';
                 for (var i = 0 ; i < json.length ; i++) {
                     s += '<tr>';
-                    for (var j = 1 ; j < json[i].length ; j++)
-                        s += '<td>' + json[i][j] + '</td>';
+                    for (var j = 1 ; j < json[i].length ; j++) {
+                        if (i % 2 == 0)
+                            s += '<td class="hor-minimalist-b_row1">' + json[i][j] + '</td>';
+                        else
+                            s += '<td class="hor-minimalist-b_row2">' + json[i][j] + '</td>';
+                    }
                     s += '</tr>';
                 }
                 s += '</tbody>';
                 s += '</table>';
 
-                $('#output_area').empty();
+                $('#options_menu_box').css('display', 'block');
+                $('#preview_hr').css('display', 'block');
                 $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:'+ F3DWLD.CONFIG.widthTable +'">' + s + '</div>');
 
             },
@@ -889,7 +894,7 @@ var F3DWLD = (function() {
         $('#OLAPTD').show();
         var s = '';
         s += '<div>';
-        s += '<div class="standard-title">Filters / <a>Agro-Environmental Indicators > Air and Climate Change</a></div>';
+        s += '<div class="standard-title">Filters / <a>Production</a> / <a>Crops</a></div>';
         s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;">';
         s += '<ul><li id="bulk-root" class="bulk-root-mainbtn"><i class="fa fa-archive"></i> Bulk Downloads <i class="fa fa-caret-down"></i><ul>';
         s += '<li>Africa: Algeria - Zimbabwe (1,450 KB)</li><li>Americas: Antigua and Barbuda - Venezuela (Bolivarian Republic of) (1,283 KB)</li><li>Asia: Afghanistan - Yemen (1,654 KB)</li><li>Europe: Albania - Yugoslav SFR (1,256 KB)</li><li>Oceania: American Samoa - Wallis and Futuna Islands (280 KB)</li><li>All_Area_Groups: Africa + (Total) - World + (Total) (2,782 KB)</li><li>All_Data: Afghanistan - Zimbabwe (18,361 KB)</li>';
@@ -920,7 +925,7 @@ var F3DWLD = (function() {
 
     function buildOptionsMenu() {
         var s = '';
-        s += '<div style="position: relative;">';
+        s += '<div id="options_menu_box" style="position: relative; display: none;">';
         s += '<div class="standard-title" id="output_options_labels">Output Preview (first 50 rows only)</div>';
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">';
         s += '<ul>';
@@ -947,7 +952,7 @@ var F3DWLD = (function() {
         s += '</ul>';
         s += '</div>';
         s += '</div>';
-        s += '<hr class="standard-hr">';
+        s += '<hr id="preview_hr" class="standard-hr" style="display: none;">';
         return s;
     }
 
@@ -1044,26 +1049,42 @@ var F3DWLD = (function() {
     }
 
     function buildSummary() {
+
         var s = '';
+
         s += '<div class="standard-title" id="output_options_labels" style="font-size:16px !important;">Summary</div>';
-//        s += '<hr class="standard-hr">';
-        s += '<div id="summary_tip" style="color:#666"><i>Please use the selectors above to filter your query.</i></div>'
+        s += '<div id="summary_tip" style="color:#666"><i>';
+        s += 'Please use the selectors above to filter your query. Your selection will be displayed in the area below and it can be edited at any time.';
+        s +='</i></div>'
 
         s += '<div class="compare-summary">';
+        s += '<div class="summary-box" id="summary-countries-box" style="display: none;">';
         s += '<div class="compare-summary-title">Area</div>';
         s += '<div id="countries-summary" class="compare-summary-element"></div>';
         s += '<br>';
+        s += '</div>';
+
+        s += '<div class="summary-box" id="summary-items-box" style="display: none;">';
         s += '<div class="compare-summary-title">Item</div>';
         s += '<div id="items-summary" class="compare-summary-element"></div>';
         s += '<br>';
+        s += '</div>';
+
+        s += '<div class="summary-box" id="summary-elements-box" style="display: none;">';
         s += '<div class="compare-summary-title">Element</div>';
         s += '<div id="elements-summary" class="compare-summary-element"></div>';
         s += '<br>';
+        s += '</div>';
+
+        s += '<div class="summary-box" id="summary-years-box" style="display: none;">';
         s += '<div class="compare-summary-title">Year</div>';
         s += '<div id="years-summary" class="compare-summary-element"></div>';
+        s += '</div>';
 
         s += '</div>';
+
         return s;
+
     }
 
     function enhanceUIStructure() {
@@ -1174,14 +1195,20 @@ var F3DWLD = (function() {
     };
 
     function findSummaryName(gridName) {
-        if (gridName.indexOf('grid_usp_GetArea') > -1)
+        $('#summary_tip').remove();
+        if (gridName.indexOf('grid_usp_GetArea') > -1) {
+            $('#summary-countries-box').css('display', 'block');
             return 'countries-summary';
-        else if (gridName.indexOf('grid_usp_GetItem') > -1)
+        } else if (gridName.indexOf('grid_usp_GetItem') > -1) {
+            $('#summary-items-box').css('display', 'block');
             return 'items-summary';
-        else if (gridName.indexOf('grid_usp_GetElement') > -1)
+        } else if (gridName.indexOf('grid_usp_GetElement') > -1) {
+            $('#summary-elements-box').css('display', 'block');
             return 'elements-summary';
-        else if (gridName.indexOf('grid_usp_GetYear') > -1)
+        } else if (gridName.indexOf('grid_usp_GetYear') > -1) {
+            $('#summary-years-box').css('display', 'block');
             return 'years-summary';
+        }
     }
 
     function findBuffer(gridName) {
@@ -1208,8 +1235,6 @@ var F3DWLD = (function() {
     function addToSummary(gridID, summaryID) {
 
         summaryID = findSummaryName(gridID);
-
-//        $('#' + summaryID).empty();
 
         var values = [];
 
@@ -1697,10 +1722,10 @@ var F3DWLD = (function() {
 
     function buildOptions() {
         var s = '';
-        s += '<div >';
         s += '<div>';
-        s += '<div style="display: none;"id="output_options_labels" class="standard-title">' + $.i18n.prop('_outputOptions') + '</div>';
-        s += '<hr  style="display: none;" class="standard-hr">';
+        s += '<div style="display: none;">';
+        s += '<div id="output_options_labels" class="standard-title">' + $.i18n.prop('_outputOptions') + '</div>';
+        s += '<hr class="standard-hr">';
         s += '</div>';
         s += '</div>';
         s += '<div class="download-output-options" style="display: none;">';
