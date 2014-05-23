@@ -349,6 +349,8 @@ var F3DWLD = (function() {
 
     function createTable() {
 
+        $('#output_area').empty();
+
         var p = {};
         p.datasource = F3DWLD.CONFIG.datasource;
         p.domainCode = F3DWLD.CONFIG.domainCode;
@@ -400,7 +402,6 @@ var F3DWLD = (function() {
                     s += '<th>' + $.i18n.prop('_export_flag') + '</th>';
                 s += '</tr>';
                 s += '</thead>';
-//                s += '<tfoot><tr><td colspan="12"><b>Please Note:</b> the table shows a preview of ' + F3DWLD.CONFIG.tablelimit + ' rows of your selection.</td></tr></tfoot>';
                 s += '<tbody>';
                 for (var i = 0 ; i < json.length ; i++) {
                     s += '<tr>';
@@ -892,9 +893,11 @@ var F3DWLD = (function() {
     function buildUIStructure() {
         $('#mainTD').hide();
         $('#OLAPTD').show();
+        var item = $('#jqxTree').jqxTree('getSelectedItem');
+        var metadataURL = 'http://' + F3DWLD.CONFIG.baseurl + '/faostat-gateway/go/to/download/' + F3DWLD.CONFIG.groupCode + '/' + F3DWLD.CONFIG.domainCode + '/' + F3DWLD.CONFIG.lang;
         var s = '';
         s += '<div>';
-        s += '<div class="standard-title">Filters / <a>Production</a> / <a>Crops</a></div>';
+        s += '<div class="standard-title">Filters / <a href="' + metadataURL + '">' + item.label + '</a> / <a>' + item.prevItem.label + '</a></div>';
         s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;">';
         s += '<ul><li id="bulk-root" class="bulk-root-mainbtn"><i class="fa fa-archive"></i> Bulk Downloads <i class="fa fa-caret-down"></i><ul>';
         s += '<li>Africa: Algeria - Zimbabwe (1,450 KB)</li><li>Americas: Antigua and Barbuda - Venezuela (Bolivarian Republic of) (1,283 KB)</li><li>Asia: Afghanistan - Yemen (1,654 KB)</li><li>Europe: Albania - Yugoslav SFR (1,256 KB)</li><li>Oceania: American Samoa - Wallis and Futuna Islands (280 KB)</li><li>All_Area_Groups: Africa + (Total) - World + (Total) (2,782 KB)</li><li>All_Data: Afghanistan - Zimbabwe (18,361 KB)</li>';
@@ -1158,6 +1161,12 @@ var F3DWLD = (function() {
         $("#null_values_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showNullValues = checked;
+            preview();
+        });
+        F3DWLD.CONFIG.wdsPayload.decimalNumbers = 0;
+        $('#increment').on('valuechanged', function (event) {
+            var value = event.args.value;
+            F3DWLD.CONFIG.wdsPayload.decimalNumbers = parseInt(value);
             preview();
         });
         enhanceUITabs();
