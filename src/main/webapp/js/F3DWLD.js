@@ -1608,10 +1608,22 @@ var F3DWLD = (function() {
             selectionTracker: 'checked',
             theme: F3DWLD.CONFIG.theme
         });
-//        $('#tab_1').on('tabclick', function (event) {
-//            F3DWLD.CONFIG.selectedValues.countries = [];
-//            $('#countries-summary').empty();
-//        });
+        $('#tab_1').on('tabclick', function (event) {
+            var idx = 1 + parseInt(event.args.item);
+            $('#buttonSelectAll_usp_GetAreaList1').attr('onclick', '');
+            $('#buttonSelectAll_usp_GetAreaList1').unbind('click');
+            $('#buttonSelectAll_usp_GetAreaList1').click(function() {
+                selectAllForSummary('grid_usp_GetItemList' + idx);
+            });
+        });
+        $('#tab_2').on('tabclick', function (event) {
+            var idx = 1 + parseInt(event.args.item);
+            $('#buttonSelectAll_usp_GetItemList1').attr('onclick', '');
+            $('#buttonSelectAll_usp_GetItemList1').unbind('click');
+            $('#buttonSelectAll_usp_GetItemList1').click(function() {
+                selectAllForSummary('grid_usp_GetItemList' + idx);
+            });
+        });
     };
 
     function enhanceUIOptions() {
