@@ -8,6 +8,8 @@ var F3DWLD = (function() {
         procedures_data_url     :   'http://168.202.28.210:8080/wds/rest/procedures/data',
         procedures_excel_url    :   'http://168.202.28.210:8080/wds/rest/procedures/excel',
         codes_url               :   'http://168.202.28.210:8080/wds/rest/procedures/',
+        bulks_url               :   'http://168.202.28.210:8080/wds/rest/bulkdownloads',
+        bulks_root              :   'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/',
         configurationURL        :   'config/faostat-download-configuration.json',
         dbPrefix                :   'FAOSTAT_',
         dsdURL                  :   'http://faostat3.fao.org/wds/rest/procedures/listboxes/faostatproddiss/',
@@ -900,9 +902,9 @@ var F3DWLD = (function() {
         s += '<div>';
         s += '<div class="standard-title">Filters / <a href="' + metadataURL + '">' + parent + '</a> / <a>' + item.label + '</a></div>';
         s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;">';
-        s += '<ul><li id="bulk-root" class="bulk-root-mainbtn"><i class="fa fa-archive"></i> Bulk Downloads <i class="fa fa-caret-down"></i><ul>';
-        s += '<li>Africa: Algeria - Zimbabwe (1,450 KB)</li><li>Americas: Antigua and Barbuda - Venezuela (Bolivarian Republic of) (1,283 KB)</li><li>Asia: Afghanistan - Yemen (1,654 KB)</li><li>Europe: Albania - Yugoslav SFR (1,256 KB)</li><li>Oceania: American Samoa - Wallis and Futuna Islands (280 KB)</li><li>All_Area_Groups: Africa + (Total) - World + (Total) (2,782 KB)</li><li>All_Data: Afghanistan - Zimbabwe (18,361 KB)</li>';
-        s += '</ul></li></ul>';
+//        s += '<ul><li id="bulk-root" class="bulk-root-mainbtn"><i class="fa fa-archive"></i> Bulk Downloads <i class="fa fa-caret-down"></i><ul>';
+//        s += '<li>Africa: Algeria - Zimbabwe (1,450 KB)</li><li>Americas: Antigua and Barbuda - Venezuela (Bolivarian Republic of) (1,283 KB)</li><li>Asia: Afghanistan - Yemen (1,654 KB)</li><li>Europe: Albania - Yugoslav SFR (1,256 KB)</li><li>Oceania: American Samoa - Wallis and Futuna Islands (280 KB)</li><li>All_Area_Groups: Africa + (Total) - World + (Total) (2,782 KB)</li><li>All_Data: Afghanistan - Zimbabwe (18,361 KB)</li>';
+//        s += '</ul></li></ul>';
         s += '</div>';
         s += '</div>';
         s += '<hr class="standard-hr">';
@@ -1092,24 +1094,19 @@ var F3DWLD = (function() {
     }
 
     function enhanceUIStructure() {
-        $('#bulk-downloads-menu').jqxMenu({
-            autoOpen: false,
-            showTopLevelArrows: true,
-            width: '300px',
-            height: '30px',
-            autoCloseOnClick: false,
-            autoSizeMainItems: true
-        });
+        showBulkDownloads();
+
         $('#options-menu').jqxMenu({
             autoOpen: false,
             showTopLevelArrows: true,
             width: '90',
             height: '30px',
             autoCloseOnClick: false,
+            clickToOpen: true,
             rtl: true
         });
         $('#options-menu').jqxMenu('setItemOpenDirection', 'root', 'right', 'down');
-        $('#bulk-downloads-menu').jqxMenu('setItemOpenDirection', 'bulk-root', 'left', 'down');
+
         $('#flags_menu').jqxCheckBox({ width: 120, height: 25, checked: true });
         $('#codes_menu').jqxCheckBox({ width: 120, height: 25 });
         $('#units_menu').jqxCheckBox({ width: 120, height: 25, checked: true });
@@ -1175,6 +1172,47 @@ var F3DWLD = (function() {
         enhanceUIButtons();
         enhanceUIGrids();
     };
+
+    function showBulkDownloads() {
+
+        $.ajax({
+
+            type: 'GET',
+            url: F3DWLD.CONFIG.bulks_url + '/' + F3DWLD.CONFIG.datasource + '/' + F3DWLD.CONFIG.domainCode + '/' + F3DWLD.CONFIG.lang,
+            dataType: 'json',
+
+            success: function (response) {
+
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+
+                var s = '';
+                s += '<ul><li id="bulk-root" class="bulk-root-mainbtn"><i class="fa fa-archive"></i> Bulk Downloads <i class="fa fa-caret-down"></i><ul>';
+                for (var i = 0 ; i < json.length ; i++)
+                    s += '<li><a target="_blank" href="' + F3DWLD.CONFIG.bulks_root + json[i][2] + '">' + json[i][3] + '</a></li>';
+                s += '</ul></li></ul>';
+                document.getElementById('bulk-downloads-menu').innerHTML = s;
+
+                $('#bulk-downloads-menu').jqxMenu({
+                    autoOpen: false,
+                    showTopLevelArrows: true,
+                    width: '300px',
+                    height: '30px',
+                    autoCloseOnClick: false,
+                    autoSizeMainItems: true
+                });
+                $('#bulk-downloads-menu').jqxMenu('setItemOpenDirection', 'bulk-root', 'left', 'down');
+
+            },
+
+            error: function (err, b, c) {
+
+            }
+
+        });
+
+    }
 
     function getOptions(limitOutput) {
 //        F3DWLD.CONFIG.wdsPayload.showFlags = $('#options_show_flags').val();
@@ -1284,14 +1322,19 @@ var F3DWLD = (function() {
 
                         buffer.push(values[i]);
 
-                        var itemID = "summary_" + values[i].code;
+                        var itemID = gridID + "_" + values[i].code;
                         var code = values[i].code;
                         var title = "Click to remove it from the selection";
 
                         $('#' + summaryID).append("<div id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
                         $('#' + itemID).powerTip({placement: 's'});
                         $('#' + itemID).on('click', function (e) {
-                            $('#' + e.target.id).empty();
+                            var id = e.target.id.substring(1 + e.target.id.lastIndexOf('_'));
+                            $.each(buffer, function(k, v) {
+                                if (v != null && v.code == id)
+                                    buffer.splice(k, 1);
+                            });
+                            $('#' + e.target.id).remove();
                         });
 
                     }
