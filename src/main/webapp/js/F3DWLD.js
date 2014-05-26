@@ -1319,6 +1319,9 @@ var F3DWLD = (function() {
         buffer = [];
         var tmp = summary.substring(0, summary.indexOf('-'));
         $('#summary-' + tmp + '-box').css('display', 'none');
+        $('#' + gridID).find('option:selected').each(function(k, v) {
+            $(v).prop('selected', false);
+        });
     };
 
     function addToSummary(gridID, summaryID) {
@@ -1381,6 +1384,13 @@ var F3DWLD = (function() {
                                     buffer.splice(k, 1);
                             });
                             $('#' + e.target.id).remove();
+
+                            $('#' + gridID).find('option:selected').each(function(k, v) {
+                                var code = $(v).data('faostat');
+                                if (code == id)
+                                    $(v).prop('selected', false);
+                            });
+
                         });
 
                     }
