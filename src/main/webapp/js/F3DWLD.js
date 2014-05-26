@@ -1071,11 +1071,28 @@ var F3DWLD = (function() {
             throw $.i18n.prop('_please_select_year');
     }
 
+    function showHideSummary() {
+        if ($('#collapsible-summary-box').css('display') == 'none') {
+            $('#collapsible-summary-box').css('display', 'block');
+            $('#collapsible-summary-box').animate({opacity: 1});
+            $('#collapsible-summary-id').removeClass('fa fa-angle-double-up').addClass('fa fa-angle-double-down');
+        } else {
+            $('#collapsible-summary-box').animate(
+                {opacity: 0}, function() {
+                    $('#collapsible-summary-box').css('display', 'none');
+                });
+            $('#collapsible-summary-id').removeClass('fa fa-angle-double-down').addClass('fa fa-angle-double-up');
+        }
+    }
+
     function buildSummary() {
 
         var s = '';
 
-        s += '<div class="standard-title" id="output_options_labels" style="font-size:16px !important;">Summary</div>';
+        s += '<div class="standard-title" id="output_options_labels" style="font-size:16px !important;">Summary <i id="collapsible-summary-id" onclick="F3DWLD.showHideSummary();" class="fa fa-angle-double-down"></i></div>';
+
+        s += '<div style="display: block;" id="collapsible-summary-box">';
+
         s += '<div id="summary_tip" style="color:#666"><i>';
         s += 'Please use the selectors above to filter your query. Your selection will be displayed in the area below and it can be edited at any time.';
         s +='</i></div>'
@@ -1102,6 +1119,8 @@ var F3DWLD = (function() {
         s += '<div class="summary-box" id="summary-years-box" style="display: none;">';
         s += '<div class="compare-summary-title">Year</div>';
         s += '<div id="years-summary" class="compare-summary-element"></div>';
+        s += '</div>';
+
         s += '</div>';
 
         s += '</div>';
@@ -1849,7 +1868,7 @@ var F3DWLD = (function() {
         var s = '';
         s += '<div>';
         s += '<div style="display: none;">';
-        s += '<div id="output_options_labels" class="standard-title">' + $.i18n.prop('_outputOptions') + '</div>';
+        s += '<div id="output_options_labels" class="standard-title">' + $.i18n.prop('_outputOptions') + ' <i class="fa fa-angle-double-down"></i></div>';
         s += '<hr class="standard-hr">';
         s += '</div>';
         s += '</div>';
@@ -1959,7 +1978,8 @@ var F3DWLD = (function() {
         addToSummary        :   addToSummary,
         preview             :   preview,
         selectAllForSummary :   selectAllForSummary,
-        clearAllForSummary  :   clearAllForSummary
+        clearAllForSummary  :   clearAllForSummary,
+        showHideSummary     :   showHideSummary
     };
 
 })();
