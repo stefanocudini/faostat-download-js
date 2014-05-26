@@ -1049,9 +1049,28 @@ var F3DWLD = (function() {
     };
 
     function preview() {
-//        console.log('preview');
-        collectAndQueryWDS(true);
-        STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
+        if ($('#radio_table').val()) {
+            try {
+                validateSelection();
+                collectAndQueryWDS(true);
+                STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
+            } catch (e) {
+                alert(e);
+            }
+        } else {
+            alert('Pivot to be implemented...');
+        }
+    }
+
+    function validateSelection() {
+        if (F3DWLD.CONFIG.selectedValues.countries == null || F3DWLD.CONFIG.selectedValues.countries.length < 1)
+            throw $.i18n.prop('_please_select_country');
+        if (F3DWLD.CONFIG.selectedValues.items == null || F3DWLD.CONFIG.selectedValues.items.length < 1)
+            throw $.i18n.prop('_please_select_item');
+        if (F3DWLD.CONFIG.selectedValues.elements == null || F3DWLD.CONFIG.selectedValues.elements.length < 1)
+            throw $.i18n.prop('_please_select_element');
+        if (F3DWLD.CONFIG.selectedValues.years == null || F3DWLD.CONFIG.selectedValues.years.length < 1)
+            throw $.i18n.prop('_please_select_year');
     }
 
     function buildSummary() {
@@ -1344,7 +1363,7 @@ var F3DWLD = (function() {
             }
 
         } catch(err) {
-            console.log(err);
+
         }
 
     }
@@ -1562,6 +1581,10 @@ var F3DWLD = (function() {
             selectionTracker: 'checked',
             theme: F3DWLD.CONFIG.theme
         });
+//        $('#tab_1').on('tabclick', function (event) {
+//            F3DWLD.CONFIG.selectedValues.countries = [];
+//            $('#countries-summary').empty();
+//        });
     };
 
     function enhanceUIOptions() {
