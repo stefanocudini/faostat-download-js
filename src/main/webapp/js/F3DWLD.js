@@ -30,7 +30,7 @@ var F3DWLD = (function() {
         selectedValues          :   {}
     };
 
-    function collectAndQueryWDS(limitOutput) {
+    function collectAndQueryWDS(limitOutput, streamExcel) {
 
         /* Collect parameters. */
         getTabSelection();
@@ -38,10 +38,10 @@ var F3DWLD = (function() {
         getGridsValues();
 
         /* Collect codes for 'list' items, then create the JSON payload. */
-        collectListCodes();
+        collectListCodes(streamExcel);
     };
 
-    function collectListCodes() {
+    function collectListCodes(streamExcel) {
 
         var doTheCall = callListCodesREST();
 
@@ -131,7 +131,7 @@ var F3DWLD = (function() {
 //                    }
 
                     createJSON();
-                    createTable();
+                    createTable(streamExcel);
 
                 },
 
@@ -143,7 +143,7 @@ var F3DWLD = (function() {
 
         } else {
             createJSON();
-            createTable();
+            createTable(streamExcel);
         }
 
     };
@@ -349,7 +349,7 @@ var F3DWLD = (function() {
 
     };
 
-    function createTable() {
+    function createTable(streamExcel) {
 
         $('#output_area').empty();
 
@@ -373,62 +373,71 @@ var F3DWLD = (function() {
         var data = {};
         data.payload = JSON.stringify(p);
 
-        $.ajax({
+        if (streamExcel) {
 
-            type    :   'POST',
-            url     :   F3DWLD.CONFIG.procedures_data_url,
-            data    :   data,
+            $('#payload').val(JSON.stringify(p));
+            document.excelForProcedures.submit();
 
-            success : function(response) {
-                var json = response;
-                if (typeof json == 's')
-                    json = $.parseJSON(response);
-                var s = '<table class="dataTable">';
-                s += '<thead>';
-                s += '<tr>';
-                s += '<th>' + $.i18n.prop('_export_domain') + '</th>';
-                s += '<th>' + $.i18n.prop('_export_country') + '</th>';
-                if (p.codes)
-                    s += '<th>' + $.i18n.prop('_export_country_code') + '</th>';
-                s += '<th>' + $.i18n.prop('_export_item') + '</th>';
-                if (p.codes)
-                    s += '<th>' + $.i18n.prop('_export_item_code') + '</th>';
-                s += '<th>' + $.i18n.prop('_export_element') + '</th>';
-                if (p.codes)
-                    s += '<th>' + $.i18n.prop('_export_element_code') + '</th>';
-                s += '<th>' + $.i18n.prop('_export_year') + '</th>';
-                if (p.units)
-                    s += '<th>' + $.i18n.prop('_export_unit') + '</th>';
-                s += '<th>' + $.i18n.prop('_export_value') + '</th>';
-                if (p.flags)
-                    s += '<th>' + $.i18n.prop('_export_flag') + '</th>';
-                s += '</tr>';
-                s += '</thead>';
-                s += '<tbody>';
-                for (var i = 0 ; i < json.length ; i++) {
+        } else {
+
+            $.ajax({
+
+                type: 'POST',
+                url: F3DWLD.CONFIG.procedures_data_url,
+                data: data,
+
+                success: function (response) {
+                    var json = response;
+                    if (typeof json == 's')
+                        json = $.parseJSON(response);
+                    var s = '<table class="dataTable">';
+                    s += '<thead>';
                     s += '<tr>';
-                    for (var j = 1 ; j < json[i].length ; j++) {
-                        if (i % 2 == 0)
-                            s += '<td class="hor-minimalist-b_row1">' + json[i][j] + '</td>';
-                        else
-                            s += '<td class="hor-minimalist-b_row2">' + json[i][j] + '</td>';
-                    }
+                    s += '<th>' + $.i18n.prop('_export_domain') + '</th>';
+                    s += '<th>' + $.i18n.prop('_export_country') + '</th>';
+                    if (p.codes)
+                        s += '<th>' + $.i18n.prop('_export_country_code') + '</th>';
+                    s += '<th>' + $.i18n.prop('_export_item') + '</th>';
+                    if (p.codes)
+                        s += '<th>' + $.i18n.prop('_export_item_code') + '</th>';
+                    s += '<th>' + $.i18n.prop('_export_element') + '</th>';
+                    if (p.codes)
+                        s += '<th>' + $.i18n.prop('_export_element_code') + '</th>';
+                    s += '<th>' + $.i18n.prop('_export_year') + '</th>';
+                    if (p.units)
+                        s += '<th>' + $.i18n.prop('_export_unit') + '</th>';
+                    s += '<th>' + $.i18n.prop('_export_value') + '</th>';
+                    if (p.flags)
+                        s += '<th>' + $.i18n.prop('_export_flag') + '</th>';
                     s += '</tr>';
+                    s += '</thead>';
+                    s += '<tbody>';
+                    for (var i = 0; i < json.length; i++) {
+                        s += '<tr>';
+                        for (var j = 1; j < json[i].length; j++) {
+                            if (i % 2 == 0)
+                                s += '<td class="hor-minimalist-b_row1">' + json[i][j] + '</td>';
+                            else
+                                s += '<td class="hor-minimalist-b_row2">' + json[i][j] + '</td>';
+                        }
+                        s += '</tr>';
+                    }
+                    s += '</tbody>';
+                    s += '</table>';
+
+                    $('#options_menu_box').css('display', 'block');
+                    $('#preview_hr').css('display', 'block');
+                    $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:' + F3DWLD.CONFIG.widthTable + '">' + s + '</div>');
+
+                },
+
+                error: function (err, b, c) {
+
                 }
-                s += '</tbody>';
-                s += '</table>';
 
-                $('#options_menu_box').css('display', 'block');
-                $('#preview_hr').css('display', 'block');
-                $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:'+ F3DWLD.CONFIG.widthTable +'">' + s + '</div>');
+            });
 
-            },
-
-            error : function(err, b, c) {
-
-            }
-
-        });
+        }
 
     };
 
@@ -900,7 +909,7 @@ var F3DWLD = (function() {
         var metadataURL = 'http://' + F3DWLD.CONFIG.baseurl + '/faostat-gateway/go/to/download/' + F3DWLD.CONFIG.groupCode + '/*/' + F3DWLD.CONFIG.lang;
         var s = '';
         s += '<div>';
-        s += '<div class="standard-title">Filters / <a href="' + metadataURL + '">' + parent + '</a> / <a>' + item.label + '</a></div>';
+        s += '<div class="standard-title">Filters / <a href="' + metadataURL + '">' + parent + ' <i class="fa fa-info-circle" title="metadata"></i></a> / <a>' + item.label + '</a></div>';
         s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;">';
 //        s += '<ul><li id="bulk-root" class="bulk-root-mainbtn"><i class="fa fa-archive"></i> Bulk Downloads <i class="fa fa-caret-down"></i><ul>';
 //        s += '<li>Africa: Algeria - Zimbabwe (1,450 KB)</li><li>Americas: Antigua and Barbuda - Venezuela (Bolivarian Republic of) (1,283 KB)</li><li>Asia: Afghanistan - Yemen (1,654 KB)</li><li>Europe: Albania - Yugoslav SFR (1,256 KB)</li><li>Oceania: American Samoa - Wallis and Futuna Islands (280 KB)</li><li>All_Area_Groups: Africa + (Total) - World + (Total) (2,782 KB)</li><li>All_Data: Afghanistan - Zimbabwe (18,361 KB)</li>';
@@ -1041,7 +1050,7 @@ var F3DWLD = (function() {
             '</span>' +
             'PIVOT TABLE'+
         '</div>';
-        s += '<div class="download-selection-buttons"><a class="btn btn-big" onclick="F3DWLD.preview();"><i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">PREVIEW</div></a><a class="btn btn-big" id="buttonDeSelectAll_usp_GetElementList""><i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">DOWNLOAD</div></a></div>';
+        s += '<div class="download-selection-buttons"><a class="btn btn-big" onclick="F3DWLD.preview();"><i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">PREVIEW</div></a><a class="btn btn-big" onclick="F3DWLD.download();" id="buttonDeSelectAll_usp_GetElementList""><i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">DOWNLOAD</div></a></div>';
         s += '</div>';
         return s;
     };
@@ -1050,8 +1059,22 @@ var F3DWLD = (function() {
         if ($('#radio_table').val()) {
             try {
                 validateSelection();
-                collectAndQueryWDS(true);
+                collectAndQueryWDS(true, false);
                 STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
+            } catch (e) {
+                alert(e);
+            }
+        } else {
+            alert('Pivot to be implemented...');
+        }
+    }
+
+    function download() {
+        if ($('#radio_table').val()) {
+            try {
+                validateSelection();
+                collectAndQueryWDS(false, true);
+                STATS.exportTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             } catch (e) {
                 alert(e);
             }
@@ -1977,6 +2000,7 @@ var F3DWLD = (function() {
         buildF3DWLD         :   buildF3DWLD,
         addToSummary        :   addToSummary,
         preview             :   preview,
+        download            :   download,
         selectAllForSummary :   selectAllForSummary,
         clearAllForSummary  :   clearAllForSummary,
         showHideSummary     :   showHideSummary
