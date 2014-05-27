@@ -36,7 +36,11 @@ if (!window.STATS) {
 		
 		showPivotDownloadBulk : function(domain) {
 			STATS.track('DOWNLOAD_BULK', 'Show Tables - PIVOT_TABLE', domain);
-		}
+		},
+
+        bulkDownload : function(domain, filename) {
+            STATS.track('DOWNLOAD_BULK', filename, domain);
+        }
 	
 	};
 	

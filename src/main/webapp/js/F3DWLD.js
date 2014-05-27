@@ -1239,7 +1239,7 @@ var F3DWLD = (function() {
                 var s = '';
                 s += '<ul><li id="bulk-root" class="bulk-root-mainbtn"><i class="fa fa-archive"></i> Bulk Downloads <i class="fa fa-caret-down"></i><ul>';
                 for (var i = 0 ; i < json.length ; i++)
-                    s += '<li><a target="_blank" href="' + F3DWLD.CONFIG.bulks_root + json[i][2] + '">' + json[i][3] + '</a></li>';
+                    s += '<li><a onclick="F3DWLD.recordBulkDownload(\'' + json[i][2] + '\');" target="_blank" href="' + F3DWLD.CONFIG.bulks_root + json[i][2] + '">' + json[i][3] + '</a></li>';
                 s += '</ul></li></ul>';
                 document.getElementById('bulk-downloads-menu').innerHTML = s;
 
@@ -1261,6 +1261,10 @@ var F3DWLD = (function() {
 
         });
 
+    }
+
+    function recordBulkDownload(filename) {
+        STATS.bulkDownload(filename, F3DWLD.CONFIG.domainCode);
     }
 
     function getOptions(limitOutput) {
@@ -1994,7 +1998,8 @@ var F3DWLD = (function() {
         download            :   download,
         selectAllForSummary :   selectAllForSummary,
         clearAllForSummary  :   clearAllForSummary,
-        showHideSummary     :   showHideSummary
+        showHideSummary     :   showHideSummary,
+        recordBulkDownload  :   recordBulkDownload
     };
 
 })();
