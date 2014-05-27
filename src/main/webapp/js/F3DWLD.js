@@ -377,6 +377,9 @@ var F3DWLD = (function() {
 
         if (streamExcel) {
 
+            p.limit = -1;
+            var data = {};
+            data.payload = JSON.stringify(p);
             $('#payload').val(JSON.stringify(p));
             document.excelForProcedures.submit();
 
