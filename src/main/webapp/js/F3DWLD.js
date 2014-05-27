@@ -37,6 +37,8 @@ var F3DWLD = (function() {
         getOptions(limitOutput);
         getGridsValues();
 
+        console.log('asd');
+
         /* Collect codes for 'list' items, then create the JSON payload. */
         collectListCodes(streamExcel);
     };
@@ -388,31 +390,17 @@ var F3DWLD = (function() {
 
                 success: function (response) {
                     var json = response;
-                    if (typeof json == 's')
+                    if (typeof json == 'string')
                         json = $.parseJSON(response);
                     var s = '<table class="dataTable">';
                     s += '<thead>';
                     s += '<tr>';
-                    s += '<th>' + $.i18n.prop('_export_domain') + '</th>';
-                    s += '<th>' + $.i18n.prop('_export_country') + '</th>';
-                    if (p.codes)
-                        s += '<th>' + $.i18n.prop('_export_country_code') + '</th>';
-                    s += '<th>' + $.i18n.prop('_export_item') + '</th>';
-                    if (p.codes)
-                        s += '<th>' + $.i18n.prop('_export_item_code') + '</th>';
-                    s += '<th>' + $.i18n.prop('_export_element') + '</th>';
-                    if (p.codes)
-                        s += '<th>' + $.i18n.prop('_export_element_code') + '</th>';
-                    s += '<th>' + $.i18n.prop('_export_year') + '</th>';
-                    if (p.units)
-                        s += '<th>' + $.i18n.prop('_export_unit') + '</th>';
-                    s += '<th>' + $.i18n.prop('_export_value') + '</th>';
-                    if (p.flags)
-                        s += '<th>' + $.i18n.prop('_export_flag') + '</th>';
+                    for (var i = 1 ; i < json[0].length ; i++)
+                        s += '<th>' + json[0][i] + '</th>';
                     s += '</tr>';
                     s += '</thead>';
                     s += '<tbody>';
-                    for (var i = 0; i < json.length; i++) {
+                    for (var i = 1; i < json.length; i++) {
                         s += '<tr>';
                         for (var j = 1; j < json[i].length; j++) {
                             if (i % 2 == 0)
