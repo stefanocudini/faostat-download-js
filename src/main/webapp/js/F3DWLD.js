@@ -9,6 +9,7 @@ var F3DWLD = (function() {
         procedures_excel_url    :   'http://168.202.28.210:8080/wds/rest/procedures/excel',
         codes_url               :   'http://168.202.28.210:8080/wds/rest/procedures/',
         bulks_url               :   'http://168.202.28.210:8080/wds/rest/bulkdownloads',
+        bletchley_url           :   'http://168.202.28.210:8080/bletchley/rest/codes',
         bulks_root              :   'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/',
         configurationURL        :   'config/faostat-download-configuration.json',
         dbPrefix                :   'FAOSTAT_',
@@ -56,11 +57,11 @@ var F3DWLD = (function() {
             var backup_items = new Array();
 
             for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries.length ; i++)
-                if (F3DWLD.CONFIG.selectedValues.countries.type == 'total')
+                if (F3DWLD.CONFIG.selectedValues.countries.type != '>')
                     backup_countries.push(F3DWLD.CONFIG.selectedValues.countries[i]);
 
             for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.items.length ; i++)
-                if (F3DWLD.CONFIG.selectedValues.items[i].type == 'total')
+                if (F3DWLD.CONFIG.selectedValues.items[i].type != '>')
                     backup_items.push(F3DWLD.CONFIG.selectedValues.items[i]);
 
             var data = {};
@@ -74,7 +75,8 @@ var F3DWLD = (function() {
             $.ajax({
 
                 type    :   'POST',
-                url     :   F3DWLD.CONFIG.codes_url + '/codes/listForTradeMatrix/post',
+//                url     :   F3DWLD.CONFIG.codes_url + 'codes/listForTradeMatrix/post',
+                url     :   F3DWLD.CONFIG.bletchley_url + '/listForTradeMatrix/post',
                 data    :   data,
 
                 success : function(response) {
@@ -113,7 +115,7 @@ var F3DWLD = (function() {
                     for (var z = 0 ; z < backup_countries.length ; z++)
                         F3DWLD.CONFIG.selectedValues.countries.push(backup_countries[z]);
 
-                    createJSON();
+//                    createJSON();
                     createTable(streamExcel);
 
                 },
@@ -125,7 +127,7 @@ var F3DWLD = (function() {
             });
 
         } else {
-            createJSON();
+//            createJSON();
             createTable(streamExcel);
         }
 
@@ -134,19 +136,19 @@ var F3DWLD = (function() {
     function callListCodesREST() {
 
         for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries.length ; i++)
-            if (F3DWLD.CONFIG.selectedValues.countries[i].type == 'list')
+            if (F3DWLD.CONFIG.selectedValues.countries[i].type == '>')
                 return true;
 
         for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries2.length ; i++)
-            if (F3DWLD.CONFIG.selectedValues.countries2[i].type == 'list')
+            if (F3DWLD.CONFIG.selectedValues.countries2[i].type == '>')
                 return true;
 
         for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.items.length ; i++)
-            if (F3DWLD.CONFIG.selectedValues.items[i].type == 'list')
+            if (F3DWLD.CONFIG.selectedValues.items[i].type == '>')
                 return true;
 
         for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.itemsAggregated.length ; i++)
-            if (F3DWLD.CONFIG.selectedValues.itemsAggregated[i].type == 'list')
+            if (F3DWLD.CONFIG.selectedValues.itemsAggregated[i].type == '>')
                 return true;
 
         return false;
@@ -1054,6 +1056,8 @@ var F3DWLD = (function() {
 
     function findSummaryName(gridName) {
         var id = gridName.substring(1 + gridName.indexOf('_'));
+        id = id.replace('List2', 'List1');
+        id = id.replace('List3', 'List1');
         $('#summary-' + id + '-box').css('display', 'block');
         $('#summary_tip').remove();
         return id + '-summary';
@@ -1239,6 +1243,8 @@ var F3DWLD = (function() {
     };
 
     function findBuffer(gridName) {
+        gridName = gridName.replace('List2', 'List1');
+        gridName = gridName.replace('List3', 'List1');
         if (gridName.indexOf('grid_usp_GetAreaList1_1') > -1)
             return F3DWLD.CONFIG.selectedValues.countries;
         else if (gridName.indexOf('grid_usp_GetAreaList1_2') > -1)
@@ -1346,9 +1352,10 @@ var F3DWLD = (function() {
 
                         var itemID = gridID + "_" + values[i].code;
                         var code = values[i].code;
+                        var type = values[i].type;
                         var title = "Click to remove it from the selection";
 
-                        $('#' + summaryID).append("<div id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
+                        $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
                         $('#' + itemID).powerTip({placement: 's'});
                         $('#' + itemID).on('click', function (e) {
                             var id = e.target.id.substring(1 + e.target.id.lastIndexOf('_'));
