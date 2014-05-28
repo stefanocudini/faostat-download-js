@@ -12,7 +12,7 @@ var F3DWLD = (function() {
         bulks_root              :   'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/',
         configurationURL        :   'config/faostat-download-configuration.json',
         dbPrefix                :   'FAOSTAT_',
-        dsdURL                  :   'http://faostat3.fao.org/wds/rest/procedures/listboxes/faostatproddiss/',
+        dsdURL                  :   'http://168.202.28.210:8080/wds/rest/procedures/listboxes/faostatproddiss/',
         theme                   :   'faostat',
         tradeMatrices           :   ['FT', 'TM'],
         lang                    :   'E',
@@ -37,8 +37,6 @@ var F3DWLD = (function() {
         getOptions(limitOutput);
         getGridsValues();
 
-        console.log('asd');
-
         /* Collect codes for 'list' items, then create the JSON payload. */
         collectListCodes(streamExcel);
     };
@@ -50,7 +48,7 @@ var F3DWLD = (function() {
         if (doTheCall) {
 
             var countries = JSON.stringify(F3DWLD.CONFIG.selectedValues.countries);
-            var countries_dst = JSON.stringify(F3DWLD.CONFIG.selectedValues.countries_dst);
+            var countries_dst = JSON.stringify(F3DWLD.CONFIG.selectedValues.countries2);
             var items = JSON.stringify(F3DWLD.CONFIG.selectedValues.items);
 
             var backup_countries = new Array();
@@ -100,7 +98,7 @@ var F3DWLD = (function() {
                     }
 
                     if (codes != null && codes[2].length > 0) {
-                        F3DWLD.CONFIG.selectedValues.countries_dst = codes[2];
+                        F3DWLD.CONFIG.selectedValues.countries2 = codes[2];
                     }
 
                     if (codes != null) {
@@ -693,11 +691,11 @@ var F3DWLD = (function() {
 
     function collectCountries_dst() {
         var ins = new Array();
-        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries_dst.length ; i++) {
-            if (F3DWLD.CONFIG.selectedValues.countries_dst[i].code == 'all') {
+        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries2.length ; i++) {
+            if (F3DWLD.CONFIG.selectedValues.countries2[i].code == 'all') {
                 return null;
             } else {
-                ins.push(F3DWLD.CONFIG.selectedValues.countries_dst[i].code);
+                ins.push(F3DWLD.CONFIG.selectedValues.countries2[i].code);
             }
         }
         return ins;
@@ -900,11 +898,8 @@ var F3DWLD = (function() {
         var metadataURL = 'http://' + F3DWLD.CONFIG.baseurl + '/faostat-gateway/go/to/download/' + F3DWLD.CONFIG.groupCode + '/*/' + F3DWLD.CONFIG.lang;
         var s = '';
         s += '<div>';
-        s += '<div class="standard-title">Filters / <a href="' + metadataURL + '">' + parent + ' <i class="fa fa-info-circle" title="Show Metadata"></i></a> / <a>' + item.label + '</a></div>';
+        s += '<div class="standard-title">Filters / <a href="' + metadataURL + '">' + parent + ' </a> / <a>' + item.label + '</a></div>';
         s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;">';
-//        s += '<ul><li id="bulk-root" class="bulk-root-mainbtn"><i class="fa fa-archive"></i> Bulk Downloads <i class="fa fa-caret-down"></i><ul>';
-//        s += '<li>Africa: Algeria - Zimbabwe (1,450 KB)</li><li>Americas: Antigua and Barbuda - Venezuela (Bolivarian Republic of) (1,283 KB)</li><li>Asia: Afghanistan - Yemen (1,654 KB)</li><li>Europe: Albania - Yugoslav SFR (1,256 KB)</li><li>Oceania: American Samoa - Wallis and Futuna Islands (280 KB)</li><li>All_Area_Groups: Africa + (Total) - World + (Total) (2,782 KB)</li><li>All_Data: Afghanistan - Zimbabwe (18,361 KB)</li>';
-//        s += '</ul></li></ul>';
         s += '</div>';
         s += '</div>';
         s += '<hr class="standard-hr">';
@@ -989,12 +984,12 @@ var F3DWLD = (function() {
 
         /** Grids */
         for (var key in column) {
-            // TODO make it language-independant
-            if (key == 'Partner Countries') {
-                s += ' <div class="faostat-download-list" id="grid_usp_GetAreaList2"></div>';
-            } else {
-                s += ' <div class="faostat-download-list" id="grid_' + column[key].procedure + '"></div>';
-            }
+            s += ' <div class="faostat-download-list" id="grid_' + column[key].procedure + '_' + column[key].tabGroup + '"></div>';
+//            if (key == 'Partner Countries') {
+//                s += ' <div class="faostat-download-list" id="grid_usp_GetAreaList2"></div>';
+//            } else {
+//                s += ' <div class="faostat-download-list" id="grid_' + column[key].procedure + '_' + column[key].tabGroup + '"></div>';
+//            }
         }
         s += '</div>';
 
@@ -1041,12 +1036,12 @@ var F3DWLD = (function() {
             '</span>' +
             'PIVOT TABLE'+
         '</div>';
-        s += '<div class="download-selection-buttons"><a class="btn btn-big" onclick="F3DWLD.preview();"><i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">PREVIEW</div></a><a class="btn btn-big" onclick="F3DWLD.download();" id="buttonDeSelectAll_usp_GetElementList""><i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">DOWNLOAD</div></a></div>';
+        s += '<div class="download-selection-buttons"><a class="btn btn-big" onclick="F3DWLD.preview(\'preview_button\');"><i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">PREVIEW</div></a><a class="btn btn-big" onclick="F3DWLD.download();" id="buttonDeSelectAll_usp_GetElementList""><i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">DOWNLOAD</div></a></div>';
         s += '</div>';
         return s;
     };
 
-    function preview() {
+    function preview(caller) {
         if ($('#radio_table').val()) {
             try {
                 validateSelection();
@@ -1056,7 +1051,7 @@ var F3DWLD = (function() {
                 alert(e);
             }
         } else {
-            alert('Pivot to be implemented...');
+            // alert('PREVIEW: Pivot to be implemented... ' + caller);
         }
     }
 
@@ -1070,7 +1065,7 @@ var F3DWLD = (function() {
                 alert(e);
             }
         } else {
-            alert('Pivot to be implemented...');
+            alert('DOWNLOAD: Pivot to be implemented...');
         }
     }
 
@@ -1099,6 +1094,13 @@ var F3DWLD = (function() {
         }
     }
 
+    function findSummaryName(gridName) {
+        var id = gridName.substring(1 + gridName.indexOf('_'));
+        $('#summary-' + id + '-box').css('display', 'block');
+        $('#summary_tip').remove();
+        return id + '-summary';
+    }
+
     function buildSummary() {
 
         var s = '';
@@ -1111,29 +1113,18 @@ var F3DWLD = (function() {
         s += 'Please use the selectors above to filter your query. Your selection will be displayed in the area below and it can be edited at any time.';
         s +='</i></div>'
 
-        s += '<div class="compare-summary">';
-        s += '<div class="summary-box" id="summary-countries-box" style="display: none;">';
-        s += '<div class="compare-summary-title">Area</div>';
-        s += '<div id="countries-summary" class="compare-summary-element"></div>';
-        s += '<br>';
-        s += '</div>';
+        for (var i = 0 ; i < Object.keys(F3DWLD.CONFIG.dsd).length ; i++) {
 
-        s += '<div class="summary-box" id="summary-items-box" style="display: none;">';
-        s += '<div class="compare-summary-title">Item</div>';
-        s += '<div id="items-summary" class="compare-summary-element"></div>';
-        s += '<br>';
-        s += '</div>';
+            var column = F3DWLD.CONFIG.dsd[Object.keys(F3DWLD.CONFIG.dsd)[i]];
+            var id = column[Object.keys(column)[0]].procedure + '_' + column[Object.keys(column)[0]].tabGroup;
+            s += '<div class="compare-summary">';
+            s += '<div class="summary-box" id="summary-' + id + '-box" style="display: none;">';
+            s += '<div class="compare-summary-title">' + column[Object.keys(column)[0]].tabName + '</div>';
+            s += '<div id="' + id + '-summary" class="compare-summary-element"></div>';
+            s += '<br>';
+            s += '</div>';
 
-        s += '<div class="summary-box" id="summary-elements-box" style="display: none;">';
-        s += '<div class="compare-summary-title">Element</div>';
-        s += '<div id="elements-summary" class="compare-summary-element"></div>';
-        s += '<br>';
-        s += '</div>';
-
-        s += '<div class="summary-box" id="summary-years-box" style="display: none;">';
-        s += '<div class="compare-summary-title">Year</div>';
-        s += '<div id="years-summary" class="compare-summary-element"></div>';
-        s += '</div>';
+        }
 
         s += '</div>';
 
@@ -1176,7 +1167,7 @@ var F3DWLD = (function() {
                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = ',';
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = '.';
             }
-            preview();
+            preview('dot_menu');
         });
         $('#disable_menu').bind('change', function (event) {
             if (event.args.checked) {
@@ -1184,7 +1175,7 @@ var F3DWLD = (function() {
             } else {
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
             }
-            preview();
+            preview('disable_menu');
         });
         F3DWLD.CONFIG.wdsPayload.showFlags = true;
         F3DWLD.CONFIG.wdsPayload.showCodes = false;
@@ -1193,28 +1184,28 @@ var F3DWLD = (function() {
         $("#flags_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showFlags = checked;
-            preview();
+            preview('flags_menu');
         });
         $("#codes_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showCodes = checked;
-            preview();
+            preview('codes_menu');
         });
         $("#units_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showUnits = checked;
-            preview();
+            preview('units_menu');
         });
         $("#null_values_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showNullValues = checked;
-            preview();
+            preview('null_values_menu');
         });
         F3DWLD.CONFIG.wdsPayload.decimalNumbers = 0;
         $('#increment').on('valuechanged', function (event) {
             var value = event.args.value;
             F3DWLD.CONFIG.wdsPayload.decimalNumbers = parseInt(value);
-            preview();
+            preview('increment');
         });
         enhanceUITabs();
         enhanceUIOptions();
@@ -1284,42 +1275,28 @@ var F3DWLD = (function() {
         for (var listbox in F3DWLD.CONFIG.dsd) {
             for (var tab in F3DWLD.CONFIG.dsd[listbox]) {
                 var codelist = tab.toLowerCase().replace(' ', '');
-                if (codelist == 'partnercountries') {
-                    // TODO make it language independant
-                    enhanceUIGrid(F3DWLD.CONFIG.dsd[listbox][tab].procedure, 'grid_usp_GetAreaList2');
-                } else {
-                    enhanceUIGrid(F3DWLD.CONFIG.dsd[listbox][tab].procedure, 'grid_' + F3DWLD.CONFIG.dsd[listbox][tab].procedure);
-                }
+                var id = F3DWLD.CONFIG.dsd[listbox][tab].procedure + '_' + F3DWLD.CONFIG.dsd[listbox][tab].tabGroup;
+                enhanceUIGrid(F3DWLD.CONFIG.dsd[listbox][tab].procedure, 'grid_' + id);
+//                if (codelist == 'partnercountries') {
+//                    enhanceUIGrid(F3DWLD.CONFIG.dsd[listbox][tab].procedure, 'grid_usp_GetAreaList2');
+//                } else {
+//                    enhanceUIGrid(F3DWLD.CONFIG.dsd[listbox][tab].procedure, 'grid_' + F3DWLD.CONFIG.dsd[listbox][tab].procedure);
+//                }
             }
         }
 
     };
 
-    function findSummaryName(gridName) {
-        $('#summary_tip').remove();
-        if (gridName.indexOf('grid_usp_GetArea') > -1) {
-            $('#summary-countries-box').css('display', 'block');
-            return 'countries-summary';
-        } else if (gridName.indexOf('grid_usp_GetItem') > -1) {
-            $('#summary-items-box').css('display', 'block');
-            return 'items-summary';
-        } else if (gridName.indexOf('grid_usp_GetElement') > -1) {
-            $('#summary-elements-box').css('display', 'block');
-            return 'elements-summary';
-        } else if (gridName.indexOf('grid_usp_GetYear') > -1) {
-            $('#summary-years-box').css('display', 'block');
-            return 'years-summary';
-        }
-    }
-
     function findBuffer(gridName) {
-        if (gridName.indexOf('grid_usp_GetArea') > -1)
+        if (gridName.indexOf('grid_usp_GetAreaList1_1') > -1)
             return F3DWLD.CONFIG.selectedValues.countries;
-        else if (gridName.indexOf('grid_usp_GetItem') > -1)
+        else if (gridName.indexOf('grid_usp_GetAreaList1_2') > -1)
+            return F3DWLD.CONFIG.selectedValues.countries2;
+        else if (gridName.indexOf('grid_usp_GetItemList1_3') > -1)
             return F3DWLD.CONFIG.selectedValues.items;
-        else if (gridName.indexOf('grid_usp_GetElement') > -1)
+        else if (gridName.indexOf('grid_usp_GetElementList_4') > -1)
             return F3DWLD.CONFIG.selectedValues.elements;
-        else if (gridName.indexOf('grid_usp_GetYear') > -1)
+        else if (gridName.indexOf('grid_usp_GetYearList_5') > -1)
             return F3DWLD.CONFIG.selectedValues.years;
     }
 
@@ -1383,6 +1360,8 @@ var F3DWLD = (function() {
 
         if (F3DWLD.CONFIG.selectedValues.countries == null)
             F3DWLD.CONFIG.selectedValues.countries = [];
+        if (F3DWLD.CONFIG.selectedValues.countries2 == null)
+            F3DWLD.CONFIG.selectedValues.countries2 = [];
         if (F3DWLD.CONFIG.selectedValues.items == null)
             F3DWLD.CONFIG.selectedValues.items = [];
         if (F3DWLD.CONFIG.selectedValues.itemsAggregated == null)
