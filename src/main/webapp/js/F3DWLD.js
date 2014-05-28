@@ -75,7 +75,6 @@ var F3DWLD = (function() {
             $.ajax({
 
                 type    :   'POST',
-//                url     :   F3DWLD.CONFIG.codes_url + 'codes/listForTradeMatrix/post',
                 url     :   F3DWLD.CONFIG.bletchley_url + '/listForTradeMatrix/post',
                 data    :   data,
 
@@ -955,13 +954,13 @@ var F3DWLD = (function() {
 
         /** Select All */
         s += '<div class="download-selection-buttons">';
-        s += '<a onclick="F3DWLD.selectAllForSummary(\'grid_' + column[Object.keys(column)[0]].procedure + '\');" id="buttonSelectAll_' + column[Object.keys(column)[0]].procedure + '" class="btn dwld">';
+        s += '<a onclick="F3DWLD.selectAllForSummary(\'grid_' + column[Object.keys(column)[0]].procedure + '_' + column[key].tabGroup + '\');" id="buttonSelectAll_' + column[Object.keys(column)[0]].procedure + '" class="btn dwld">';
         s += '<i class="fa fa-check-circle-o"></i>';
         s += '<div id="buttonSelectAll_' + column[Object.keys(column)[0]].procedure + '-text"></div>';
         s += '</a>';
 
         /** De-select All */
-        s += '<a onclick="F3DWLD.clearAllForSummary(\'grid_' + column[Object.keys(column)[0]].procedure + '\', \'' + false + '\');" id="buttonDeSelectAll_' + column[Object.keys(column)[0]].procedure + '" class="btn dwld">';
+        s += '<a onclick="F3DWLD.clearAllForSummary(\'grid_' + column[Object.keys(column)[0]].procedure + '_' + column[key].tabGroup + '\', \'' + false + '\');" id="buttonDeSelectAll_' + column[Object.keys(column)[0]].procedure + '" class="btn dwld">';
         s += '<i class="fa fa-times-circle-o"></i>';
         s += '<div id="buttonDeSelectAll_' + column[Object.keys(column)[0]].procedure + '-text"></div>';
         s += '</a>';
@@ -1084,6 +1083,7 @@ var F3DWLD = (function() {
             s += '<div class="compare-summary-title">' + column[Object.keys(column)[0]].tabName + '</div>';
             s += '<div id="' + id + '-summary" class="compare-summary-element"></div>';
             s += '<br>';
+            s += '</div>';
             s += '</div>';
 
         }
@@ -1346,7 +1346,8 @@ var F3DWLD = (function() {
 
                 for (var i = 0; i < values.length; i++) {
 
-                    if ($.inArray(values[i].code, buffer) < 0) {
+//                    if ($.inArray(values[i].code, buffer) < 0) {
+                    if (!contains(buffer, values[i])) {
 
                         buffer.push(values[i]);
 
@@ -1383,6 +1384,13 @@ var F3DWLD = (function() {
 
         }
 
+    }
+
+    function contains(buffer, obj) {
+        for (var i = 0 ; i < buffer.length ; i++)
+            if (buffer[i].code == obj.code && buffer[i].type == obj.type)
+                return true;
+        return false;
     }
 
     function enhanceUIGrid(codingSystem, gridCode) {
@@ -1603,7 +1611,7 @@ var F3DWLD = (function() {
             $('#buttonSelectAll_usp_GetAreaList1').attr('onclick', '');
             $('#buttonSelectAll_usp_GetAreaList1').unbind('click');
             $('#buttonSelectAll_usp_GetAreaList1').click(function() {
-                selectAllForSummary('grid_usp_GetItemList' + idx);
+                selectAllForSummary('grid_usp_GetItemList' + idx + '_1');
             });
         });
         $('#tab_2').on('tabclick', function (event) {
@@ -1611,7 +1619,7 @@ var F3DWLD = (function() {
             $('#buttonSelectAll_usp_GetItemList1').attr('onclick', '');
             $('#buttonSelectAll_usp_GetItemList1').unbind('click');
             $('#buttonSelectAll_usp_GetItemList1').click(function() {
-                selectAllForSummary('grid_usp_GetItemList' + idx);
+                selectAllForSummary('grid_usp_GetItemList' + idx + '_1');
             });
         });
     };
