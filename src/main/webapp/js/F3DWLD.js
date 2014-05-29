@@ -1611,7 +1611,7 @@ var F3DWLD = (function() {
             $('#buttonSelectAll_usp_GetAreaList1').attr('onclick', '');
             $('#buttonSelectAll_usp_GetAreaList1').unbind('click');
             $('#buttonSelectAll_usp_GetAreaList1').click(function() {
-                selectAllForSummary('grid_usp_GetItemList' + idx + '_1');
+                selectAllForSummary('grid_usp_GetAreaList' + idx + '_1');
             });
         });
         $('#tab_2').on('tabclick', function (event) {
