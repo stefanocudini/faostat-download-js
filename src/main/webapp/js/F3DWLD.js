@@ -1245,6 +1245,7 @@ var F3DWLD = (function() {
     function findBuffer(gridName) {
         gridName = gridName.replace('List2', 'List1');
         gridName = gridName.replace('List3', 'List1');
+        console.log('FIND BUFFER FOR ' + gridName);
         if (gridName.indexOf('grid_usp_GetAreaList1_1') > -1)
             return F3DWLD.CONFIG.selectedValues.countries;
         else if (gridName.indexOf('grid_usp_GetAreaList1_2') > -1)
@@ -1261,6 +1262,27 @@ var F3DWLD = (function() {
             return F3DWLD.CONFIG.selectedValues.years;
         else if (gridName.indexOf('grid_usp_GetYearList_4') > -1)
             return F3DWLD.CONFIG.selectedValues.years;
+    }
+
+    function clearBuffer(gridName) {
+        gridName = gridName.replace('List2', 'List1');
+        gridName = gridName.replace('List3', 'List1');
+        if (gridName.indexOf('grid_usp_GetAreaList1_1') > -1)
+            F3DWLD.CONFIG.selectedValues.countries = [];
+        else if (gridName.indexOf('grid_usp_GetAreaList1_2') > -1)
+            F3DWLD.CONFIG.selectedValues.countries2 = [];
+        else if (gridName.indexOf('grid_usp_GetItemList1_3') > -1)
+            F3DWLD.CONFIG.selectedValues.items = [];
+        else if (gridName.indexOf('grid_usp_GetItemList1_2') > -1)
+            F3DWLD.CONFIG.selectedValues.items = [];
+        else if (gridName.indexOf('grid_usp_GetElementList_4') > -1)
+            F3DWLD.CONFIG.selectedValues.elements = [];
+        else if (gridName.indexOf('grid_usp_GetElementList_3') > -1)
+            F3DWLD.CONFIG.selectedValues.elements = [];
+        else if (gridName.indexOf('grid_usp_GetYearList_5') > -1)
+            F3DWLD.CONFIG.selectedValues.years = [];
+        else if (gridName.indexOf('grid_usp_GetYearList_4') > -1)
+            F3DWLD.CONFIG.selectedValues.years = [];
     }
 
     function getGridValues(tableCode, map) {
@@ -1292,8 +1314,7 @@ var F3DWLD = (function() {
     function clearAllForSummary(gridID) {
         var summary = findSummaryName(gridID);
         $('#' + summary).empty();
-        var buffer = findBuffer(gridID);
-        buffer = [];
+        clearBuffer(gridID);
         var tmp = summary.substring(0, summary.indexOf('-'));
         $('#summary-' + tmp + '-box').css('display', 'none');
         $('#' + gridID).find('option:selected').each(function(k, v) {
@@ -1346,7 +1367,6 @@ var F3DWLD = (function() {
 
                 for (var i = 0; i < values.length; i++) {
 
-//                    if ($.inArray(values[i].code, buffer) < 0) {
                     if (!contains(buffer, values[i])) {
 
                         buffer.push(values[i]);
@@ -1374,6 +1394,8 @@ var F3DWLD = (function() {
 
                         });
 
+                    } else {
+                        console.log(values[i] + ' IN THE BUFFER!');
                     }
 
                 }
@@ -1832,110 +1854,6 @@ var F3DWLD = (function() {
         s += '</table>';
         return s;
     };
-
-//    function buildOptions() {
-//        var s = '';
-//        s += '<div>';
-//        s += '<div style="display: none;">';
-//        s += '<div id="output_options_labels" class="standard-title">' + $.i18n.prop('_outputOptions') + ' <i class="fa fa-angle-double-down"></i></div>';
-//        s += '<hr class="standard-hr">';
-//        s += '</div>';
-//        s += '</div>';
-//        s += '<div class="download-output-options" style="display: none;">';
-//        s += '<table style="width: 100%;">';
-//        s += '<tr>';
-//        s += '<td style="width: 25%;" class="compare-label" id="wizard_output_type">' + $.i18n.prop('_outputType') + '</td>';
-//        s += '<td style="width: 25%;" class="compare-label" id="wizard_thousand_separator">' + $.i18n.prop('_thousandSeparator') + '</td>';
-//        s += '<td style="width: 25%;" class="compare-label" id="wizard_decimal_separator">' + $.i18n.prop('_decimalSeparator') + '</td>';
-//        s += '<td style="width: 25%;" class="compare-label" id="wizard_decimal_numbers">' + $.i18n.prop('_decimalNumbers') + '</td>';
-//        s += '</tr>';
-//        s += '<tr>';
-//        s += '<td style="width: 25%;">';
-//        s += '<div id="options_output_type"></div>';
-//        s += '</td>';
-//        s += '<td style="width: 25%;">';
-//        s += '<div id="options_thousand_separator"></div>';
-//        s += '</td>';
-//        s += '<td style="width: 25%;">';
-//        s += '<div id="options_decimal_separator"></div>';
-//        s += '</td>';
-//        s += '<td style="width: 25%;">';
-//        s += '<div id="options_decimal_numbers"></div>';
-//        s += '</td>';
-//        s += '</tr>';
-//        s += '<tr style="display:none;">';
-//        s += '<td id="show_flags" style="width: 25%;"></td>';
-//        s += '<td id="show_codes" style="width: 25%;"></td>';
-//        s += '<td id="show_units" style="width: 25%;"></td>';
-//        s += '<td id="show_null_values" style="width: 25%;"></td>';
-//        s += '</tr>';
-//        s += '<tr>';
-//        s += '<td style="width: 25%; padding-top : 10px">';
-//        s += '<div id="options_show_flags" class="compare-label">' + $.i18n.prop('_showFlags') + '</div>';
-//        s += '</td>';
-//        s += '<td style="width: 25%; padding-top : 10px">';
-//        s += '<div id="options_show_codes" class="compare-label">' + $.i18n.prop('_showCodes') + '</div>';
-//        s += '</td>';
-//        s += '<td style="width: 25%; padding-top : 10px">';
-//        s += '<div id="options_show_units" class="compare-label">' + $.i18n.prop('_showUnits') + '</div>';
-//        s += '</td>';
-//        s += '<td style="width: 25%; padding-top : 10px">';
-//        s += '<div id="options_show_null_values" class="compare-label">' + $.i18n.prop('_showNullValues') + '</div>';
-//        s += '</td>';
-//        s += '</tr>';
-//        s += '</table>';
-//        s += '</div>';
-//        return s;
-//    };
-
-//    function selectAll(gridCode, isSelected) {
-//        getTabSelection();
-//        var grid = '';
-//        switch (gridCode) {
-//            case 'grid_usp_GetAreaList1' :
-//                switch (F3DWLD.CONFIG.tabsSelection.countries) {
-//                    case 0: grid = 'grid_usp_GetAreaList1_select'; break;
-//                    case 1: grid = 'grid_usp_GetAreaList2_select'; break;
-//                    case 2: grid = 'grid_usp_GetAreaList3_select'; break;
-//                }
-//                break;
-//            case 'grid_usp_GetAreaList1' :
-//                switch (F3DWLD.CONFIG.tabsSelection.countries) {
-//                    case 0: grid = 'grid_usp_GetAreaList1_select'; break;
-//                    case 1: grid = 'grid_usp_GetAreaList2_select'; break;
-//                    case 2: grid = 'grid_usp_GetAreaList3_select'; break;
-//                }
-//                break;
-//            case 'grid_usp_GetAreaList1' :
-//                switch (F3DWLD.CONFIG.tabsSelection.countries) {
-//                    case 0: grid = 'grid_usp_GetAreaList1_select'; break;
-//                }
-//                break;
-//            case 'grid_usp_GetAreaList1' :
-//                switch (F3DWLD.CONFIG.tabsSelection.countries) {
-//                    case 0: grid = 'grid_usp_GetAreaList1_select'; break;
-//                }
-//                break;
-//            case 'grid_usp_GetElementList' :
-//                switch (F3DWLD.CONFIG.tabsSelection.elements) {
-//                    case 0: grid = 'grid_usp_GetElementList_select'; break;
-//                }
-//                break;
-//            case 'grid_usp_GetItemList1' :
-//                switch (F3DWLD.CONFIG.tabsSelection.items) {
-//                    case 0: grid = 'grid_usp_GetItemList1_select'; break;
-//                    case 1: grid = 'grid_usp_GetItemList2_select'; break;
-//                }
-//                break;
-//            case 'grid_usp_GetYearList' :
-//                switch (F3DWLD.CONFIG.tabsSelection.years) {
-//                    case 0: grid = 'grid_usp_GetYearList_select'; break;
-//                }
-//                break;
-//        }
-//        var selected = (isSelected == 'true') ? 'selected' : '';
-//        $('#' + grid + ' option').prop('selected', selected);
-//    };
 
     return {
         CONFIG              :   CONFIG,
