@@ -294,7 +294,7 @@ if (!window.FAOSTATDownloadTree) {
                     if (FAOSTATDownload.domainCode == 'null' && FAOSTATDownload.groupCode != 'null') {
                         $("#jqxTree").jqxTree('expandItem', $('#' + FAOSTATDownload.groupCode)[0]);
                         $("#jqxTree").jqxTree('selectItem', $('#' + FAOSTATDownload.groupCode)[0]);
-                        FAOSTATDownloadTree.loadDownloadNotes(FAOSTATDownload.groupCode);
+                       // FAOSTATDownloadTree.loadDownloadNotes(FAOSTATDownload.groupCode);
                     }
 
                     // Expand Domain

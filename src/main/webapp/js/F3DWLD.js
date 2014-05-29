@@ -1,6 +1,7 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
+        base_url                :   'http://168.202.28.210:8080/faostat-gateway/go/to/download',
         prefix                  :   'http://168.202.28.210:8080/faostat-download-js/',
         CPINotes_url            :   'http://168.202.28.210:8080/wds/rest/procedures/cpinotes',
         ODA_url                 :   'http://168.202.28.210:8080/wds/rest/procedures/oda',
@@ -9,6 +10,7 @@ var F3DWLD = (function() {
         procedures_excel_url    :   'http://168.202.28.210:8080/wds/rest/procedures/excel',
         codes_url               :   'http://168.202.28.210:8080/wds/rest/procedures/',
         bulks_url               :   'http://168.202.28.210:8080/wds/rest/bulkdownloads',
+        domains_url             :   'http://168.202.28.210:8080/wds/rest/domains',
         bletchley_url           :   'http://168.202.28.210:8080/bletchley/rest/codes',
         bulks_root              :   'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/',
         configurationURL        :   'config/faostat-download-configuration.json',
@@ -1245,7 +1247,6 @@ var F3DWLD = (function() {
     function findBuffer(gridName) {
         gridName = gridName.replace('List2', 'List1');
         gridName = gridName.replace('List3', 'List1');
-        console.log('FIND BUFFER FOR ' + gridName);
         if (gridName.indexOf('grid_usp_GetAreaList1_1') > -1)
             return F3DWLD.CONFIG.selectedValues.countries;
         else if (gridName.indexOf('grid_usp_GetAreaList1_2') > -1)
@@ -1371,31 +1372,30 @@ var F3DWLD = (function() {
 
                         buffer.push(values[i]);
 
-                        var itemID = gridID + "_" + values[i].code;
+                        var subfix = (values[i].type == '>') ? '_LIST' : '_TOTAL';
+                        var itemID = gridID + "_" + values[i].code + subfix;
                         var code = values[i].code;
                         var type = values[i].type;
                         var title = "Click to remove it from the selection";
 
                         $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
                         $('#' + itemID).powerTip({placement: 's'});
+
+                        /** Remove item from summary. */
                         $('#' + itemID).on('click', function (e) {
-                            var id = e.target.id.substring(1 + e.target.id.lastIndexOf('_'));
+                            var id = extractID(e.target.id);
                             $.each(buffer, function(k, v) {
                                 if (v != null && v.code == id)
                                     buffer.splice(k, 1);
                             });
                             $('#' + e.target.id).remove();
-
                             $('#' + gridID).find('option:selected').each(function(k, v) {
                                 var code = $(v).data('faostat');
                                 if (code == id)
                                     $(v).prop('selected', false);
                             });
-
                         });
 
-                    } else {
-                        console.log(values[i] + ' IN THE BUFFER!');
                     }
 
                 }
@@ -1406,7 +1406,24 @@ var F3DWLD = (function() {
 
         }
 
-    }
+    };
+
+    function extractID(s) {
+        var id = '';
+        var idx_start = null;
+        var idx_end = null;
+        for (var i = s.length; i >= 0; i--) {
+            if (s[i] == '_' && idx_start == null) {
+                idx_start = i;
+                continue;
+            } if (s[i] == '_' && idx_start != null && idx_end == null) {
+                idx_end = i;
+                break;
+            }
+        }
+        id = s.substring(1 + idx_end, idx_start);
+        return id;
+    };
 
     function contains(buffer, obj) {
         for (var i = 0 ; i < buffer.length ; i++)
