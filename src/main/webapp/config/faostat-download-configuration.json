@@ -1,5 +1,5 @@
 {
-	"datasource": "faostat",
+	"datasource": "faostatproddiss",
 	"baseurl": "168.202.28.210:8080",
 	"tablelimit": 50
 }
