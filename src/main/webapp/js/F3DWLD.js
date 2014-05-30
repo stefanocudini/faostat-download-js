@@ -881,7 +881,6 @@ var F3DWLD = (function() {
             }
         }
         s += buildSelectorsRow(columns);
-//        s += buildOptions();
         s += buildSummary();
         s += buildButtons();
         s += buildOLAP();
@@ -951,7 +950,7 @@ var F3DWLD = (function() {
 
         /** Grids */
         for (var key in column)
-            s += ' <div class="faostat-download-list" id="grid_' + column[key].procedure + '_' + column[key].tabGroup + '"></div>';
+            s += ' <div class="faostat-download-list" id="grid_' + column[key].tabGroup + '_' + column[key].tabIndex + '"></div>';
         s += '</div>';
 
         /** Select All */
@@ -1065,8 +1064,8 @@ var F3DWLD = (function() {
 
     function findSummaryName(gridName) {
         var id = gridName.substring(1 + gridName.indexOf('_'));
-        id = id.replace('List2', 'List1');
-        id = id.replace('List3', 'List1');
+        id = id.replace('_2', '_1');
+        id = id.replace('_3', '_1');
         $('#summary-' + id + '-box').css('display', 'block');
         $('#summary_tip').remove();
         return id + '-summary';
@@ -1087,7 +1086,7 @@ var F3DWLD = (function() {
         for (var i = 0 ; i < Object.keys(F3DWLD.CONFIG.dsd).length ; i++) {
 
             var column = F3DWLD.CONFIG.dsd[Object.keys(F3DWLD.CONFIG.dsd)[i]];
-            var id = column[Object.keys(column)[0]].procedure + '_' + column[Object.keys(column)[0]].tabGroup;
+            var id = column[Object.keys(column)[0]].tabGroup + '_' + column[Object.keys(column)[0]].tabIndex;
             s += '<div class="compare-summary">';
             s += '<div class="summary-box" id="summary-' + id + '-box" style="display: none;">';
             s += '<div class="compare-summary-title">' + column[Object.keys(column)[0]].tabName + '</div>';
@@ -1108,7 +1107,6 @@ var F3DWLD = (function() {
 
     function enhanceUIStructure() {
         showBulkDownloads();
-
         $('#options-menu').jqxMenu({
             autoOpen: false,
             showTopLevelArrows: true,
@@ -1119,7 +1117,6 @@ var F3DWLD = (function() {
             rtl: true
         });
         $('#options-menu').jqxMenu('setItemOpenDirection', 'root', 'right', 'down');
-
         $('#flags_menu').jqxCheckBox({ width: 120, height: 25, checked: true });
         $('#codes_menu').jqxCheckBox({ width: 120, height: 25 });
         $('#units_menu').jqxCheckBox({ width: 120, height: 25, checked: true });
@@ -1230,68 +1227,36 @@ var F3DWLD = (function() {
         STATS.bulkDownload(filename, F3DWLD.CONFIG.domainCode);
     }
 
-//    function getOptions(limitOutput) {
-//        F3DWLD.CONFIG.wdsPayload.showFlags = $('#options_show_flags').val();
-//        F3DWLD.CONFIG.wdsPayload.showCodes = $('#options_show_codes').val();
-//        F3DWLD.CONFIG.wdsPayload.showUnits = $('#options_show_units').val();
-//        F3DWLD.CONFIG.wdsPayload.showNullValues = $('#options_show_null_values').val();
-//        F3DWLD.CONFIG.wdsPayload.limit = limitOutput;
-//        F3DWLD.CONFIG.wdsPayload.datasource = F3DWLD.CONFIG.datasource;
-//        F3DWLD.CONFIG.wdsPayload.thousandSeparator = $('#options_thousand_separator').jqxDropDownList('getSelectedItem').value;
-//        F3DWLD.CONFIG.wdsPayload.decimalSeparator = $('#options_decimal_separator').jqxDropDownList('getSelectedItem').value;
-//        F3DWLD.CONFIG.wdsPayload.decimalNumbers = $('#options_decimal_numbers').jqxDropDownList('getSelectedItem').value;
-//    };
-
     function enhanceUIGrids() {
         for (var listbox in F3DWLD.CONFIG.dsd) {
             for (var tab in F3DWLD.CONFIG.dsd[listbox]) {
                 var codelist = tab.toLowerCase().replace(' ', '');
-                var id = F3DWLD.CONFIG.dsd[listbox][tab].procedure + '_' + F3DWLD.CONFIG.dsd[listbox][tab].tabGroup;
+                var id = F3DWLD.CONFIG.dsd[listbox][tab].tabGroup + '_' + F3DWLD.CONFIG.dsd[listbox][tab].tabIndex;
                 enhanceUIGrid(listbox, F3DWLD.CONFIG.dsd[listbox][tab].tabIndex, 'grid_' + id);
             }
         }
     };
 
     function findBuffer(gridName) {
-        gridName = gridName.replace('List2', 'List1');
-        gridName = gridName.replace('List3', 'List1');
-        if (gridName.indexOf('grid_usp_GetAreaList1_1') > -1)
-            return F3DWLD.CONFIG.selectedValues.countries;
-        else if (gridName.indexOf('grid_usp_GetAreaList1_2') > -1)
-            return F3DWLD.CONFIG.selectedValues.countries2;
-        else if (gridName.indexOf('grid_usp_GetItemList1_3') > -1)
-            return F3DWLD.CONFIG.selectedValues.items;
-        else if (gridName.indexOf('grid_usp_GetItemList1_2') > -1)
-            return F3DWLD.CONFIG.selectedValues.items;
-        else if (gridName.indexOf('grid_usp_GetElementList_4') > -1)
-            return F3DWLD.CONFIG.selectedValues.elements;
-        else if (gridName.indexOf('grid_usp_GetElementList_3') > -1)
-            return F3DWLD.CONFIG.selectedValues.elements;
-        else if (gridName.indexOf('grid_usp_GetYearList_5') > -1)
-            return F3DWLD.CONFIG.selectedValues.years;
-        else if (gridName.indexOf('grid_usp_GetYearList_4') > -1)
-            return F3DWLD.CONFIG.selectedValues.years;
+        switch (gridName) {
+            case 'grid_1_1': return F3DWLD.CONFIG.selectedValues.countries;
+            case 'grid_1_2': return F3DWLD.CONFIG.selectedValues.countries;
+            case 'grid_1_3': return F3DWLD.CONFIG.selectedValues.countries;
+            case 'grid_2_1': return F3DWLD.CONFIG.selectedValues.items;
+            case 'grid_2_2': return F3DWLD.CONFIG.selectedValues.items;
+            case 'grid_3_1': return F3DWLD.CONFIG.selectedValues.elements;
+            case 'grid_4_1': return F3DWLD.CONFIG.selectedValues.years;
+            case 'grid_5_1': return F3DWLD.CONFIG.selectedValues.years;
+        }
     }
 
     function clearBuffer(gridName) {
-        gridName = gridName.replace('List2', 'List1');
-        gridName = gridName.replace('List3', 'List1');
-        if (gridName.indexOf('grid_usp_GetAreaList1_1') > -1)
-            F3DWLD.CONFIG.selectedValues.countries = [];
-        else if (gridName.indexOf('grid_usp_GetAreaList1_2') > -1)
-            F3DWLD.CONFIG.selectedValues.countries2 = [];
-        else if (gridName.indexOf('grid_usp_GetItemList1_3') > -1)
-            F3DWLD.CONFIG.selectedValues.items = [];
-        else if (gridName.indexOf('grid_usp_GetItemList1_2') > -1)
-            F3DWLD.CONFIG.selectedValues.items = [];
-        else if (gridName.indexOf('grid_usp_GetElementList_4') > -1)
-            F3DWLD.CONFIG.selectedValues.elements = [];
-        else if (gridName.indexOf('grid_usp_GetElementList_3') > -1)
-            F3DWLD.CONFIG.selectedValues.elements = [];
-        else if (gridName.indexOf('grid_usp_GetYearList_5') > -1)
-            F3DWLD.CONFIG.selectedValues.years = [];
-        else if (gridName.indexOf('grid_usp_GetYearList_4') > -1)
-            F3DWLD.CONFIG.selectedValues.years = [];
+        // TODO complete
+        switch (gridName) {
+            case 'grid_1_1': F3DWLD.CONFIG.selectedValues.countries = []; break;
+            case 'grid_1_2': F3DWLD.CONFIG.selectedValues.countries = []; break;
+            case 'grid_1_3': F3DWLD.CONFIG.selectedValues.countries = []; break;
+        }
     }
 
     function getGridValues(tableCode, map) {
@@ -1347,6 +1312,10 @@ var F3DWLD = (function() {
 
     }
 
+    function initBuffers() {
+
+    }
+
     function addItemToSummary(gridID, values) {
 
         var summaryID = findSummaryName(gridID);
@@ -1376,6 +1345,7 @@ var F3DWLD = (function() {
 
                 for (var i = 0; i < values.length; i++) {
 
+                    console.log('contains? ' + contains(buffer, values[i]));
                     if (!contains(buffer, values[i])) {
 
                         buffer.push(values[i]);
