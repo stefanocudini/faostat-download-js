@@ -15,7 +15,7 @@ var F3DWLD = (function() {
         bulks_root              :   'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/',
         configurationURL        :   'config/faostat-download-configuration.json',
         dbPrefix                :   'FAOSTAT_',
-        dsdURL                  :   'http://168.202.28.210:8080/wds/rest/procedures/listboxes/faostatproddiss/',
+        dsdURL                  :   'http://168.202.28.210:8080/wds/rest/procedures/listboxes',
         theme                   :   'faostat',
         tradeMatrices           :   ['FT', 'TM'],
         lang                    :   'E',
@@ -801,7 +801,7 @@ var F3DWLD = (function() {
         $.ajax({
 
             type: 'GET',
-            url: F3DWLD.CONFIG.dsdURL + F3DWLD.CONFIG.domainCode + '/' + F3DWLD.CONFIG.lang,
+            url: F3DWLD.CONFIG.dsdURL + '/' + FAOSTATDownload.datasource + '/' + F3DWLD.CONFIG.domainCode + '/' + F3DWLD.CONFIG.lang,
             dataType: 'json',
 
             /* Load data from the DB */
@@ -1430,29 +1430,29 @@ var F3DWLD = (function() {
 
                 for (var i = 0; i < json.length; i++) {
 
-                    if (F3DWLD.CONFIG.domainCode != 'GY') {
-                        switch (json[i][3]) {
-                            case '>':
-                                lbl = json[i][1];
-                                break;
-                            case '+':
-                                lbl = json[i][1];
-                                break;
-                        }
-                    } else {
-                        switch (json[i][3]) {
-                            case '>':
-                                if (codingSystem == 'regions' || codingSystem == 'specialgroups') {
-                                    lbl = json[i][1];
-                                } else {
-                                    lbl = json[i][1];
-                                }
-                                break;
-                            case '+':
-                                lbl = json[i][1];
-                                break;
-                        }
-                    }
+//                    if (F3DWLD.CONFIG.domainCode != 'GY') {
+//                        switch (json[i][3]) {
+//                            case '>':
+//                                lbl = json[i][1];
+//                                break;
+//                            case '+':
+//                                lbl = json[i][1];
+//                                break;
+//                        }
+//                    } else {
+//                        switch (json[i][3]) {
+//                            case '>':
+//                                if (codingSystem == 'regions' || codingSystem == 'specialgroups') {
+//                                    lbl = json[i][1];
+//                                } else {
+//                                    lbl = json[i][1];
+//                                }
+//                                break;
+//                            case '+':
+//                                lbl = json[i][1];
+//                                break;
+//                        }
+//                    }
                     lbl = json[i][1];
                     var option = '<option class="grid-element" data-faostat="' + json[i][0] + '" data-label="' + lbl + '" data-type="' + json[i][3] + '">' + lbl + '</option>';
                     select += option;
