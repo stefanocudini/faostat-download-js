@@ -1,29 +1,11 @@
 <div class="download-notes">
 
-    <!-- Domains List -->
-    <div class="noteHead"> <h2>Metadata / <a style="cursor: pointer;">Emissions - Agriculture</a></h2></div>
-    <h2 class="metadata-available-title">FAOSTAT data is organized in domains. Please find below the list of available domains for this group: select one of the boxes to access the data.</h2>
-        <a class="metadata-links">Agriculture Total</a>
-        <a class="metadata-links" href="http://168.202.28.210:8080/faostat-gateway/go/to/download/G1/GE/E">Enteric Fermentation</a>
-        <a class="metadata-links">Manure Management</a>
-        <a class="metadata-links">Rice Cultivation</a>
-        <a class="metadata-links">Synthetic Fertilizars</a>
-        <a class="metadata-links">Manure applied to Soils</a>
-        <a class="metadata-links">Manure left on Pasture</a>
-        <a class="metadata-links">Crop Residues</a>
-        <a class="metadata-links">Cultivation of Organic Soils</a>
-        <a class="metadata-links">Burning - Crop Residues</a>
-        <a class="metadata-links">Burning - Savanna</a>
-        <a class="metadata-links">Energy Use</a>
-    <hr class="standard-hr metadata-hr" >
+    <!-- LIST OF AVAILABLE DOMAINS - START -->
+    <div id="page_start"></div>
     <script>
-        $('#DOMAIN_IMG').attr('src', FAOSTATDownload.prefix + 'images/G1.png');
-        $('#GHG_STATIC').attr('src', FAOSTATDownload.prefix + 'images/GHG_STATIC_1.png');
-        $('#GO2BROWSE').attr('href', 'http://' + CORE.baseURL + '/faostat-gateway/go/to/browse/G1/*/F');
-        document.getElementById('GO2BROWSE_LABEL').innerHTML = $.i18n.prop('_go_to_browse')
+        F3DWLDNotes.addHeader();
     </script>
-    <br/>
-    <!-- Domains List -->
+    <!-- LIST OF AVAILABLE DOMAINS - END -->
 
     <div style='position: relative;'>
         <div>
