@@ -1445,7 +1445,9 @@ function insideFalseClick()
             case 'grid_2_2': return F3DWLD.CONFIG.selectedValues.items;
             case 'grid_3_1': return F3DWLD.CONFIG.selectedValues.elements;
             case 'grid_4_1': return F3DWLD.CONFIG.selectedValues.years;
+            case 'grid_4_2': return F3DWLD.CONFIG.selectedValues.years;
             case 'grid_5_1': return F3DWLD.CONFIG.selectedValues.years;
+            case 'grid_5_2': return F3DWLD.CONFIG.selectedValues.years;
         }
     }
 
@@ -1628,34 +1630,9 @@ function insideFalseClick()
                 select += '<select id="' + gridCode + '_select" multiple="multiple" style="width: 100%; height: 100%; border: 0px;" onchange="F3DWLD.addToSummary(\'' + gridCode + '\', \'countries-summary\');">';
 
                 for (var i = 0; i < json.length; i++) {
-
-//                    if (F3DWLD.CONFIG.domainCode != 'GY') {
-//                        switch (json[i][3]) {
-//                            case '>':
-//                                lbl = json[i][1];
-//                                break;
-//                            case '+':
-//                                lbl = json[i][1];
-//                                break;
-//                        }
-//                    } else {
-//                        switch (json[i][3]) {
-//                            case '>':
-//                                if (codingSystem == 'regions' || codingSystem == 'specialgroups') {
-//                                    lbl = json[i][1];
-//                                } else {
-//                                    lbl = json[i][1];
-//                                }
-//                                break;
-//                            case '+':
-//                                lbl = json[i][1];
-//                                break;
-//                        }
-//                    }
                     lbl = json[i][1];
                     var option = '<option class="grid-element" data-faostat="' + json[i][0] + '" data-label="' + lbl + '" data-type="' + json[i][3] + '">' + lbl + '</option>';
                     select += option;
-
                 }
 
                 select += '</select>';
