@@ -3,7 +3,7 @@ if (!window.FAOSTATDownload) {
     window.FAOSTATDownload = {
 		
         /** To be used to deploy this code under FENIX FAOSTAT */
-        prefix : 'http://168.202.28.210:8080/faostat-download-js/',
+        prefix : 'http://localhost:8080/faostat-download-js/',
 
         MyMetaData : {
             "AS" : {
@@ -120,8 +120,8 @@ if (!window.FAOSTATDownload) {
         },
 
         showFB:function(){
-  $('#mainTD').show();
-                        $('#OLAPTD').hide();
+            $('#mainTD').show();
+            $('#OLAPTD').hide();
 
             if (navigator.appVersion.indexOf("MSIE 7.") == -1 ){
                 $.ajax({
@@ -147,7 +147,6 @@ if (!window.FAOSTATDownload) {
                 document.getElementById('mainTD').innerHTML = "<iframe src=\""+FAOSTATDownload.prefix + "FBS.html\" width=\"800\" height=\"600\"/>" ;
             }
         },
-
         bulkDownload : function() {
             FAOSTATDownload.downloadType = 1;
             FAOSTATDownload.showSelectionMode(false);
@@ -171,7 +170,7 @@ if (!window.FAOSTATDownload) {
         },
 
         showDownloadOptionsAndButtons : function(show) {
-		    if (show) {
+            if (show) {
                 $('#output_options').show();
                 $('#output_buttons').show();
             } else {
@@ -181,23 +180,16 @@ if (!window.FAOSTATDownload) {
         },
 
         showSelectionMode : function(show) {
-            if (show) {
-                $('#settings-section').show();
-            } else {
-                $('#settings-section').hide();
-            }
+            if (show) { $('#settings-section').show(); }
+            else {$('#settings-section').hide();}
         },
-
         showClassicOrWizard : function() {
             if (FAOSTATDownload.domainCode.length > 1) {
                 if( FAOSTATDownload.domainCode!="*"){
                 // Wizard
                try{document.getElementById('testinline').className="visi2";}catch(err){}
                 if(FAOSTATDownload.domainCode=="FB" /*&&
-                    FAOSTATDownload.item.hasItems == false*/){
-                    //alert('la')
-                    this.showFB();
-                }
+                    FAOSTATDownload.item.hasItems == false*/){ this.showFB();  }
                 else{
                     document.getElementById('OLAPTD').className="visi2";
                     document.getElementById('trWizardMode').className="visi2";
@@ -209,8 +201,6 @@ if (!window.FAOSTATDownload) {
                         });
                     } // classic
                     else {
-
-
                         $.ajax({
                             type: 'GET',
                             url: FAOSTATDownload.prefix + 'faostat-download-selectors-classic.html',
@@ -265,10 +255,8 @@ if (!window.FAOSTATDownload) {
          theme: FAOSTATDownload.theme 
      });
       $("#options_output_type").on('change',function(event){
-            var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
-          
-                if (item.value!="pivot"){  
-          $('#buttonExportToCSV')[0].style.display="inline-block";}
+          var item = $('#options_output_type').jqxDropDownList('getSelectedItem');
+          if (item.value!="pivot"){$('#buttonExportToCSV')[0].style.display="inline-block";}
       else{$('#buttonExportToCSV')[0].style.display="none";}
       
       
