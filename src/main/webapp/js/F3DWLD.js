@@ -60,16 +60,15 @@ var F3DWLD = (function() {
     };
 
 
-    function insideFalseClick()
-    {
+    function insideFalseClick() {
 
 
         console.log("falseclick");
         $('#OLAP_IFRAME').css('display', 'inline');
-        document.getElementById('output_area').innerHTML='';
+        document.getElementById('output_area').innerHTML = '';
 
         $("#testinline").html("<center><img src=\"/test2/pivotAgg/Preload.gif\" /></center>");
-        FAOSTATNEWOLAP.flags={};
+        FAOSTATNEWOLAP.flags = {};
 
 
         console.log("falseclick 2 ");
@@ -95,17 +94,20 @@ var F3DWLD = (function() {
         console.log("falseclick 3 ");
 
 
-
         $.ajax({
-            type : 'POST',
-            url:F3DWLD.CONFIG.procedures_data_url,
-            data:data,
-            success:function(response){
+            type: 'POST',
+            url: F3DWLD.CONFIG.procedures_data_url,
+            data: data,
+            success: function (response) {
                 console.log("falseclick 4 ");
-                var mesOptionsPivot=FAOSTATOLAP2.options;
-                mesOptionsPivot.vals=["Value"];
-                if(F3DWLD.CONFIG.wdsPayload.showUnits){mesOptionsPivot.vals.push("Unit")}
-                if(F3DWLD.CONFIG.wdsPayload.showFlags){mesOptionsPivot.vals.push("Flag")}
+                var mesOptionsPivot = FAOSTATOLAP2.options;
+                mesOptionsPivot.vals = ["Value"];
+                if (F3DWLD.CONFIG.wdsPayload.showUnits) {
+                    mesOptionsPivot.vals.push("Unit")
+                }
+                if (F3DWLD.CONFIG.wdsPayload.showFlags) {
+                    mesOptionsPivot.vals.push("Flag")
+                }
                 /* var response2=[["Domain","AreaCode","AreaName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
                  var response2TM=[["Domain","ReporterCode","ReporterName","PartnerCode","PartnerName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
                  var mesOptionsPivot=FAOSTATOLAP2.options;
@@ -114,33 +116,35 @@ var F3DWLD = (function() {
                  for(i in response){response2.push(response[i]);}
                  */
                 var derivers = $.pivotUtilities.derivers;
-                var renderers = $.extend($.pivotUtilities.renderers,$.pivotUtilities.gchart_renderers);
+                var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.gchart_renderers);
                 /*mesOptionsPivot.vals=["Value"];
                  if(F3DWLD.CONFIG.wdsPayload.showUnits){mesOptionsPivot.vals.push("Unit")}
                  if(F3DWLD.CONFIG.wdsPayload.showFlags){mesOptionsPivot.vals.push("Flag")}
                  */
                 // $("#testinline").pivotUI(response2,mesOptionsPivot ,true);
                 console.log(mesOptionsPivot);
-                $("#testinline").pivotUI(response,mesOptionsPivot ,true);
+                $("#testinline").pivotUI(response, mesOptionsPivot, true);
                 //  $("#testinline").pivotUI(response,{} ,true);
 
-                $("#testinline").css("overflow","auto");
-                var newFlag="";
-                for(var i in FAOSTATNEWOLAP.flags){
-                    if(newFlag!=""){newFlag+=":";}
-                    newFlag+="'" +i+"'";
+                $("#testinline").css("overflow", "auto");
+                var newFlag = "";
+                for (var i in FAOSTATNEWOLAP.flags) {
+                    if (newFlag != "") {
+                        newFlag += ":";
+                    }
+                    newFlag += "'" + i + "'";
                 }
-                if(newFlag==""){newFlag="''";}
-                $(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2);
-                $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) {
-                    data=data.replace("localhost:8080/","faostat3.fao.org/");
-                    $( "#testinline" ).append( data );
+                if (newFlag == "") {
+                    newFlag = "''";
+                }
+                $(".pvtAxisLabel")[$(".pvtAxisLabel").length - 1].setAttribute("colspan", 2);
+                $.get("http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/" + F3DWLD.CONFIG.lang + "/" + newFlag, function (data) {
+                    data = data.replace("localhost:8080/", "faostat3.fao.org/");
+                    $("#testinline").append(data);
                     // my_exportNew();
                 });
             }
         });
-
-
 
 
     }
@@ -159,11 +163,11 @@ var F3DWLD = (function() {
             var backup_countries_dst = new Array();
             var backup_items = new Array();
 
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries.length ; i++)
+            for (var i = 0; i < F3DWLD.CONFIG.selectedValues.countries.length; i++)
                 if (F3DWLD.CONFIG.selectedValues.countries.type != '>')
                     backup_countries.push(F3DWLD.CONFIG.selectedValues.countries[i]);
 
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.items.length ; i++)
+            for (var i = 0; i < F3DWLD.CONFIG.selectedValues.items.length; i++)
                 if (F3DWLD.CONFIG.selectedValues.items[i].type != '>')
                     backup_items.push(F3DWLD.CONFIG.selectedValues.items[i]);
 
@@ -177,11 +181,11 @@ var F3DWLD = (function() {
 
             $.ajax({
 
-                type    :   'POST',
-                url     :   F3DWLD.CONFIG.bletchley_url + '/listForTradeMatrix/post',
-                data    :   data,
+                type: 'POST',
+                url: F3DWLD.CONFIG.bletchley_url + '/listForTradeMatrix/post',
+                data: data,
 
-                success : function(response) {
+                success: function (response) {
 
                     var codes = response;
                     if (typeof(codes) == 'string')
@@ -211,19 +215,22 @@ var F3DWLD = (function() {
 
                     }
 
-                    for (var z = 0 ; z < backup_items.length ; z++)
+                    for (var z = 0; z < backup_items.length; z++)
                         F3DWLD.CONFIG.selectedValues.items.push(backup_items[z]);
 
-                    for (var z = 0 ; z < backup_countries.length ; z++)
+                    for (var z = 0; z < backup_countries.length; z++)
                         F3DWLD.CONFIG.selectedValues.countries.push(backup_countries[z]);
 
 
-                    try {document.getElementById('testinline').className="visi2";} catch(err) {    }
+                    try {
+                        document.getElementById('testinline').className = "visi2";
+                    } catch (err) {
+                    }
                     insideFalseClick();
 
                 },
 
-                error : function(err, b, c) {
+                error: function (err, b, c) {
 
                 }
 
@@ -231,7 +238,10 @@ var F3DWLD = (function() {
 
         } else {
 
-            try {document.getElementById('testinline').className="visi2";} catch(err) {    }
+            try {
+                document.getElementById('testinline').className = "visi2";
+            } catch (err) {
+            }
             insideFalseClick();
         }
     };
@@ -1209,26 +1219,26 @@ var F3DWLD = (function() {
     function preview(caller) {
         if ($('#radio_table').val()) {
             try {
-                validateSelection();
+                validateSelection('preview table');
                 collectAndQueryWDS(true, false);
                 STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             } catch (e) {
                 alert(e);
             }
-        } else {
+        } else if ($('#radio_pivot').val()) {
             try {
-                validateSelection();
-
+                validateSelection('preview pivot');
                 collectAndQueryWDSPivot();
-                // STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
-            } catch (e) {  alert(e);    }
+            } catch (e) {
+                alert(e);
+            }
         }
     }
 
     function download() {
         if ($('#radio_table').val()) {
             try {
-                validateSelection();
+                validateSelection('download');
                 collectAndQueryWDS(false, true);
                 STATS.exportTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             } catch (e) {
@@ -1239,7 +1249,7 @@ var F3DWLD = (function() {
         }
     }
 
-    function validateSelection() {
+    function validateSelection(caller) {
         for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
             if (F3DWLD.CONFIG.selectedValues[key].length < 1) {
                 var tabNames = Object.keys(F3DWLD.CONFIG.dsd[1 + parseInt(key)]);
