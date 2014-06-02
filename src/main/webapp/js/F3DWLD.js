@@ -1,21 +1,21 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        base_url                :   'http://localhost:8080/faostat-gateway/go/to/download',
-        prefix                  :   'http://localhost:8080/faostat-download-js/',
-        CPINotes_url            :   'http://faostat3.fao.org:8080/wds/rest/procedures/cpinotes',
-        ODA_url                 :   'http://faostat3.fao.org/wds/rest/procedures/oda',
-        data_url                :   'http://faostat3.fao.org/wds/rest',
-        procedures_data_url     :   'http://faostat3.fao.org/wds/rest/procedures/data',
-        procedures_excel_url    :   'http://faostat3.fao.org/wds/rest/procedures/excel',
-        codes_url               :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox',
-        bulks_url               :   'http://faostat3.fao.org/wds/rest/bulkdownloads',
-        domains_url             :   'http://faostat3.fao.org/wds/rest/domains',
-        bletchley_url           :   'http://faostat3.fao.org/bletchley/rest/codes',
+        base_url                :   'http://168.202.28.210:8080/faostat-gateway/go/to/download',
+        prefix                  :   'http://168.202.28.210:8080/faostat-download-js/',
+        CPINotes_url            :   'http://168.202.28.210:8080/wds/rest/procedures/cpinotes',
+        ODA_url                 :   'http://168.202.28.210:8080/wds/rest/procedures/oda',
+        data_url                :   'http://168.202.28.210:8080/wds/rest',
+        procedures_data_url     :   'http://168.202.28.210:8080/wds/rest/procedures/data',
+        procedures_excel_url    :   'http://168.202.28.210:8080/wds/rest/procedures/excel',
+        codes_url               :   'http://168.202.28.210:8080/wds/rest/procedures/usp_GetListBox',
+        bulks_url               :   'http://168.202.28.210:8080/wds/rest/bulkdownloads',
+        domains_url             :   'http://168.202.28.210:8080/wds/rest/domains',
+        bletchley_url           :   'http://168.202.28.210:8080/bletchley/rest/codes',
         bulks_root              :   'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/',
         configurationURL        :   'config/faostat-download-configuration.json',
         dbPrefix                :   'FAOSTAT_',
-        dsdURL                  :   'http://faostat3.fao.org/wds/rest/procedures/listboxes',
+        dsdURL                  :   'http://168.202.28.210:8080/wds/rest/procedures/listboxes',
         theme                   :   'faostat',
         tradeMatrices           :   ['FT', 'TM'],
         lang                    :   'E',
@@ -46,11 +46,11 @@ var F3DWLD = (function() {
 
 
 
-     function collectAndQueryWDSPivot() {
+    function collectAndQueryWDSPivot() {
 
         /* Collect parameters. */
         getTabSelection();
-        
+
         getGridsValues();
 
         console.log('asd');
@@ -60,20 +60,20 @@ var F3DWLD = (function() {
     };
 
 
-function insideFalseClick()
-{
-    
-    
-            console.log("falseclick");
-		$('#OLAP_IFRAME').css('display', 'inline');
-		document.getElementById('output_area').innerHTML='';
-		
-						$("#testinline").html("<center><img src=\"/faostat-download-js/pivotAgg/Preload.gif\" /></center>");
-						FAOSTATNEWOLAP.flags={};
-						
-                                                
-                                                 console.log("falseclick 2 ");
-                                                 var p = {};
+    function insideFalseClick()
+    {
+
+
+        console.log("falseclick");
+        $('#OLAP_IFRAME').css('display', 'inline');
+        document.getElementById('output_area').innerHTML='';
+
+        $("#testinline").html("<center><img src=\"/test2/pivotAgg/Preload.gif\" /></center>");
+        FAOSTATNEWOLAP.flags={};
+
+
+        console.log("falseclick 2 ");
+        var p = {};
         p.datasource = F3DWLD.CONFIG.datasource;
         p.domainCode = F3DWLD.CONFIG.domainCode;
         p.lang = F3DWLD.CONFIG.lang;
@@ -92,153 +92,60 @@ function insideFalseClick()
 
         var data = {};
         data.payload = JSON.stringify(p);
- console.log("falseclick 3 ");
-                                                
-                                                
-                                                
-						$.ajax({
-						 type : 'POST',
-						 url:F3DWLD.CONFIG.procedures_data_url,
-						 data:data,
-						 success:function(response){
-                                                      console.log("falseclick 4 ");
-                                                      var mesOptionsPivot=FAOSTATOLAP2.options;
-                                                      mesOptionsPivot.vals=["Value"];
-							 if(F3DWLD.CONFIG.wdsPayload.showUnits){mesOptionsPivot.vals.push("Unit")}
-							 if(F3DWLD.CONFIG.wdsPayload.showFlags){mesOptionsPivot.vals.push("Flag")}
-							/* var response2=[["Domain","AreaCode","AreaName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
-							 var response2TM=[["Domain","ReporterCode","ReporterName","PartnerCode","PartnerName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
-							 var mesOptionsPivot=FAOSTATOLAP2.options;
-							 if(F3DWLD.CONFIG.domainCode=="TM" ||F3DWLD.CONFIG.domainCode=="FT" )
-							 {response2=response2TM;mesOptionsPivot=FAOSTATOLAP2.optionsTM}
-							 for(i in response){response2.push(response[i]);}
-                                                      */
-							 var derivers = $.pivotUtilities.derivers;
-							 var renderers = $.extend($.pivotUtilities.renderers,$.pivotUtilities.gchart_renderers);
-							 /*mesOptionsPivot.vals=["Value"];
-							 if(F3DWLD.CONFIG.wdsPayload.showUnits){mesOptionsPivot.vals.push("Unit")}
-							 if(F3DWLD.CONFIG.wdsPayload.showFlags){mesOptionsPivot.vals.push("Flag")}
-                                                     */
-							// $("#testinline").pivotUI(response2,mesOptionsPivot ,true);
-                                                        console.log(mesOptionsPivot);
-							 $("#testinline").pivotUI(response,mesOptionsPivot ,true);
-							//  $("#testinline").pivotUI(response,{} ,true);
-							  
-                                                     $("#testinline").css("overflow","auto");
-							 var newFlag="";
-							 for(var i in FAOSTATNEWOLAP.flags){
-								 if(newFlag!=""){newFlag+=":";}
-								 newFlag+="'" +i+"'";
-							 }
-							 if(newFlag==""){newFlag="''";}
-							 $(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2);
-							 $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) {
-							 data=data.replace("localhost:8080/","faostat3.fao.org/");
-							 $( "#testinline" ).append( data );
-							// my_exportNew();
-							 });
-						 }
-						});
-			
-	
-    
-    
-}
+        console.log("falseclick 3 ");
 
- function collectListCodesPIVOT() {
 
-          var doTheCall = callListCodesREST();
 
-        if (doTheCall) {
+        $.ajax({
+            type : 'POST',
+            url:F3DWLD.CONFIG.procedures_data_url,
+            data:data,
+            success:function(response){
+                console.log("falseclick 4 ");
+                var mesOptionsPivot=FAOSTATOLAP2.options;
+                mesOptionsPivot.vals=["Value"];
+                if(F3DWLD.CONFIG.wdsPayload.showUnits){mesOptionsPivot.vals.push("Unit")}
+                if(F3DWLD.CONFIG.wdsPayload.showFlags){mesOptionsPivot.vals.push("Flag")}
+                /* var response2=[["Domain","AreaCode","AreaName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
+                 var response2TM=[["Domain","ReporterCode","ReporterName","PartnerCode","PartnerName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
+                 var mesOptionsPivot=FAOSTATOLAP2.options;
+                 if(F3DWLD.CONFIG.domainCode=="TM" ||F3DWLD.CONFIG.domainCode=="FT" )
+                 {response2=response2TM;mesOptionsPivot=FAOSTATOLAP2.optionsTM}
+                 for(i in response){response2.push(response[i]);}
+                 */
+                var derivers = $.pivotUtilities.derivers;
+                var renderers = $.extend($.pivotUtilities.renderers,$.pivotUtilities.gchart_renderers);
+                /*mesOptionsPivot.vals=["Value"];
+                 if(F3DWLD.CONFIG.wdsPayload.showUnits){mesOptionsPivot.vals.push("Unit")}
+                 if(F3DWLD.CONFIG.wdsPayload.showFlags){mesOptionsPivot.vals.push("Flag")}
+                 */
+                // $("#testinline").pivotUI(response2,mesOptionsPivot ,true);
+                console.log(mesOptionsPivot);
+                $("#testinline").pivotUI(response,mesOptionsPivot ,true);
+                //  $("#testinline").pivotUI(response,{} ,true);
 
-            var countries = JSON.stringify(F3DWLD.CONFIG.selectedValues.countries);
-            var countries_dst = JSON.stringify(F3DWLD.CONFIG.selectedValues.countries2);
-            var items = JSON.stringify(F3DWLD.CONFIG.selectedValues.items);
-
-            var backup_countries = new Array();
-            var backup_countries_dst = new Array();
-            var backup_items = new Array();
-
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries.length ; i++)
-                if (F3DWLD.CONFIG.selectedValues.countries.type != '>')
-                    backup_countries.push(F3DWLD.CONFIG.selectedValues.countries[i]);
-
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.items.length ; i++)
-                if (F3DWLD.CONFIG.selectedValues.items[i].type != '>')
-                    backup_items.push(F3DWLD.CONFIG.selectedValues.items[i]);
-
-            var data = {};
-            data.datasource = F3DWLD.CONFIG.datasource;
-            data.domainCode = F3DWLD.CONFIG.domainCode;
-            data.language = F3DWLD.CONFIG.lang;
-            data.countries_1 = countries;
-            data.countries_2 = countries_dst;
-            data.items = items;
-
-            $.ajax({
-
-                type    :   'POST',
-                url     :   F3DWLD.CONFIG.bletchley_url + '/listForTradeMatrix/post',
-                data    :   data,
-
-                success : function(response) {
-
-                    var codes = response;
-                    if (typeof(codes) == 'string')
-                        codes = $.parseJSON(response);
-
-                    if (codes != null && codes[0].length > 0) {
-                        F3DWLD.CONFIG.selectedValues.countries = codes[0];
-                    }
-
-                    if (codes != null && codes[1].length > 0) {
-                        F3DWLD.CONFIG.selectedValues.items = codes[1];
-                    }
-
-                    if (codes != null && codes[2].length > 0) {
-                        F3DWLD.CONFIG.selectedValues.countries2 = codes[2];
-                    }
-
-                    if (codes != null) {
-
-                        /* Use list codes or keep the current ones. */
-                        if (codes != null && codes[0].length > 0)
-                            F3DWLD.CONFIG.selectedValues.countries = codes[0];
-
-                        /* Use list codes or keep the current ones. */
-                        if (codes != null && codes[1].length > 0)
-                            F3DWLD.CONFIG.selectedValues.items = codes[1];
-
-                    }
-
-                    for (var z = 0 ; z < backup_items.length ; z++)
-                        F3DWLD.CONFIG.selectedValues.items.push(backup_items[z]);
-
-                    for (var z = 0 ; z < backup_countries.length ; z++)
-                        F3DWLD.CONFIG.selectedValues.countries.push(backup_countries[z]);
-  
-                    
-                    try {document.getElementById('testinline').className="visi2";} catch(err) {    }
-               insideFalseClick();
-
-                },
-
-                error : function(err, b, c) {
-
+                $("#testinline").css("overflow","auto");
+                var newFlag="";
+                for(var i in FAOSTATNEWOLAP.flags){
+                    if(newFlag!=""){newFlag+=":";}
+                    newFlag+="'" +i+"'";
                 }
+                if(newFlag==""){newFlag="''";}
+                $(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2);
+                $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) {
+                    data=data.replace("localhost:8080/","faostat3.fao.org/");
+                    $( "#testinline" ).append( data );
+                    // my_exportNew();
+                });
+            }
+        });
 
-            });
-
-        } else {
-            
-            try {document.getElementById('testinline').className="visi2";} catch(err) {    }
-                insideFalseClick();
-        }
-    };
-	
 
 
-    function collectListCodes(streamExcel) {
+
+    }
+
+    function collectListCodesPIVOT() {
 
         var doTheCall = callListCodesREST();
 
@@ -310,7 +217,100 @@ function insideFalseClick()
                     for (var z = 0 ; z < backup_countries.length ; z++)
                         F3DWLD.CONFIG.selectedValues.countries.push(backup_countries[z]);
 
-//                    createJSON();
+
+                    try {document.getElementById('testinline').className="visi2";} catch(err) {    }
+                    insideFalseClick();
+
+                },
+
+                error : function(err, b, c) {
+
+                }
+
+            });
+
+        } else {
+
+            try {document.getElementById('testinline').className="visi2";} catch(err) {    }
+            insideFalseClick();
+        }
+    };
+
+
+
+    function collectListCodes(streamExcel) {
+
+        var doTheCall = callListCodesREST();
+
+        if (doTheCall) {
+
+            var countries = JSON.stringify(F3DWLD.CONFIG.selectedValues[0]);
+//            var countries_dst = JSON.stringify(F3DWLD.CONFIG.selectedValues.countries2);
+            var countries_dst = [];
+            var items = JSON.stringify(F3DWLD.CONFIG.selectedValues[1]);
+
+            var backup_countries = new Array();
+            var backup_countries_dst = new Array();
+            var backup_items = new Array();
+
+            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[0].length ; i++)
+                if (F3DWLD.CONFIG.selectedValues[0].type != '>')
+                    backup_countries.push(F3DWLD.CONFIG.selectedValues[0][i]);
+
+            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[1].length ; i++)
+                if (F3DWLD.CONFIG.selectedValues[1][i].type != '>')
+                    backup_items.push(F3DWLD.CONFIG.selectedValues[1][i]);
+
+            var data = {};
+            data.datasource = F3DWLD.CONFIG.datasource;
+            data.domainCode = F3DWLD.CONFIG.domainCode;
+            data.language = F3DWLD.CONFIG.lang;
+            data.countries_1 = countries;
+            data.countries_2 = countries_dst;
+            data.items = items;
+
+            $.ajax({
+
+                type    :   'POST',
+                url     :   F3DWLD.CONFIG.bletchley_url + '/listForTradeMatrix/post',
+                data    :   data,
+
+                success : function(response) {
+
+                    var codes = response;
+                    if (typeof(codes) == 'string')
+                        codes = $.parseJSON(response);
+
+                    if (codes != null && codes[0].length > 0) {
+                        F3DWLD.CONFIG.selectedValues[0] = codes[0];
+                    }
+
+                    if (codes != null && codes[1].length > 0) {
+                        F3DWLD.CONFIG.selectedValues[1] = codes[1];
+                    }
+
+                    if (codes != null && codes[2].length > 0) {
+//                        F3DWLD.CONFIG.selectedValues.countries2 = codes[2];
+                    }
+
+                    if (codes != null) {
+
+                        /* Use list codes or keep the current ones. */
+                        if (codes != null && codes[0].length > 0)
+                            F3DWLD.CONFIG.selectedValues[0] = codes[0];
+
+                        /* Use list codes or keep the current ones. */
+                        if (codes != null && codes[1].length > 0)
+                            F3DWLD.CONFIG.selectedValues[1] = codes[1];
+
+                    }
+
+                    for (var z = 0 ; z < backup_items.length ; z++)
+                        F3DWLD.CONFIG.selectedValues[1].push(backup_items[z]);
+
+                    for (var z = 0 ; z < backup_countries.length ; z++)
+                        F3DWLD.CONFIG.selectedValues[0].push(backup_countries[z]);
+
                     createTable(streamExcel);
 
                 },
@@ -322,7 +322,6 @@ function insideFalseClick()
             });
 
         } else {
-//            createJSON();
             createTable(streamExcel);
         }
 
@@ -330,21 +329,21 @@ function insideFalseClick()
 
     function callListCodesREST() {
 
-        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries.length ; i++)
-            if (F3DWLD.CONFIG.selectedValues.countries[i].type == '>')
+        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[0].length ; i++)
+            if (F3DWLD.CONFIG.selectedValues[0][i].type == '>')
                 return true;
 
-        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries2.length ; i++)
-            if (F3DWLD.CONFIG.selectedValues.countries2[i].type == '>')
+//        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries2.length ; i++)
+//            if (F3DWLD.CONFIG.selectedValues.countries2[i].type == '>')
+//                return true;
+
+        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[1].length ; i++)
+            if (F3DWLD.CONFIG.selectedValues[1][i].type == '>')
                 return true;
 
-        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.items.length ; i++)
-            if (F3DWLD.CONFIG.selectedValues.items[i].type == '>')
-                return true;
-
-        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.itemsAggregated.length ; i++)
-            if (F3DWLD.CONFIG.selectedValues.itemsAggregated[i].type == '>')
-                return true;
+//        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.itemsAggregated.length ; i++)
+//            if (F3DWLD.CONFIG.selectedValues.itemsAggregated[i].type == '>')
+//                return true;
 
         return false;
 
@@ -768,27 +767,27 @@ function insideFalseClick()
             json.lang = F3DWLD.CONFIG.lang;
 
             var countries = '@areaList=N\'';
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries.length ; i++) {
-                countries += F3DWLD.CONFIG.selectedValues.countries[i].code;
-                if (i < F3DWLD.CONFIG.selectedValues.countries.length - 1)
+            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[0].length ; i++) {
+                countries += F3DWLD.CONFIG.selectedValues[0][i].code;
+                if (i < F3DWLD.CONFIG.selectedValues[0].length - 1)
                     countries += ',';
             }
             countries += '\'';
             json.countries = countries;
 
             var items = '@item=N\'';
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.items.length ; i++) {
-                items += F3DWLD.CONFIG.selectedValues.items[i].code;
-                if (i < F3DWLD.CONFIG.selectedValues.items.length - 1)
+            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[1].length ; i++) {
+                items += F3DWLD.CONFIG.selectedValues[1][i].code;
+                if (i < F3DWLD.CONFIG.selectedValues[1].length - 1)
                     items += ',';
             }
             items += '\'';
             json.items = items;
 
             var years = '@yearList=N\'';
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.years.length ; i++) {
-                years += F3DWLD.CONFIG.selectedValues.years[i].code;
-                if (i < F3DWLD.CONFIG.selectedValues.years.length - 1)
+            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[3].length ; i++) {
+                years += F3DWLD.CONFIG.selectedValues[3][i].code;
+                if (i < F3DWLD.CONFIG.selectedValues[3].length - 1)
                     years += ',';
             }
             years += '\'';
@@ -833,11 +832,11 @@ function insideFalseClick()
 
     function collectItems() {
         var ins = new Array();
-        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.items.length ; i++) {
-            if (F3DWLD.CONFIG.selectedValues.items[i].code == 'all') {
+        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[1].length ; i++) {
+            if (F3DWLD.CONFIG.selectedValues[1][i].code == 'all') {
                 return null;
             } else {
-                ins.push(F3DWLD.CONFIG.selectedValues.items[i].code);
+                ins.push(F3DWLD.CONFIG.selectedValues[1][i].code);
             }
         }
         return ins;
@@ -845,11 +844,11 @@ function insideFalseClick()
 
     function collectElements() {
         var ins = new Array();
-        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.elements.length ; i++) {
-            if (F3DWLD.CONFIG.selectedValues.elements[i].code == 'all') {
+        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[2].length ; i++) {
+            if (F3DWLD.CONFIG.selectedValues[2][i].code == 'all') {
                 return null;
             } else {
-                ins.push(F3DWLD.CONFIG.selectedValues.elements[i].code);
+                ins.push(F3DWLD.CONFIG.selectedValues[2][i].code);
             }
         }
         return ins;
@@ -857,11 +856,11 @@ function insideFalseClick()
 
     function collectCountries() {
         var ins = new Array();
-        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries.length ; i++) {
-            if (F3DWLD.CONFIG.selectedValues.countries[i].code == 'all') {
+        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[0].length ; i++) {
+            if (F3DWLD.CONFIG.selectedValues[0][i].code == 'all') {
                 return null;
             } else {
-                ins.push(F3DWLD.CONFIG.selectedValues.countries[i].code);
+                ins.push(F3DWLD.CONFIG.selectedValues[0][i].code);
             }
         }
         return ins;
@@ -869,23 +868,23 @@ function insideFalseClick()
 
     function collectCountries_dst() {
         var ins = new Array();
-        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries2.length ; i++) {
-            if (F3DWLD.CONFIG.selectedValues.countries2[i].code == 'all') {
-                return null;
-            } else {
-                ins.push(F3DWLD.CONFIG.selectedValues.countries2[i].code);
-            }
-        }
+//        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries2.length ; i++) {
+//            if (F3DWLD.CONFIG.selectedValues.countries2[i].code == 'all') {
+//                return null;
+//            } else {
+//                ins.push(F3DWLD.CONFIG.selectedValues.countries2[i].code);
+//            }
+//        }
         return ins;
     };
 
     function collectYears() {
         var ins = new Array();
-        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.years.length ; i++) {
-            if (F3DWLD.CONFIG.selectedValues.years[i].code == 'all') {
+        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[3].length ; i++) {
+            if (F3DWLD.CONFIG.selectedValues[3][i].code == 'all') {
                 return null;
             } else {
-                ins.push(F3DWLD.CONFIG.selectedValues.years[i].code);
+                ins.push(F3DWLD.CONFIG.selectedValues[3][i].code);
             }
         }
         return ins;
@@ -916,11 +915,11 @@ function insideFalseClick()
             case 1 : itemsGridName = 'grid_usp_GetItemList2'; break;
         }
 
-        getGridValues(countryGridName, F3DWLD.CONFIG.selectedValues.countries);
-        getGridValues('grid_usp_GetElementList', F3DWLD.CONFIG.selectedValues.elements);
-        getGridValues(itemsGridName, F3DWLD.CONFIG.selectedValues.items);
-        getGridValues(itemsGridName, F3DWLD.CONFIG.selectedValues.itemsAggregated);
-        getGridValues('grid_usp_GetYearList', F3DWLD.CONFIG.selectedValues.years);
+        getGridValues(countryGridName, F3DWLD.CONFIG.selectedValues[0]);
+        getGridValues('grid_usp_GetElementList', F3DWLD.CONFIG.selectedValues[2]);
+        getGridValues(itemsGridName, F3DWLD.CONFIG.selectedValues[1]);
+//        getGridValues(itemsGridName, F3DWLD.CONFIG.selectedValues.itemsAggregated);
+        getGridValues('grid_usp_GetYearList', F3DWLD.CONFIG.selectedValues[3]);
         if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1)
             getGridValues(countryGridName_dst, F3DWLD.CONFIG.selectedValues.countries_dst);
 
@@ -1006,6 +1005,10 @@ function insideFalseClick()
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
                 F3DWLD.CONFIG.dsd = arrayToObject(json);
+
+                /* Initiate arrays for selected values */
+                for (var key in Object.keys(F3DWLD.CONFIG.dsd))
+                    F3DWLD.CONFIG.selectedValues[key] = [];
 
                 /* Build UI structure. */
                 $('#testinline').empty();
@@ -1186,11 +1189,11 @@ function insideFalseClick()
             '</div>';
         s += '<div id="radio_pivot" class="table-switch-radio pivot-btn"> ' +
             '<span class="fa-stack">' +
-                '<i class="fa fa-table fa-stack-2x"></i>' +
-                '<i class="fa fa-rotate-right fa-stack-1x"></i>' +
+            '<i class="fa fa-table fa-stack-2x"></i>' +
+            '<i class="fa fa-rotate-right fa-stack-1x"></i>' +
             '</span>' +
             'PIVOT TABLE'+
-        '</div>';
+            '</div>';
         s += '<div class="download-selection-buttons">';
         s += '<a class="btn btn-big" onclick="F3DWLD.preview(\'preview_button\');">';
         s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">PREVIEW</div>';
@@ -1213,11 +1216,11 @@ function insideFalseClick()
                 alert(e);
             }
         } else {
-  try {
+            try {
                 validateSelection();
-                
+
                 collectAndQueryWDSPivot();
-               // STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
+                // STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             } catch (e) {  alert(e);    }
         }
     }
@@ -1237,14 +1240,22 @@ function insideFalseClick()
     }
 
     function validateSelection() {
-        if (F3DWLD.CONFIG.selectedValues.countries == null || F3DWLD.CONFIG.selectedValues.countries.length < 1)
-            throw $.i18n.prop('_please_select_country');
-        if (F3DWLD.CONFIG.selectedValues.items == null || F3DWLD.CONFIG.selectedValues.items.length < 1)
-            throw $.i18n.prop('_please_select_item');
-        if (F3DWLD.CONFIG.selectedValues.elements == null || F3DWLD.CONFIG.selectedValues.elements.length < 1)
-            throw $.i18n.prop('_please_select_element');
-        if (F3DWLD.CONFIG.selectedValues.years == null || F3DWLD.CONFIG.selectedValues.years.length < 1)
-            throw $.i18n.prop('_please_select_year');
+        for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
+            if (F3DWLD.CONFIG.selectedValues[key].length < 1) {
+                var tabNames = Object.keys(F3DWLD.CONFIG.dsd[1 + parseInt(key)]);
+                var count = 0;
+                var s = '';
+                for (var tabName in tabNames) {
+                    s += Object.keys(F3DWLD.CONFIG.dsd[1 + parseInt(key)])[tabName];
+                    count++;
+                    if (count == tabNames.length - 1)
+                        s += ' or ';
+                    else if (count < tabNames.length - 1)
+                        s += ', ';
+                }
+                throw $.i18n.prop('_no_selection_alert') + ' ' + s;
+            }
+        }
     }
 
     function showHideSummary() {
@@ -1436,28 +1447,23 @@ function insideFalseClick()
         }
     };
 
+    /**
+     * <code>gridName</code> is built with the following schema:
+     * 'grid_' + tabGroup + '_' + tab. This method extracts the
+     * tabGroup and returns the corresponding buffer hold by
+     * F3DWLD.CONFIG.selectedValues
+     *
+     * @param gridName
+     * @returns {*}
+     */
     function findBuffer(gridName) {
-        switch (gridName) {
-            case 'grid_1_1': return F3DWLD.CONFIG.selectedValues.countries;
-            case 'grid_1_2': return F3DWLD.CONFIG.selectedValues.countries;
-            case 'grid_1_3': return F3DWLD.CONFIG.selectedValues.countries;
-            case 'grid_2_1': return F3DWLD.CONFIG.selectedValues.items;
-            case 'grid_2_2': return F3DWLD.CONFIG.selectedValues.items;
-            case 'grid_3_1': return F3DWLD.CONFIG.selectedValues.elements;
-            case 'grid_4_1': return F3DWLD.CONFIG.selectedValues.years;
-            case 'grid_4_2': return F3DWLD.CONFIG.selectedValues.years;
-            case 'grid_5_1': return F3DWLD.CONFIG.selectedValues.years;
-            case 'grid_5_2': return F3DWLD.CONFIG.selectedValues.years;
-        }
+        var idx = gridName.substring(1 + gridName.indexOf('_'), gridName.lastIndexOf('_'));
+        return F3DWLD.CONFIG.selectedValues[parseInt(idx) - 1];
     }
 
     function clearBuffer(gridName) {
-        // TODO complete
-        switch (gridName) {
-            case 'grid_1_1': F3DWLD.CONFIG.selectedValues.countries = []; break;
-            case 'grid_1_2': F3DWLD.CONFIG.selectedValues.countries = []; break;
-            case 'grid_1_3': F3DWLD.CONFIG.selectedValues.countries = []; break;
-        }
+        var idx = gridName.substring(1 + gridName.indexOf('_'), gridName.lastIndexOf('_'));
+        F3DWLD.CONFIG.selectedValues[parseInt(idx) - 1] = [];
     }
 
     function getGridValues(tableCode, map) {
@@ -1513,26 +1519,9 @@ function insideFalseClick()
 
     }
 
-    function initBuffers() {
-
-    }
-
     function addItemToSummary(gridID, values) {
 
         var summaryID = findSummaryName(gridID);
-
-        if (F3DWLD.CONFIG.selectedValues.countries == null)
-            F3DWLD.CONFIG.selectedValues.countries = [];
-        if (F3DWLD.CONFIG.selectedValues.countries2 == null)
-            F3DWLD.CONFIG.selectedValues.countries2 = [];
-        if (F3DWLD.CONFIG.selectedValues.items == null)
-            F3DWLD.CONFIG.selectedValues.items = [];
-        if (F3DWLD.CONFIG.selectedValues.itemsAggregated == null)
-            F3DWLD.CONFIG.selectedValues.itemsAggregated = [];
-        if (F3DWLD.CONFIG.selectedValues.elements == null)
-            F3DWLD.CONFIG.selectedValues.elements = [];
-        if (F3DWLD.CONFIG.selectedValues.years == null)
-            F3DWLD.CONFIG.selectedValues.years = [];
 
         try {
 
@@ -1546,7 +1535,6 @@ function insideFalseClick()
 
                 for (var i = 0; i < values.length; i++) {
 
-                    console.log('contains? ' + contains(buffer, values[i]));
                     if (!contains(buffer, values[i])) {
 
                         buffer.push(values[i]);
