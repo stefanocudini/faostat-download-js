@@ -352,7 +352,7 @@ var F3DWLD = (function() {
     function createTable(streamExcel) {
 
         $('#output_area').empty();
-        $('#output_area').append('<i class="fa fa-refresh fa-spin" style="color: #399BCC; font-size: 50px;"></i>');
+        $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>');
 
         var p = {};
         p.datasource = F3DWLD.CONFIG.datasource;
