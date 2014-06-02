@@ -580,35 +580,12 @@ var F3DWLD = (function() {
                     var json = response;
                     if (typeof json == 'string')
                         json = $.parseJSON(response);
-                    var s = '<table class="dataTable">';
-                    s += '<thead>';
-                    s += '<tr>';
-                    for (var i = 1 ; i < json[0].length ; i++)
-                        s += '<th>' + json[0][i] + '</th>';
-                    s += '</tr>';
-                    s += '</thead>';
-                    s += '<tbody>';
-                    for (var i = 1; i < json.length; i++) {
-                        s += '<tr>';
-                        for (var j = 1; j < json[i].length; j++) {
-                            if (i % 2 == 0)
-                                s += '<td class="hor-minimalist-b_row1">' + json[i][j] + '</td>';
-                            else
-                                s += '<td class="hor-minimalist-b_row2">' + json[i][j] + '</td>';
-                        }
-                        s += '</tr>';
-                    }
-                    s += '</tbody>';
-                    s += '</table>';
-
-                    $('#options_menu_box').css('display', 'block');
-                    $('#preview_hr').css('display', 'block');
-                    $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:' + F3DWLD.CONFIG.widthTable + '">' + s + '</div>');
-
+                    renderTable(json);
                 },
 
                 error: function (err, b, c) {
-
+                    var json = $.parseJSON(err.responseText.replace('],]', ']]'));
+                    renderTable(json);
                 }
 
             });
@@ -617,97 +594,36 @@ var F3DWLD = (function() {
 
     };
 
-//    function createTable_BACKUP() {
-//
-//        var data = {};
-//
-//        data.datasource = F3DWLD.CONFIG.wdsPayload.datasource;
-//        data.thousandSeparator = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
-//        data.decimalSeparator = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
-//        data.decimalNumbers = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
-//        data.json = JSON.stringify(F3DWLD.CONFIG.wdsPayload.json);
-//        data.cssFilename = F3DWLD.CONFIG.wdsPayload.cssFilename;
-//        data.valueIndex = F3DWLD.CONFIG.wdsPayload.valueColumnIndex;
-//
-//        var outputType = 'html';
-//        if (F3DWLD.CONFIG.wdsPayload.limit == null || F3DWLD.CONFIG.wdsPayload.limit == false)
-//            outputType = 'excel';
-//
-//        /** Stream the Excel through the hidden form */
-//        $('#datasource_WQ').val(F3DWLD.CONFIG.wdsPayload.datasource);
-//        $('#thousandSeparator_WQ').val(F3DWLD.CONFIG.wdsPayload.thousandSeparator);
-//        $('#decimalSeparator_WQ').val(F3DWLD.CONFIG.wdsPayload.decimalSeparator);
-//        $('#decimalNumbers_WQ').val(F3DWLD.CONFIG.wdsPayload.decimalNumbers);
-//        $('#json_WQ').val(JSON.stringify(F3DWLD.CONFIG.wdsPayload.json));
-//        $('#cssFilename_WQ').val(F3DWLD.CONFIG.wdsPayload.cssFilename);
-//        $('#valueIndex_WQ').val(F3DWLD.CONFIG.wdsPayload.valueIndex);
-//
-//        /** Show the table */
-//        if (F3DWLD.CONFIG.wdsPayload.limit != null && F3DWLD.CONFIG.wdsPayload.limit == true) {
-//
-//            $.ajax({
-//
-//                type    :   'POST',
-//                url     :   F3DWLD.CONFIG.data_url + '/table/' + outputType,
-//                data    :   data,
-//
-//                success : function(response) {
-//
-//                    $('#output_area').empty();
-//                    $('#output_area').append('<div class="single-result-table-title">Please note: the preview is limited to ' + F3DWLD.CONFIG.tablelimit + ' rows.</div>');
-//                    $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:'+ F3DWLD.CONFIG.widthTable +'">' + response + '</div>');
-//
-//                    if (F3DWLD.CONFIG.domainCode == 'CP') {
-//                        getCPINotesByProcedures();
-//                    }
-//
-//                    $('#OLAP_IFRAME').css('display', 'none');
-//                    $('#output_area').css('margin', '0');
-//
-//                    /* Track on Google Analytics */
-//                    if (outputType == 'excel') {
-//                        STATS.exportTableDownloadStandard(F3DWLD.CONFIG.domainCode);
-//                    } else {
-//                        STATS.showTableDownloadStandard();
-//                    }
-//
-////                    showCPINotes();
-//
-//                },
-//
-//                error : function(err, b, c) {
-//
-//                }
-//
-//            });
-//
-//        }
-//
-//        /** Download the Excel */
-//        else {
-//
-//            /* Track on Google Analytics */
-//            STATS.exportTableDownloadStandard(F3DWLD.CONFIG.domainCode);
-//
-//            $.getJSON(F3DWLD.CONFIG.prefix + 'config/quotes.json', function (data) {
-//
-//                $('#quote_WQ').val(data[F3DWLD.CONFIG.lang + '_quote']);
-//
-//                if (F3DWLD.CONFIG.domainCode == 'AA' || F3DWLD.CONFIG.domainCode == 'AR' || F3DWLD.CONFIG.domainCode == 'AE') {
-//                    $('#title_WQ').val(data[F3DWLD.CONFIG.domainCode][F3DWLD.CONFIG.lang + '_title']);
-//                    $('#subtitle_WQ').val(data[F3DWLD.CONFIG.domainCode][F3DWLD.CONFIG.lang + '_subtitle']);
-//                } else {
-//                    $('#title_WQ').val('');
-//                    $('#subtitle_WQ').val('');
-//                }
-//
-//                document.excelFormWithQuotes.submit();
-//
-//            });
-//
-//        }
-//
-//    };
+    function renderTable(json) {
+        var s = '<table class="dataTable">';
+        s += '<thead>';
+        s += '<tr>';
+        for (var i = 1 ; i < json[0].length ; i++)
+            s += '<th>' + json[0][i] + '</th>';
+        s += '</tr>';
+        s += '</thead>';
+        s += '<tbody>';
+        if (json.length > 1) {
+            for (var i = 1; i < json.length; i++) {
+                s += '<tr>';
+                for (var j = 1; j < json[i].length; j++) {
+                    if (i % 2 == 0)
+                        s += '<td class="hor-minimalist-b_row1">' + json[i][j] + '</td>';
+                    else
+                        s += '<td class="hor-minimalist-b_row2">' + json[i][j] + '</td>';
+                }
+                s += '</tr>';
+            }
+        } else {
+            s += '<tr><td colspan="100" class="hor-minimalist-b_row1">' + $.i18n.prop('_no_data_available') + '</td></tr>'
+        }
+        s += '</tbody>';
+        s += '</table>';
+        console.log(s);
+        $('#options_menu_box').css('display', 'block');
+        $('#preview_hr').css('display', 'block');
+        $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:' + F3DWLD.CONFIG.widthTable + '">' + s + '</div>');
+    }
 
     function getCPINotesByProcedures() {
 
