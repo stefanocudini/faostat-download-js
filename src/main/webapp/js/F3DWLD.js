@@ -806,28 +806,28 @@ var F3DWLD = (function() {
     function buildOptionsMenu() {
         var s = '';
         s += '<div id="options_menu_box" style="position: relative; display: none;">';
-        s += '<div class="standard-title" id="output_options_labels">Output Preview (first 50 rows only)</div>';
+        s += '<div class="standard-title" id="output_options_labels">' + $.i18n.prop('_output_preview') + '</div>';
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">';
         s += '<ul>';
-        s += '<li id="root"><i class="fa fa-cogs"></i> Options';
+        s += '<li id="root"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_outputOptions');
         s += '<ul>';
         s += '<li><b>Decimal Separator</b></li>';
-        s += '<li><div id="comma_menu">Comma (e.g. 1,000)</div></li>';
-        s += '<li><div id="dot_menu">Dot (e.g. 1.000)</div></li>';
+        s += '<li><div id="comma_menu">' + $.i18n.prop('_comma') + '</div></li>';
+        s += '<li><div id="dot_menu">' + $.i18n.prop('_period') + '</div></li>';
         s += '<li type="separator"></li>';
         s += '<li><b>Thousand Separator</b></li>';
-        s += '<li><div id="enable_menu">Enable</div></li>';
-        s += '<li><div id="disable_menu">Disable</div></li>';
+        s += '<li><div id="enable_menu">' + $.i18n.prop('_enable') + '</div></li>';
+        s += '<li><div id="disable_menu">' + $.i18n.prop('_disable') + '</div></li>';
         s += '<li type="separator"></li>';
-        s += '<li><b>Decimal Numbers</b></li>';
+        s += '<li><b>' + $.i18n.prop('_decimalNumbers') + '</b></li>';
         s += '<li><div id="increment"></div></li>';
         s += '<li type="separator"></li>';
         s += '<li id="menu_show"><b>Show</b>';
         s += '<ul>';
-        s += '<li><div id="flags_menu">Flags</div></li>';
-        s += '<li><div id="codes_menu">Codes</div></li>';
-        s += '<li><div id="units_menu">Units</div></li>';
-        s += '<li><div id="null_values_menu">Null Values</div></li>';
+        s += '<li><div id="flags_menu">' + $.i18n.prop('_showFlags') + '</div></li>';
+        s += '<li><div id="codes_menu">' + $.i18n.prop('_showCodes') + '</div></li>';
+        s += '<li><div id="units_menu">' + $.i18n.prop('_showUnits') + '</div></li>';
+        s += '<li><div id="null_values_menu">' + $.i18n.prop('_showNullValues') + '</div></li>';
         s += '</li></ul>';
         s += '</ul>';
         s += '</div>';
@@ -1057,7 +1057,7 @@ var F3DWLD = (function() {
         $('#dot_menu').jqxRadioButton({ width: 120, height: 25, checked: true, groupName: 'thousands' });
         $('#enable_menu').jqxRadioButton({ width: 120, height: 25, checked: true, groupName: 'decimals' });
         $('#disable_menu').jqxRadioButton({ width: 120, height: 25, groupName: 'decimals' });
-        $('#increment').jqxNumberInput({ width: '100%', height: '25px', inputMode: 'simple', spinButtons: true, spinButtonsStep: 1, decimalDigits: 0 });
+        $('#increment').jqxNumberInput({ width: '100%', height: '25px', inputMode: 'simple', spinButtons: true, spinButtonsStep: 1, decimalDigits: 0, decimal: 2 });
         F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
         F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
         $('#dot_menu').bind('change', function (event) {
@@ -1102,7 +1102,7 @@ var F3DWLD = (function() {
             F3DWLD.CONFIG.wdsPayload.showNullValues = checked;
             preview('null_values_menu');
         });
-        F3DWLD.CONFIG.wdsPayload.decimalNumbers = 0;
+        F3DWLD.CONFIG.wdsPayload.decimalNumbers = 2;
         $('#increment').on('valuechanged', function (event) {
             var value = event.args.value;
             F3DWLD.CONFIG.wdsPayload.decimalNumbers = parseInt(value);
