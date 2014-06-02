@@ -53,7 +53,7 @@ var F3DWLD = (function() {
 
         getGridsValues();
 
-        console.log('asd');
+//        console.log('asd');
 
         /* Collect codes for 'list' items, then create the JSON payload. */
         collectListCodesPIVOT();
@@ -352,6 +352,7 @@ var F3DWLD = (function() {
     function createTable(streamExcel) {
 
         $('#output_area').empty();
+        $('#output_area').append('<i class="fa fa-refresh fa-spin" style="color: #399BCC; font-size: 50px;"></i>');
 
         var p = {};
         p.datasource = F3DWLD.CONFIG.datasource;
@@ -432,6 +433,7 @@ var F3DWLD = (function() {
         }
         s += '</tbody>';
         s += '</table>';
+        $('#output_area').empty();
         $('#options_menu_box').css('display', 'block');
         $('#preview_hr').css('display', 'block');
         $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:' + F3DWLD.CONFIG.widthTable + '">' + s + '</div>');
@@ -1320,9 +1322,6 @@ var F3DWLD = (function() {
     }
 
     function enhanceUIGrid(listBoxNo, tabNo, gridCode) {
-
-        if (listBoxNo == 1)
-            console.log('asd');
 
         $.ajax({
 
