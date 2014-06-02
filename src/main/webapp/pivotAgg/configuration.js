@@ -13,16 +13,16 @@ derivedAttributes: {
 
 "Area":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table class=\"innerCol\"><th>"+mp["AreaName"]+"</th><th>"+mp["AreaCode"]+"</th></table>"}
-else{return mp["AreaName"]}},
+{return "<table class=\"innerCol\"><th>"+mp["AreaName"]+"</th><th>"+mp["AreaCode"]+"</th></table>";}
+else{return mp["AreaName"];}},
 "Element":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table  class=\"innerCol\"><th>"+mp["ElementName"]+"</th><th>"+mp["ElementCode"]+"</th></table>"}
-else{return mp["ElementName"]}},
+{return "<table  class=\"innerCol\"><th>"+mp["ElementName"]+"</th><th>"+mp["ElementCode"]+"</th></table>";}
+else{return mp["ElementName"];}},
 "Item":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table  class=\"innerCol\"><th>"+mp["ItemName"]+"</th><th>"+mp["ItemCode"]+"</th></table>"}
-else{return mp["ItemName"]}}
+{return "<table  class=\"innerCol\"><th>"+mp["ItemName"]+"</th><th>"+mp["ItemCode"]+"</th></table>";}
+else{return mp["ItemName"];}}
 /*
 "Continent": function(mp) {
 try{return "User selection in "+countryAgg[mp["AreaCode"]][1] ;}
@@ -34,11 +34,11 @@ catch(er){return "_"+mp["AreaName"]+"++";}
 }*/
  },
  //"Continent","SubContinent"
- hiddenAttributes:["Domain","ItemCode","AreaCode","ElementCode","ElementName","AreaName","ItemName"],
-	rows:["Element","Area","Item"],
+ hiddenAttributes:["ValueColumnIndex","Domain"],
+	rows:["Country","Item","Element"],
 	cols: ["Year"],
 	vals:["Value","Unit","Flag"],
-	linkedAttributes:[["Continent","SubContinent","AreaName"],["ElementName"]]
+	linkedAttributes:[]
 	};
 
 	

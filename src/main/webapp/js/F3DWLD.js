@@ -68,7 +68,7 @@ function insideFalseClick()
 		$('#OLAP_IFRAME').css('display', 'inline');
 		document.getElementById('output_area').innerHTML='';
 		
-						$("#testinline").html("<center><img src=\"/test2/pivotAgg/Preload.gif\" /></center>");
+						$("#testinline").html("<center><img src=\"/faostat-download-js/pivotAgg/Preload.gif\" /></center>");
 						FAOSTATNEWOLAP.flags={};
 						
                                                 

@@ -1,0 +1,4 @@
+ {
+    "home" : "http://localhost:8080/faostat-gateway/base_index.html",
+    "base_url" : "localhost:8080"
+}
