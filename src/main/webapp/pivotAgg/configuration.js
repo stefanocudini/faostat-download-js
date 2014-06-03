@@ -133,7 +133,7 @@ catch(er){return "_"+mp["CodeItem"].substring(0,6)+"++";}
 		/*hiddenAttributes:["DomainCode","ItemGroupCode","ItemCode","ItemNameE","ElementCode"],*/
 		
 		
-		rows:["ReporterName","PartnerName","ElementName","ItemName"],
+		rows:["ReporterName","PartnerName","ItemName","ElementName"],
 	cols: ["Year"],
 	vals:["Value","Unit","Flag"]
 		
