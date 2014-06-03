@@ -43,10 +43,10 @@ document.getElementById("excelData").value="<table><tr><td>FAOSTAT "+today.getFu
  }
  
 function decolrowspanNEW()
-{
+{var today=new Date();
 var row=FAOSTATNEWOLAP.internalData.tree;
 var col=FAOSTATNEWOLAP.internalData.flatColKeys.reverse();
-var ret="";
+var ret="FAOSTAT "+today.getFullYear()+" Date : "+today.toLocaleDateString()+"\n";
 for(var j=0;j<FAOSTATNEWOLAP.internalData.rowKeys[0].length;j++){ret+=",";}
 for(j in col){ret+=col[j].replace(/,/g,"").replace(/\|\|/g,"-").replace(/&nbsp;/g,"")+", unit , flag ,";}
 ret+="\n";
@@ -61,6 +61,14 @@ for (i in row){
 			}
 			ret+="\n" ;
 	}
+        var testtd=document.getElementById("hor-minimalist-b").getElementsByTagName('td');
+        j=0;
+        for(i in testtd)
+            {
+                if(j==0){ret+="\n";j=1;}
+                else{ret+=",";j=0;}
+                ret+=testtd[i].innerHTML;
+            }
 	document.getElementById('csvData').value=ret;
 	
 	document.getElementById('csvDataForm').submit();
@@ -1358,6 +1366,7 @@ listUnique: function(_arg) {
         if ((_ref2 = (_base = axisValues[k])[v]) == null) {_base[v] = 0;}
         _results.push(axisValues[k][v]++);
       }
+     
       return _results;
     });
     uiTable = $("<table class='table table-bordered' cellpadding='5'>");
@@ -1537,6 +1546,247 @@ listUnique: function(_arg) {
     }).bind("sortstop", refresh);
     return this;
   };
+  
+  
+  $.fn.pivotUITOCSV = function(input, inputOpts, overwrite) {
+    var aggregator, axisValues, c, colList, defaults, existingOpts, k, opts, pivotTable, refresh, renderer, rendererControl, tblCols, tr1, tr2, uiTable, x, _i, _j, _k, _l, _len, _len2, _len3, _len4, _len5, _m, _ref, _ref2, _ref3, _ref4, _ref5, _ref6;
+    if (overwrite == null) {overwrite = false;}
+
+    defaults = {
+      derivedAttributes: {},
+      aggregators: aggregators,
+      renderers: renderers,
+      hiddenAttributes: [],
+      cols: [],
+      rows: [],
+      vals: []
+    };
+    existingOpts = this.data("pivotUIOptions");
+    if (!(existingOpts != null) || overwrite) 
+	{opts = $.extend(defaults, inputOpts);} 
+	else {opts = existingOpts;}
+    input = convertToArray(input);
+    tblCols = (function() {
+      var _ref, _results;
+      _ref = input[0];
+      _results = [];
+      for (k in _ref) {
+        if (!__hasProp.call(_ref, k)) continue;
+        _results.push(k);
+      }
+      return _results;
+    })();
+    _ref = opts.derivedAttributes;
+    for (c in _ref) {
+      if (!__hasProp.call(_ref, c)) continue;
+      if ((__indexOf.call(tblCols, c) < 0)) {tblCols.push(c);}
+    }
+    axisValues = {};
+    for (_i = 0, _len = tblCols.length; _i < _len; _i++) 
+	{x = tblCols[_i];axisValues[x] = {};}
+	
+    forEachRecord(input, opts.derivedAttributes, function(record) {
+      var k, v, _base, _ref2, _results;
+      _results = [];
+      for (k in record) {
+        if (!__hasProp.call(record, k)) continue;
+        v = record[k];
+        if (v == null) {v = "null";}
+        if ((_ref2 = (_base = axisValues[k])[v]) == null) {_base[v] = 0;}
+        _results.push(axisValues[k][v]++);
+      }
+      return _results;
+    });
+    uiTable = $("<table class='table table-bordered' cellpadding='5'>");
+    rendererControl = $("<td>");
+    renderer = $("<select id='renderer'>").bind("change", function() {
+    if($("#renderer").val()=="Table")
+    {$('#aggregator option[value="sumUnit"]').prop('selected', true);}
+    else{$('#aggregator option[value="sum"]').prop('selected', true);}
+	   return refresh();
+    });
+    _ref2 = opts.renderers;
+    for (x in _ref2) {
+      if (!__hasProp.call(_ref2, x)) continue;
+      renderer.append($("<option>").val(x).text(x));
+    }
+    rendererControl.append(renderer);
+    colList = $("<td id='unused' class='pvtAxisContainer pvtHorizList'>");
+    for (_j = 0, _len2 = tblCols.length; _j < _len2; _j++) {
+      c = tblCols[_j];
+      if (__indexOf.call(opts.hiddenAttributes, c) < 0) {
+        (function(c) {
+          var btns, colLabel, filterItem, k, numKeys, v, valueList, _k, _len3, _ref3;
+          numKeys = Object.keys(axisValues[c]).length;
+          colLabel = $("<nobr id='my_"+c+"'>").text(c);
+          valueList = $("<div>").css({
+            "z-index": 100,
+            "width": "280px",
+            "height": "350px",
+            "overflow": "scroll",
+            "border": "1px solid gray",
+            "background": "white",
+            "display": "none",
+            "position": "absolute",
+            "padding": "20px"
+          });
+          valueList.append($("<strong>").text("" + numKeys + " values for " + c));
+          if (numKeys > 50) {valueList.append($("<p>").text("(too many to list)"));} 
+		  else {
+            btns = $("<p>");
+            btns.append($("<button>").text("Select All").bind("click", function() 
+			{return valueList.find("input").attr("checked", true);}));
+			
+            btns.append($("<button>").text("Select None").bind("click", function() 
+			{return valueList.find("input").attr("checked", false);}));
+			
+            valueList.append(btns);
+            _ref3 = Object.keys(axisValues[c]).sort();
+            for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
+              k = _ref3[_k];
+              v = axisValues[c][k];
+              filterItem = $("<label>");
+              filterItem.append($("<input type='checkbox' class='pvtFilter'>").attr("checked", true).data("filter", [c, k]));
+              filterItem.append($("<span>").html("" + k + " (" + v + ")"));
+              valueList.append($("<p>").append(filterItem));
+            }
+          }
+          colLabel.bind("dblclick", function(e) {
+		  /*{
+              left: e.pageX,
+              top: e.pageY
+            }*/
+            valueList.css({color:"black"}).toggle();
+            valueList.bind("click", function(e) {return e.stopPropagation();});
+            return $(document).one("click", function() {
+			   refresh();
+              return valueList.toggle();
+            });
+          });
+          return colList.append($("<li class='label label-info' id='axis_" + (c.replace(/\s/g, "")) + "'>").append(colLabel).append(valueList));
+        })(c);
+      }
+    }
+    uiTable.append($("<tr>").append(rendererControl).append(colList));
+    tr1 = $("<tr>");
+    aggregator = $("<select id='aggregator'>").css("margin-bottom", "5px").bind("change", function() {
+	if($("#aggregator").val()=="sumUnit"){$('#renderer option[value="Table"]').prop('selected', true);	}
+	return refresh();
+    });
+	
+    _ref3 = opts.aggregators;
+    for (x in _ref3) {
+      if (!__hasProp.call(_ref3, x)) continue;
+      aggregator.append($("<option>").val(x).text(x));
+    }
+	if(	FAOSTATNEWOLAP.viewVals==0)
+	{
+		tr1.append($("<td id='vals'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
+	}
+	else{
+		tr1.append($("<td id='vals' class='pvtAxisContainer pvtHorizList'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
+	}
+
+    tr1.append($("<td id='cols' class='pvtAxisContainer pvtHorizList'>").append($("<span >Colums</span>")));
+    uiTable.append(tr1);
+    tr2 = $("<tr>");
+    tr2.append($("<td valign='top' id='rows' class='pvtAxisContainer'>").append($("<span >Rows</span>")));
+    pivotTable = $("<td valign='top'>");
+    tr2.append(pivotTable);
+    uiTable.append(tr2);
+    this.html(uiTable);
+	
+    _ref4 = opts.cols;
+    for (_k = 0, _len3 = _ref4.length; _k < _len3; _k++) {
+      x = _ref4[_k];
+      this.find("#cols").append(this.find("#axis_" + (x.replace(/\s/g, ""))));
+    }
+    _ref5 = opts.rows;
+    for (_l = 0, _len4 = _ref5.length; _l < _len4; _l++) {
+      x = _ref5[_l];
+      this.find("#rows").append(this.find("#axis_" + (x.replace(/\s/g, ""))));
+    }
+    _ref6 = opts.vals;
+    for (_m = 0, _len5 = _ref6.length; _m < _len5; _m++) {
+      x = _ref6[_m];
+      this.find("#mesVals").append(this.find("#axis_" + (x.replace(/\s/g, ""))));
+    }
+    if (opts.aggregatorName != null) {this.find("#aggregator").val(opts.aggregatorName);}
+    if (opts.rendererName != null) {this.find("#renderer").val(opts.rendererName);}
+    refresh = __bind(function() {
+      var exclusions, subopts, vals;
+      subopts = {derivedAttributes: opts.derivedAttributes};
+      subopts.cols = [];
+      subopts.rows = [];
+      vals = [];
+      this.find("#rows li nobr").each(function() {return subopts.rows.push($(this).text());});
+      this.find("#cols li nobr").each(function() {return subopts.cols.push($(this).text());});
+      this.find("#vals li nobr").each(function() {return vals.push($(this).text());});
+	  //console.log(aggregator.val());
+	  //console.log(opts.aggregators[aggregator.val()](vals));
+      subopts.aggregator = opts.aggregators[aggregator.val()](vals);
+      subopts.renderer = opts.renderers[renderer.val()];
+      exclusions = [];
+      this.find('input.pvtFilter').not(':checked').each(function() {return exclusions.push($(this).data("filter"));});
+      subopts.filter = function(record) {
+        var v, _len6, _n, _ref7;
+        for (_n = 0, _len6 = exclusions.length; _n < _len6; _n++) {
+          _ref7 = exclusions[_n], k = _ref7[0], v = _ref7[1];
+          if (record[k] === v) {return false;}
+        }
+        return true;
+      };
+      pivotTable.pivot(input, subopts);
+	  try{$(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2);}catch(er){}
+      return this.data("pivotUIOptions", {
+        cols: subopts.cols,
+        rows: subopts.rows,
+        vals: vals,
+        hiddenAttributes: opts.hiddenAttributes,
+        renderers: opts.renderers,
+        aggregators: opts.aggregators,
+        derivedAttributes: opts.derivedAttributes,
+        aggregatorName: aggregator.val(),
+        rendererName: renderer.val()
+      });
+    }, this);
+	
+	refresh();
+    this.find(".pvtAxisContainer").sortable({
+      connectWith: ".pvtAxisContainer",
+      items: 'li',
+	  receive:function(e){
+	  var my_id=e.originalEvent.target.id.split("_")[1];
+		  if(e.target.id!="unused"){
+		  for(k in inputOpts.linkedAttributes){
+		  if(inputOpts.linkedAttributes[k].indexOf(my_id)!=-1){
+			   for(kk in inputOpts.linkedAttributes[k]){
+				   internalTest=$("#axis_"+inputOpts.linkedAttributes[k][kk]);
+				   if(  internalTest.parent().get(0).id!="unused")
+				   {$("#"+e.target.id).append($("#axis_"+inputOpts.linkedAttributes[k][kk]));}
+				}
+				break;
+			}
+		  }
+	  }
+	 else{$("#"+e.target.id).append($("#axis_"+my_id));}
+	}
+    }).bind("sortstop", refresh);
+    return this;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   /*
   Heatmap post-processing
   */
