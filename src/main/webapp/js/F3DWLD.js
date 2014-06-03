@@ -53,17 +53,18 @@ var F3DWLD = (function() {
 
         getGridsValues();
 
-        console.log('asd');
+//        console.log('asd');
 
         /* Collect codes for 'list' items, then create the JSON payload. */
         collectListCodesPIVOT();
+
     };
 
 
     function insideFalseClick()
     {
         $('#OLAP_IFRAME').css('display', 'inline');
-        document.getElementById('output_area').innerHTML='';
+        document.getElementById('output_area').innerHTML = '';
 
         $("#testinline").html("<center><img src=\"/faostat-download-js/pivotAgg/Preload.gif\" /></center>");
         FAOSTATNEWOLAP.flags={};
@@ -98,15 +99,19 @@ var F3DWLD = (function() {
 
 
         $.ajax({
-            type : 'POST',
-            url:F3DWLD.CONFIG.procedures_data_url,
-            data:data,
-            success:function(response){
+            type: 'POST',
+            url: F3DWLD.CONFIG.procedures_data_url,
+            data: data,
+            success: function (response) {
                 console.log("falseclick 4 ");
-                var mesOptionsPivot=FAOSTATOLAP2.options;
-                mesOptionsPivot.vals=["Value"];
-                if(F3DWLD.CONFIG.wdsPayload.showUnits){mesOptionsPivot.vals.push("Unit")}
-                if(F3DWLD.CONFIG.wdsPayload.showFlags){mesOptionsPivot.vals.push("Flag")}
+                var mesOptionsPivot = FAOSTATOLAP2.options;
+                mesOptionsPivot.vals = ["Value"];
+                if (F3DWLD.CONFIG.wdsPayload.showUnits) {
+                    mesOptionsPivot.vals.push("Unit")
+                }
+                if (F3DWLD.CONFIG.wdsPayload.showFlags) {
+                    mesOptionsPivot.vals.push("Flag")
+                }
                 /* var response2=[["Domain","AreaCode","AreaName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
                  var response2TM=[["Domain","ReporterCode","ReporterName","PartnerCode","PartnerName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
                  var mesOptionsPivot=FAOSTATOLAP2.options;
@@ -115,7 +120,7 @@ var F3DWLD = (function() {
                  for(i in response){response2.push(response[i]);}
                  */
                 var derivers = $.pivotUtilities.derivers;
-                var renderers = $.extend($.pivotUtilities.renderers,$.pivotUtilities.gchart_renderers);
+                var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.gchart_renderers);
                 /*mesOptionsPivot.vals=["Value"];
                  if(F3DWLD.CONFIG.wdsPayload.showUnits){mesOptionsPivot.vals.push("Unit")}
                  if(F3DWLD.CONFIG.wdsPayload.showFlags){mesOptionsPivot.vals.push("Flag")}
@@ -141,8 +146,6 @@ var F3DWLD = (function() {
         });
 
 
-
-
     }
 
     function collectListCodesPIVOT() {
@@ -155,11 +158,11 @@ var F3DWLD = (function() {
             var backup_countries_dst = new Array();
             var backup_items = new Array();
 
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries.length ; i++)
+            for (var i = 0; i < F3DWLD.CONFIG.selectedValues.countries.length; i++)
                 if (F3DWLD.CONFIG.selectedValues.countries.type != '>')
                     backup_countries.push(F3DWLD.CONFIG.selectedValues.countries[i]);
 
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.items.length ; i++)
+            for (var i = 0; i < F3DWLD.CONFIG.selectedValues.items.length; i++)
                 if (F3DWLD.CONFIG.selectedValues.items[i].type != '>')
                     backup_items.push(F3DWLD.CONFIG.selectedValues.items[i]);
 
@@ -173,9 +176,9 @@ var F3DWLD = (function() {
 
             $.ajax({
 
-                type    :   'POST',
-                url     :   F3DWLD.CONFIG.bletchley_url + '/listForTradeMatrix/post',
-                data    :   data,
+                type: 'POST',
+                url: F3DWLD.CONFIG.bletchley_url + '/listForTradeMatrix/post',
+                data: data,
 
                 success : function(response) {
                     var codes = response;
@@ -201,10 +204,10 @@ var F3DWLD = (function() {
                             F3DWLD.CONFIG.selectedValues.items = codes[1];
                     }
 
-                    for (var z = 0 ; z < backup_items.length ; z++)
+                    for (var z = 0; z < backup_items.length; z++)
                         F3DWLD.CONFIG.selectedValues.items.push(backup_items[z]);
 
-                    for (var z = 0 ; z < backup_countries.length ; z++)
+                    for (var z = 0; z < backup_countries.length; z++)
                         F3DWLD.CONFIG.selectedValues.countries.push(backup_countries[z]);
 
                     try {document.getElementById('testinline').className="visi2";} catch(err) {    }
@@ -216,7 +219,10 @@ var F3DWLD = (function() {
 
         } else {
 
-            try {document.getElementById('testinline').className="visi2";} catch(err) {    }
+            try {
+                document.getElementById('testinline').className = "visi2";
+            } catch (err) {
+            }
             insideFalseClick();
         }
     };
@@ -318,202 +324,18 @@ var F3DWLD = (function() {
             if (F3DWLD.CONFIG.selectedValues[0][i].type == '>')
                 return true;
 
-//        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries2.length ; i++)
-//            if (F3DWLD.CONFIG.selectedValues.countries2[i].type == '>')
-//                return true;
-
         for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[1].length ; i++)
             if (F3DWLD.CONFIG.selectedValues[1][i].type == '>')
                 return true;
 
-//        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.itemsAggregated.length ; i++)
-//            if (F3DWLD.CONFIG.selectedValues.itemsAggregated[i].type == '>')
-//                return true;
-
         return false;
-
-    };
-
-    function createJSON() {
-        if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
-            createJSONTradeMatrix();
-        } else {
-            createJSONStandard();
-        }
-    };
-
-    function createJSONTradeMatrix() {
-
-        if (F3DWLD.CONFIG.wdsPayload.json == null)
-            F3DWLD.CONFIG.wdsPayload.json = {};
-
-        F3DWLD.CONFIG.wdsPayload.json["selects"] = [{"aggregation":"NONE", "column": "DOM.DomainName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_domain')}];
-
-        F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"A1.AreaName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_country_1')};
-        if (F3DWLD.CONFIG.wdsPayload.showCodes)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.ReporterAreaCode", "alias": $.i18n.prop('_export_country_code_1').replace(' ', '_')};
-
-        F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"A2.AreaName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_country_2')};
-        if (F3DWLD.CONFIG.wdsPayload.showCodes)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.PartnerAreaCode", "alias": $.i18n.prop('_export_country_code_2').replace(' ', '_')};
-
-        F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"I.ItemName" + F3DWLD.CONFIG.lang, "alias": $.i18n.prop('_export_item')};
-
-        if (F3DWLD.CONFIG.wdsPayload.showCodes)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.ItemCode", "alias": $.i18n.prop('_export_item_code').replace(' ', '_')};
-
-        F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"E.ElementUnitName" + F3DWLD.CONFIG.lang, "alias": $.i18n.prop('_export_element')};
-
-        if (F3DWLD.CONFIG.wdsPayload.showCodes)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementCode", "alias": $.i18n.prop('_export_element_code').replace(' ', '_')};
-
-        F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.Year", "alias": $.i18n.prop('_export_year')};
-
-        if (F3DWLD.CONFIG.wdsPayload.showUnits)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"E.UnitName" + F3DWLD.CONFIG.lang, "alias": $.i18n.prop('_export_unit')};
-
-        F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.Value", "alias": $.i18n.prop('_export_value')};
-
-        if (F3DWLD.CONFIG.wdsPayload.showFlags)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.Flag", "alias": $.i18n.prop('_export_flag')};
-
-        F3DWLD.CONFIG.wdsPayload.valueColumnIndex = getValueColumnIndex(F3DWLD.CONFIG.wdsPayload.json);
-
-        F3DWLD.CONFIG.wdsPayload.json["froms"] = [{"column":"TradeMatrix", "alias":"D"},
-            {"column":"Item", "alias":"I"},
-            {"column":"Element", "alias":"E"},
-            {"column":"Area", "alias":"A1"},
-            {"column":"Area", "alias":"A2"},
-            {"column":"Domain", "alias":"DOM"}];
-
-        var elements = collectElements();
-        var countries = collectCountries();
-        var countries_dst = collectCountries_dst();
-        var items = collectItems();
-        var years = collectYears();
-
-        F3DWLD.CONFIG.wdsPayload.json["wheres"] = [{"datatype": "TEXT", "column": "D.DomainCode", "operator": "=", "value": F3DWLD.CONFIG.domainCode, "ins": []},
-            {"datatype": "TEXT", "column": "DOM.DomainCode", "operator": "=","value": F3DWLD.CONFIG.domainCode, "ins": []},
-            {"datatype": "DATE", "column": "D.ReporterAreaCode", "operator": "=","value": "A1.AreaCode", "ins": []},
-            {"datatype": "DATE", "column": "D.PartnerAreaCode", "operator": "=","value": "A2.AreaCode", "ins": []},
-            {"datatype": "DATE", "column": "D.DomainCode", "operator": "=","value": "DOM.DomainCode", "ins": []},
-            {"datatype": "DATE", "column": "D.ItemCode", "operator": "=","value": "I.ItemCode", "ins": []},
-            {"datatype": "DATE", "column": "D.ElementCode", "operator": "=","value": "E.ElementCode", "ins": []}];
-
-        if (elements != null)
-            F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype": "TEXT", "column": "D.ElementListCode", "operator": "IN", "value": "E.ElementListCode", "ins": elements};
-        if (countries != null)
-            F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype":"TEXT","column":"D.ReporterAreaCode","operator":"IN","value":"A1.AreaCode","ins": countries};
-        if (countries_dst != null)
-            F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype":"TEXT","column":"D.PartnerAreaCode","operator":"IN","value":"A2.AreaCode","ins": countries_dst};
-        if (items != null)
-            F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype":"TEXT","column":"D.ItemCode","operator":"IN","value":"I.ItemCode","ins": items};
-        if (years != null)
-            F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype":"TEXT","column":"D.Year","operator":"IN","value":"D.Year","ins": years};
-
-        F3DWLD.CONFIG.wdsPayload.json["orderBys"] = [{"column":"D.Year", "direction":"DESC"},
-            {"column":"A1.AreaName" + F3DWLD.CONFIG.lang, "direction":"ASC"},
-            {"column":"A2.AreaName" + F3DWLD.CONFIG.lang, "direction":"ASC"},
-            {"column":"I.ItemName" + F3DWLD.CONFIG.lang, "direction":"ASC"},
-            {"column":"E.ElementUnitName" + F3DWLD.CONFIG.lang, "direction":"ASC"}];
-
-        if (F3DWLD.CONFIG.wdsPayload.limit) {
-            F3DWLD.CONFIG.wdsPayload.json["limit"] = FAOSTATDownload.tablelimit;
-        } else {
-            F3DWLD.CONFIG.wdsPayload.json["limit"] = null;
-        }
-
-        F3DWLD.CONFIG.wdsPayload.json["query"] = null;
-        F3DWLD.CONFIG.wdsPayload.json["frequency"] = "NONE";
-        F3DWLD.CONFIG.wdsPayload.cssFilename = '';
-        getValueColumnIndex(F3DWLD.CONFIG.wdsPayload.json);
-
-    };
-
-    function createJSONStandard() {
-
-        if (F3DWLD.CONFIG.wdsPayload.json == null)
-            F3DWLD.CONFIG.wdsPayload.json = {};
-
-        F3DWLD.CONFIG.wdsPayload.json["selects"] = [{"aggregation":"NONE", "column": "DOM.DomainName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_domain')}];
-        F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"A.AreaName" + FAOSTATDownload.language, "alias": $.i18n.prop('_export_country')};
-        if (F3DWLD.CONFIG.wdsPayload.showCodes)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.AreaCode", "alias": $.i18n.prop('_export_country_code').replace(' ', '_')};
-
-        F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"I.ItemName" + F3DWLD.CONFIG.lang, "alias": $.i18n.prop('_export_item')};
-
-        if (F3DWLD.CONFIG.wdsPayload.showCodes)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.ItemCode", "alias": $.i18n.prop('_export_item_code').replace(' ', '_')};
-
-        F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"E.ElementUnitName" + F3DWLD.CONFIG.lang, "alias": $.i18n.prop('_export_element')};
-
-        if (F3DWLD.CONFIG.wdsPayload.showCodes)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.ElementCode", "alias": $.i18n.prop('_export_element_code').replace(' ', '_')};
-
-        F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.Year", "alias": $.i18n.prop('_export_year')};
-
-        if (F3DWLD.CONFIG.wdsPayload.showUnits)
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"E.UnitName" + F3DWLD.CONFIG.lang, "alias": $.i18n.prop('_export_unit')};
-
-        F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation":"NONE", "column":"D.Value", "alias": $.i18n.prop('_export_value')};
-
-        if (F3DWLD.CONFIG.wdsPayload.showFlags) {
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation": "NONE", "column": "D.Flag", "alias": $.i18n.prop('_export_flag')};
-            F3DWLD.CONFIG.wdsPayload.json["selects"][F3DWLD.CONFIG.wdsPayload.json["selects"].length] = {"aggregation": "NONE", "column": "F.FlagDescription" + F3DWLD.CONFIG.lang, "alias": $.i18n.prop('_export_flag_description')};
-        }
-
-        F3DWLD.CONFIG.wdsPayload.valueColumnIndex = getValueColumnIndex(F3DWLD.CONFIG.wdsPayload.json);
-
-        F3DWLD.CONFIG.wdsPayload.json["froms"] = [{"column":"Data", "alias":"D"},
-            {"column":"Item", "alias":"I"},
-            {"column":"Element", "alias":"E"},
-            {"column":"Area", "alias":"A"},
-            {"column":"Domain", "alias":"DOM"},
-            {"column":"Flag", "alias":"F"}];
-
-        var elements = collectElements();
-        var countries = collectCountries();
-        var items = collectItems();
-        var years = collectYears();
-
-        F3DWLD.CONFIG.wdsPayload.json["wheres"] = [{"datatype": "TEXT", "column": "D.DomainCode", "operator": "=", "value": F3DWLD.CONFIG.domainCode, "ins": []},
-            {"datatype": "TEXT", "column": "DOM.DomainCode", "operator": "=","value": F3DWLD.CONFIG.domainCode, "ins": []},
-            {"datatype": "DATE", "column": "D.AreaCode", "operator": "=","value": "A.AreaCode", "ins": []},
-            {"datatype": "DATE", "column": "D.DomainCode", "operator": "=","value": "DOM.DomainCode", "ins": []},
-            {"datatype": "DATE", "column": "D.ItemCode", "operator": "=","value": "I.ItemCode", "ins": []},
-            {"datatype": "DATE", "column": "D.ElementCode", "operator": "=","value": "E.ElementCode", "ins": []},
-            {"datatype": "DATE", "column": "D.Flag", "operator": "=","value": "F.Flag", "ins": []}];
-
-        if (elements != null)
-            F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype": "TEXT", "column": "D.ElementListCode", "operator": "IN", "value": "E.ElementListCode", "ins": elements};
-        if (countries != null)
-            F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype":"TEXT","column":"D.AreaCode","operator":"IN","value":"A.AreaCode","ins": countries};
-        if (items != null)
-            F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype":"TEXT","column":"D.ItemCode","operator":"IN","value":"I.ItemCode","ins": items};
-        if (years != null)
-            F3DWLD.CONFIG.wdsPayload.json["wheres"][F3DWLD.CONFIG.wdsPayload.json["wheres"].length] = {"datatype":"TEXT","column":"D.Year","operator":"IN","value":"D.Year","ins": years};
-
-        F3DWLD.CONFIG.wdsPayload.json["orderBys"] = [{"column":"D.Year", "direction":"DESC"},
-            {"column":"A.AreaName" + F3DWLD.CONFIG.lang, "direction":"ASC"},
-            {"column":"I.ItemName" + F3DWLD.CONFIG.lang, "direction":"ASC"},
-            {"column":"E.ElementUnitName" + F3DWLD.CONFIG.lang, "direction":"ASC"}];
-
-        if (F3DWLD.CONFIG.wdsPayload.limit) {
-            F3DWLD.CONFIG.wdsPayload.json["limit"] = FAOSTATDownload.tablelimit;
-        } else {
-            F3DWLD.CONFIG.wdsPayload.json["limit"] = null;
-        }
-
-        F3DWLD.CONFIG.wdsPayload.json["query"] = null;
-        F3DWLD.CONFIG.wdsPayload.json["frequency"] = "NONE";
-        F3DWLD.CONFIG.wdsPayload.cssFilename = '';
-        getValueColumnIndex(F3DWLD.CONFIG.wdsPayload.json);
 
     };
 
     function createTable(streamExcel) {
 
         $('#output_area').empty();
+        $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>');
 
         var p = {};
         p.datasource = F3DWLD.CONFIG.datasource;
@@ -555,35 +377,12 @@ var F3DWLD = (function() {
                     var json = response;
                     if (typeof json == 'string')
                         json = $.parseJSON(response);
-                    var s = '<table class="dataTable">';
-                    s += '<thead>';
-                    s += '<tr>';
-                    for (var i = 1 ; i < json[0].length ; i++)
-                        s += '<th>' + json[0][i] + '</th>';
-                    s += '</tr>';
-                    s += '</thead>';
-                    s += '<tbody>';
-                    for (var i = 1; i < json.length; i++) {
-                        s += '<tr>';
-                        for (var j = 1; j < json[i].length; j++) {
-                            if (i % 2 == 0)
-                                s += '<td class="hor-minimalist-b_row1">' + json[i][j] + '</td>';
-                            else
-                                s += '<td class="hor-minimalist-b_row2">' + json[i][j] + '</td>';
-                        }
-                        s += '</tr>';
-                    }
-                    s += '</tbody>';
-                    s += '</table>';
-
-                    $('#options_menu_box').css('display', 'block');
-                    $('#preview_hr').css('display', 'block');
-                    $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:' + F3DWLD.CONFIG.widthTable + '">' + s + '</div>');
-
+                    renderTable(json);
                 },
 
                 error: function (err, b, c) {
-
+                    var json = $.parseJSON(err.responseText.replace('],]', ']]'));
+                    renderTable(json);
                 }
 
             });
@@ -592,97 +391,36 @@ var F3DWLD = (function() {
 
     };
 
-//    function createTable_BACKUP() {
-//
-//        var data = {};
-//
-//        data.datasource = F3DWLD.CONFIG.wdsPayload.datasource;
-//        data.thousandSeparator = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
-//        data.decimalSeparator = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
-//        data.decimalNumbers = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
-//        data.json = JSON.stringify(F3DWLD.CONFIG.wdsPayload.json);
-//        data.cssFilename = F3DWLD.CONFIG.wdsPayload.cssFilename;
-//        data.valueIndex = F3DWLD.CONFIG.wdsPayload.valueColumnIndex;
-//
-//        var outputType = 'html';
-//        if (F3DWLD.CONFIG.wdsPayload.limit == null || F3DWLD.CONFIG.wdsPayload.limit == false)
-//            outputType = 'excel';
-//
-//        /** Stream the Excel through the hidden form */
-//        $('#datasource_WQ').val(F3DWLD.CONFIG.wdsPayload.datasource);
-//        $('#thousandSeparator_WQ').val(F3DWLD.CONFIG.wdsPayload.thousandSeparator);
-//        $('#decimalSeparator_WQ').val(F3DWLD.CONFIG.wdsPayload.decimalSeparator);
-//        $('#decimalNumbers_WQ').val(F3DWLD.CONFIG.wdsPayload.decimalNumbers);
-//        $('#json_WQ').val(JSON.stringify(F3DWLD.CONFIG.wdsPayload.json));
-//        $('#cssFilename_WQ').val(F3DWLD.CONFIG.wdsPayload.cssFilename);
-//        $('#valueIndex_WQ').val(F3DWLD.CONFIG.wdsPayload.valueIndex);
-//
-//        /** Show the table */
-//        if (F3DWLD.CONFIG.wdsPayload.limit != null && F3DWLD.CONFIG.wdsPayload.limit == true) {
-//
-//            $.ajax({
-//
-//                type    :   'POST',
-//                url     :   F3DWLD.CONFIG.data_url + '/table/' + outputType,
-//                data    :   data,
-//
-//                success : function(response) {
-//
-//                    $('#output_area').empty();
-//                    $('#output_area').append('<div class="single-result-table-title">Please note: the preview is limited to ' + F3DWLD.CONFIG.tablelimit + ' rows.</div>');
-//                    $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:'+ F3DWLD.CONFIG.widthTable +'">' + response + '</div>');
-//
-//                    if (F3DWLD.CONFIG.domainCode == 'CP') {
-//                        getCPINotesByProcedures();
-//                    }
-//
-//                    $('#OLAP_IFRAME').css('display', 'none');
-//                    $('#output_area').css('margin', '0');
-//
-//                    /* Track on Google Analytics */
-//                    if (outputType == 'excel') {
-//                        STATS.exportTableDownloadStandard(F3DWLD.CONFIG.domainCode);
-//                    } else {
-//                        STATS.showTableDownloadStandard();
-//                    }
-//
-////                    showCPINotes();
-//
-//                },
-//
-//                error : function(err, b, c) {
-//
-//                }
-//
-//            });
-//
-//        }
-//
-//        /** Download the Excel */
-//        else {
-//
-//            /* Track on Google Analytics */
-//            STATS.exportTableDownloadStandard(F3DWLD.CONFIG.domainCode);
-//
-//            $.getJSON(F3DWLD.CONFIG.prefix + 'config/quotes.json', function (data) {
-//
-//                $('#quote_WQ').val(data[F3DWLD.CONFIG.lang + '_quote']);
-//
-//                if (F3DWLD.CONFIG.domainCode == 'AA' || F3DWLD.CONFIG.domainCode == 'AR' || F3DWLD.CONFIG.domainCode == 'AE') {
-//                    $('#title_WQ').val(data[F3DWLD.CONFIG.domainCode][F3DWLD.CONFIG.lang + '_title']);
-//                    $('#subtitle_WQ').val(data[F3DWLD.CONFIG.domainCode][F3DWLD.CONFIG.lang + '_subtitle']);
-//                } else {
-//                    $('#title_WQ').val('');
-//                    $('#subtitle_WQ').val('');
-//                }
-//
-//                document.excelFormWithQuotes.submit();
-//
-//            });
-//
-//        }
-//
-//    };
+    function renderTable(json) {
+        var s = '<table class="dataTable">';
+        s += '<thead>';
+        s += '<tr>';
+        for (var i = 1 ; i < json[0].length ; i++)
+            s += '<th>' + json[0][i] + '</th>';
+        s += '</tr>';
+        s += '</thead>';
+        s += '<tbody>';
+        if (json.length > 1) {
+            for (var i = 1; i < json.length; i++) {
+                s += '<tr>';
+                for (var j = 1; j < json[i].length; j++) {
+                    if (i % 2 == 0)
+                        s += '<td class="hor-minimalist-b_row1">' + json[i][j] + '</td>';
+                    else
+                        s += '<td class="hor-minimalist-b_row2">' + json[i][j] + '</td>';
+                }
+                s += '</tr>';
+            }
+        } else {
+            s += '<tr><td colspan="100" class="hor-minimalist-b_row1">' + $.i18n.prop('_no_data_available') + '</td></tr>'
+        }
+        s += '</tbody>';
+        s += '</table>';
+        $('#output_area').empty();
+        $('#options_menu_box').css('display', 'block');
+        $('#preview_hr').css('display', 'block');
+        $('#output_area').append('<div style="overflow: auto; padding-top:10px; width:' + F3DWLD.CONFIG.widthTable + '">' + s + '</div>');
+    }
 
     function getCPINotesByProcedures() {
 
@@ -851,18 +589,6 @@ var F3DWLD = (function() {
         return ins;
     };
 
-    function collectCountries_dst() {
-        var ins = new Array();
-//        for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues.countries2.length ; i++) {
-//            if (F3DWLD.CONFIG.selectedValues.countries2[i].code == 'all') {
-//                return null;
-//            } else {
-//                ins.push(F3DWLD.CONFIG.selectedValues.countries2[i].code);
-//            }
-//        }
-        return ins;
-    };
-
     function collectYears() {
         var ins = new Array();
         for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[3].length ; i++) {
@@ -875,15 +601,7 @@ var F3DWLD = (function() {
         return ins;
     };
 
-    function getValueColumnIndex(json) {
-        for (var i = 0 ; i < json.selects.length ; i++)
-            if (json.selects[i].column == 'D.Value')
-                return i;
-    };
-
     function getGridsValues() {
-
-        /* Init variables. */
         var countryGridName = null;
         var countryGridName_dst = null;
         var itemsGridName = null;
@@ -892,22 +610,18 @@ var F3DWLD = (function() {
             case 1 : countryGridName = 'grid_usp_GetAreaList2'; break;
             case 2 : countryGridName = 'grid_usp_GetAreaList3'; break;
         }
-        if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
+        if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1)
             countryGridName_dst = 'grid_usp_GetAreaList2';
-        }
         switch (F3DWLD.CONFIG.tabsSelection.items) {
             case 0 : itemsGridName = 'grid_usp_GetItemList1'; break;
             case 1 : itemsGridName = 'grid_usp_GetItemList2'; break;
         }
-
         getGridValues(countryGridName, F3DWLD.CONFIG.selectedValues[0]);
         getGridValues('grid_usp_GetElementList', F3DWLD.CONFIG.selectedValues[2]);
         getGridValues(itemsGridName, F3DWLD.CONFIG.selectedValues[1]);
-//        getGridValues(itemsGridName, F3DWLD.CONFIG.selectedValues.itemsAggregated);
         getGridValues('grid_usp_GetYearList', F3DWLD.CONFIG.selectedValues[3]);
         if ($.inArray(F3DWLD.CONFIG.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1)
             getGridValues(countryGridName_dst, F3DWLD.CONFIG.selectedValues.countries_dst);
-
     };
 
     function getTabSelection() {
@@ -1075,17 +789,17 @@ var F3DWLD = (function() {
         s += '<div class="standard-title" id="output_options_labels">Output Preview (first 50 rows only)</div>';
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">';
         s += '<ul>';
-        s += '<li id="root"><i class="fa fa-cogs"></i> Options';
+        s += '<li id="root"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_outputOptions');
         s += '<ul>';
         s += '<li><b>Decimal Separator</b></li>';
-        s += '<li><div id="comma_menu">Comma (e.g. 1,000)</div></li>';
-        s += '<li><div id="dot_menu">Dot (e.g. 1.000)</div></li>';
+        s += '<li><div id="comma_menu">' + $.i18n.prop('_comma') + '</div></li>';
+        s += '<li><div id="dot_menu">' + $.i18n.prop('_period') + '</div></li>';
         s += '<li type="separator"></li>';
         s += '<li><b>Thousand Separator</b></li>';
-        s += '<li><div id="enable_menu">Enable</div></li>';
-        s += '<li><div id="disable_menu">Disable</div></li>';
+        s += '<li><div id="enable_menu">' + $.i18n.prop('_enable') + '</div></li>';
+        s += '<li><div id="disable_menu">' + $.i18n.prop('_disable') + '</div></li>';
         s += '<li type="separator"></li>';
-        s += '<li><b>Decimal Numbers</b></li>';
+        s += '<li><b>' + $.i18n.prop('_decimalNumbers') + '</b></li>';
         s += '<li><div id="increment"></div></li>';
         s += '<li type="separator"></li>';
         s += '<li id="menu_show"><b>Show</b>';
@@ -1169,27 +883,33 @@ var F3DWLD = (function() {
     function buildButtons() {
         var s = '<br>';
         s += '<div id="output_buttons">';
-        s += '<span class="standard-title table-selection-title">Display Output As </span>';
+        s += '<span class="standard-title table-selection-title">' +
+            $.i18n.prop('_display_output_as').toUpperCase() +
+            ' </span>';
         s += '<div id="radio_table" class="table-switch-radio">' +
             '<span class="fa-stack">' +
             '<i class="fa fa-table fa-stack-2x"></i>' +
             '<i class=""></i>' +
             '</span>' +
-            'TABLE'+
+            $.i18n.prop('_table').toUpperCase() +
             '</div>';
         s += '<div id="radio_pivot" class="table-switch-radio pivot-btn"> ' +
             '<span class="fa-stack">' +
             '<i class="fa fa-table fa-stack-2x"></i>' +
             '<i class="fa fa-rotate-right fa-stack-1x"></i>' +
             '</span>' +
-            'PIVOT TABLE'+
+            $.i18n.prop('_pivot').toUpperCase() +
             '</div>';
         s += '<div class="download-selection-buttons">';
         s += '<a class="btn btn-big" onclick="F3DWLD.preview(\'preview_button\');">';
-        s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">PREVIEW</div>';
+        s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">' +
+            $.i18n.prop('_preview').toUpperCase() +
+            '</div>';
         s += '</a>';
         s += '<a class="btn btn-big" onclick="F3DWLD.download();" id="buttonDeSelectAll_usp_GetElementList"">';
-        s += '<i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">DOWNLOAD</div>';
+        s += '<i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">' +
+            $.i18n.prop('_download').toUpperCase() +
+            '</div>';
         s += '</a>';
         s += '</div>';
         s += '</div>';
@@ -1201,7 +921,7 @@ var F3DWLD = (function() {
             $('#output_area').css("min-height","350px");
                $('#testinline').css("display","none");
             try {
-                validateSelection();
+                validateSelection('preview table');
                 collectAndQueryWDS(true, false);
                 STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             } catch (e) {
@@ -1212,18 +932,18 @@ var F3DWLD = (function() {
             $('#output_area').css("min-height","0px");
              $('#testinline').css("display","block");
             try {
-                validateSelection();
-
+                validateSelection('preview pivot');
                 collectAndQueryWDSPivot();
-                // STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
-            } catch (e) {  alert(e);    }
+            } catch (e) {
+                alert(e);
+            }
         }
     }
 
     function download() {
         if ($('#radio_table').val()) {
             try {
-                validateSelection();
+                validateSelection('download');
                 collectAndQueryWDS(false, true);
                 STATS.exportTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             } catch (e) {
@@ -1236,7 +956,7 @@ var F3DWLD = (function() {
         }
     }
 
-    function validateSelection() {
+    function validateSelection(caller) {
         for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
             if (F3DWLD.CONFIG.selectedValues[key].length < 1) {
                 var tabNames = Object.keys(F3DWLD.CONFIG.dsd[1 + parseInt(key)]);
@@ -1337,7 +1057,7 @@ var F3DWLD = (function() {
         $('#dot_menu').jqxRadioButton({ width: 120, height: 25, checked: true, groupName: 'thousands' });
         $('#enable_menu').jqxRadioButton({ width: 120, height: 25, checked: true, groupName: 'decimals' });
         $('#disable_menu').jqxRadioButton({ width: 120, height: 25, groupName: 'decimals' });
-        $('#increment').jqxNumberInput({ width: '100%', height: '25px', inputMode: 'simple', spinButtons: true, spinButtonsStep: 1, decimalDigits: 0 });
+        $('#increment').jqxNumberInput({ width: '100%', height: '25px', inputMode: 'simple', spinButtons: true, spinButtonsStep: 1, decimalDigits: 0, decimal: 2 });
         F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
         F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
         $('#dot_menu').bind('change', function (event) {
@@ -1382,7 +1102,7 @@ var F3DWLD = (function() {
             F3DWLD.CONFIG.wdsPayload.showNullValues = checked;
             preview('null_values_menu');
         });
-        F3DWLD.CONFIG.wdsPayload.decimalNumbers = 0;
+        F3DWLD.CONFIG.wdsPayload.decimalNumbers = 2;
         $('#increment').on('valuechanged', function (event) {
             var value = event.args.value;
             F3DWLD.CONFIG.wdsPayload.decimalNumbers = parseInt(value);
@@ -1409,7 +1129,7 @@ var F3DWLD = (function() {
                     json = $.parseJSON(response);
 
                 var s = '';
-                s += '<ul><li id="bulk-root" class="bulk-root-mainbtn"><i class="fa fa-archive"></i> Bulk Downloads <i class="fa fa-caret-down"></i><ul>';
+                s += '<ul><li id="bulk-root" class="bulk-root-mainbtn"><i class="fa fa-archive"></i> ' + $.i18n.prop('_bulk_download_label') + ' <i class="fa fa-caret-down"></i><ul>';
                 for (var i = 0 ; i < json.length ; i++)
                     s += '<li><a onclick="F3DWLD.recordBulkDownload(\'' + json[i][2] + '\');" target="_blank" href="' + F3DWLD.CONFIG.bulks_root + json[i][2] + '">' + json[i][3] + '</a></li>';
                 s += '</ul></li></ul>';
@@ -1631,22 +1351,17 @@ var F3DWLD = (function() {
             },
 
             error: function (err, b, c) {
-                switch (codingSystem) {
-                    case 'regions':
-                        $('#tabCountries').jqxTabs('removeAt', 1);
-                        $('#tabCountries_dst').jqxTabs('removeAt', 1);
-                        break;
-                    case 'specialgroups':
-                        $('#tabCountries').jqxTabs('removeAt', 2);
-                        $('#tabCountries_dst').jqxTabs('removeAt', 1);
-                        break;
-                    case 'itemsaggregated':
-                        $('#tabItems').jqxTabs('removeAt', 1);
-                        break;
-                    case 'items':
-                        if (F3DWLD.CONFIG.domainCode != 'FS')
-                            $('#tabItems').jqxTabs('removeAt', 0);
-                        break;
+                if (listBoxNo == 1 && tabNo == 2) {
+                    $('#tabCountries').jqxTabs('removeAt', 1);
+                    $('#tabCountries_dst').jqxTabs('removeAt', 1);
+                } else if (listBoxNo == 1 && tabNo == 3) {
+                    $('#tabCountries').jqxTabs('removeAt', 2);
+                    $('#tabCountries_dst').jqxTabs('removeAt', 1);
+                } else if (listBoxNo == 2 && tabNo == 2) {
+                    $('#tabItems').jqxTabs('removeAt', 1);
+                } else if (listBoxNo == 2 && tabNo == 1) {
+                    if (F3DWLD.CONFIG.domainCode != 'FS')
+                        $('#tabItems').jqxTabs('removeAt', 0);
                 }
             }
 
@@ -1886,8 +1601,7 @@ var F3DWLD = (function() {
             try {
                 FAOSTATOLAP.option.showUnits = v;
                 DEMO.pivot.cb();
-            }
-            catch(e) {
+            } catch(e) {
 
             }
         });

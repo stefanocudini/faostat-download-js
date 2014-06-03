@@ -18,7 +18,7 @@ var F3DWLDNotes = (function() {
                 for (var i = 0; i < json.length; i++) {
                     var s = '';
                     s += '<a class="metadata-links"';
-                    s += 'href="' + F3DWLD.CONFIG.base_url + '/' + FAOSTATDownload.groupCode + '/' + json[i][0] + '/' + F3DWLD.CONFIG.lang;
+                    s += 'href="' + F3DWLD.CONFIG.base_url + '/' + FAOSTATDownload.groupCode + '/' + json[i][0] + '/' + FAOSTATDownload.language;
                     s += '">' + json[i][1] + '</a>';
                     $('#page_start').append(s);
                 }

@@ -65,7 +65,7 @@ FAOSTATFBS.traduction={
         supply:"Disponibilite",
         utilisation:"Utilisation",
         showcode:"Voir Code",
-        domestic:"DisponibilitÃ© intÃ©rieure /Utilisation"
+        domestic:"Disponibilité intérieure /Utilisation"
     },
 
     E:{
@@ -386,7 +386,7 @@ FAOSTATFBS.Year=function()
     mycountry=document.getElementById('sYear');
     var d = new Date();
     dd=d.getFullYear();
-    for(var i=2009;i>1960;i--)
+    for(var i=2011;i>1960;i--)
     {
         var o=document.createElement("option");
         o.setAttribute('value',i);
@@ -433,7 +433,7 @@ FAOSTATFBS.Country=function()
             "datatype" : "TEXT",
             "column" : "DA.DomainCode",
             "operator" : "=",
-            "value" : "FB",
+            "value" : "FBS",
             "ins" : []
         },
 
@@ -459,7 +459,7 @@ FAOSTATFBS.Country=function()
     };
 
     var data = {};
-    data.datasource = FAOSTATDownload.datasource;
+    data.datasource = F3DWLD.CONFIG.datasource;
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -472,12 +472,12 @@ FAOSTATFBS.Country=function()
 						
     $.ajax({
         type : 'POST',
-        url : '/wds/rest/table/json',
+        url : 'http://faostat3.fao.org/wds/rest/table/json',
         data : data,
         success : function(response) {
             var myJson=response;
             mycountry=document.getElementById('sCountry');
-            for(var i=1;i<myJson.length;i++)
+            for(var i=0;i<myJson.length;i++)
             {
                 var o=document.createElement("option");
                 o.setAttribute('value',myJson[i][0]);
@@ -536,7 +536,7 @@ FAOSTATFBS.Items=function(){
             "datatype" : "TEXT",
             "column" : "DA.DomainCode",
             "operator" : "=",
-            "value" : "FB",
+            "value" : "FBS",
             "ins" : []
         },
 
@@ -558,7 +558,7 @@ FAOSTATFBS.Items=function(){
     };
 
     var data = {};
-    data.datasource = FAOSTATDownload.datasource;
+    data.datasource =F3DWLD.CONFIG.datasource;
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -567,12 +567,12 @@ FAOSTATFBS.Items=function(){
     data.valueIndex = '1';
     $.ajax({
         type : 'POST',
-        url : '/wds/rest/table/json',
+        url : 'http://faostat3.fao.org/wds/rest/table/json',
         data : data,
         success : function(response) {
             var myJson=response;
             mycountry=document.getElementById('sItem');
-            for(var i=1;i<myJson.length;i++){
+            for(var i=0;i<myJson.length;i++){
                 var o=document.createElement("option");
                 o.setAttribute('value',myJson[i][0]);
                 var t=document.createTextNode(myJson[i][1]);
@@ -710,7 +710,7 @@ FAOSTATFBS.showData=function()
                     "ins" : []
                 });
 			 var data0 = {};
-            data0.datasource = FAOSTATDownload.datasource;
+            data0.datasource = F3DWLD.CONFIG.datasource;
             data0.thousandSeparator = ',';
             data0.decimalSeparator = '.';
             data0.decimalNumbers = '2';
@@ -721,7 +721,7 @@ FAOSTATFBS.showData=function()
 			
 			 $.ajax({
                 type : 'POST',
-                url : '/wds/rest/table/json',
+                url : 'http://faostat3.fao.org/wds/rest/table/json',
                 data : data0,
                 success : function(response) 
 				{FAOSTATFBS.Population=response;
@@ -850,7 +850,7 @@ FAOSTATFBS.showData=function()
             }
 
             var data = {};
-            data.datasource = FAOSTATDownload.datasource;
+            data.datasource = F3DWLD.CONFIG.datasource;
             data.thousandSeparator = ',';
             data.decimalSeparator = '.';
             data.decimalNumbers = '2';
@@ -861,7 +861,7 @@ FAOSTATFBS.showData=function()
             //console.log(param);
             $.ajax({
                 type : 'POST',
-                url : '/wds/rest/table/json',
+                url : 'http://faostat3.fao.org/wds/rest/table/json',
                 data : data,
                 success : function(response) {
 
@@ -1332,7 +1332,7 @@ else
     }
 
     var data = {};
-    data.datasource = FAOSTATDownload.datasource;
+    data.datasource = F3DWLD.CONFIG.datasource;
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -1341,7 +1341,7 @@ else
     data.valueIndex = '1';
     $.ajax({
         type : 'POST',
-        url : '/wds/rest/table/json',
+        url : 'http://faostat3.fao.org/wds/rest/table/json',
         data : data,
         success : function(response) {
 
