@@ -1,21 +1,21 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        base_url                :   'http://localhost:8080/faostat-gateway/go/to/download',
-        prefix                  :   'http://localhost:8080/faostat-download-js/',
-        CPINotes_url            :   'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
-        ODA_url                 :   'http://faostat3.fao.org/wds/rest/procedures/oda',
-        data_url                :   'http://faostat3.fao.org/wds/rest',
-        procedures_data_url     :   'http://faostat3.fao.org/wds/rest/procedures/data',
-        procedures_excel_url    :   'http://faostat3.fao.org/wds/rest/procedures/excel',
-        codes_url               :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox',
-        bulks_url               :   'http://faostat3.fao.org/wds/rest/bulkdownloads',
-        domains_url             :   'http://faostat3.fao.org/wds/rest/domains',
-        bletchley_url           :   'http://faostat3.fao.org/bletchley/rest/codes',
+        base_url                :   'http://168.202.28.210:8080/faostat-gateway/go/to/download',
+        prefix                  :   'http://168.202.28.210:8080/faostat-download-js/',
+        CPINotes_url            :   'http://168.202.28.210:8080/wds/rest/procedures/cpinotes',
+        ODA_url                 :   'http://168.202.28.210:8080/wds/rest/procedures/oda',
+        data_url                :   'http://168.202.28.210:8080/wds/rest',
+        procedures_data_url     :   'http://168.202.28.210:8080/wds/rest/procedures/data',
+        procedures_excel_url    :   'http://168.202.28.210:8080/wds/rest/procedures/excel',
+        codes_url               :   'http://168.202.28.210:8080/wds/rest/procedures/usp_GetListBox',
+        bulks_url               :   'http://168.202.28.210:8080/wds/rest/bulkdownloads',
+        domains_url             :   'http://168.202.28.210:8080/wds/rest/domains',
+        bletchley_url           :   'http://168.202.28.210:8080/bletchley/rest/codes',
         bulks_root              :   'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/',
         configurationURL        :   'config/faostat-download-configuration.json',
         dbPrefix                :   'FAOSTAT_',
-        dsdURL                  :   'http://faostat3.fao.org/wds/rest/procedures/listboxes',
+        dsdURL                  :   'http://168.202.28.210:8080/wds/rest/procedures/listboxes',
         theme                   :   'faostat',
         tradeMatrices           :   ['FT', 'TM'],
         lang                    :   'E',
@@ -30,7 +30,8 @@ var F3DWLD = (function() {
         dsd                     :   null,
         wdsPayload              :   {},
         tabsSelection           :   {},
-        selectedValues          :   {}
+        selectedValues          :   {},
+        maxListBoxNo            :   7
     };
 
     function collectAndQueryWDS(limitOutput, streamExcel) {
@@ -341,18 +342,25 @@ var F3DWLD = (function() {
         p.datasource = F3DWLD.CONFIG.datasource;
         p.domainCode = F3DWLD.CONFIG.domainCode;
         p.lang = F3DWLD.CONFIG.lang;
-        p.areaCodes = collectCountries();
-        p.itemCodes = collectItems();
-        p.elementListCodes = collectElements();
-        p.years = collectYears();
-        p.flags = F3DWLD.CONFIG.wdsPayload.showFlags;
-        p.codes = F3DWLD.CONFIG.wdsPayload.showCodes;
-        p.units = F3DWLD.CONFIG.wdsPayload.showUnits;
         p.nullValues = F3DWLD.CONFIG.wdsPayload.showNullValues;
-        p.thousandSeparator = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
-        p.decimalSeparator = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
-        p.decimalPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
+        p.thousand = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
+        p.decimal = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
+        p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
         p.limit = F3DWLD.CONFIG.outputLimit;
+
+        for (var i = 1 ; i <= F3DWLD.CONFIG.maxListBoxNo ; i++)
+            p['list' + i + 'Codes'] = [];
+
+        for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
+            var listBoxNo = 1 + parseInt(key);
+            var ins = new Array();
+            for (var j = 0 ; j < F3DWLD.CONFIG.selectedValues[key].length ; j++) {
+                var code = F3DWLD.CONFIG.selectedValues[key][j].code;
+                code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
+                ins.push('\'' + code + '\'');
+            }
+            p['list' + listBoxNo + 'Codes'] = ins;
+        }
 
         var data = {};
         data.payload = JSON.stringify(p);
@@ -702,12 +710,12 @@ var F3DWLD = (function() {
                 /* Convert the response in JSON, if needed */
                 var json = response;
                 if (typeof json == 'string')
-                    {json = $.parseJSON(response);}
+                    json = $.parseJSON(response);
                 F3DWLD.CONFIG.dsd = arrayToObject(json);
 
                 /* Initiate arrays for selected values */
                 for (var key in Object.keys(F3DWLD.CONFIG.dsd))
-                    {F3DWLD.CONFIG.selectedValues[key] = [];}
+                    F3DWLD.CONFIG.selectedValues[key] = [];
 
                 /* Build UI structure. */
                 $('#testinline').empty();
@@ -722,12 +730,16 @@ var F3DWLD = (function() {
                     document.getElementById('mainTD').className = 'invi';
                     buildUIStructure();
                 }
+
             },
 
             /* Error */
-            error : function(err, b, c) 
-            {alert('Domain code ' + F3DWLD.CONFIG.domainCode + ' has no DSD.'); }
+            error : function(err, b, c) {
+                alert('Domain code ' + F3DWLD.CONFIG.domainCode + ' has no DSD.');
+            }
+
         });
+
     };
 
     function arrayToObject(a) {
@@ -784,9 +796,8 @@ var F3DWLD = (function() {
 
     function buildOptionsMenu() {
         var s = '';
-        //s += '<div id="options_menu_box" style="position: relative; display: none;">';
-        s += '<div id="options_menu_box" style="position: relative; display: block;">'; 
-        s += '<div class="standard-title" id="output_options_labels">Output Preview (first 50 rows only)</div>';
+        s += '<div id="options_menu_box" style="position: relative; display: none;">';
+        s += '<div class="standard-title" id="output_options_labels">' + $.i18n.prop('_output_preview') + '</div>';
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">';
         s += '<ul>';
         s += '<li id="root"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_outputOptions');
@@ -804,18 +815,10 @@ var F3DWLD = (function() {
         s += '<li type="separator"></li>';
         s += '<li id="menu_show"><b>Show</b>';
         s += '<ul>';
-        s += '<li><div id="flags_menu">Flags</div></li>';
-        s += '<li><div id="codes_menu">Codes</div></li>';
-        s += '<li><div id="units_menu">Units</div></li>';
-        s += '<li><div id="null_values_menu">Null Values</div></li>';
-        s += '</li></ul>';
-          s += '<li type="separator"></li>';
-        s += '<li id="menu_show"><b>Export format</b>';
-        s += '<ul>';
-        s += '<li><div id="export_csv">CSV</div></li>';
-        s += '<li><div id="export_xls">Excel</div></li>';
-       
-       
+        s += '<li><div id="flags_menu">' + $.i18n.prop('_showFlags') + '</div></li>';
+        s += '<li><div id="codes_menu">' + $.i18n.prop('_showCodes') + '</div></li>';
+        s += '<li><div id="units_menu">' + $.i18n.prop('_showUnits') + '</div></li>';
+        s += '<li><div id="null_values_menu">' + $.i18n.prop('_showNullValues') + '</div></li>';
         s += '</li></ul>';
         s += '</ul>';
         s += '</div>';
