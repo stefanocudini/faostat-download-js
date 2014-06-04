@@ -41,7 +41,7 @@ var F3DWLD = (function() {
         getGridsValues();
 
         /* Collect codes for 'list' items, then create the JSON payload. */
-        collectListCodes(streamExcel);
+//        collectListCodes(streamExcel);
         createTable(streamExcel);
 
     };
@@ -1050,7 +1050,7 @@ var F3DWLD = (function() {
         $('#options-menu').jqxMenu('setItemOpenDirection', 'root', 'right', 'down');
         $('#flags_menu').jqxCheckBox({ width: 120, height: 25, checked: true });
         $('#codes_menu').jqxCheckBox({ width: 120, height: 25 });
-        $('#units_menu').jqxCheckBox({ width: 120, height: 25, checked: true,  });
+        $('#units_menu').jqxCheckBox({ width: 120, height: 25, checked: true});
         
          $('#export_csv').jqxRadioButton({ width: 120, height: 25, checked: true,groupName: 'type_export' });
           $('#export_xls').jqxRadioButton({ width: 120, height: 25 ,groupName: 'type_export'});
