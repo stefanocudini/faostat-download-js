@@ -1290,6 +1290,7 @@ var F3DWLD = (function() {
             values.push(tmp);
         });
 
+        $('#' + gridID + '_select option').prop('selected', true);
         addItemToSummary(gridID, values);
 
     };
@@ -1300,9 +1301,7 @@ var F3DWLD = (function() {
         clearBuffer(gridID);
         var tmp = summary.substring(0, summary.indexOf('-'));
         $('#summary-' + tmp + '-box').css('display', 'none');
-        $('#' + gridID).find('option:selected').each(function(k, v) {
-            $(v).prop('selected', false);
-        });
+        $('#' + gridID + '_select option').prop('selected', true);
     };
 
     function addToSummary(gridID, summaryID) {
