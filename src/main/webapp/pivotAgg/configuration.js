@@ -130,13 +130,51 @@ catch(er){return "_"+mp["CodeItem"].substring(0,6)+"++";}
 		
 		};
 		FAOSTATOLAP2.optionsTM= {
+                 
+derivedAttributes: {
+
+"Reporter_":function(mp) 
+{if(F3DWLD.CONFIG.wdsPayload.showCodes)
+{return "<table class=\"innerCol\"><th>"+mp["Reporter Countries"]+"</th><th>"+mp["Reporter Country Code"]+"</th></table>";}
+else{return mp["Reporter Countries"];}},
+    "Partner_":function(mp) 
+{if(F3DWLD.CONFIG.wdsPayload.showCodes)
+{return "<table class=\"innerCol\"><th>"+mp["Partner Countries"]+"</th><th>"+mp["Partner Country Code"]+"</th></table>";}
+else{return mp["Partner Countries"];}},
+"Element_":function(mp) 
+{if(F3DWLD.CONFIG.wdsPayload.showCodes)
+{return "<table  class=\"innerCol\"><th>"+mp["Element"]+"</th><th>"+mp["Element Code"]+"</th></table>";}
+else{return mp["Element"];}},
+"Item_":function(mp) 
+{if(F3DWLD.CONFIG.wdsPayload.showCodes)
+{return "<table  class=\"innerCol\"><th>"+mp["Item"]+"</th><th>"+mp["Item Code"]+"</th></table>";}
+else{return mp["Item"];}}
+/*
+"Continent": function(mp) {
+try{return "User selection in "+countryAgg[mp["AreaCode"]][1] ;}
+catch(er){return "_"+mp["AreaName"]+"++"}
+},
+"SubContinent":function(mp) {
+try{return "User selection in "+countryAgg[mp["AreaCode"]][2] ;}
+catch(er){return "_"+mp["AreaName"]+"++";}
+}*/
+ },
+ //"Continent","SubContinent"
+ //,"Item","Item Code","Country","Country Code","Element","Element Code"
+ hiddenAttributes:["NoRecords","RecordOrder","Domain Code","Domain"],
+	rows:["Reporter_","Partner_","Item_","Element_"],
+	cols: ["Year"],
+	vals:["Value","Unit","Flag"],
+	linkedAttributes:[] 
+                    
+                    
 		/*hiddenAttributes:["DomainCode","ItemGroupCode","ItemCode","ItemNameE","ElementCode"],*/
 		
-		
+		/*
 		rows:["ReporterName","PartnerName","ItemName","ElementName"],
 	cols: ["Year"],
 	vals:["Value","Unit","Flag"]
-		
+		*/
 		};
 	
 		  google.load("visualization", "1", {packages:["corechart", "charteditor"]});

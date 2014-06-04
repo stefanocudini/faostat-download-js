@@ -125,6 +125,8 @@ var F3DWLD = (function() {
                  {response2=response2TM;mesOptionsPivot=FAOSTATOLAP2.optionsTM}
                  for(i in response){response2.push(response[i]);}
                  */
+                if(F3DWLD.CONFIG.domainCode=="TM" ||F3DWLD.CONFIG.domainCode=="FT" )
+                 {mesOptionsPivot=FAOSTATOLAP2.optionsTM}
                 var derivers = $.pivotUtilities.derivers;
                 var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.gchart_renderers);
                 /*mesOptionsPivot.vals=["Value"];
