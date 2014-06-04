@@ -12,6 +12,7 @@ var F3DWLD = (function() {
         bulks_url               :   'http://168.202.28.210:8080/wds/rest/bulkdownloads',
         domains_url             :   'http://168.202.28.210:8080/wds/rest/domains',
         bletchley_url           :   'http://168.202.28.210:8080/bletchley/rest/codes',
+        schema_url              :   'http://168.202.28.210:8080/wds/rest/procedures/schema/',
         bulks_root              :   'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/',
         configurationURL        :   'config/faostat-download-configuration.json',
         dbPrefix                :   'FAOSTAT_',
@@ -336,87 +337,140 @@ var F3DWLD = (function() {
 
     function createTable(streamExcel) {
 
-        $('#output_area').empty();
-        $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>');
+        $.ajax({
 
-        var p = {};
-        p.datasource = F3DWLD.CONFIG.datasource;
-        p.domainCode = F3DWLD.CONFIG.domainCode;
-        p.lang = F3DWLD.CONFIG.lang;
-        p.nullValues = F3DWLD.CONFIG.wdsPayload.showNullValues;
-        p.thousand = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
-        p.decimal = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
-        p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
-        p.limit = F3DWLD.CONFIG.outputLimit;
+            type: 'GET',
+            url: F3DWLD.CONFIG.schema_url + FAOSTATDownload.datasource + '/' + FAOSTATDownload.domainCode,
 
-        for (var i = 1 ; i <= F3DWLD.CONFIG.maxListBoxNo ; i++)
-            p['list' + i + 'Codes'] = [];
+            success: function (response) {
 
-        for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
-            var listBoxNo = 1 + parseInt(key);
-            var ins = new Array();
-            for (var j = 0 ; j < F3DWLD.CONFIG.selectedValues[key].length ; j++) {
-                var code = F3DWLD.CONFIG.selectedValues[key][j].code;
-                code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
-                ins.push('\'' + code + '\'');
-            }
-            p['list' + listBoxNo + 'Codes'] = ins;
-        }
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
 
-        var data = {};
-        data.payload = JSON.stringify(p);
-
-        if (streamExcel) {
-
-            p.limit = -1;
-            var data = {};
-            data.payload = JSON.stringify(p);
-            $('#payload').val(JSON.stringify(p));
-            document.excelForProcedures.submit();
-
-        } else {
-
-            $.ajax({
-
-                type: 'POST',
-                url: F3DWLD.CONFIG.procedures_data_url,
-                data: data,
-
-                success: function (response) {
-                    var json = response;
-                    if (typeof json == 'string')
-                        json = $.parseJSON(response);
-                    renderTable(json);
-                },
-
-                error: function (err, b, c) {
-                    var json = $.parseJSON(err.responseText.replace('],]', ']]'));
-                    renderTable(json);
+                var tableIndices = [];
+                for (var i = 0; i < json.length; i++) {
+                    switch (json[i][1]) {
+                        case 'Domain':
+                            tableIndices.push(json[i][2]);
+                            if (F3DWLD.CONFIG.wdsPayload.showCodes)
+                                tableIndices.push(json[i][3]);
+                            break;
+                        case 'Flag':
+                            if (F3DWLD.CONFIG.wdsPayload.showFlags) {
+                                tableIndices.push(json[i][2]);
+                                tableIndices.push(json[i][3]);
+                            }
+                            break;
+                        case 'Unit':
+                            if (F3DWLD.CONFIG.wdsPayload.showUnits)
+                                tableIndices.push(json[i][2]);
+                            break;
+                        case 'Value':
+                            tableIndices.push(json[i][2]);
+                            break;
+                        default :
+                            tableIndices.push(json[i][2]);
+                            if (F3DWLD.CONFIG.wdsPayload.showCodes)
+                                tableIndices.push(json[i][3]);
+                            break;
+                    }
                 }
 
-            });
+                $('#output_area').empty();
+                $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>');
 
-        }
+                var p = {};
+                p.datasource = F3DWLD.CONFIG.datasource;
+                p.domainCode = F3DWLD.CONFIG.domainCode;
+                p.lang = F3DWLD.CONFIG.lang;
+                p.nullValues = F3DWLD.CONFIG.wdsPayload.showNullValues;
+                p.thousand = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
+                p.decimal = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
+                p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
+                p.limit = F3DWLD.CONFIG.outputLimit;
+
+                for (var i = 1 ; i <= F3DWLD.CONFIG.maxListBoxNo ; i++)
+                    p['list' + i + 'Codes'] = [];
+
+                for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
+                    var listBoxNo = 1 + parseInt(key);
+                    var ins = new Array();
+                    for (var j = 0 ; j < F3DWLD.CONFIG.selectedValues[key].length ; j++) {
+                        var code = F3DWLD.CONFIG.selectedValues[key][j].code;
+                        code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
+                        ins.push('\'' + code + '\'');
+                    }
+                    p['list' + listBoxNo + 'Codes'] = ins;
+                }
+
+                var data = {};
+                data.payload = JSON.stringify(p);
+
+                if (streamExcel) {
+
+                    p.limit = -1;
+                    var data = {};
+                    data.payload = JSON.stringify(p);
+                    $('#payload').val(JSON.stringify(p));
+                    document.excelForProcedures.submit();
+
+                } else {
+
+                    $.ajax({
+
+                        type: 'POST',
+                        url: F3DWLD.CONFIG.procedures_data_url,
+                        data: data,
+
+                        success: function (response) {
+                            var json = response;
+                            if (typeof json == 'string')
+                                json = $.parseJSON(response);
+                            renderTable(json, tableIndices);
+                        },
+
+                        error: function (err, b, c) {
+                            var json = $.parseJSON(err.responseText.replace('],]', ']]'));
+                            renderTable(json, tableIndices);
+                        }
+
+                    });
+
+                }
+
+            },
+
+            error: function (err, b, c) {
+
+            }
+
+        });
 
     };
 
-    function renderTable(json) {
+    function renderTable(json, tableIndices) {
         var s = '<table class="dataTable">';
         s += '<thead>';
         s += '<tr>';
-        for (var i = 1 ; i < json[0].length ; i++)
-            s += '<th>' + json[0][i] + '</th>';
+        for (var i = 1 ; i < json[0].length ; i++) {
+            if ($.inArray((i - 1).toString(), tableIndices) > -1) {
+                s += '<th>' + json[0][i] + '</th>';
+            }
+        }
         s += '</tr>';
         s += '</thead>';
         s += '<tbody>';
         if (json.length > 1) {
             for (var i = 1; i < json.length; i++) {
                 s += '<tr>';
-                for (var j = 1; j < json[i].length; j++) {
-                    if (i % 2 == 0)
-                        s += '<td class="hor-minimalist-b_row1">' + json[i][j] + '</td>';
-                    else
-                        s += '<td class="hor-minimalist-b_row2">' + json[i][j] + '</td>';
+                for (var j = 0; j < json[i].length; j++) {
+                    if ($.inArray((j - 1).toString(), tableIndices) > -1) {
+                        if (i % 2 == 0)
+                            s += '<td class="hor-minimalist-b_row1">' + json[i][j] + '</td>';
+                        else
+                            s += '<td class="hor-minimalist-b_row2">' + json[i][j] + '</td>';
+                    }
                 }
                 s += '</tr>';
             }
@@ -923,7 +977,7 @@ var F3DWLD = (function() {
     function preview(caller) {
         if ($('#radio_table').val()) {
             $('#output_area').css("min-height","350px");
-               $('#testinline').css("display","none");
+            $('#testinline').css("display","none");
             try {
                 validateSelection('preview table');
                 collectAndQueryWDS(true, false);
@@ -932,14 +986,13 @@ var F3DWLD = (function() {
                 alert(e);
             }
         } else {
-            
             $('#output_area').css("min-height","0px");
-             $('#testinline').css("display","block");
+            $('#testinline').css("display","block");
             try {
                 validateSelection('preview pivot');
                 collectAndQueryWDSPivot();
             } catch (e) {
-                alert(e);
+//                alert(e);
             }
         }
     }
@@ -954,9 +1007,11 @@ var F3DWLD = (function() {
                 alert(e);
             }
         } else {
-            if($('#export_csv').jqxRadioButton('checked'))
-            { decolrowspanNEW();}
-             else{my_exportNew();}
+            if($('#export_csv').jqxRadioButton('checked')) {
+                decolrowspanNEW();
+            } else {
+                my_exportNew();
+            }
         }
     }
 
@@ -974,7 +1029,7 @@ var F3DWLD = (function() {
                     else if (count < tabNames.length - 1)
                         s += ', ';
                 }
-                throw $.i18n.prop('_no_selection_alert') + ' ' + s;
+                throw caller + ' | ' + $.i18n.prop('_no_selection_alert') + ' ' + s;
             }
         }
     }
