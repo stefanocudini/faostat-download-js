@@ -42,6 +42,7 @@ var F3DWLD = (function() {
 
         /* Collect codes for 'list' items, then create the JSON payload. */
         collectListCodes(streamExcel);
+        createTable(streamExcel);
 
     };
 
