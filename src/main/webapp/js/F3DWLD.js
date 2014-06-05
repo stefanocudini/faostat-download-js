@@ -56,7 +56,7 @@ var F3DWLD = (function() {
 
         getGridsValues();
 
-        console.log('collectAndQueryWDSPivot');
+        //console.log('collectAndQueryWDSPivot');
 
         /* Collect codes for 'list' items, then create the JSON payload. */
         //collectListCodesPIVOT();
@@ -74,6 +74,20 @@ var F3DWLD = (function() {
         FAOSTATNEWOLAP.flags={};
 
 
+      
+       $.ajax({
+
+            type: 'GET',
+            url: F3DWLD.CONFIG.schema_url + FAOSTATDownload.datasource + '/' + FAOSTATDownload.domainCode+'/'+FAOSTATDownload.language,
+
+            success: function (response) {
+
+                var schema_json = response;
+                if (typeof schema_json == 'string')
+                    schema_json = $.parseJSON(response);
+      
+      console.log(schema_json);
+      
       
         var p = {};
                 p.datasource = F3DWLD.CONFIG.datasource;
@@ -152,8 +166,9 @@ var F3DWLD = (function() {
                 });
             }
         });
-
-
+/*fin getschema*/
+            }
+        });
     }
 
     function collectListCodesPIVOT() {
@@ -357,7 +372,7 @@ var F3DWLD = (function() {
         $.ajax({
 
             type: 'GET',
-            url: F3DWLD.CONFIG.schema_url + FAOSTATDownload.datasource + '/' + FAOSTATDownload.domainCode,
+            url: F3DWLD.CONFIG.schema_url + FAOSTATDownload.datasource + '/' + FAOSTATDownload.domainCode+'/'+FAOSTATDownload.language,
 
             success: function (response) {
 
