@@ -1,22 +1,22 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        base_url                :   'http://localhost:8080/faostat-gateway/go/to/download',
-        prefix                  :   'http://localhost:8080/faostat-download-js/',
-        CPINotes_url            :   'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
-        ODA_url                 :   'http://faostat3.fao.org/wds/rest/procedures/oda',
-        data_url                :   'http://faostat3.fao.org/wds/rest',
-        procedures_data_url     :   'http://faostat3.fao.org/wds/rest/procedures/data',
-        procedures_excel_url    :   'http://faostat3.fao.org/wds/rest/procedures/excel',
-        codes_url               :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox',
-        bulks_url               :   'http://faostat3.fao.org/wds/rest/bulkdownloads',
-        domains_url             :   'http://faostat3.fao.org/wds/rest/domains',
-        bletchley_url           :   'http://faostat3.fao.org/bletchley/rest/codes',
-        schema_url              :   'http://faostat3.fao.org/wds/rest/procedures/schema/',
+        base_url                :   'http://168.202.28.210:8080/faostat-gateway/go/to/download',
+        prefix                  :   'http://168.202.28.210:8080/faostat-download-js/',
+        CPINotes_url            :   'http://168.202.28.210:8080/wds/rest/procedures/cpinotes',
+        ODA_url                 :   'http://168.202.28.210:8080/wds/rest/procedures/oda',
+        data_url                :   'http://168.202.28.210:8080/wds/rest',
+        procedures_data_url     :   'http://168.202.28.210:8080/wds/rest/procedures/data',
+        procedures_excel_url    :   'http://168.202.28.210:8080/wds/rest/procedures/excel',
+        codes_url               :   'http://168.202.28.210:8080/wds/rest/procedures/usp_GetListBox',
+        bulks_url               :   'http://168.202.28.210:8080/wds/rest/bulkdownloads',
+        domains_url             :   'http://168.202.28.210:8080/wds/rest/domains',
+        bletchley_url           :   'http://168.202.28.210:8080/bletchley/rest/codes',
+        schema_url              :   'http://168.202.28.210:8080/wds/rest/procedures/schema/',
         bulks_root              :   'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/',
         configurationURL        :   'config/faostat-download-configuration.json',
         dbPrefix                :   'FAOSTAT_',
-        dsdURL                  :   'http://faostat3.fao.org/wds/rest/procedures/listboxes',
+        dsdURL                  :   'http://168.202.28.210:8080/wds/rest/procedures/listboxes',
         theme                   :   'faostat',
         tradeMatrices           :   ['FT', 'TM'],
         lang                    :   'E',
@@ -352,7 +352,7 @@ var F3DWLD = (function() {
         $.ajax({
 
             type: 'GET',
-            url: F3DWLD.CONFIG.schema_url + FAOSTATDownload.datasource + '/' + FAOSTATDownload.domainCode,
+            url: F3DWLD.CONFIG.schema_url + FAOSTATDownload.datasource + '/' + FAOSTATDownload.domainCode + '/' + FAOSTATDownload.language,
 
             success: function (response) {
 
@@ -874,7 +874,7 @@ var F3DWLD = (function() {
 
     function buildOptionsMenu() {
         var s = '';
-        s += '<div id="options_menu_box" style="position: relative; display: block;">';
+        s += '<div id="options_menu_box" style="position: relative; display: none;">';
         s += '<div class="standard-title" id="output_options_labels">' + $.i18n.prop('_output_preview') + '</div>';
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">';
         s += '<ul>';
