@@ -32,22 +32,10 @@ var F3DWLD = (function() {
         wdsPayload              :   {},
         tabsSelection           :   {},
         selectedValues          :   {},
-        maxListBoxNo            :   7
+        maxListBoxNo            :   7,
+        tableIndices            :   null,
+        data                    :   null
     };
-
-    function collectAndQueryWDS(limitOutput, streamExcel) {
-
-        /* Collect parameters. */
-        getTabSelection();
-        getGridsValues();
-
-        /* Collect codes for 'list' items, then create the JSON payload. */
-//        collectListCodes(streamExcel);
-        createTable(streamExcel);
-
-    };
-
-
 
     function collectAndQueryWDSPivot() {
 
@@ -352,7 +340,14 @@ var F3DWLD = (function() {
 
     };
 
-    function createTable(streamExcel) {
+    /**
+     * Function to create the preview table and the Excel export.
+     *
+     * @param queryDB       if this parameter is false the function will not call the DB
+     *                      but it will use the previously buffered data
+     * @param streamExcel   true to create the Excel file, false to show the preview
+     */
+    function createTable(queryDB, streamExcel) {
 
         $.ajax({
 
@@ -380,8 +375,10 @@ var F3DWLD = (function() {
                             }
                             break;
                         case 'Unit':
-                            if (F3DWLD.CONFIG.wdsPayload.showUnits)
+                            if (F3DWLD.CONFIG.wdsPayload.showUnits) {
                                 tableIndices.push(json[i][2]);
+                                tableIndices.push(json[i][3]);
+                            }
                             break;
                         case 'Value':
                             tableIndices.push(json[i][2]);
@@ -393,67 +390,76 @@ var F3DWLD = (function() {
                             break;
                     }
                 }
+                F3DWLD.CONFIG.tableIndices = tableIndices;
 
                 $('#output_area').empty();
                 $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>');
 
-                var p = {};
-                p.datasource = F3DWLD.CONFIG.datasource;
-                p.domainCode = F3DWLD.CONFIG.domainCode;
-                p.lang = F3DWLD.CONFIG.lang;
-                p.nullValues = F3DWLD.CONFIG.wdsPayload.showNullValues;
-                p.thousand = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
-                p.decimal = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
-                p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
-                p.limit = F3DWLD.CONFIG.outputLimit;
+                if (queryDB) {
 
-                for (var i = 1 ; i <= F3DWLD.CONFIG.maxListBoxNo ; i++)
-                    p['list' + i + 'Codes'] = [];
+                    var p = {};
+                    p.datasource = F3DWLD.CONFIG.datasource;
+                    p.domainCode = F3DWLD.CONFIG.domainCode;
+                    p.lang = F3DWLD.CONFIG.lang;
+                    p.nullValues = F3DWLD.CONFIG.wdsPayload.showNullValues;
+                    p.thousand = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
+                    p.decimal = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
+                    p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
+                    p.limit = F3DWLD.CONFIG.outputLimit;
 
-                for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
-                    var listBoxNo = 1 + parseInt(key);
-                    var ins = new Array();
-                    for (var j = 0 ; j < F3DWLD.CONFIG.selectedValues[key].length ; j++) {
-                        var code = F3DWLD.CONFIG.selectedValues[key][j].code;
-                        code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
-                        ins.push('\'' + code + '\'');
+                    for (var i = 1; i <= F3DWLD.CONFIG.maxListBoxNo; i++)
+                        p['list' + i + 'Codes'] = [];
+
+                    for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
+                        var listBoxNo = 1 + parseInt(key);
+                        var ins = new Array();
+                        for (var j = 0; j < F3DWLD.CONFIG.selectedValues[key].length; j++) {
+                            var code = F3DWLD.CONFIG.selectedValues[key][j].code;
+                            code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
+                            ins.push('\'' + code + '\'');
+                        }
+                        p['list' + listBoxNo + 'Codes'] = ins;
                     }
-                    p['list' + listBoxNo + 'Codes'] = ins;
-                }
 
-                var data = {};
-                data.payload = JSON.stringify(p);
-
-                if (streamExcel) {
-
-                    p.limit = -1;
                     var data = {};
                     data.payload = JSON.stringify(p);
-                    $('#payload').val(JSON.stringify(p));
-                    document.excelForProcedures.submit();
+
+                    if (streamExcel) {
+
+                        p.limit = -1;
+                        var data = {};
+                        data.payload = JSON.stringify(p);
+                        $('#payload').val(JSON.stringify(p));
+                        document.excelForProcedures.submit();
+
+                    } else {
+
+                        $.ajax({
+
+                            type: 'POST',
+                            url: F3DWLD.CONFIG.procedures_data_url,
+                            data: data,
+
+                            success: function (response) {
+                                var json = response;
+                                if (typeof json == 'string')
+                                    json = $.parseJSON(response);
+                                F3DWLD.CONFIG.data = json;
+                                renderTable();
+                            },
+
+                            error: function (err, b, c) {
+                                var json = $.parseJSON(err.responseText.replace('],]', ']]'));
+                                F3DWLD.CONFIG.data = json;
+                                renderTable();
+                            }
+
+                        });
+
+                    }
 
                 } else {
-
-                    $.ajax({
-
-                        type: 'POST',
-                        url: F3DWLD.CONFIG.procedures_data_url,
-                        data: data,
-
-                        success: function (response) {
-                            var json = response;
-                            if (typeof json == 'string')
-                                json = $.parseJSON(response);
-                            renderTable(json, tableIndices);
-                        },
-
-                        error: function (err, b, c) {
-                            var json = $.parseJSON(err.responseText.replace('],]', ']]'));
-                            renderTable(json, tableIndices);
-                        }
-
-                    });
-
+                    renderTable();
                 }
 
             },
@@ -466,27 +472,27 @@ var F3DWLD = (function() {
 
     };
 
-    function renderTable(json, tableIndices) {
+    function renderTable() {
         var s = '<table class="dataTable">';
         s += '<thead>';
         s += '<tr>';
-        for (var i = 1 ; i < json[0].length ; i++) {
-            if ($.inArray((i - 1).toString(), tableIndices) > -1) {
-                s += '<th>' + json[0][i] + '</th>';
+        for (var i = 1 ; i < F3DWLD.CONFIG.data[0].length ; i++) {
+            if ($.inArray((i - 1).toString(), F3DWLD.CONFIG.tableIndices) > -1) {
+                s += '<th>' + F3DWLD.CONFIG.data[0][i] + '</th>';
             }
         }
         s += '</tr>';
         s += '</thead>';
         s += '<tbody>';
-        if (json.length > 1) {
-            for (var i = 1; i < json.length; i++) {
+        if (F3DWLD.CONFIG.data.length > 1) {
+            for (var i = 1; i < F3DWLD.CONFIG.data.length; i++) {
                 s += '<tr>';
-                for (var j = 0; j < json[i].length; j++) {
-                    if ($.inArray((j - 1).toString(), tableIndices) > -1) {
+                for (var j = 0; j < F3DWLD.CONFIG.data[i].length; j++) {
+                    if ($.inArray((j - 1).toString(), F3DWLD.CONFIG.tableIndices) > -1) {
                         if (i % 2 == 0)
-                            s += '<td class="hor-minimalist-b_row1">' + json[i][j] + '</td>';
+                            s += '<td class="hor-minimalist-b_row1">' + F3DWLD.CONFIG.data[i][j] + '</td>';
                         else
-                            s += '<td class="hor-minimalist-b_row2">' + json[i][j] + '</td>';
+                            s += '<td class="hor-minimalist-b_row2">' + F3DWLD.CONFIG.data[i][j] + '</td>';
                     }
                 }
                 s += '</tr>';
@@ -984,12 +990,12 @@ var F3DWLD = (function() {
             $.i18n.prop('_pivot').toUpperCase() +
             '</div>';
         s += '<div class="download-selection-buttons">';
-        s += '<a class="btn btn-big" onclick="F3DWLD.preview(\'preview_button\');">';
+        s += '<a class="btn btn-big" onclick="F3DWLD.preview(true);">';
         s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">' +
             $.i18n.prop('_preview').toUpperCase() +
             '</div>';
         s += '</a>';
-        s += '<a class="btn btn-big" onclick="F3DWLD.download();" id="buttonDeSelectAll_usp_GetElementList"">';
+        s += '<a class="btn btn-big" onclick="F3DWLD.download(true);" id="buttonDeSelectAll_usp_GetElementList"">';
         s += '<i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">' +
             $.i18n.prop('_download').toUpperCase() +
             '</div>';
@@ -999,13 +1005,13 @@ var F3DWLD = (function() {
         return s;
     };
 
-    function preview(caller) {
+    function preview(queryDB) {
         if ($('#radio_table').val()) {
             $('#output_area').css("min-height","350px");
             $('#testinline').css("display","none");
             try {
                 validateSelection('preview table');
-                collectAndQueryWDS(true, false);
+                createTable(queryDB, false);
                 STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             } catch (e) {
                 alert(e);
@@ -1020,11 +1026,11 @@ var F3DWLD = (function() {
         }
     }
 
-    function download() {
+    function download(queryDB) {
         if ($('#radio_table').val()) {
             try {
                 validateSelection('download');
-                collectAndQueryWDS(false, true);
+                createTable(queryDB, true);
                 STATS.exportTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             } catch (e) {
                 alert(e);
@@ -1129,11 +1135,8 @@ var F3DWLD = (function() {
         $('#flags_menu').jqxCheckBox({ width: 120, height: 25, checked: true });
         $('#codes_menu').jqxCheckBox({ width: 120, height: 25 });
         $('#units_menu').jqxCheckBox({ width: 120, height: 25, checked: true});
-        
-         $('#export_csv').jqxRadioButton({ width: 120, height: 25, checked: true,groupName: 'type_export' });
-          $('#export_xls').jqxRadioButton({ width: 120, height: 25 ,groupName: 'type_export'});
-          
-          
+        $('#export_csv').jqxRadioButton({ width: 120, height: 25, checked: true,groupName: 'type_export' });
+        $('#export_xls').jqxRadioButton({ width: 120, height: 25 ,groupName: 'type_export'});
         $('#null_values_menu').jqxCheckBox({ width: 120, height: 25 });
         $('#comma_menu').jqxRadioButton({ width: 120, height: 25, groupName: 'thousands'});
         $('#dot_menu').jqxRadioButton({ width: 120, height: 25, checked: true, groupName: 'thousands' });
@@ -1150,7 +1153,7 @@ var F3DWLD = (function() {
                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = ',';
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = '.';
             }
-            preview('dot_menu');
+            preview(true);
         });
         $('#disable_menu').bind('change', function (event) {
             if (event.args.checked) {
@@ -1158,7 +1161,7 @@ var F3DWLD = (function() {
             } else {
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
             }
-            preview('disable_menu');
+            preview(true);
         });
         F3DWLD.CONFIG.wdsPayload.showFlags = true;
         F3DWLD.CONFIG.wdsPayload.showCodes = false;
@@ -1167,28 +1170,28 @@ var F3DWLD = (function() {
         $("#flags_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showFlags = checked;
-            preview('flags_menu');
+            preview(false);
         });
         $("#codes_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showCodes = checked;
-            preview('codes_menu');
+            preview(false);
         });
         $("#units_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showUnits = checked;
-            preview('units_menu');
+            preview(false);
         });
         $("#null_values_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showNullValues = checked;
-            preview('null_values_menu');
+            preview(false);
         });
         F3DWLD.CONFIG.wdsPayload.decimalNumbers = 2;
         $('#increment').on('valuechanged', function (event) {
             var value = event.args.value;
             F3DWLD.CONFIG.wdsPayload.decimalNumbers = parseInt(value);
-            preview('increment');
+            preview(true);
         });
         enhanceUITabs();
         enhanceUIOptions();
@@ -1303,7 +1306,7 @@ var F3DWLD = (function() {
         clearBuffer(gridID);
         var tmp = summary.substring(0, summary.indexOf('-'));
         $('#summary-' + tmp + '-box').css('display', 'none');
-        $('#' + gridID + '_select option').prop('selected', true);
+        $('#' + gridID + '_select option').prop('selected', false);
     };
 
     function addToSummary(gridID, summaryID) {
@@ -1478,7 +1481,7 @@ var F3DWLD = (function() {
                 }
                 FAOSTATOLAP.pivots[0].toExcel("<table><tr><td>FAOSTAT 2013</td></tr></table>", "<table><tr><td>" + myFFlag + "</td></tr></table>" + footNotes);
             } else {
-                collectAndQueryWDS(false);
+                createTable(true, false);
             }
         });
 
@@ -1497,7 +1500,7 @@ var F3DWLD = (function() {
                 }
                 window.FAOSTATDownloadSelectorsClassic.falseclick();
             } else {
-                collectAndQueryWDS(true);
+                createTable(true, true);
                 STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             }
         });
