@@ -1132,7 +1132,11 @@ var F3DWLD = (function() {
             rtl: true
         });
         $('#options-menu').jqxMenu('setItemOpenDirection', 'root', 'right', 'down');
-        $('#flags_menu').jqxCheckBox({ width: 120, height: 25, checked: true });
+        $('#flags_menu').jqxCheckBox({
+            width: 120,
+            height: 25,
+            checked: true
+        });
         $('#codes_menu').jqxCheckBox({ width: 120, height: 25 });
         $('#units_menu').jqxCheckBox({ width: 120, height: 25, checked: true});
         $('#export_csv').jqxRadioButton({ width: 120, height: 25, checked: true,groupName: 'type_export' });
