@@ -37,6 +37,65 @@ var F3DWLD = (function() {
         data                    :   null
     };
 
+    function buildF3DWLD(groupCode, domainCode, language) {
+
+        /* Upgrade the URL. */
+        var domainCodeURL = (domainCode == 'null') ? '*' : domainCode;
+        CORE.upgradeURL('download', groupCode, domainCodeURL, language);
+
+        /* Labels */
+        document.getElementById('_faostat_domains').innerHTML = $.i18n.prop('_faostat_domains');
+        document.getElementById('_download').innerHTML = $.i18n.prop('_download');
+
+        $.getJSON(CONFIG.prefix + CONFIG.configurationURL, function (data) {
+
+            F3DWLD.CONFIG.baseurl      =   data.baseurl;
+            F3DWLD.CONFIG.datasource   =   data.datasource;
+            F3DWLD.CONFIG.tablelimit   =   data.tablelimit;
+            F3DWLD.CONFIG.groupCode    =   groupCode;
+            F3DWLD.CONFIG.domainCode   =   domainCode;
+            F3DWLD.CONFIG.lang         =   language;
+
+            switch (language) {
+                case 'FR' :
+                    F3DWLD.CONFIG.lang = 'F';
+                    F3DWLD.CONFIG.lang_ISO2 = 'fr';
+                    break;
+                case 'F' :
+                    F3DWLD.CONFIG.lang = 'F';
+                    F3DWLD.CONFIG.lang_ISO2 = 'fr';
+                    break;
+                case 'ES' :
+                    F3DWLD.CONFIG.lang = 'S';
+                    F3DWLD.CONFIG.lang_ISO2 = 'es';
+                    break;
+                case 'S' :
+                    F3DWLD.CONFIG.lang = 'S';
+                    F3DWLD.CONFIG.lang_ISO2 = 'es';
+                    break;
+                case 'EN' :
+                    F3DWLD.CONFIG.lang = 'E';
+                    F3DWLD.CONFIG.lang_ISO2 = 'en';
+                    break;
+                case 'E' :
+                    F3DWLD.CONFIG.lang = 'E';
+                    F3DWLD.CONFIG.lang_ISO2 = 'en';
+                    break;
+            }
+
+            $.i18n.properties({
+                name        :   'I18N',
+                path        :   F3DWLD.CONFIG.prefix + 'I18N/',
+                mode        :   'both',
+                language    :   F3DWLD.CONFIG.lang_ISO2
+            });
+
+            loadDSD();
+
+        })
+
+    };
+
     function collectAndQueryWDSPivot() {
 
         /* Collect parameters. */
@@ -233,99 +292,6 @@ var F3DWLD = (function() {
 
     };
 
-
-
-
-
-    function collectListCodes(streamExcel) {
-
-        var doTheCall = callListCodesREST();
-
-        if (doTheCall) {
-
-            var countries = JSON.stringify(F3DWLD.CONFIG.selectedValues[0]);
-//            var countries_dst = JSON.stringify(F3DWLD.CONFIG.selectedValues.countries2);
-            var countries_dst = [];
-            var items = JSON.stringify(F3DWLD.CONFIG.selectedValues[1]);
-
-            var backup_countries = new Array();
-            var backup_countries_dst = new Array();
-            var backup_items = new Array();
-
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[0].length ; i++)
-                if (F3DWLD.CONFIG.selectedValues[0].type != '>')
-                    backup_countries.push(F3DWLD.CONFIG.selectedValues[0][i]);
-
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[1].length ; i++)
-                if (F3DWLD.CONFIG.selectedValues[1][i].type != '>')
-                    backup_items.push(F3DWLD.CONFIG.selectedValues[1][i]);
-
-            var data = {};
-            data.datasource = F3DWLD.CONFIG.datasource;
-            data.domainCode = F3DWLD.CONFIG.domainCode;
-            data.language = F3DWLD.CONFIG.lang;
-            data.countries_1 = countries;
-            data.countries_2 = countries_dst;
-            data.items = items;
-
-            $.ajax({
-
-                type    :   'POST',
-                url     :   F3DWLD.CONFIG.bletchley_url + '/listForTradeMatrix/post',
-                data    :   data,
-
-                success : function(response) {
-
-                    var codes = response;
-                    if (typeof(codes) == 'string')
-                        codes = $.parseJSON(response);
-
-                    if (codes != null && codes[0].length > 0) {
-                        F3DWLD.CONFIG.selectedValues[0] = codes[0];
-                    }
-
-                    if (codes != null && codes[1].length > 0) {
-                        F3DWLD.CONFIG.selectedValues[1] = codes[1];
-                    }
-
-                    if (codes != null && codes[2].length > 0) {
-//                        F3DWLD.CONFIG.selectedValues.countries2 = codes[2];
-                    }
-
-                    if (codes != null) {
-
-                        /* Use list codes or keep the current ones. */
-                        if (codes != null && codes[0].length > 0)
-                            F3DWLD.CONFIG.selectedValues[0] = codes[0];
-
-                        /* Use list codes or keep the current ones. */
-                        if (codes != null && codes[1].length > 0)
-                            F3DWLD.CONFIG.selectedValues[1] = codes[1];
-
-                    }
-
-                    for (var z = 0 ; z < backup_items.length ; z++)
-                        F3DWLD.CONFIG.selectedValues[1].push(backup_items[z]);
-
-                    for (var z = 0 ; z < backup_countries.length ; z++)
-                        F3DWLD.CONFIG.selectedValues[0].push(backup_countries[z]);
-
-                    createTable(streamExcel);
-
-                },
-
-                error : function(err, b, c) {
-
-                }
-
-            });
-
-        } else {
-            createTable(streamExcel);
-        }
-
-    };
-
     function callListCodesREST() {
 
         for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[0].length ; i++)
@@ -421,7 +387,7 @@ var F3DWLD = (function() {
                         }
                         p['list' + listBoxNo + 'Codes'] = ins;
                     }
-                    
+
                     var data = {};
                     data.payload = JSON.stringify(p);
 
@@ -720,61 +686,6 @@ var F3DWLD = (function() {
         F3DWLD.CONFIG.tabsSelection.years = $('#tab_ListBox4').jqxTabs('selectedItem');
     };
 
-    function buildF3DWLD(groupCode, domainCode, language) {
-
-        /* Upgrade the URL. */
-        var domainCodeURL = (domainCode == 'null') ? '*' : domainCode;
-        CORE.upgradeURL('download', groupCode, domainCodeURL, language);
-
-        $.getJSON(CONFIG.prefix + CONFIG.configurationURL, function (data) {
-
-            F3DWLD.CONFIG.baseurl      =   data.baseurl;
-            F3DWLD.CONFIG.datasource   =   data.datasource;
-            F3DWLD.CONFIG.tablelimit   =   data.tablelimit;
-            F3DWLD.CONFIG.groupCode    =   groupCode;
-            F3DWLD.CONFIG.domainCode   =   domainCode;
-            F3DWLD.CONFIG.lang         =   language;
-
-            switch (language) {
-                case 'FR' :
-                    F3DWLD.CONFIG.lang = 'F';
-                    F3DWLD.CONFIG.lang_ISO2 = 'fr';
-                    break;
-                case 'F' :
-                    F3DWLD.CONFIG.lang = 'F';
-                    F3DWLD.CONFIG.lang_ISO2 = 'fr';
-                    break;
-                case 'ES' :
-                    F3DWLD.CONFIG.lang = 'S';
-                    F3DWLD.CONFIG.lang_ISO2 = 'es';
-                    break;
-                case 'S' :
-                    F3DWLD.CONFIG.lang = 'S';
-                    F3DWLD.CONFIG.lang_ISO2 = 'es';
-                    break;
-                case 'EN' :
-                    F3DWLD.CONFIG.lang = 'E';
-                    F3DWLD.CONFIG.lang_ISO2 = 'en';
-                    break;
-                case 'E' :
-                    F3DWLD.CONFIG.lang = 'E';
-                    F3DWLD.CONFIG.lang_ISO2 = 'en';
-                    break;
-            }
-
-            $.i18n.properties({
-                name        :   'I18N',
-                path        :   F3DWLD.CONFIG.prefix + 'I18N/',
-                mode        :   'both',
-                language    :   F3DWLD.CONFIG.lang_ISO2
-            });
-
-            loadDSD();
-
-        })
-
-    };
-
     function loadDSD() {
 
         $.ajax({
@@ -850,7 +761,7 @@ var F3DWLD = (function() {
         var metadataURL = 'http://' + F3DWLD.CONFIG.baseurl + '/faostat-gateway/go/to/download/' + F3DWLD.CONFIG.groupCode + '/*/' + F3DWLD.CONFIG.lang;
         var s = '';
         s += '<div>';
-        s += '<div class="standard-title">Filters / <a href="' + metadataURL + '">' + parent + ' </a> / <a>' + item.label + '</a></div>';
+        s += '<div class="standard-title">' + $.i18n.prop('_filters') + ' / <a href="' + metadataURL + '">' + parent + ' </a> / <a>' + item.label + '</a></div>';
         s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;">';
         s += '</div>';
         s += '</div>';
@@ -881,28 +792,25 @@ var F3DWLD = (function() {
         s += '<ul>';
         s += '<li id="root"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_outputOptions');
         s += '<ul>';
-        s += '<li><b>Decimal Separator</b></li>';
+        s += '<li><b>' + $.i18n.prop('_decimalSeparator') + '</b></li>';
         s += '<li><div id="comma_menu">' + $.i18n.prop('_comma') + '</div></li>';
         s += '<li><div id="dot_menu">' + $.i18n.prop('_period') + '</div></li>';
         s += '<li type="separator"></li>';
-        s += '<li><b>Thousand Separator</b></li>';
+        s += '<li><b>' + $.i18n.prop('_thousandSeparator') + '</b></li>';
         s += '<li><div id="enable_menu">' + $.i18n.prop('_enable') + '</div></li>';
         s += '<li><div id="disable_menu">' + $.i18n.prop('_disable') + '</div></li>';
         s += '<li type="separator"></li>';
         s += '<li><b>' + $.i18n.prop('_decimalNumbers') + '</b></li>';
         s += '<li><div id="increment"></div></li>';
         s += '<li type="separator"></li>';
-        s += '<li id="menu_show"><b>Show</b>';
+        s += '<li id="menu_show"><b>' + $.i18n.prop('_show') + '</b>';
         s += '<ul>';
         s += '<li><div id="flags_menu">' + $.i18n.prop('_showFlags') + '</div></li>';
         s += '<li><div id="codes_menu">' + $.i18n.prop('_showCodes') + '</div></li>';
         s += '<li><div id="units_menu">' + $.i18n.prop('_showUnits') + '</div></li>';
         s += '<li><div id="null_values_menu">' + $.i18n.prop('_showNullValues') + '</div></li>';
-        
-       
         s += '</li></ul>';
-        
-         s += '<li type="separator"></li>';
+        s += '<li type="separator"></li>';
         s += '<li id="menu_show"><b>Export format</b>';
         s += '<ul>';
         s += '<li><div id="export_csv">CSV</div></li>';
@@ -1091,12 +999,12 @@ var F3DWLD = (function() {
 
         var s = '';
 
-        s += '<div class="standard-title" id="output_options_labels" style="font-size:16px !important;">Summary <i id="collapsible-summary-id" onclick="F3DWLD.showHideSummary();" class="fa fa-angle-double-down"></i></div>';
+        s += '<div class="standard-title" id="output_options_labels" style="font-size:16px !important;">' + $.i18n.prop('_summary') + ' <i id="collapsible-summary-id" onclick="F3DWLD.showHideSummary();" class="fa fa-angle-double-down"></i></div>';
 
         s += '<div style="display: block;" id="collapsible-summary-box">';
 
         s += '<div id="summary_tip" style="color:#666"><i>';
-        s += 'Please use the selectors above to filter your query. Your selection will be displayed in the area below and it can be edited at any time.';
+        s += $.i18n.prop('_summary_help');
         s +='</i></div>'
 
         for (var i = 0 ; i < Object.keys(F3DWLD.CONFIG.dsd).length ; i++) {
@@ -1126,7 +1034,7 @@ var F3DWLD = (function() {
         $('#options-menu').jqxMenu({
             autoOpen: false,
             showTopLevelArrows: true,
-            width: '90',
+            width: '150',
             height: '30px',
             autoCloseOnClick: false,
             clickToOpen: true,
@@ -1228,7 +1136,7 @@ var F3DWLD = (function() {
                 $('#bulk-downloads-menu').jqxMenu({
                     autoOpen: false,
                     showTopLevelArrows: true,
-                    width: '300px',
+                    width: '350',
                     height: '30px',
                     autoCloseOnClick: false,
                     autoSizeMainItems: true
@@ -1354,7 +1262,7 @@ var F3DWLD = (function() {
                         var itemID = gridID + "_" + values[i].code + subfix;
                         var code = values[i].code;
                         var type = values[i].type;
-                        var title = "Click to remove it from the selection";
+                        var title = $.i18n.prop('_click_to_remove');
 
                         $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
                         $('#' + itemID).powerTip({placement: 's'});
