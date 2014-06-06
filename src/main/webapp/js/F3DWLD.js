@@ -44,9 +44,9 @@ var F3DWLD = (function() {
         CORE.upgradeURL('download', groupCode, domainCodeURL, language);
 
         /* Labels */
-        document.getElementById('_faostat_domains').innerHTML = $.i18n.prop('_faostat_domains');
+       try{ document.getElementById('_faostat_domains').innerHTML = $.i18n.prop('_faostat_domains');
         document.getElementById('_download').innerHTML = $.i18n.prop('_download');
-
+       }catch(er){}
         $.getJSON(CONFIG.prefix + CONFIG.configurationURL, function (data) {
 
             F3DWLD.CONFIG.baseurl      =   data.baseurl;
