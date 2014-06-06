@@ -1,22 +1,22 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        base_url                :   'http://localhost:8080/faostat-gateway/go/to/download',
-        prefix                  :   'http://localhost:8080/faostat-download-js/',
-        CPINotes_url            :   'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
-        ODA_url                 :   'http://faostat3.fao.org/wds/rest/procedures/oda',
-        data_url                :   'http://faostat3.fao.org/wds/rest',
-        procedures_data_url     :   'http://faostat3.fao.org/wds/rest/procedures/data',
-        procedures_excel_url    :   'http://faostat3.fao.org/wds/rest/procedures/excel',
-        codes_url               :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox',
-        bulks_url               :   'http://faostat3.fao.org/wds/rest/bulkdownloads',
-        domains_url             :   'http://faostat3.fao.org/wds/rest/domains',
-        bletchley_url           :   'http://faostat3.fao.org/bletchley/rest/codes',
-        schema_url              :   'http://faostat3.fao.org/wds/rest/procedures/schema/',
+        base_url                :   'http://168.202.28.210:8080/faostat-gateway/go/to/download',
+        prefix                  :   'http://168.202.28.210:8080/faostat-download-js/',
+        CPINotes_url            :   'http://168.202.28.210:8080/wds/rest/procedures/cpinotes',
+        ODA_url                 :   'http://168.202.28.210:8080/wds/rest/procedures/oda',
+        data_url                :   'http://168.202.28.210:8080/wds/rest',
+        procedures_data_url     :   'http://168.202.28.210:8080/wds/rest/procedures/data',
+        procedures_excel_url    :   'http://168.202.28.210:8080/wds/rest/procedures/excel',
+        codes_url               :   'http://168.202.28.210:8080/wds/rest/procedures/usp_GetListBox',
+        bulks_url               :   'http://168.202.28.210:8080/wds/rest/bulkdownloads',
+        domains_url             :   'http://168.202.28.210:8080/wds/rest/domains',
+        bletchley_url           :   'http://168.202.28.210:8080/bletchley/rest/codes',
+        schema_url              :   'http://168.202.28.210:8080/wds/rest/procedures/schema/',
         bulks_root              :   'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/',
         configurationURL        :   'config/faostat-download-configuration.json',
         dbPrefix                :   'FAOSTAT_',
-        dsdURL                  :   'http://faostat3.fao.org/wds/rest/procedures/listboxes',
+        dsdURL                  :   'http://168.202.28.210:8080/wds/rest/procedures/listboxes',
         theme                   :   'faostat',
         tradeMatrices           :   ['FT', 'TM'],
         lang                    :   'E',
@@ -32,22 +32,69 @@ var F3DWLD = (function() {
         wdsPayload              :   {},
         tabsSelection           :   {},
         selectedValues          :   {},
-        maxListBoxNo            :   7
+        maxListBoxNo            :   7,
+        tableIndices            :   null,
+        data                    :   null
     };
 
-    function collectAndQueryWDS(limitOutput, streamExcel) {
+    function buildF3DWLD(groupCode, domainCode, language) {
 
-        /* Collect parameters. */
-        getTabSelection();
-        getGridsValues();
+        /* Upgrade the URL. */
+        var domainCodeURL = (domainCode == 'null') ? '*' : domainCode;
+        CORE.upgradeURL('download', groupCode, domainCodeURL, language);
 
-        /* Collect codes for 'list' items, then create the JSON payload. */
-//        collectListCodes(streamExcel);
-        createTable(streamExcel);
+        /* Labels */
+        document.getElementById('_faostat_domains').innerHTML = $.i18n.prop('_faostat_domains');
+        document.getElementById('_download').innerHTML = $.i18n.prop('_download');
+
+        $.getJSON(CONFIG.prefix + CONFIG.configurationURL, function (data) {
+
+            F3DWLD.CONFIG.baseurl      =   data.baseurl;
+            F3DWLD.CONFIG.datasource   =   data.datasource;
+            F3DWLD.CONFIG.tablelimit   =   data.tablelimit;
+            F3DWLD.CONFIG.groupCode    =   groupCode;
+            F3DWLD.CONFIG.domainCode   =   domainCode;
+            F3DWLD.CONFIG.lang         =   language;
+
+            switch (language) {
+                case 'FR' :
+                    F3DWLD.CONFIG.lang = 'F';
+                    F3DWLD.CONFIG.lang_ISO2 = 'fr';
+                    break;
+                case 'F' :
+                    F3DWLD.CONFIG.lang = 'F';
+                    F3DWLD.CONFIG.lang_ISO2 = 'fr';
+                    break;
+                case 'ES' :
+                    F3DWLD.CONFIG.lang = 'S';
+                    F3DWLD.CONFIG.lang_ISO2 = 'es';
+                    break;
+                case 'S' :
+                    F3DWLD.CONFIG.lang = 'S';
+                    F3DWLD.CONFIG.lang_ISO2 = 'es';
+                    break;
+                case 'EN' :
+                    F3DWLD.CONFIG.lang = 'E';
+                    F3DWLD.CONFIG.lang_ISO2 = 'en';
+                    break;
+                case 'E' :
+                    F3DWLD.CONFIG.lang = 'E';
+                    F3DWLD.CONFIG.lang_ISO2 = 'en';
+                    break;
+            }
+
+            $.i18n.properties({
+                name        :   'I18N',
+                path        :   F3DWLD.CONFIG.prefix + 'I18N/',
+                mode        :   'both',
+                language    :   F3DWLD.CONFIG.lang_ISO2
+            });
+
+            loadDSD();
+
+        })
 
     };
-
-
 
     function collectAndQueryWDSPivot() {
 
@@ -318,99 +365,6 @@ function retFunction(a,b,c)
 
     };
 
-
-
-
-
-    function collectListCodes(streamExcel) {
-
-        var doTheCall = callListCodesREST();
-
-        if (doTheCall) {
-
-            var countries = JSON.stringify(F3DWLD.CONFIG.selectedValues[0]);
-//            var countries_dst = JSON.stringify(F3DWLD.CONFIG.selectedValues.countries2);
-            var countries_dst = [];
-            var items = JSON.stringify(F3DWLD.CONFIG.selectedValues[1]);
-
-            var backup_countries = new Array();
-            var backup_countries_dst = new Array();
-            var backup_items = new Array();
-
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[0].length ; i++)
-                if (F3DWLD.CONFIG.selectedValues[0].type != '>')
-                    backup_countries.push(F3DWLD.CONFIG.selectedValues[0][i]);
-
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[1].length ; i++)
-                if (F3DWLD.CONFIG.selectedValues[1][i].type != '>')
-                    backup_items.push(F3DWLD.CONFIG.selectedValues[1][i]);
-
-            var data = {};
-            data.datasource = F3DWLD.CONFIG.datasource;
-            data.domainCode = F3DWLD.CONFIG.domainCode;
-            data.language = F3DWLD.CONFIG.lang;
-            data.countries_1 = countries;
-            data.countries_2 = countries_dst;
-            data.items = items;
-
-            $.ajax({
-
-                type    :   'POST',
-                url     :   F3DWLD.CONFIG.bletchley_url + '/listForTradeMatrix/post',
-                data    :   data,
-
-                success : function(response) {
-
-                    var codes = response;
-                    if (typeof(codes) == 'string')
-                        codes = $.parseJSON(response);
-
-                    if (codes != null && codes[0].length > 0) {
-                        F3DWLD.CONFIG.selectedValues[0] = codes[0];
-                    }
-
-                    if (codes != null && codes[1].length > 0) {
-                        F3DWLD.CONFIG.selectedValues[1] = codes[1];
-                    }
-
-                    if (codes != null && codes[2].length > 0) {
-//                        F3DWLD.CONFIG.selectedValues.countries2 = codes[2];
-                    }
-
-                    if (codes != null) {
-
-                        /* Use list codes or keep the current ones. */
-                        if (codes != null && codes[0].length > 0)
-                            F3DWLD.CONFIG.selectedValues[0] = codes[0];
-
-                        /* Use list codes or keep the current ones. */
-                        if (codes != null && codes[1].length > 0)
-                            F3DWLD.CONFIG.selectedValues[1] = codes[1];
-
-                    }
-
-                    for (var z = 0 ; z < backup_items.length ; z++)
-                        F3DWLD.CONFIG.selectedValues[1].push(backup_items[z]);
-
-                    for (var z = 0 ; z < backup_countries.length ; z++)
-                        F3DWLD.CONFIG.selectedValues[0].push(backup_countries[z]);
-
-                    createTable(streamExcel);
-
-                },
-
-                error : function(err, b, c) {
-
-                }
-
-            });
-
-        } else {
-            createTable(streamExcel);
-        }
-
-    };
-
     function callListCodesREST() {
 
         for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[0].length ; i++)
@@ -425,7 +379,14 @@ function retFunction(a,b,c)
 
     };
 
-    function createTable(streamExcel) {
+    /**
+     * Function to create the preview table and the Excel export.
+     *
+     * @param queryDB       if this parameter is false the function will not call the DB
+     *                      but it will use the previously buffered data
+     * @param streamExcel   true to create the Excel file, false to show the preview
+     */
+    function createTable(queryDB, streamExcel) {
 
         $.ajax({
 
@@ -453,8 +414,10 @@ function retFunction(a,b,c)
                             }
                             break;
                         case 'Unit':
-                            if (F3DWLD.CONFIG.wdsPayload.showUnits)
+                            if (F3DWLD.CONFIG.wdsPayload.showUnits) {
                                 tableIndices.push(json[i][2]);
+                                tableIndices.push(json[i][3]);
+                            }
                             break;
                         case 'Value':
                             tableIndices.push(json[i][2]);
@@ -466,67 +429,77 @@ function retFunction(a,b,c)
                             break;
                     }
                 }
+                F3DWLD.CONFIG.tableIndices = tableIndices;
 
                 $('#output_area').empty();
                 $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>');
 
-                var p = {};
-                p.datasource = F3DWLD.CONFIG.datasource;
-                p.domainCode = F3DWLD.CONFIG.domainCode;
-                p.lang = F3DWLD.CONFIG.lang;
-                p.nullValues = F3DWLD.CONFIG.wdsPayload.showNullValues;
-                p.thousand = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
-                p.decimal = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
-                p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
-                p.limit = F3DWLD.CONFIG.outputLimit;
+                if (queryDB) {
 
-                for (var i = 1 ; i <= F3DWLD.CONFIG.maxListBoxNo ; i++)
-                    p['list' + i + 'Codes'] = [];
+                    var p = {};
+                    p.datasource = F3DWLD.CONFIG.datasource;
+                    p.domainCode = F3DWLD.CONFIG.domainCode;
+                    p.lang = F3DWLD.CONFIG.lang;
+                    p.nullValues = F3DWLD.CONFIG.wdsPayload.showNullValues;
+                    p.thousand = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
+                    p.decimal = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
+                    p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
+                    p.limit = F3DWLD.CONFIG.outputLimit;
 
-                for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
-                    var listBoxNo = 1 + parseInt(key);
-                    var ins = new Array();
-                    for (var j = 0 ; j < F3DWLD.CONFIG.selectedValues[key].length ; j++) {
-                        var code = F3DWLD.CONFIG.selectedValues[key][j].code;
-                        code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
-                        ins.push('\'' + code + '\'');
+                    for (var i = 1; i <= F3DWLD.CONFIG.maxListBoxNo; i++)
+                        p['list' + i + 'Codes'] = [];
+
+                    for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
+                        var listBoxNo = 1 + parseInt(key);
+                        var ins = new Array();
+                        for (var j = 0; j < F3DWLD.CONFIG.selectedValues[key].length; j++) {
+                            var code = F3DWLD.CONFIG.selectedValues[key][j].code;
+//                            code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
+                            code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
+                            ins.push('\'' + code + '\'');
+                        }
+                        p['list' + listBoxNo + 'Codes'] = ins;
                     }
-                    p['list' + listBoxNo + 'Codes'] = ins;
-                }
 
-                var data = {};
-                data.payload = JSON.stringify(p);
-
-                if (streamExcel) {
-
-                    p.limit = -1;
                     var data = {};
                     data.payload = JSON.stringify(p);
-                    $('#payload').val(JSON.stringify(p));
-                    document.excelForProcedures.submit();
+
+                    if (streamExcel) {
+
+                        p.limit = -1;
+                        var data = {};
+                        data.payload = JSON.stringify(p);
+                        $('#payload').val(JSON.stringify(p));
+                        document.excelForProcedures.submit();
+
+                    } else {
+
+                        $.ajax({
+
+                            type: 'POST',
+                            url: F3DWLD.CONFIG.procedures_data_url,
+                            data: data,
+
+                            success: function (response) {
+                                var json = response;
+                                if (typeof json == 'string')
+                                    json = $.parseJSON(response);
+                                F3DWLD.CONFIG.data = json;
+                                renderTable();
+                            },
+
+                            error: function (err, b, c) {
+                                var json = $.parseJSON(err.responseText.replace('],]', ']]'));
+                                F3DWLD.CONFIG.data = json;
+                                renderTable();
+                            }
+
+                        });
+
+                    }
 
                 } else {
-
-                    $.ajax({
-
-                        type: 'POST',
-                        url: F3DWLD.CONFIG.procedures_data_url,
-                        data: data,
-
-                        success: function (response) {
-                            var json = response;
-                            if (typeof json == 'string')
-                                json = $.parseJSON(response);
-                            renderTable(json, tableIndices);
-                        },
-
-                        error: function (err, b, c) {
-                            var json = $.parseJSON(err.responseText.replace('],]', ']]'));
-                            renderTable(json, tableIndices);
-                        }
-
-                    });
-
+                    renderTable();
                 }
 
             },
@@ -539,27 +512,27 @@ function retFunction(a,b,c)
 
     };
 
-    function renderTable(json, tableIndices) {
+    function renderTable() {
         var s = '<table class="dataTable">';
         s += '<thead>';
         s += '<tr>';
-        for (var i = 1 ; i < json[0].length ; i++) {
-            if ($.inArray((i - 1).toString(), tableIndices) > -1) {
-                s += '<th>' + json[0][i] + '</th>';
+        for (var i = 1 ; i < F3DWLD.CONFIG.data[0].length ; i++) {
+            if ($.inArray((i - 1).toString(), F3DWLD.CONFIG.tableIndices) > -1) {
+                s += '<th>' + F3DWLD.CONFIG.data[0][i] + '</th>';
             }
         }
         s += '</tr>';
         s += '</thead>';
         s += '<tbody>';
-        if (json.length > 1) {
-            for (var i = 1; i < json.length; i++) {
+        if (F3DWLD.CONFIG.data.length > 1) {
+            for (var i = 1; i < F3DWLD.CONFIG.data.length; i++) {
                 s += '<tr>';
-                for (var j = 0; j < json[i].length; j++) {
-                    if ($.inArray((j - 1).toString(), tableIndices) > -1) {
+                for (var j = 0; j < F3DWLD.CONFIG.data[i].length; j++) {
+                    if ($.inArray((j - 1).toString(), F3DWLD.CONFIG.tableIndices) > -1) {
                         if (i % 2 == 0)
-                            s += '<td class="hor-minimalist-b_row1">' + json[i][j] + '</td>';
+                            s += '<td class="hor-minimalist-b_row1">' + F3DWLD.CONFIG.data[i][j] + '</td>';
                         else
-                            s += '<td class="hor-minimalist-b_row2">' + json[i][j] + '</td>';
+                            s += '<td class="hor-minimalist-b_row2">' + F3DWLD.CONFIG.data[i][j] + '</td>';
                     }
                 }
                 s += '</tr>';
@@ -786,61 +759,6 @@ function retFunction(a,b,c)
         F3DWLD.CONFIG.tabsSelection.years = $('#tab_ListBox4').jqxTabs('selectedItem');
     };
 
-    function buildF3DWLD(groupCode, domainCode, language) {
-
-        /* Upgrade the URL. */
-        var domainCodeURL = (domainCode == 'null') ? '*' : domainCode;
-        CORE.upgradeURL('download', groupCode, domainCodeURL, language);
-
-        $.getJSON(CONFIG.prefix + CONFIG.configurationURL, function (data) {
-
-            F3DWLD.CONFIG.baseurl      =   data.baseurl;
-            F3DWLD.CONFIG.datasource   =   data.datasource;
-            F3DWLD.CONFIG.tablelimit   =   data.tablelimit;
-            F3DWLD.CONFIG.groupCode    =   groupCode;
-            F3DWLD.CONFIG.domainCode   =   domainCode;
-            F3DWLD.CONFIG.lang         =   language;
-
-            switch (language) {
-                case 'FR' :
-                    F3DWLD.CONFIG.lang = 'F';
-                    F3DWLD.CONFIG.lang_ISO2 = 'fr';
-                    break;
-                case 'F' :
-                    F3DWLD.CONFIG.lang = 'F';
-                    F3DWLD.CONFIG.lang_ISO2 = 'fr';
-                    break;
-                case 'ES' :
-                    F3DWLD.CONFIG.lang = 'S';
-                    F3DWLD.CONFIG.lang_ISO2 = 'es';
-                    break;
-                case 'S' :
-                    F3DWLD.CONFIG.lang = 'S';
-                    F3DWLD.CONFIG.lang_ISO2 = 'es';
-                    break;
-                case 'EN' :
-                    F3DWLD.CONFIG.lang = 'E';
-                    F3DWLD.CONFIG.lang_ISO2 = 'en';
-                    break;
-                case 'E' :
-                    F3DWLD.CONFIG.lang = 'E';
-                    F3DWLD.CONFIG.lang_ISO2 = 'en';
-                    break;
-            }
-
-            $.i18n.properties({
-                name        :   'I18N',
-                path        :   F3DWLD.CONFIG.prefix + 'I18N/',
-                mode        :   'both',
-                language    :   F3DWLD.CONFIG.lang_ISO2
-            });
-
-            loadDSD();
-
-        })
-
-    };
-
     function loadDSD() {
 
         $.ajax({
@@ -916,7 +834,7 @@ function retFunction(a,b,c)
         var metadataURL = 'http://' + F3DWLD.CONFIG.baseurl + '/faostat-gateway/go/to/download/' + F3DWLD.CONFIG.groupCode + '/*/' + F3DWLD.CONFIG.lang;
         var s = '';
         s += '<div>';
-        s += '<div class="standard-title">Filters / <a href="' + metadataURL + '">' + parent + ' </a> / <a>' + item.label + '</a></div>';
+        s += '<div class="standard-title">' + $.i18n.prop('_filters') + ' / <a href="' + metadataURL + '">' + parent + ' </a> / <a>' + item.label + '</a></div>';
         s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;">';
         s += '</div>';
         s += '</div>';
@@ -941,34 +859,31 @@ function retFunction(a,b,c)
 
     function buildOptionsMenu() {
         var s = '';
-        s += '<div id="options_menu_box" style="position: relative; display: block;">';
+        s += '<div id="options_menu_box" style="position: relative; display: none;">';
         s += '<div class="standard-title" id="output_options_labels">' + $.i18n.prop('_output_preview') + '</div>';
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">';
         s += '<ul>';
         s += '<li id="root"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_outputOptions');
         s += '<ul>';
-        s += '<li><b>Decimal Separator</b></li>';
+        s += '<li><b>' + $.i18n.prop('_decimalSeparator') + '</b></li>';
         s += '<li><div id="comma_menu">' + $.i18n.prop('_comma') + '</div></li>';
         s += '<li><div id="dot_menu">' + $.i18n.prop('_period') + '</div></li>';
         s += '<li type="separator"></li>';
-        s += '<li><b>Thousand Separator</b></li>';
+        s += '<li><b>' + $.i18n.prop('_thousandSeparator') + '</b></li>';
         s += '<li><div id="enable_menu">' + $.i18n.prop('_enable') + '</div></li>';
         s += '<li><div id="disable_menu">' + $.i18n.prop('_disable') + '</div></li>';
         s += '<li type="separator"></li>';
         s += '<li><b>' + $.i18n.prop('_decimalNumbers') + '</b></li>';
         s += '<li><div id="increment"></div></li>';
         s += '<li type="separator"></li>';
-        s += '<li id="menu_show"><b>Show</b>';
+        s += '<li id="menu_show"><b>' + $.i18n.prop('_show') + '</b>';
         s += '<ul>';
         s += '<li><div id="flags_menu">' + $.i18n.prop('_showFlags') + '</div></li>';
         s += '<li><div id="codes_menu">' + $.i18n.prop('_showCodes') + '</div></li>';
         s += '<li><div id="units_menu">' + $.i18n.prop('_showUnits') + '</div></li>';
         s += '<li><div id="null_values_menu">' + $.i18n.prop('_showNullValues') + '</div></li>';
-        
-       
         s += '</li></ul>';
-        
-         s += '<li type="separator"></li>';
+        s += '<li type="separator"></li>';
         s += '<li id="menu_show"><b>Export format</b>';
         s += '<ul>';
         s += '<li><div id="export_csv">CSV</div></li>';
@@ -1057,12 +972,12 @@ function retFunction(a,b,c)
             $.i18n.prop('_pivot').toUpperCase() +
             '</div>';
         s += '<div class="download-selection-buttons">';
-        s += '<a class="btn btn-big" onclick="F3DWLD.preview(\'preview_button\');">';
+        s += '<a class="btn btn-big" onclick="F3DWLD.preview(true);">';
         s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">' +
             $.i18n.prop('_preview').toUpperCase() +
             '</div>';
         s += '</a>';
-        s += '<a class="btn btn-big" onclick="F3DWLD.download();" id="buttonDeSelectAll_usp_GetElementList"">';
+        s += '<a class="btn btn-big" onclick="F3DWLD.download(true);" id="buttonDeSelectAll_usp_GetElementList"">';
         s += '<i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">' +
             $.i18n.prop('_download').toUpperCase() +
             '</div>';
@@ -1072,13 +987,13 @@ function retFunction(a,b,c)
         return s;
     };
 
-    function preview(caller) {
+    function preview(queryDB) {
         if ($('#radio_table').val()) {
             $('#output_area').css("min-height","350px");
             $('#testinline').css("display","none");
             try {
                 validateSelection('preview table');
-                collectAndQueryWDS(true, false);
+                createTable(queryDB, false);
                 STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             } catch (e) {
                 alert(e);
@@ -1093,11 +1008,11 @@ function retFunction(a,b,c)
         }
     }
 
-    function download() {
+    function download(queryDB) {
         if ($('#radio_table').val()) {
             try {
                 validateSelection('download');
-                collectAndQueryWDS(false, true);
+                createTable(queryDB, true);
                 STATS.exportTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             } catch (e) {
                 alert(e);
@@ -1157,12 +1072,12 @@ function retFunction(a,b,c)
 
         var s = '';
 
-        s += '<div class="standard-title" id="output_options_labels" style="font-size:16px !important;">Summary <i id="collapsible-summary-id" onclick="F3DWLD.showHideSummary();" class="fa fa-angle-double-down"></i></div>';
+        s += '<div class="standard-title" id="output_options_labels" style="font-size:16px !important;">' + $.i18n.prop('_summary') + ' <i id="collapsible-summary-id" onclick="F3DWLD.showHideSummary();" class="fa fa-angle-double-down"></i></div>';
 
         s += '<div style="display: block;" id="collapsible-summary-box">';
 
         s += '<div id="summary_tip" style="color:#666"><i>';
-        s += 'Please use the selectors above to filter your query. Your selection will be displayed in the area below and it can be edited at any time.';
+        s += $.i18n.prop('_summary_help');
         s +='</i></div>'
 
         for (var i = 0 ; i < Object.keys(F3DWLD.CONFIG.dsd).length ; i++) {
@@ -1192,21 +1107,22 @@ function retFunction(a,b,c)
         $('#options-menu').jqxMenu({
             autoOpen: false,
             showTopLevelArrows: true,
-            width: '90',
+            width: '150',
             height: '30px',
             autoCloseOnClick: false,
             clickToOpen: true,
             rtl: true
         });
         $('#options-menu').jqxMenu('setItemOpenDirection', 'root', 'right', 'down');
-        $('#flags_menu').jqxCheckBox({ width: 120, height: 25, checked: true });
+        $('#flags_menu').jqxCheckBox({
+            width: 120,
+            height: 25,
+            checked: true
+        });
         $('#codes_menu').jqxCheckBox({ width: 120, height: 25 });
         $('#units_menu').jqxCheckBox({ width: 120, height: 25, checked: true});
-        
-         $('#export_csv').jqxRadioButton({ width: 120, height: 25, checked: true,groupName: 'type_export' });
-          $('#export_xls').jqxRadioButton({ width: 120, height: 25 ,groupName: 'type_export'});
-          
-          
+        $('#export_csv').jqxRadioButton({ width: 120, height: 25, checked: true,groupName: 'type_export' });
+        $('#export_xls').jqxRadioButton({ width: 120, height: 25 ,groupName: 'type_export'});
         $('#null_values_menu').jqxCheckBox({ width: 120, height: 25 });
         $('#comma_menu').jqxRadioButton({ width: 120, height: 25, groupName: 'thousands'});
         $('#dot_menu').jqxRadioButton({ width: 120, height: 25, checked: true, groupName: 'thousands' });
@@ -1223,7 +1139,7 @@ function retFunction(a,b,c)
                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = ',';
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = '.';
             }
-            preview('dot_menu');
+            preview(true);
         });
         $('#disable_menu').bind('change', function (event) {
             if (event.args.checked) {
@@ -1231,7 +1147,7 @@ function retFunction(a,b,c)
             } else {
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
             }
-            preview('disable_menu');
+            preview(true);
         });
         F3DWLD.CONFIG.wdsPayload.showFlags = true;
         F3DWLD.CONFIG.wdsPayload.showCodes = false;
@@ -1240,28 +1156,28 @@ function retFunction(a,b,c)
         $("#flags_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showFlags = checked;
-            preview('flags_menu');
+            preview(false);
         });
         $("#codes_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showCodes = checked;
-            preview('codes_menu');
+            preview(false);
         });
         $("#units_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showUnits = checked;
-            preview('units_menu');
+            preview(false);
         });
         $("#null_values_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showNullValues = checked;
-            preview('null_values_menu');
+            preview(false);
         });
         F3DWLD.CONFIG.wdsPayload.decimalNumbers = 2;
         $('#increment').on('valuechanged', function (event) {
             var value = event.args.value;
             F3DWLD.CONFIG.wdsPayload.decimalNumbers = parseInt(value);
-            preview('increment');
+            preview(true);
         });
         enhanceUITabs();
         enhanceUIOptions();
@@ -1293,7 +1209,7 @@ function retFunction(a,b,c)
                 $('#bulk-downloads-menu').jqxMenu({
                     autoOpen: false,
                     showTopLevelArrows: true,
-                    width: '300px',
+                    width: '350',
                     height: '30px',
                     autoCloseOnClick: false,
                     autoSizeMainItems: true
@@ -1376,7 +1292,7 @@ function retFunction(a,b,c)
         clearBuffer(gridID);
         var tmp = summary.substring(0, summary.indexOf('-'));
         $('#summary-' + tmp + '-box').css('display', 'none');
-        $('#' + gridID + '_select option').prop('selected', true);
+        $('#' + gridID + '_select option').prop('selected', false);
     };
 
     function addToSummary(gridID, summaryID) {
@@ -1419,7 +1335,7 @@ function retFunction(a,b,c)
                         var itemID = gridID + "_" + values[i].code + subfix;
                         var code = values[i].code;
                         var type = values[i].type;
-                        var title = "Click to remove it from the selection";
+                        var title = $.i18n.prop('_click_to_remove');
 
                         $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
                         $('#' + itemID).powerTip({placement: 's'});
@@ -1551,7 +1467,7 @@ function retFunction(a,b,c)
                 }
                 FAOSTATOLAP.pivots[0].toExcel("<table><tr><td>FAOSTAT 2013</td></tr></table>", "<table><tr><td>" + myFFlag + "</td></tr></table>" + footNotes);
             } else {
-                collectAndQueryWDS(false);
+                createTable(true, false);
             }
         });
 
@@ -1570,7 +1486,7 @@ function retFunction(a,b,c)
                 }
                 window.FAOSTATDownloadSelectorsClassic.falseclick();
             } else {
-                collectAndQueryWDS(true);
+                createTable(true, true);
                 STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             }
         });
