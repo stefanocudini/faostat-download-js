@@ -64,7 +64,15 @@ var F3DWLD = (function() {
                     insideFalseClick();
     };
 
-
+function retFunction(a,b,c)
+{return function(mp)
+                {
+                    if(F3DWLD.CONFIG.wdsPayload.showCodes)
+                     {return "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+"<table  class=\"innerCol\"><th>"+mp[a]+"</th><th>"+mp[b]+"</th></table>";}
+                 else{return  "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+mp[a];}
+                };
+   }
+                
     function insideFalseClick()
     {
         $('#OLAP_IFRAME').css('display', 'inline');
@@ -73,7 +81,15 @@ var F3DWLD = (function() {
         $("#testinline").html("<center><img src=\"/faostat-download-js/pivotAgg/Preload.gif\" /></center>");
         FAOSTATNEWOLAP.flags={};
 
-
+ var mesOptionsPivot ={
+       "cols":[],
+               "hiddenAttributes":[],
+               "linkedAttributes":[],
+               "cols":[],
+               "rows":[],
+                 "vals":[],
+               "derivedAttributes":{}
+   };
       
        $.ajax({
 
@@ -86,9 +102,59 @@ var F3DWLD = (function() {
                 if (typeof schema_json == 'string')
                     schema_json = $.parseJSON(response);
       
-      console.log(schema_json);
-      
-      
+    
+       /* var mesOptionsPivot = FAOSTATOLAP2.options;
+                mesOptionsPivot.vals = ["Value"];
+                if (F3DWLD.CONFIG.wdsPayload.showUnits) {
+                    mesOptionsPivot.vals.push("Unit")
+                }
+                if (F3DWLD.CONFIG.wdsPayload.showFlags) {
+                    mesOptionsPivot.vals.push("Flag")
+                }
+                if(F3DWLD.CONFIG.domainCode=="TM" ||F3DWLD.CONFIG.domainCode=="FT" )
+                 {mesOptionsPivot=FAOSTATOLAP2.optionsTM}
+    */
+   schema_json=schema_json.sort(function(a,b){return a[4]>b[4]});
+   for(var j in schema_json)
+    {
+        
+       /* var s=schema_json[j];
+       var  title=s[6];
+        var code=s[7];*/
+                  
+       // if(s[5]=="C"){mesOptionsPivot.cols.push(s[1]);}
+                if(schema_json[j][5]=="C" || schema_json[j][5]=="R")
+                {  mesOptionsPivot.derivedAttributes[schema_json[j][6]+"_"]=retFunction(schema_json[j][6],schema_json[j][7],schema_json[j][1]);}
+        if(schema_json[j][5]=="C"){
+            mesOptionsPivot.cols.push(schema_json[j][6]+"_");
+            
+           // mesOptionsPivot.cols.push(s[7]);
+           // if(s[3]!=s[4]){ mesOptionsPivot.linkedAttributes.push([s[6],s[7]]);}
+                    }
+                    else if(schema_json[j][5]=="R"){
+            mesOptionsPivot.rows.push(schema_json[j][6]+"_");
+          
+                    }
+                      else if(schema_json[j][5]=="V"){
+           /* mesOptionsPivot.vals.push(s[6]);
+            mesOptionsPivot.vals.push(s[7]);*/
+                     // mesOptionsPivot.linkedAttributes.push([s[6],s[7]]);
+                    }
+                    else{
+                        mesOptionsPivot.hiddenAttributes.push(schema_json[j][6]);
+            mesOptionsPivot.hiddenAttributes.push(schema_json[j][7]);}
+    }
+   
+           mesOptionsPivot.vals = ["Value"];
+                if (F3DWLD.CONFIG.wdsPayload.showUnits) {
+                    mesOptionsPivot.vals.push("Unit")
+                }
+                if (F3DWLD.CONFIG.wdsPayload.showFlags) {
+                    mesOptionsPivot.vals.push("Flag")
+                }
+                 
+                
+     
         var p = {};
                 p.datasource = F3DWLD.CONFIG.datasource;
                 p.domainCode = F3DWLD.CONFIG.domainCode;
@@ -123,15 +189,8 @@ var F3DWLD = (function() {
             url: F3DWLD.CONFIG.procedures_data_url,
             data: data,
             success: function (response) {
-                console.log("falseclick 4 ");
-                var mesOptionsPivot = FAOSTATOLAP2.options;
-                mesOptionsPivot.vals = ["Value"];
-                if (F3DWLD.CONFIG.wdsPayload.showUnits) {
-                    mesOptionsPivot.vals.push("Unit")
-                }
-                if (F3DWLD.CONFIG.wdsPayload.showFlags) {
-                    mesOptionsPivot.vals.push("Flag")
-                }
+               
+              
                 /* var response2=[["Domain","AreaCode","AreaName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
                  var response2TM=[["Domain","ReporterCode","ReporterName","PartnerCode","PartnerName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
                  var mesOptionsPivot=FAOSTATOLAP2.options;
@@ -139,8 +198,7 @@ var F3DWLD = (function() {
                  {response2=response2TM;mesOptionsPivot=FAOSTATOLAP2.optionsTM}
                  for(i in response){response2.push(response[i]);}
                  */
-                if(F3DWLD.CONFIG.domainCode=="TM" ||F3DWLD.CONFIG.domainCode=="FT" )
-                 {mesOptionsPivot=FAOSTATOLAP2.optionsTM}
+               
                 var derivers = $.pivotUtilities.derivers;
                 var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.gchart_renderers);
                 /*mesOptionsPivot.vals=["Value"];

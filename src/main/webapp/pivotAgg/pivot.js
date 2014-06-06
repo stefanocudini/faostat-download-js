@@ -46,7 +46,7 @@ function decolrowspanNEW()
 {var today=new Date();
 var row=FAOSTATNEWOLAP.internalData.tree;
 var col=FAOSTATNEWOLAP.internalData.flatColKeys.reverse();
-var ret="FAOSTAT "+today.getFullYear()+" Date : "+today.toLocaleDateString()+"\n";
+var ret="FAOSTAT "+today.getFullYear()+", Date : "+today.toLocaleDateString()+"\n";
 for(var j=0;j<FAOSTATNEWOLAP.internalData.rowKeys[0].length;j++){ret+=",";}
 for(j in col){ret+=col[j].replace(/,/g,"").replace(/\|\|/g,"-").replace(/&nbsp;/g,"")+", unit , flag ,";}
 ret+="\n";
@@ -63,14 +63,12 @@ for (i in row){
 	}
         var testtd=document.getElementById("hor-minimalist-b").getElementsByTagName('td');
         j=0;
-        for(i in testtd)
-            {
+        for(i in testtd){
                 if(j==0){ret+="\n";j=1;}
                 else{ret+=",";j=0;}
                 ret+=testtd[i].innerHTML;
             }
 	document.getElementById('csvData').value=ret;
-	
 	document.getElementById('csvDataForm').submit();
 }
  
@@ -87,8 +85,7 @@ test=$(mySel.join(","));
 }
 function showHideTotals(){//Not yet used
 
-if($("#cols li nobr").length * $("#rows li nobr").length==0)
-        {
+if($("#cols li nobr").length * $("#rows li nobr").length==0){
         $(".pvtTotalLabel").show();
         $(".pvtTotal").show();
         $(".pvtGrandTotal").show();
@@ -98,7 +95,7 @@ if($("#cols li nobr").length * $("#rows li nobr").length==0)
         $(".pvtTotal").hide();
         $(".pvtGrandTotal").hide();
         }
-        }
+  }
 
 function my_export(t){
 monclone=$("#newOlap").clone();
@@ -113,25 +110,16 @@ $(".pvtTotal", monclone).remove();
 $(".invi", monclone).remove();
 $(".pvtGrandTotal", monclone).remove();
 $("td", monclone).css("border-left","1px solid black");
-
 $("td", monclone).css("border-top","1px solid black");
 $("th", monclone).css("border-left","1px solid black");
-
 $("th", monclone).css("border-top","1px solid black");
 $(".table", monclone).css("border-right","1px solid black");
 $(".table", monclone).css("border-bottom","1px solid black");
-
-
- document.getElementById("excelData").value= monclone.html();
-   
+ document.getElementById("excelData").value= monclone.html();   
  document.getElementById("formExcel").submit();    
  //var c=window.open('data:application/vnd.ms-excel,'+encodeURIComponent(monclone.html())) ;//t.preventDefault();
                  // c.document.write(encodeURIComponent(monclone.html()));
-                  
-        
-
-                  
-                  }
+ }
 
 function myInitOLAP()
 {
@@ -145,24 +133,19 @@ function myInitOLAP()
   //if (FAOSTATDownload.domainCode != 'GY')
   {
   for(i=0;i<mySelecteds.items.length;i++) {
-  arr=mySelecteds.items[i];
-  if(arr.type=="list"){
-	if(listItem==""){  listItem="[{code:'"+arr.code+"',type:'list'}";  }
-	else{  listItem+=",{code:'"+arr.code+"',type:'list'}";  }
-  }
-  else{
-	if(mesItems=="") {  mesItems=arr.code;
-  } else {
-  mesItems+=","+arr.code;
-  }
-  if(bItem!=0) {
-  mesItemsXML+=",";
-  }else{
-  bItem=1;
-  }
-  mesItemsXML+="'"+arr.code+"':{'E':'"+arr.label.replace(/'/g," ")+"'}";  
-  }
-  }
+    arr=mySelecteds.items[i];
+    if(arr.type=="list"){
+          if(listItem==""){  listItem="[{code:'"+arr.code+"',type:'list'}";  }
+          else{  listItem+=",{code:'"+arr.code+"',type:'list'}";  }
+    }
+    else{
+          if(mesItems=="") {  mesItems=arr.code;  } 
+          else {  mesItems+=","+arr.code;  }
+          if(bItem!=0) {  mesItemsXML+=",";  }
+          else{  bItem=1;  }
+          mesItemsXML+="'"+arr.code+"':{'E':'"+arr.label.replace(/'/g," ")+"'}";  
+      }
+    }
   }
   if(listItem!=""){  listItem+="]";  }
   else{  listItem="[]";  }
@@ -170,101 +153,75 @@ function myInitOLAP()
   var mesElementsXML="{name:'ElementCode','nb':'1','val':{";
   for(i=0;i<mySelecteds.elements.length;i++) {
   arr=mySelecteds.elements[i];
-  if(mesElements=="") {
-  mesElements=arr.code;
-  } 
-  else {
-  mesElements+=","+arr.code;
-  }
-  if(i!=0) {
-  mesElementsXML+=",";
-}
+  if(mesElements=="") {  mesElements=arr.code;  } 
+  else {  mesElements+=","+arr.code;  }
+  if(i!=0) {  mesElementsXML+=",";}
    mesElementsXML+="'"+arr.code+"':{'E':'"+arr.label.replace(/'/g," ")+"'}";
 }
-    mesElementsXML+="}}";
-	var mesCountries="";
-	var bCountry=0;
-	var mesCountriesXML="{'name':'AreaCode','nb':'1','val':{";
-	var listCountry="";
-	for(i=0;i<mySelecteds.countries.length;i++) {
+mesElementsXML+="}}";
+var mesCountries="";
+var bCountry=0;
+var mesCountriesXML="{'name':'AreaCode','nb':'1','val':{";
+var listCountry="";
+for(i=0;i<mySelecteds.countries.length;i++) {
 arr=mySelecteds.countries[i]; 
 if(arr.type=="list"){
-if(listCountry==""){
-listCountry="[{code:'"+arr.code+"',type:'list'}";
+    if(listCountry==""){    listCountry="[{code:'"+arr.code+"',type:'list'}";    }
+    else{listCountry+=",{code:'"+arr.code+"',type:'list'}";    }
+    }
+    else{
+        if(mesCountries=="") {mesCountries=arr.code;}
+         else {mesCountries+=","+arr.code;}
+         if(bCountry!=0) {mesCountriesXML+=",";}else{bCountry=1;}
+         mesCountriesXML+="'"+arr.code+"':{'E':'"+arr.label.replace(/'/g," ")+"'}";
+    }
 }
-else{             listCountry+=",{code:'"+arr.code+"',type:'list'}";
-}
-}
-else{
-       if(mesCountries=="") {mesCountries=arr.code;} 
-	   else {mesCountries+=","+arr.code;}
-	   if(bCountry!=0) {mesCountriesXML+=",";}else{bCountry=1;}
-mesCountriesXML+="'"+arr.code+"':{'E':'"+arr.label.replace(/'/g," ")+"'}";
-}
-}
- if(listCountry!="" || listCountry == null){
-                    listCountry+="]";
-                }else{
-                    listCountry="[]";
-                }
-				 var data = {};
-                data.datasource = FAOSTATDownload.datasource;
-                data.domainCode = FAOSTATDownload.domainCode;
-                data.language = FAOSTATDownload.language;
-                data.countries = listCountry;
-                data.items = listItem;
+ if(listCountry!="" || listCountry == null){listCountry+="]";}
+ else{listCountry="[]";}
+ var data = {};
+ data.datasource = FAOSTATDownload.datasource;
+ data.domainCode = FAOSTATDownload.domainCode;
+ data.language = FAOSTATDownload.language;
+ data.countries = listCountry;
+ data.items = listItem;
                 
-                $.ajax({
-                    type : 'POST',
-                    url : 'http://' + FAOSTATDownload.baseurl + '/bletchley/rest/codes/list/post',
-                    data : data,
-                    success : function(response) {  
-                        if(response.constructor === String){
-                            response = jQuery.parseJSON(response);
-                        };
-                        testAjax=response[0];
-                        for(var i=0;i<testAjax.length;i++)
-                        {
-                            testAjax2=testAjax[i];
-                            if(mesCountries=="") {mesCountries=testAjax2.code;} 
-                            else {mesCountries+=","+testAjax2.code;}
-                            if(bCountry!=0) {mesCountriesXML+=",";}
-							else{bCountry=1;}
-                            mesCountriesXML+="'"+testAjax2.code+"':{'E':'"+testAjax2.label.replace(/'/g," ")+"'}";
-                        }
-                        mesCountriesXML+="}}";
-                        testAjax=response[1];
-                        for(var i=0;i<testAjax.length;i++)
-                        {
-                            testAjax2=testAjax[i];
-                            if(mesItems=="") {mesItems=testAjax2.code;} 
-                            else {mesItems+=","+testAjax2.code;}
-                            if(bItem!=0) {mesItemsXML+=",";}else{bItem=1;}
-                            mesItemsXML+="'"+testAjax2.code+"':{'E':'"+testAjax2.label.replace(/'/g," ")+"'}";
-                        }
-                        mesItemsXML+="}}";
-                        var mesYears="";
-                        var mesYearsXML="{'name':'Year',nb:'1','val':{";
-                        for(i=0;i<mySelecteds.years.length;i++) {
-                            arr=mySelecteds.years[i];
-                            if(mesYears=="") {
-                                mesYears=arr.code;
-                            } else {
-                                mesYears+=","+arr.code;
-                            }
-                            if(i!=0) {
-                                mesYearsXML+=",";
-                            }
-                            
-                            mesYearsXML+="'"+arr.code+"':{'E':'"+arr.label.toString().replace(/'/g," ")+"'}";
-                        }
-                        mesYearsXML+="}}";
-//document.getElementById('xml').value="{["+mesElementsXML+","+mesCountriesXML+","+mesItemsXML+","+mesYearsXML+"]}";
-
-//console.log("{["+mesElementsXML+","+mesCountriesXML+","+mesItemsXML+","+mesYearsXML+"]}");
-
-
-//document.getElementById('v').value=mesElements+"#"+mesCountries+"#"+mesItems+"#"+mesYears;
+ $.ajax({
+     type : 'POST',
+     url : 'http://' + FAOSTATDownload.baseurl + '/bletchley/rest/codes/list/post',
+     data : data,
+     success : function(response) {  
+     if(response.constructor === String){response = jQuery.parseJSON(response);};
+     testAjax=response[0];
+     for(var i=0;i<testAjax.length;i++)
+     {
+         testAjax2=testAjax[i];
+         if(mesCountries=="") {mesCountries=testAjax2.code;} 
+         else {mesCountries+=","+testAjax2.code;}
+         if(bCountry!=0) {mesCountriesXML+=",";}
+	else{bCountry=1;}
+        mesCountriesXML+="'"+testAjax2.code+"':{'E':'"+testAjax2.label.replace(/'/g," ")+"'}";
+       }
+       mesCountriesXML+="}}";
+       testAjax=response[1];
+       for(var i=0;i<testAjax.length;i++){
+           testAjax2=testAjax[i];
+           if(mesItems=="") {mesItems=testAjax2.code;} 
+           else {mesItems+=","+testAjax2.code;}
+           if(bItem!=0) {mesItemsXML+=",";}else{bItem=1;}
+           mesItemsXML+="'"+testAjax2.code+"':{'E':'"+testAjax2.label.replace(/'/g," ")+"'}";
+           }
+           mesItemsXML+="}}";
+           var mesYears="";
+           var mesYearsXML="{'name':'Year',nb:'1','val':{";
+           for(i=0;i<mySelecteds.years.length;i++) {
+               arr=mySelecteds.years[i];
+               if(mesYears=="") { mesYears=arr.code; } 
+               else {  mesYears+=","+arr.code;}
+               if(i!=0) { mesYearsXML+=",";}
+               mesYearsXML+="'"+arr.code+"':{'E':'"+arr.label.toString().replace(/'/g," ")+"'}";
+               }
+               mesYearsXML+="}}";
+               
 FAOSTATOLAP2.queryParams.json=JSON.stringify(
 	  {"selects":[{"aggregation":"NONE","column":"DOM.DomainNameE","alias":"Domain"},
 	  {"aggregation":"NONE","column":"A.AreaCode","alias":"AreaCode"},
@@ -277,24 +234,24 @@ FAOSTATOLAP2.queryParams.json=JSON.stringify(
 	  
 	  {"aggregation":"NONE","column":"E.UnitNameE","alias":"Unit"},
 	  {"aggregation":"NONE","column":"Flag","alias":"Flag"}
-	  ],"froms":[{"column":"Data","alias":"D"},{"column":"Item","alias":"I"},{"column":"Element","alias":"E"},{"column":"Area","alias":"A"},{"column":"Domain","alias":"DOM"}],
+	  ],"froms":[{"column":"Data","alias":"D"},{"column":"Item","alias":"I"},{"column":"Element","alias":"E"},
+           {"column":"Area","alias":"A"},{"column":"Domain","alias":"DOM"}],
 	  "wheres":[
-	  {"datatype":"TEXT","column":"D.DomainCode","operator":"=","value":""+FAOSTATDownload.domainCode+"","ins":[]},{"datatype":"TEXT","column":"DOM.DomainCode","operator":"=","value":""+FAOSTATDownload.domainCode+"","ins":[]},{"datatype":"DATE","column":"D.AreaCode","operator":"=","value":"A.AreaCode","ins":[]},{"datatype":"DATE","column":"D.DomainCode","operator":"=","value":"DOM.DomainCode","ins":[]},{"datatype":"DATE","column":"D.ItemCode","operator":"=","value":"I.ItemCode","ins":[]},{"datatype":"DATE","column":"D.ElementCode","operator":"=","value":"E.ElementCode","ins":[]},{"datatype":"TEXT","column":"D.ElementCode","operator":"IN","value":"E.ElementCode","ins":eval("["+mesElements+"]")},{"datatype":"TEXT","column":"D.AreaCode","operator":"IN","value":"A.AreaCode","ins":eval("["+mesCountries+"]")},{"datatype":"TEXT","column":"D.ItemCode","operator":"IN","value":"I.ItemCode","ins":eval("["+mesItems+"]")},{"datatype":"TEXT","column":"D.Year","operator":"IN","value":"D.Year","ins":eval("["+mesYears+"]")}],"orderBys":[{"column":"D.Year","direction":"DESC"},{"column":"A.AreaNameE","direction":"ASC"},{"column":"I.ItemNameE","direction":"ASC"},{"column":"E.ElementNameE","direction":"ASC"}],"limit":null,"query":null,"frequency":"NONE"}
-	
+	  {"datatype":"TEXT","column":"D.DomainCode","operator":"=","value":""+FAOSTATDownload.domainCode+"","ins":[]},
+          {"datatype":"TEXT","column":"DOM.DomainCode","operator":"=","value":""+FAOSTATDownload.domainCode+"","ins":[]},{"datatype":"DATE","column":"D.AreaCode","operator":"=","value":"A.AreaCode","ins":[]},{"datatype":"DATE","column":"D.DomainCode","operator":"=","value":"DOM.DomainCode","ins":[]},{"datatype":"DATE","column":"D.ItemCode","operator":"=","value":"I.ItemCode","ins":[]},{"datatype":"DATE","column":"D.ElementCode","operator":"=","value":"E.ElementCode","ins":[]},{"datatype":"TEXT","column":"D.ElementCode","operator":"IN","value":"E.ElementCode","ins":eval("["+mesElements+"]")},{"datatype":"TEXT","column":"D.AreaCode","operator":"IN","value":"A.AreaCode","ins":eval("["+mesCountries+"]")},{"datatype":"TEXT","column":"D.ItemCode","operator":"IN","value":"I.ItemCode","ins":eval("["+mesItems+"]")},{"datatype":"TEXT","column":"D.Year","operator":"IN","value":"D.Year","ins":eval("["+mesYears+"]")}],"orderBys":[{"column":"D.Year","direction":"DESC"},{"column":"A.AreaNameE","direction":"ASC"},{"column":"I.ItemNameE","direction":"ASC"},
+          {"column":"E.ElementNameE","direction":"ASC"}],"limit":null,"query":null,"frequency":"NONE"}
 	);
 
 	
 //console.log(mesElements+"#"+mesCountries+"#"+mesItems+"#"+mesYears);
 //myInitOLAP();
 
-$.post( "/wds/rest/table/json", FAOSTATOLAP2.queryParams).done(function( data ) 
-	{
+$.post( "/wds/rest/table/json", FAOSTATOLAP2.queryParams).done(function( data ) {
 	data=FAOSTATOLAP2.attr.concat(data);
-
 	$("#newOlap").pivotUI(data, FAOSTATOLAP2.options,FAOSTATOLAP2.displayOption.overwrite);
-	});
+});
 
-}
+    }
 });
 }
 var internalTest;
@@ -302,9 +259,7 @@ var internalTest;
 (function() {
     var $, PivotData, addCommas, aggregatorTemplates, aggregators, convertToArray, dayNames, deriveAttributes, derivers, forEachRecord, getPivotData, mthNames, numberFormat, pivotTableRenderer, renderers, spanSize, zeroPad;
   var __indexOf = Array.prototype.indexOf || function(item) {
-    for (var i = 0, l = this.length; i < l; i++) {
-      if (this[i] === item) return i;
-    }
+    for (var i = 0, l = this.length; i < l; i++) { if (this[i] === item) return i;}
     return -1;
   }, __hasProp = Object.prototype.hasOwnProperty, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   $ = jQuery;
@@ -318,24 +273,16 @@ var internalTest;
     x1 = x[0];
     x2 = x.length > 1 ? '.' + x[1] : '';
     rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-      x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
+    while (rgx.test(x1)) {      x1 = x1.replace(rgx, '$1' + ',' + '$2');    }
     return x1 + x2;
   };
   numberFormat = function(sigfig, scaler) {
-    if (sigfig == null) {
-      sigfig = 3;
-    }
-    if (scaler == null) {
-      scaler = 1;
-    }
+    if (sigfig == null) {sigfig = 3;}
+    if (scaler == null) {scaler = 1;}
     return function(x) {
       if (x === 0 || isNaN(x) || !isFinite(x)) {
         return "";
-      } else {
-        return addCommas((scaler * x).toFixed(sigfig));
-      }
+      } else { return addCommas((scaler * x).toFixed(sigfig));}
     };
   };
   arrayFormat = function(sigfig, scaler) {
@@ -347,14 +294,14 @@ var internalTest;
 	var x=x1[k];
 	if(x!="_"){
 	if(!isNaN(k)){
-	if (x === 0 || isNaN(x) || !isFinite(x)) { ret+= "<td>"+x+"</td>";}
-	else {ret+= "<td>"+addCommas((scaler * x).toFixed(FAOSTATNEWOLAP.decimal))+"</td>"; }
-	}
-	}
+                if (x === 0 || isNaN(x) || !isFinite(x)) { ret+= "<td>"+x+"</td>";}
+                else {ret+= "<td>"+addCommas((scaler * x).toFixed(FAOSTATNEWOLAP.decimal))+"</td>"; }
+                }
+            }
 	  }
-	  ret+="</tr></table>";
+    ret+="</tr></table>";
     return ret;
-	};
+    };
   };
   aggregatorTemplates = {
     sum: function(sigfig, scaler) {
@@ -367,13 +314,9 @@ var internalTest;
           return {
             sum: 0,
             push: function(record) {
-              if (!isNaN(parseFloat(record[attr]))) {
-                return this.sum += parseFloat(record[attr]);
-              }
+              if (!isNaN(parseFloat(record[attr]))) {return this.sum += parseFloat(record[attr]);}
             },
-            value: function() {
-              return this.sum;
-            },
+            value: function() {return this.sum;},
             format: numberFormat(sigfig, scaler),
             label: "Sum of " + attr
           };
@@ -391,39 +334,35 @@ var internalTest;
 		
         return function() {
           return {
-            sum: 0,
-			unit:"**",
+              sum: 0,
+              unit:"**",
             push: function(record) {
-			if(this.unit=="**"){this.unit=record["unit"];}
-			else if(this.unit!=record["unit"]){this.unit="--";}
-              if (!isNaN(parseFloat(record[attr]))) {
-			  if(this.unit!="--"){
+            if(this.unit=="**"){this.unit=record["unit"];}
+            else if(this.unit!=record["unit"]){this.unit="--";}
+            if (!isNaN(parseFloat(record[attr]))) {
+                if(this.unit!="--"){
                 return this.sum += parseFloat(record[attr]);}
-				else{return this.sum="na";}
+		else{return this.sum="na";}
               }
             },
-            value: function() {
-              return this.sum;
-            },
+            value: function() {return this.sum;},
             format: numberFormat(sigfig, scaler),
             label: "Sum of " + attr
           };
         };
       };
     },
-	sum2: function(sigfig, scaler) {
+        sum2: function(sigfig, scaler) {
 	
       if (sigfig == null) {sigfig = 3;}
       if (scaler == null) {scaler = 1;}
-	  sigfig=FAOSTATNEWOLAP.decimal;
+      sigfig=FAOSTATNEWOLAP.decimal;
       return function(_arg) {
-	
         var attr;//function(){var ret=[];for(var i=0;i<_arg;i++){ret.push(0);};return ret}
         attr = _arg[0];
-		var emptyInitTab=[0,"",""];
-		//for(var i in _arg){emptyInitTab.push(0);}
-		
-		/*function(){t=[0];
+        var emptyInitTab=[0,"",""];
+        //for(var i in _arg){emptyInitTab.push(0);}
+        /*function(){t=[0];
             if(FAOSTATOLAP2.displayOption.showFlag==1){t.push("");}
             if(FAOSTATOLAP2.displayOption.showUnit==1){t.push("");}
             return t;
@@ -433,33 +372,27 @@ var internalTest;
             sum: [0,"_","_"],
             push: function(record) {
              //if (!isNaN(parseFloat(record[_arg[j]]))) {
-			  for(var j=0;j<_arg.length;j++)
-			  {
-			  
-			  if(_arg[j]=="Flag"){
-			 
-			  if(this.sum[j]=="_"){//|| this.sum[j]==record[_arg[j]]){
-			  if(record[_arg[j]].trim()!=""){
-			  this.sum[j]="["+record[_arg[j]]+"]";}
-			  else{this.sum[j]="&nbsp;";}
-			  FAOSTATNEWOLAP.flags[record[_arg[j]]]=1;
+             for(var j=0;j<_arg.length;j++)
+		{
+                    if(_arg[j]=="Flag"){
+                        if(this.sum[j]=="_"){//|| this.sum[j]==record[_arg[j]]){
+                            if(record[_arg[j]].trim()!=""){this.sum[j]=""+record[_arg[j]]+"";}
+                             else{this.sum[j]="&nbsp;";}
+                             FAOSTATNEWOLAP.flags[record[_arg[j]]]=1;
 			  }
-			 // else if(){}
-			  else{
-			  this.sum[j]=" Agg";
-			  }
+			  else{this.sum[j]="Agg";}
 			  }
 			  else if(_arg[j]=="Value"){
 			
 			  this.sum[j]+=parseFloat(record[_arg[j]].replace(",",""));
 			  }
 			  else if(_arg[j]=="Unit"){
-			 if(this.sum[j]=="_" || this.sum[j]=="("+record[_arg[j]]+")" ){
+			 if(this.sum[j]=="_" || this.sum[j]==""+record[_arg[j]]+"" ){
 			 
 			 // this.sum[j]="("+record[_arg[j]]+")";
 			  
 			  if(record[_arg[j]].trim()!=""){
-			  this.sum[j]="["+record[_arg[j]]+"]";}
+			  this.sum[j]=""+record[_arg[j]]+"";}
 			  else{this.sum[j]="&nbsp;";}
 			  
 			  
@@ -470,21 +403,14 @@ var internalTest;
 			  }
 			 
                 return this.sum;
-              
-			  //}
-            },
-            value: function() {
-			  return this.sum;
-			   
-            },
+              },
+            value: function() {return this.sum; },
             format: arrayFormat(sigfig, scaler),
             label: "Sum of " + attr
           };
         };
       };},
-	  
-	  
-	  sum3: function(sigfig, scaler) {
+          sum3: function(sigfig, scaler) {
       if (sigfig == null) {sigfig = 3;}
       if (scaler == null) {scaler = 1;}
 	  
@@ -504,55 +430,32 @@ var internalTest;
           return {
             sum: [0,"_","_"],
             push: function(record) {
-             //if (!isNaN(parseFloat(record[_arg[j]]))) {
-			  for(var j=0;j<_arg.length;j++)
-			  {
-			  
+        for(var j=0;j<_arg.length;j++){
 			  if(_arg[j]=="Flag"){
-			 
-			  if(this.sum[j]=="_"){//|| this.sum[j]==record[_arg[j]]){
+			  if(this.sum[j]=="_"){
 			  this.sum[j]="["+record[_arg[j]]+"]";}
-			 // else if(){}
-			  else{
-			  this.sum[j]=" Agg";
+                           else{this.sum[j]=" Agg";}
 			  }
-			  }
-			  else if(_arg[j]=="Value"){
-			
-			  this.sum[j]+=parseFloat(record[_arg[j]].replace(",",""));
-			  }
+			  else if(_arg[j]=="Value")
+                          {this.sum[j]+=parseFloat(record[_arg[j]].replace(",",""));	 }
 			  else if(_arg[j]=="Unit"){
-			 if(this.sum[j]=="_" || this.sum[j]=="("+record[_arg[j]]+")" ){
-			  this.sum[j]="("+record[_arg[j]]+")";}
-			  else{this.sum[0]=NaN;
-			  this.sum[j]="nan";}
+                            if(this.sum[j]=="_" || this.sum[j]=="("+record[_arg[j]]+")" )
+                            { this.sum[j]="("+record[_arg[j]]+")";}
+                             else{this.sum[0]=NaN;
+                             this.sum[j]="nan";}
+                            }
 			  }
-			  }
-			 
                 return this.sum;
-              
-			  //}
             },
-            value: function() {
-			  return this.sum[0];
-			   
-            },
+            value: function() {	  return this.sum[0];},
             format: numberFormat(sigfig, scaler),
             label: "Sum of " + attr
           };
         };
       };},
-	  
-	  
-	  
-	  
-    average: function(sigfig, scaler) {
-      if (sigfig == null) {
-        sigfig = 3;
-      }
-      if (scaler == null) {
-        scaler = 1;
-      }
+     average: function(sigfig, scaler) {
+      if (sigfig == null) {sigfig = 3;}
+      if (scaler == null) {scaler = 1;}
       return function(_arg) {
         var attr;
         attr = _arg[0];
@@ -566,9 +469,7 @@ var internalTest;
                 return this.len++;
               }
             },
-            value: function() {
-              return this.sum / this.len;
-            },
+            value: function() {   return this.sum / this.len;   },
             format: numberFormat(sigfig, scaler),
             label: "Average of " + attr
           };
@@ -576,12 +477,8 @@ var internalTest;
       };
     },
     sumOverSum: function(sigfig, scaler) {
-      if (sigfig == null) {
-        sigfig = 3;
-      }
-      if (scaler == null) {
-        scaler = 1;
-      }
+      if (sigfig == null) {sigfig = 3;}
+      if (scaler == null) { scaler = 1;}
       return function(_arg) {
         var denom, num;
         num = _arg[0], denom = _arg[1];
@@ -590,16 +487,10 @@ var internalTest;
             sumNum: 0,
             sumDenom: 0,
             push: function(record) {
-              if (!isNaN(parseFloat(record[num]))) {
-                this.sumNum += parseFloat(record[num]);
-              }
-              if (!isNaN(parseFloat(record[denom]))) {
-                return this.sumDenom += parseFloat(record[denom]);
-              }
+              if (!isNaN(parseFloat(record[num]))) {this.sumNum += parseFloat(record[num]);}
+              if (!isNaN(parseFloat(record[denom]))){return this.sumDenom += parseFloat(record[denom]);}
             },
-            value: function() {
-              return this.sumNum / this.sumDenom;
-            },
+            value: function() { return this.sumNum / this.sumDenom;},
             format: numberFormat(sigfig, scaler),
             label: "" + num + "/" + denom
           };
@@ -618,12 +509,8 @@ var internalTest;
             sumNum: 0,
             sumDenom: 0,
             push: function(record) {
-              if (!isNaN(parseFloat(record[num]))) {
-                this.sumNum += parseFloat(record[num]);
-              }
-              if (!isNaN(parseFloat(record[denom]))) {
-                return this.sumDenom += parseFloat(record[denom]);
-              }
+              if (!isNaN(parseFloat(record[num]))) {this.sumNum += parseFloat(record[num]);}
+              if (!isNaN(parseFloat(record[denom]))) {return this.sumDenom += parseFloat(record[denom]);}
             },
             value: function() {
               var sign;
@@ -642,17 +529,14 @@ var internalTest;
   aggregators = {
   sumUnit: aggregatorTemplates.sum2(FAOSTATNEWOLAP.decimal),
   sum:aggregatorTemplates.sum3(3),
-   
-    count: function() {
+  count: function() {
       return function() {
         return {
           count: 0,
           push: function() {
             return this.count++;
           },
-          value: function() {
-            return this.count;
-          },
+          value: function() {return this.count;},
           format: numberFormat(0),
           label: "Count"
         };
@@ -666,13 +550,10 @@ var internalTest;
           uniq: [],
           push: function(record) {
             var _ref;
-            if (_ref = record[attr], __indexOf.call(this.uniq, _ref) < 0) {
-              return this.uniq.push(record[attr]);
-            }
+            if (_ref = record[attr], __indexOf.call(this.uniq, _ref) < 0) 
+            {return this.uniq.push(record[attr]); }
           },
-          value: function() {
-            return this.uniq.length;
-          },
+          value: function() {return this.uniq.length;},
           format: numberFormat(0),
           label: "Count Unique " + attr
         };
@@ -686,16 +567,11 @@ var internalTest;
           uniq: [],
           push: function(record) {
             var _ref;
-            if (_ref = record[attr], __indexOf.call(this.uniq, _ref) < 0) {
-              return this.uniq.push(record[attr]);
-            }
+            if (_ref = record[attr], __indexOf.call(this.uniq, _ref) < 0) 
+            { return this.uniq.push(record[attr]);   }
           },
-          value: function() {
-            return this.uniq.join(", ");
-          },
-          format: function(x) {
-            return x;
-          },
+          value: function() { return this.uniq.join(", ");},
+          format: function(x) { return x;},
           label: "List Unique " + attr
         };
       };
@@ -709,25 +585,16 @@ var internalTest;
           uniq: [],
           push: function(record) {
             var _ref;
-            //if (_ref = record[attr], __indexOf.call(this.uniq, _ref) < 0) 
-			{
-              return this.uniq.push(record[attr]);
-            }
+            return this.uniq.push(record[attr]);
           },
-          value: function() {
-            return this.uniq.join(", ");
-          },
-          format: function(x) {
-            return x;
-          },
+          value: function() {return this.uniq.join(", "); },
+          format: function(x) { return x;},
           label: "List Unique " + attr
         };
       };
 	},
     intSum: aggregatorTemplates.sum(0),
-    
-	
-    average: aggregatorTemplates.average(3)
+   average: aggregatorTemplates.average(3)
   };
   
   aggregatorsText = {
@@ -739,16 +606,11 @@ listUnique: function(_arg) {
           uniq: [],
           push: function(record) {
             var _ref;
-            if (_ref = record[attr], __indexOf.call(this.uniq, _ref) < 0) {
-              return this.uniq.push(record[attr]);
-            }
+            if (_ref = record[attr], __indexOf.call(this.uniq, _ref) < 0) 
+            {return this.uniq.push(record[attr]);}
           },
-          value: function() {
-            return this.uniq.join(", ");
-          },
-          format: function(x) {
-            return x;
-          },
+          value: function() { return this.uniq.join(", "); },
+          format: function(x) { return x;},
           label: "List Unique " + attr
         };
       };
@@ -757,12 +619,8 @@ listUnique: function(_arg) {
       return function() {
         return {
           count: 0,
-          push: function() {
-            return this.count++;
-          },
-          value: function() {
-            return this.count;
-          },
+          push: function() {return this.count++; },
+          value: function() { return this.count; },
           format: numberFormat(0),
           label: "Count"
         };
@@ -776,13 +634,10 @@ listUnique: function(_arg) {
           uniq: [],
           push: function(record) {
             var _ref;
-            if (_ref = record[attr], __indexOf.call(this.uniq, _ref) < 0) {
-              return this.uniq.push(record[attr]);
-            }
+            if (_ref = record[attr], __indexOf.call(this.uniq, _ref) < 0) 
+            { return this.uniq.push(record[attr]);}
           },
-          value: function() {
-            return this.uniq.length;
-          },
+          value: function() {return this.uniq.length; },
           format: numberFormat(0),
           label: "Count Unique " + attr
         };
@@ -790,41 +645,28 @@ listUnique: function(_arg) {
     },
     
 	concat:function(_arg){
-	
-	  var attr;
-      attr = _arg[0];
-      return function() {
+    var attr;
+    attr = _arg[0];
+    return function() {
         return {
           uniq: [],
           push: function(record) {
             var _ref;
-            //if (_ref = record[attr], __indexOf.call(this.uniq, _ref) < 0) 
-			{
-              return this.uniq.push(record[attr]);
-            }
+            return this.uniq.push(record[attr]);
           },
-          value: function() {
-            return this.uniq.join(", ");
-          },
-          format: function(x) {
-            return x;
-          },
+          value: function() {   return this.uniq.join(", ");  },
+          format: function(x) {     return x;    },
           label: "List Unique " + attr
         };
       };
-	},
+    },
     intSum: aggregatorTemplates.sum(0),
-    
-	
     average: aggregatorTemplates.average(3)
   };
-  
-  
-  
-   aggregatorsCountry = {
-		sum:aggregatorTemplates.sum(3),
-		count: function() {
-		return function() {
+  aggregatorsCountry = {
+  sum:aggregatorTemplates.sum(3),
+        count: function() {
+    return function() {
         return {
           count: 0,
           push: function() {return this.count++;},
@@ -846,9 +688,7 @@ listUnique: function(_arg) {
               return this.uniq.push(record[attr]);
             }
           },
-          value: function() {
-            return this.uniq.length;
-          },
+          value: function() { return this.uniq.length;},
           format: numberFormat(0),
           label: "Count Unique " + attr
         };
@@ -862,50 +702,34 @@ listUnique: function(_arg) {
           uniq: [],
           push: function(record) {
             var _ref;
-            if (_ref = record[attr], __indexOf.call(this.uniq, _ref) < 0) {
-              return this.uniq.push(record[attr]);
-            }
+            if (_ref = record[attr], __indexOf.call(this.uniq, _ref) < 0) 
+            {return this.uniq.push(record[attr]); }
           },
-          value: function() {
-            return this.uniq.join(", ");
-          },
-          format: function(x) {
-            return x;
-          },
+          value: function() { return this.uniq.join(", ");},
+          format: function(x) { return x;},
           label: "List Unique " + attr
         };
       };
     },
-	concat:function(_arg){
-	var attr;
-	attr = _arg[0];
+          concat:function(_arg){
+      var attr;
+      attr = _arg[0];
       return function() {
         return {
           uniq: [],
           push: function(record) {
             var _ref;
-            //if (_ref = record[attr], __indexOf.call(this.uniq, _ref) < 0) 
-			{
-              return this.uniq.push(record[attr]);
-            }
+            return this.uniq.push(record[attr]);
           },
-          value: function() {
-            return this.uniq.join(", ");
-          },
-          format: function(x) {
-            return x;
-          },
+          value: function() {  return this.uniq.join(", "); },
+          format: function(x) {return x;  },
           label: "List Unique " + attr
         };
       };
-	},
+    },
     intSum: aggregatorTemplates.sum(0),
     average: aggregatorTemplates.average(3)
   };
-  
-  
-  
-  
   /*
   sum: aggregatorTemplates.sum(3),
   
@@ -914,29 +738,17 @@ listUnique: function(_arg) {
     lb80: aggregatorTemplates.sumOverSumBound80(3, 1, false)*/
   
   renderers = {
-    "Table": function(pvtData) {
-      return pivotTableRenderer(pvtData);
-    },
-    "Table Barchart": function(pvtData) {
-      return pivotTableRenderer(pvtData).barchart();
-    },
-    "Heatmap": function(pvtData) {
-      return pivotTableRenderer(pvtData).heatmap();
-    },
-    "Row Heatmap": function(pvtData) {
-      return pivotTableRenderer(pvtData).heatmap("rowheatmap");
-    },
-    "Col Heatmap": function(pvtData) {
-      return pivotTableRenderer(pvtData).heatmap("colheatmap");
-    }
+    "Table": function(pvtData) {return pivotTableRenderer(pvtData);    },
+    "Table Barchart": function(pvtData) { return pivotTableRenderer(pvtData).barchart(); },
+    "Heatmap": function(pvtData) {return pivotTableRenderer(pvtData).heatmap();    },
+    "Row Heatmap": function(pvtData) { return pivotTableRenderer(pvtData).heatmap("rowheatmap");},
+    "Col Heatmap": function(pvtData) { return pivotTableRenderer(pvtData).heatmap("colheatmap"); }
   };
   mthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   zeroPad = function(number) {return ("0" + number).substr(-2, 2);  };
   derivers = {
-    bin: function(col, binWidth) {
-      return function(record) {return record[col] - record[col] % binWidth;};
-    },
+    bin: function(col, binWidth) {return function(record) {return record[col] - record[col] % binWidth;};},
     dateFormat: function(col, formatString) {
       return function(record) {
         var date;
@@ -985,9 +797,7 @@ listUnique: function(_arg) {
     }
     for (k in record) {
       if (!__hasProp.call(record, k)) continue;
-      if ((_ref2 = record[k]) == null) {
-        record[k] = "null";
-      }
+      if ((_ref2 = record[k]) == null) {record[k] = "null";}
     }
     return f(record);
   };
@@ -1082,9 +892,9 @@ listUnique: function(_arg) {
       while (a.length && b.length) {
         a1 = a.shift();
         b1 = b.shift();
-        if (a1 !== b1) {
-          if (rd.test(a1) && rd.test(b1)) {return a1.replace(rz, ".0") - b1.replace(rz, ".0");}
-		  else {if (a1 > b1) {return 1;} else {return -1;}}
+            if (a1 !== b1) {
+              if (rd.test(a1) && rd.test(b1)) {return a1.replace(rz, ".0") - b1.replace(rz, ".0");}
+            else {if (a1 > b1) {return 1;} else {return -1;}}
         }
       }
       return a.length - b.length;
@@ -1099,14 +909,11 @@ listUnique: function(_arg) {
       return this.sorted = true;
     };
 	
-    PivotData.prototype.getColKeys = function() 
-	{this.sortKeys();return this.colKeys;};
+    PivotData.prototype.getColKeys = function(){this.sortKeys();return this.colKeys;};
 	
-    PivotData.prototype.getRowKeys = function() {
-      this.sortKeys();return this.rowKeys;
-    };
+    PivotData.prototype.getRowKeys = function() {  this.sortKeys();return this.rowKeys;};
     //PivotData.prototype.flattenKey = function(x) {return x.join(String.fromCharCode(0));};
-	PivotData.prototype.flattenKey = function(x) {return x.join("||");};
+    PivotData.prototype.flattenKey = function(x) {return x.join("||");};
 	
     PivotData.prototype.processRecord = function(record) {
       var colKey, flatColKey, flatRowKey, rowKey, x;
@@ -1139,8 +946,7 @@ listUnique: function(_arg) {
           this.rowKeys.push(rowKey);
           this.flatRowKeys.push(flatRowKey);
         }
-        if (!this.rowTotals[flatRowKey]) {this.rowTotals[flatRowKey] = this.aggregator();}
-		
+        if (!this.rowTotals[flatRowKey]) {this.rowTotals[flatRowKey] = this.aggregator();}	
         this.rowTotals[flatRowKey].push(record);
       }
       if (colKey.length !== 0) {
@@ -1148,15 +954,12 @@ listUnique: function(_arg) {
           this.colKeys.push(colKey);
           this.flatColKeys.push(flatColKey);
         }
-        if (!this.colTotals[flatColKey]) {this.colTotals[flatColKey] = this.aggregator();}
-		
+        if (!this.colTotals[flatColKey]) {this.colTotals[flatColKey] = this.aggregator();}	
         this.colTotals[flatColKey].push(record);
       }
       if (colKey.length !== 0 && rowKey.length !== 0) {
-        if (!(flatRowKey in this.tree)) {this.tree[flatRowKey] = {};}
-		
-        if (!(flatColKey in this.tree[flatRowKey])) {this.tree[flatRowKey][flatColKey] = this.aggregator();}
-		
+        if (!(flatRowKey in this.tree)) {this.tree[flatRowKey] = {};}	
+        if (!(flatColKey in this.tree[flatRowKey])) {this.tree[flatRowKey][flatColKey] = this.aggregator();}	
         return this.tree[flatRowKey][flatColKey].push(record);
       }
     };
@@ -1231,9 +1034,8 @@ listUnique: function(_arg) {
           tr.append(th);
         }
       }
-      if (parseInt(j) === 0) {
-        tr.append($("<th class='pvtTotalLabel'>").text("Totals").attr("rowspan", colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)));
-      }
+      if (parseInt(j) === 0) 
+      {tr.append($("<th class='pvtTotalLabel'>").text("Totals").attr("rowspan", colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)));}
       result.append(tr);
     }
     if (rowAttrs.length !== 0) {
@@ -1258,24 +1060,23 @@ listUnique: function(_arg) {
         txt = rowKey[j];
         x = spanSize(rowKeys, parseInt(i), parseInt(j));
         if (x !== -1) {
-			if(j==0 && 	FAOSTATNEWOLAP.nestedby==1){
-				tr2 = $("<tr>");
-				th = $("<th class='pvtRowLabel nestedby' colspan='3' style='background-color:white'>").html(txt);
-				tr2.append(th);result.append(tr2);txt="";
-			}
+            if(j==0 && FAOSTATNEWOLAP.nestedby==1){
+                tr2 = $("<tr>");
+                th = $("<th class='pvtRowLabel nestedby' colspan='3' style='background-color:white'>").html(txt);
+		tr2.append(th);result.append(tr2);txt="";
+		}
           th = $("<th class='pvtRowLabel'>").html(txt).attr("rowspan", x);
           if (parseInt(j) === rowAttrs.length - 1 && colAttrs.length !== 0){th.attr("colspan", 2);}
           tr.append(th);
         }
       }
       for (j in colKeys) {
-			if (!__hasProp.call(colKeys, j)) continue;
-			colKey = colKeys[j];
-			aggregator = pivotData.getAggregator(rowKey, colKey);
-			val = aggregator.value();
-			tr.append($("<td class='pvtVal row" + i + " col" + j + "'>").html(aggregator.format(val)).data("value", val));
-		  // var tdd=$("<td class='pvtVal row" + i + " col" + j + "'>"+aggregator.format(val)+"</td>");
-		 }
+          if (!__hasProp.call(colKeys, j)) continue;
+          colKey = colKeys[j];
+          aggregator = pivotData.getAggregator(rowKey, colKey);
+          val = aggregator.value();
+          tr.append($("<td class='pvtVal row" + i + " col" + j + "'>").html(aggregator.format(val)).data("value", val));
+	 }
       totalAggregator = pivotData.getAggregator(rowKey, []);
       val = totalAggregator.value();
       tr.append($("<td class='pvtTotal rowTotal'>").html(totalAggregator.format(val)).data("value", val).data("for", "row" + i));
@@ -1366,7 +1167,6 @@ listUnique: function(_arg) {
         if ((_ref2 = (_base = axisValues[k])[v]) == null) {_base[v] = 0;}
         _results.push(axisValues[k][v]++);
       }
-     
       return _results;
     });
     uiTable = $("<table class='table table-bordered' cellpadding='5'>");
@@ -1375,7 +1175,7 @@ listUnique: function(_arg) {
     if($("#renderer").val()=="Table")
     {$('#aggregator option[value="sumUnit"]').prop('selected', true);}
     else{$('#aggregator option[value="sum"]').prop('selected', true);}
-	   return refresh();
+    return refresh();
     });
     _ref2 = opts.renderers;
     for (x in _ref2) {
@@ -1430,10 +1230,7 @@ listUnique: function(_arg) {
             }*/
             valueList.css({color:"black"}).toggle();
             valueList.bind("click", function(e) {return e.stopPropagation();});
-            return $(document).one("click", function() {
-			   refresh();
-              return valueList.toggle();
-            });
+            return $(document).one("click", function() { refresh(); return valueList.toggle();});
           });
           return colList.append($("<li class='label label-info' id='axis_" + (c.replace(/\s/g, "")) + "'>").append(colLabel).append(valueList));
         })(c);
@@ -1451,13 +1248,13 @@ listUnique: function(_arg) {
       if (!__hasProp.call(_ref3, x)) continue;
       aggregator.append($("<option>").val(x).text(x));
     }
-	if(	FAOSTATNEWOLAP.viewVals==0)
+	if(FAOSTATNEWOLAP.viewVals==0)
 	{
-		tr1.append($("<td id='vals'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
+            tr1.append($("<td id='vals'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
 	}
 	else{
-		tr1.append($("<td id='vals' class='pvtAxisContainer pvtHorizList'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
-	}
+            tr1.append($("<td id='vals' class='pvtAxisContainer pvtHorizList'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
+        }
 
     tr1.append($("<td id='cols' class='pvtAxisContainer pvtHorizList'>").append($("<span >Colums</span>")));
     uiTable.append(tr1);
@@ -1493,9 +1290,7 @@ listUnique: function(_arg) {
       vals = [];
       this.find("#rows li nobr").each(function() {return subopts.rows.push($(this).text());});
       this.find("#cols li nobr").each(function() {return subopts.cols.push($(this).text());});
-      this.find("#vals li nobr").each(function() {return vals.push($(this).text());});
-	  //console.log(aggregator.val());
-	  //console.log(opts.aggregators[aggregator.val()](vals));
+      this.find("#vals li nobr").each(function() {return vals.push($(this).text());});  
       subopts.aggregator = opts.aggregators[aggregator.val()](vals);
       subopts.renderer = opts.renderers[renderer.val()];
       exclusions = [];
@@ -1509,7 +1304,7 @@ listUnique: function(_arg) {
         return true;
       };
       pivotTable.pivot(input, subopts);
-	  try{$(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2);}catch(er){}
+      try{$(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2);}catch(er){}
       return this.data("pivotUIOptions", {
         cols: subopts.cols,
         rows: subopts.rows,
@@ -1522,21 +1317,22 @@ listUnique: function(_arg) {
         rendererName: renderer.val()
       });
     }, this);
-	
-	refresh();
+    refresh();
     this.find(".pvtAxisContainer").sortable({
       connectWith: ".pvtAxisContainer",
       items: 'li',
-	  receive:function(e){
-	  var my_id=e.originalEvent.target.id.split("_")[1];
-		  if(e.target.id!="unused"){
-		  for(k in inputOpts.linkedAttributes){
-		  if(inputOpts.linkedAttributes[k].indexOf(my_id)!=-1){
+      receive:function(e){
+          var my_id=e.originalEvent.target.id.split("_")[1];
+          if(e.target.id!="unused"){
+              for(k in inputOpts.linkedAttributes){
+                  if(inputOpts.linkedAttributes[k].indexOf(my_id)!=-1){
 			   for(kk in inputOpts.linkedAttributes[k]){
 				   internalTest=$("#axis_"+inputOpts.linkedAttributes[k][kk]);
-				   if(  internalTest.parent().get(0).id!="unused")
+                                   console.log(internalTest.parent());
+				  try{ if(  internalTest.parent().get(0).id!="unused")
 				   {$("#"+e.target.id).append($("#axis_"+inputOpts.linkedAttributes[k][kk]));}
-				}
+                                  }catch(e){console.log(e)}	
+                          }
 				break;
 			}
 		  }
@@ -1603,7 +1399,7 @@ listUnique: function(_arg) {
     if($("#renderer").val()=="Table")
     {$('#aggregator option[value="sumUnit"]').prop('selected', true);}
     else{$('#aggregator option[value="sum"]').prop('selected', true);}
-	   return refresh();
+    return refresh();
     });
     _ref2 = opts.renderers;
     for (x in _ref2) {
@@ -1681,10 +1477,10 @@ listUnique: function(_arg) {
     }
 	if(	FAOSTATNEWOLAP.viewVals==0)
 	{
-		tr1.append($("<td id='vals'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
+            tr1.append($("<td id='vals'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
 	}
 	else{
-		tr1.append($("<td id='vals' class='pvtAxisContainer pvtHorizList'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
+            tr1.append($("<td id='vals' class='pvtAxisContainer pvtHorizList'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
 	}
 
     tr1.append($("<td id='cols' class='pvtAxisContainer pvtHorizList'>").append($("<span >Colums</span>")));
@@ -1737,7 +1533,7 @@ listUnique: function(_arg) {
         return true;
       };
       pivotTable.pivot(input, subopts);
-	  try{$(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2);}catch(er){}
+      try{$(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2);}catch(er){}
       return this.data("pivotUIOptions", {
         cols: subopts.cols,
         rows: subopts.rows,
@@ -1750,8 +1546,7 @@ listUnique: function(_arg) {
         rendererName: renderer.val()
       });
     }, this);
-	
-	refresh();
+    refresh();
     this.find(".pvtAxisContainer").sortable({
       connectWith: ".pvtAxisContainer",
       items: 'li',
