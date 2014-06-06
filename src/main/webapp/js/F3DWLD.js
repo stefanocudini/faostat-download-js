@@ -415,12 +415,13 @@ var F3DWLD = (function() {
                         var ins = new Array();
                         for (var j = 0; j < F3DWLD.CONFIG.selectedValues[key].length; j++) {
                             var code = F3DWLD.CONFIG.selectedValues[key][j].code;
-                            code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
+//                            code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
+                            code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
                             ins.push('\'' + code + '\'');
                         }
                         p['list' + listBoxNo + 'Codes'] = ins;
                     }
-
+                    
                     var data = {};
                     data.payload = JSON.stringify(p);
 
