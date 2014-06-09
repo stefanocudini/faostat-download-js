@@ -313,7 +313,7 @@ var F3DWLD = (function() {
      *                      but it will use the previously buffered data
      * @param streamExcel   true to create the Excel file, false to show the preview
      */
-    function createTable(queryDB, streamExcel) {
+    function createTable(queryDB, streamExcel, outputFormat) {
 
         $.ajax({
 
@@ -358,9 +358,6 @@ var F3DWLD = (function() {
                 }
                 F3DWLD.CONFIG.tableIndices = tableIndices;
 
-                $('#output_area').empty();
-                $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>');
-
                 if (queryDB) {
 
                     var p = {};
@@ -381,7 +378,6 @@ var F3DWLD = (function() {
                         var ins = new Array();
                         for (var j = 0; j < F3DWLD.CONFIG.selectedValues[key].length; j++) {
                             var code = F3DWLD.CONFIG.selectedValues[key][j].code;
-//                            code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
                             code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
                             ins.push('\'' + code + '\'');
                         }
@@ -396,10 +392,21 @@ var F3DWLD = (function() {
                         p.limit = -1;
                         var data = {};
                         data.payload = JSON.stringify(p);
-                        $('#payload').val(JSON.stringify(p));
-                        document.excelForProcedures.submit();
+                        switch (outputFormat) {
+                            case 'csv':
+                                $('#payload_csv').val(JSON.stringify(p));
+                                document.csvForProcedures.submit();
+                                break;
+                            case 'excel':
+                                $('#payload_excel').val(JSON.stringify(p));
+                                document.excelForProcedures.submit();
+                                break;
+                        }
 
                     } else {
+
+                        $('#output_area').empty();
+                        $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>');
 
                         $.ajax({
 
@@ -899,16 +906,33 @@ var F3DWLD = (function() {
             $.i18n.prop('_pivot').toUpperCase() +
             '</div>';
         s += '<div class="download-selection-buttons">';
-        s += '<a class="btn btn-big" onclick="F3DWLD.preview(true);">';
+
+        /* Download button. */
+        s += '<div id="download_button_menu" >';
+        s += '<ul>';
+        s += '<li id="download_button_menu_root"><i class="fa fa-chevron-circle-down"></i> ' + $.i18n.prop('_download').toUpperCase();
+        s += '<ul>';
+        s += '<li onclick="F3DWLD.download(true, \'csv\');"><i class="fa fa-file-code-o"></i> CSV</li>';
+        s += '<li onclick="F3DWLD.download(true, \'excel\');"><i class="fa fa-file-excel-o"></i> Excel</li>';
+        s += '</ul>';
+        s += '</li>';
+        s += '</ul>';
+        s += '</div>';
+
+        /* Preview button. */
+
+        s += '<a id="dwl-preview-btn" class="btn btn-big" onclick="F3DWLD.preview(true);">';
         s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">' +
             $.i18n.prop('_preview').toUpperCase() +
             '</div>';
         s += '</a>';
-        s += '<a class="btn btn-big" onclick="F3DWLD.download(true);" id="buttonDeSelectAll_usp_GetElementList"">';
-        s += '<i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">' +
-            $.i18n.prop('_download').toUpperCase() +
-            '</div>';
-        s += '</a>';
+
+//        s += '<a class="btn btn-big" onclick="F3DWLD.download(true);" id="buttonDeSelectAll_usp_GetElementList"">';
+//        s += '<i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">' +
+//            $.i18n.prop('_download').toUpperCase() +
+//            '</div>';
+//        s += '</a>';
+
         s += '</div>';
         s += '</div>';
         return s;
@@ -931,20 +955,22 @@ var F3DWLD = (function() {
            // try {
                 validateSelection('preview pivot');
                 collectAndQueryWDSPivot();
+            STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
            // } catch (e) {        console.log(e);            }
         }
     }
 
-    function download(queryDB) {
+    function download(queryDB, outputFormat) {
         if ($('#radio_table').val()) {
             try {
                 validateSelection('download');
-                createTable(queryDB, true);
+                createTable(queryDB, true, outputFormat);
                 STATS.exportTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             } catch (e) {
                 alert(e);
             }
         } else {
+            STATS.exportPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
             if($('#export_csv').jqxRadioButton('checked')) {
                 decolrowspanNEW();
             } else {
@@ -1030,6 +1056,14 @@ var F3DWLD = (function() {
     }
 
     function enhanceUIStructure() {
+
+        $('#download_button_menu').jqxMenu({
+            autoOpen: true,
+            showTopLevelArrows: false,
+            autoCloseOnClick: true,
+            clickToOpen: false
+        });
+
         showBulkDownloads();
         $('#options-menu').jqxMenu({
             autoOpen: false,
