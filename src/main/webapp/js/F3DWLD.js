@@ -107,8 +107,8 @@ var F3DWLD = (function() {
 
         /* Collect codes for 'list' items, then create the JSON payload. */
         //collectListCodesPIVOT();
- try {document.getElementById('testinline').className="visi2";} catch(err) {    }
-                    insideFalseClick();
+        try {document.getElementById('testinline').className="visi2";} catch(err) {    }
+        insideFalseClick();
     };
 
 
@@ -121,30 +121,30 @@ var F3DWLD = (function() {
         FAOSTATNEWOLAP.flags={};
 
 
-      
+
         var p = {};
-                p.datasource = F3DWLD.CONFIG.datasource;
-                p.domainCode = F3DWLD.CONFIG.domainCode;
-                p.lang = F3DWLD.CONFIG.lang;
-                p.nullValues = F3DWLD.CONFIG.wdsPayload.showNullValues;
-                p.thousand = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
-                p.decimal = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
-                p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
-                p.limit = -1;
+        p.datasource = F3DWLD.CONFIG.datasource;
+        p.domainCode = F3DWLD.CONFIG.domainCode;
+        p.lang = F3DWLD.CONFIG.lang;
+        p.nullValues = F3DWLD.CONFIG.wdsPayload.showNullValues;
+        p.thousand = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
+        p.decimal = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
+        p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
+        p.limit = -1;
 
-                for (var i = 1 ; i <= F3DWLD.CONFIG.maxListBoxNo ; i++)
-                    p['list' + i + 'Codes'] = [];
+        for (var i = 1 ; i <= F3DWLD.CONFIG.maxListBoxNo ; i++)
+            p['list' + i + 'Codes'] = [];
 
-                for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
-                    var listBoxNo = 1 + parseInt(key);
-                    var ins = new Array();
-                    for (var j = 0 ; j < F3DWLD.CONFIG.selectedValues[key].length ; j++) {
-                        var code = F3DWLD.CONFIG.selectedValues[key][j].code;
-                        code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
-                        ins.push('\'' + code + '\'');
-                    }
-                    p['list' + listBoxNo + 'Codes'] = ins;
-                }
+        for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
+            var listBoxNo = 1 + parseInt(key);
+            var ins = new Array();
+            for (var j = 0 ; j < F3DWLD.CONFIG.selectedValues[key].length ; j++) {
+                var code = F3DWLD.CONFIG.selectedValues[key][j].code;
+                code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
+                ins.push('\'' + code + '\'');
+            }
+            p['list' + listBoxNo + 'Codes'] = ins;
+        }
 
         var data = {};
         data.payload = JSON.stringify(p);
@@ -173,7 +173,7 @@ var F3DWLD = (function() {
                  for(i in response){response2.push(response[i]);}
                  */
                 if(F3DWLD.CONFIG.domainCode=="TM" ||F3DWLD.CONFIG.domainCode=="FT" )
-                 {mesOptionsPivot=FAOSTATOLAP2.optionsTM}
+                {mesOptionsPivot=FAOSTATOLAP2.optionsTM}
                 var derivers = $.pivotUtilities.derivers;
                 var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.gchart_renderers);
                 /*mesOptionsPivot.vals=["Value"];
@@ -181,8 +181,8 @@ var F3DWLD = (function() {
                  if(F3DWLD.CONFIG.wdsPayload.showFlags){mesOptionsPivot.vals.push("Flag")}
                  */
                 //$("#output_are").html("<div id=\"testinline\"></div>");
-                 $("#testinline").pivotUI(response,mesOptionsPivot ,true);
-               
+                $("#testinline").pivotUI(response,mesOptionsPivot ,true);
+
 
                 $("#testinline").css("overflow","auto");
                 var newFlag="";
@@ -286,8 +286,8 @@ var F3DWLD = (function() {
             });
 
         } else {
-             try {document.getElementById('testinline').className="visi2";} catch(err) {    }
-                    insideFalseClick();
+            try {document.getElementById('testinline').className="visi2";} catch(err) {    }
+            insideFalseClick();
         }
 
     };
@@ -952,11 +952,11 @@ var F3DWLD = (function() {
         } else {
             $('#output_area').css("min-height","0px");
             $('#testinline').css("display","block");
-           // try {
-                validateSelection('preview pivot');
-                collectAndQueryWDSPivot();
+            // try {
+            validateSelection('preview pivot');
+            collectAndQueryWDSPivot();
             STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
-           // } catch (e) {        console.log(e);            }
+            // } catch (e) {        console.log(e);            }
         }
     }
 
