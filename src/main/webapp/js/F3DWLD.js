@@ -1292,7 +1292,7 @@ var F3DWLD = (function() {
                     var gridIdx = gridID.substring(1 + gridID.indexOf('_'), gridID.lastIndexOf('_'));
                     var selectedTab = $('#tab_' + gridIdx).jqxTabs('val');
                     var tabName = $('#tab_' + gridIdx).jqxTabs('getTitleAt', selectedTab);
-                    var lbl = tabName + ' - All';
+                    var lbl = tabName + ' ' + $.i18n.prop('_all');
 
                     var subfix = '_ALL';
                     var itemID = gridID + "_" + selectedTab + subfix;
