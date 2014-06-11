@@ -907,6 +907,13 @@ var F3DWLD = (function() {
             '</div>';
         s += '<div class="download-selection-buttons">';
 
+        /* Preview button. */
+        s += '<a id="dwl-preview-btn" class="btn btn-big" onclick="F3DWLD.preview(true);">';
+        s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">' +
+            $.i18n.prop('_preview').toUpperCase() +
+            '</div>';
+        s += '</a>';
+
         /* Download button. */
         s += '<div id="download_button_menu" >';
         s += '<ul>';
@@ -919,19 +926,7 @@ var F3DWLD = (function() {
         s += '</ul>';
         s += '</div>';
 
-        /* Preview button. */
 
-        s += '<a id="dwl-preview-btn" class="btn btn-big" onclick="F3DWLD.preview(true);">';
-        s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">' +
-            $.i18n.prop('_preview').toUpperCase() +
-            '</div>';
-        s += '</a>';
-
-//        s += '<a class="btn btn-big" onclick="F3DWLD.download(true);" id="buttonDeSelectAll_usp_GetElementList"">';
-//        s += '<i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">' +
-//            $.i18n.prop('_download').toUpperCase() +
-//            '</div>';
-//        s += '</a>';
 
         s += '</div>';
         s += '</div>';
@@ -1239,11 +1234,13 @@ var F3DWLD = (function() {
             tmp.code = $(v).data('faostat');
             tmp.label = $(v).data('label');
             tmp.type = $(v).data('type');
+            tmp.tab = $(v).data('tab');
+            tmp.listbox = $(v).data('listbox');
             values.push(tmp);
         });
 
         $('#' + gridID + '_select option').prop('selected', true);
-        addItemToSummary(gridID, values);
+        addItemToSummary(gridID, values, true);
 
     };
 
@@ -1265,14 +1262,16 @@ var F3DWLD = (function() {
             tmp.code = $(v).data('faostat');
             tmp.label = $(v).data('label');
             tmp.type = $(v).data('type');
+            tmp.tab = $(v).data('tab');
+            tmp.listbox = $(v).data('listbox');
             values.push(tmp);
         });
 
-        addItemToSummary(gridID, values);
+        addItemToSummary(gridID, values, false);
 
     }
 
-    function addItemToSummary(gridID, values) {
+    function addItemToSummary(gridID, values, selectAll) {
 
         var summaryID = findSummaryName(gridID);
 
@@ -1286,35 +1285,67 @@ var F3DWLD = (function() {
 
                 var buffer = findBuffer(gridID);
 
-                for (var i = 0; i < values.length; i++) {
+                if (selectAll) {
 
-                    if (!contains(buffer, values[i])) {
+                    buffer.push.apply(buffer, values);
 
-                        buffer.push(values[i]);
+                    var gridIdx = gridID.substring(1 + gridID.indexOf('_'), gridID.lastIndexOf('_'));
+                    var selectedTab = $('#tab_' + gridIdx).jqxTabs('val');
+                    var tabName = $('#tab_' + gridIdx).jqxTabs('getTitleAt', selectedTab);
+                    var lbl = tabName + ' - All';
 
-                        var subfix = (values[i].type == '>') ? '_LIST' : '_TOTAL';
-                        var itemID = gridID + "_" + values[i].code + subfix;
-                        var code = values[i].code;
-                        var type = values[i].type;
-                        var title = $.i18n.prop('_click_to_remove');
+                    var subfix = '_ALL';
+                    var itemID = gridID + "_" + selectedTab + subfix;
+                    var code = gridID + "_" + selectedTab + subfix;
+                    var type = 'ALL';
+                    var title = $.i18n.prop('_click_to_remove');
 
-                        $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
-                        $('#' + itemID).powerTip({placement: 's'});
+                    $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + lbl + "' class='summary-item' code='" + code + "'>" + lbl + "</div>");
+                    $('#' + itemID).powerTip({placement: 's'});
 
-                        /** Remove item from summary. */
-                        $('#' + itemID).on('click', function (e) {
-                            var id = extractID(e.target.id);
-                            $.each(buffer, function(k, v) {
-                                if (v != null && v.code == id)
-                                    buffer.splice(k, 1);
-                            });
-                            $('#' + e.target.id).remove();
-                            $('#' + gridID).find('option:selected').each(function(k, v) {
-                                var code = $(v).data('faostat');
-                                if (code == id)
-                                    $(v).prop('selected', false);
-                            });
+                    /** Remove item from summary. */
+                    var idx = gridID.substring(1 + gridID.indexOf('_'), gridID.lastIndexOf('_'));
+                    $('#' + itemID).on('click', function (e) {
+                        $('#' + e.target.id).remove();
+                        $.each(buffer, function (k, v) {
+                            if (v != null && v.tab == (1 + parseInt(selectedTab)) && v.listbox == gridIdx)
+                                F3DWLD.CONFIG.selectedValues[parseInt(idx) - 1] = F3DWLD.CONFIG.selectedValues[parseInt(idx) - 1].slice(k, 1);
                         });
+                    });
+
+                } else {
+
+                    for (var i = 0; i < values.length; i++) {
+
+                        if (!contains(buffer, values[i])) {
+
+                            buffer.push(values[i]);
+
+                            var subfix = (values[i].type == '>') ? '_LIST' : '_TOTAL';
+                            var itemID = gridID + "_" + values[i].code + subfix;
+                            var code = values[i].code;
+                            var type = values[i].type;
+                            var title = $.i18n.prop('_click_to_remove');
+
+                            $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
+                            $('#' + itemID).powerTip({placement: 's'});
+
+                            /** Remove item from summary. */
+                            $('#' + itemID).on('click', function (e) {
+                                var id = extractID(e.target.id);
+                                $.each(buffer, function (k, v) {
+                                    if (v != null && v.code == id)
+                                        buffer.splice(k, 1);
+                                });
+                                $('#' + e.target.id).remove();
+                                $('#' + gridID).find('option:selected').each(function (k, v) {
+                                    var code = $(v).data('faostat');
+                                    if (code == id)
+                                        $(v).prop('selected', false);
+                                });
+                            });
+
+                        }
 
                     }
 
@@ -1372,7 +1403,7 @@ var F3DWLD = (function() {
 
                 for (var i = 0; i < json.length; i++) {
                     lbl = json[i][1];
-                    var option = '<option class="grid-element" data-faostat="' + json[i][0] + '" data-label="' + lbl + '" data-type="' + json[i][3] + '">' + lbl + '</option>';
+                    var option = '<option class="grid-element" data-listbox="' + listBoxNo + '" data-tab="' + tabNo + '" data-faostat="' + json[i][0] + '" data-label="' + lbl + '" data-type="' + json[i][3] + '">' + lbl + '</option>';
                     select += option;
                 }
 
