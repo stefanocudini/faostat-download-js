@@ -1,22 +1,22 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        base_url                :   'http://localhost:8080/faostat-gateway/go/to/download',
-        prefix                  :   'http://localhost:8080/faostat-download-js/',
-        CPINotes_url            :   'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
-        ODA_url                 :   'http://faostat3.fao.org/wds/rest/procedures/oda',
-        data_url                :   'http://faostat3.fao.org/wds/rest',
-        procedures_data_url     :   'http://faostat3.fao.org/wds/rest/procedures/data',
-        procedures_excel_url    :   'http://faostat3.fao.org/wds/rest/procedures/excel',
-        codes_url               :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox',
-        bulks_url               :   'http://faostat3.fao.org/wds/rest/bulkdownloads',
-        domains_url             :   'http://faostat3.fao.org/wds/rest/domains',
-        bletchley_url           :   'http://faostat3.fao.org/bletchley/rest/codes',
-        schema_url              :   'http://faostat3.fao.org/wds/rest/procedures/schema/',
+        base_url                :   'http://168.202.28.210:8080/faostat-gateway/go/to/download',
+        prefix                  :   'http://168.202.28.210:8080/faostat-download-js/',
+        CPINotes_url            :   'http://168.202.28.210:8080/wds/rest/procedures/cpinotes',
+        ODA_url                 :   'http://168.202.28.210:8080/wds/rest/procedures/oda',
+        data_url                :   'http://168.202.28.210:8080/wds/rest',
+        procedures_data_url     :   'http://168.202.28.210:8080/wds/rest/procedures/data',
+        procedures_excel_url    :   'http://168.202.28.210:8080/wds/rest/procedures/excel',
+        codes_url               :   'http://168.202.28.210:8080/wds/rest/procedures/usp_GetListBox',
+        bulks_url               :   'http://168.202.28.210:8080/wds/rest/bulkdownloads',
+        domains_url             :   'http://168.202.28.210:8080/wds/rest/domains',
+        bletchley_url           :   'http://168.202.28.210:8080/bletchley/rest/codes',
+        schema_url              :   'http://168.202.28.210:8080/wds/rest/procedures/schema/',
         bulks_root              :   'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/',
         configurationURL        :   'config/faostat-download-configuration.json',
         dbPrefix                :   'FAOSTAT_',
-        dsdURL                  :   'http://faostat3.fao.org/wds/rest/procedures/listboxes',
+        dsdURL                  :   'http://168.202.28.210:8080/wds/rest/procedures/listboxes',
         theme                   :   'faostat',
         tradeMatrices           :   ['FT', 'TM'],
         lang                    :   'E',
@@ -44,9 +44,9 @@ var F3DWLD = (function() {
         CORE.upgradeURL('download', groupCode, domainCodeURL, language);
 
         /* Labels */
-       try{ document.getElementById('_faostat_domains').innerHTML = $.i18n.prop('_faostat_domains');
+        document.getElementById('_faostat_domains').innerHTML = $.i18n.prop('_faostat_domains');
         document.getElementById('_download').innerHTML = $.i18n.prop('_download');
-       }catch(er){}
+
         $.getJSON(CONFIG.prefix + CONFIG.configurationURL, function (data) {
 
             F3DWLD.CONFIG.baseurl      =   data.baseurl;
@@ -386,12 +386,12 @@ function retFunction(a,b,c)
      *                      but it will use the previously buffered data
      * @param streamExcel   true to create the Excel file, false to show the preview
      */
-    function createTable(queryDB, streamExcel) {
+    function createTable(queryDB, streamExcel, outputFormat) {
 
         $.ajax({
 
             type: 'GET',
-            url: F3DWLD.CONFIG.schema_url + FAOSTATDownload.datasource + '/' + FAOSTATDownload.domainCode+'/'+FAOSTATDownload.language,
+            url: F3DWLD.CONFIG.schema_url + FAOSTATDownload.datasource + '/' + FAOSTATDownload.domainCode + '/' + FAOSTATDownload.language,
 
             success: function (response) {
 
@@ -431,9 +431,6 @@ function retFunction(a,b,c)
                 }
                 F3DWLD.CONFIG.tableIndices = tableIndices;
 
-                $('#output_area').empty();
-                $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>');
-
                 if (queryDB) {
 
                     var p = {};
@@ -454,7 +451,6 @@ function retFunction(a,b,c)
                         var ins = new Array();
                         for (var j = 0; j < F3DWLD.CONFIG.selectedValues[key].length; j++) {
                             var code = F3DWLD.CONFIG.selectedValues[key][j].code;
-//                            code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
                             code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
                             ins.push('\'' + code + '\'');
                         }
@@ -469,10 +465,21 @@ function retFunction(a,b,c)
                         p.limit = -1;
                         var data = {};
                         data.payload = JSON.stringify(p);
-                        $('#payload').val(JSON.stringify(p));
-                        document.excelForProcedures.submit();
+                        switch (outputFormat) {
+                            case 'csv':
+                                $('#payload_csv').val(JSON.stringify(p));
+                                document.csvForProcedures.submit();
+                                break;
+                            case 'excel':
+                                $('#payload_excel').val(JSON.stringify(p));
+                                document.excelForProcedures.submit();
+                                break;
+                        }
 
                     } else {
+
+                        $('#output_area').empty();
+                        $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>');
 
                         $.ajax({
 
@@ -972,16 +979,33 @@ function retFunction(a,b,c)
             $.i18n.prop('_pivot').toUpperCase() +
             '</div>';
         s += '<div class="download-selection-buttons">';
-        s += '<a class="btn btn-big" onclick="F3DWLD.preview(true);">';
+
+        /* Download button. */
+        s += '<div id="download_button_menu" >';
+        s += '<ul>';
+        s += '<li id="download_button_menu_root"><i class="fa fa-chevron-circle-down"></i> ' + $.i18n.prop('_download').toUpperCase();
+        s += '<ul>';
+        s += '<li onclick="F3DWLD.download(true, \'csv\');"><i class="fa fa-file-code-o"></i> CSV</li>';
+        s += '<li onclick="F3DWLD.download(true, \'excel\');"><i class="fa fa-file-excel-o"></i> Excel</li>';
+        s += '</ul>';
+        s += '</li>';
+        s += '</ul>';
+        s += '</div>';
+
+        /* Preview button. */
+
+        s += '<a id="dwl-preview-btn" class="btn btn-big" onclick="F3DWLD.preview(true);">';
         s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">' +
             $.i18n.prop('_preview').toUpperCase() +
             '</div>';
         s += '</a>';
-        s += '<a class="btn btn-big" onclick="F3DWLD.download(true);" id="buttonDeSelectAll_usp_GetElementList"">';
-        s += '<i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">' +
-            $.i18n.prop('_download').toUpperCase() +
-            '</div>';
-        s += '</a>';
+
+//        s += '<a class="btn btn-big" onclick="F3DWLD.download(true);" id="buttonDeSelectAll_usp_GetElementList"">';
+//        s += '<i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">' +
+//            $.i18n.prop('_download').toUpperCase() +
+//            '</div>';
+//        s += '</a>';
+
         s += '</div>';
         s += '</div>';
         return s;
@@ -1004,20 +1028,22 @@ function retFunction(a,b,c)
            // try {
                 validateSelection('preview pivot');
                 collectAndQueryWDSPivot();
+            STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
            // } catch (e) {        console.log(e);            }
         }
     }
 
-    function download(queryDB) {
+    function download(queryDB, outputFormat) {
         if ($('#radio_table').val()) {
             try {
                 validateSelection('download');
-                createTable(queryDB, true);
+                createTable(queryDB, true, outputFormat);
                 STATS.exportTableDownloadStandard(F3DWLD.CONFIG.domainCode);
             } catch (e) {
                 alert(e);
             }
         } else {
+            STATS.exportPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
             if($('#export_csv').jqxRadioButton('checked')) {
                 decolrowspanNEW();
             } else {
@@ -1103,6 +1129,14 @@ function retFunction(a,b,c)
     }
 
     function enhanceUIStructure() {
+
+        $('#download_button_menu').jqxMenu({
+            autoOpen: true,
+            showTopLevelArrows: false,
+            autoCloseOnClick: true,
+            clickToOpen: false
+        });
+
         showBulkDownloads();
         $('#options-menu').jqxMenu({
             autoOpen: false,
