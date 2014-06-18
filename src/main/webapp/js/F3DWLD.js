@@ -1017,6 +1017,13 @@ if(refresh){
             '</div>';
         s += '<div class="download-selection-buttons">';
 
+        /* Preview button. */
+        s += '<a id="dwl-preview-btn" class="btn btn-big" onclick="F3DWLD.preview(true);">';
+        s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">' +
+            $.i18n.prop('_preview').toUpperCase() +
+            '</div>';
+        s += '</a>';
+
         /* Download button. */
         s += '<div id="download_button_menu" >';
         s += '<ul>';
@@ -1029,7 +1036,6 @@ if(refresh){
         s += '</ul>';
         s += '</div>';
 
-        /* Preview button. */
 
         s += '<a id="dwl-preview-btn" class="btn btn-big" onclick="F3DWLD.preview(true,false);">';
         s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">' +
@@ -1069,7 +1075,7 @@ if(refresh){
                 buildOptionsMenu();//just UI option menu
                 collectAndQueryWDSPivot(refresh);
             STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
-           // } catch (e) {        console.log(e);            }
+            // } catch (e) {        console.log(e);            }
         }
     }
 
@@ -1372,11 +1378,13 @@ if(refresh){
             tmp.code = $(v).data('faostat');
             tmp.label = $(v).data('label');
             tmp.type = $(v).data('type');
+            tmp.tab = $(v).data('tab');
+            tmp.listbox = $(v).data('listbox');
             values.push(tmp);
         });
 
         $('#' + gridID + '_select option').prop('selected', true);
-        addItemToSummary(gridID, values);
+        addItemToSummary(gridID, values, true);
 
     };
 
@@ -1399,14 +1407,16 @@ FAOSTATNEWOLAP.firstCall=1;
             tmp.code = $(v).data('faostat');
             tmp.label = $(v).data('label');
             tmp.type = $(v).data('type');
+            tmp.tab = $(v).data('tab');
+            tmp.listbox = $(v).data('listbox');
             values.push(tmp);
         });
 
-        addItemToSummary(gridID, values);
+        addItemToSummary(gridID, values, false);
 
     }
 
-    function addItemToSummary(gridID, values) {
+    function addItemToSummary(gridID, values, selectAll) {
 
         var summaryID = findSummaryName(gridID);
 
@@ -1420,20 +1430,23 @@ FAOSTATNEWOLAP.firstCall=1;
 
                 var buffer = findBuffer(gridID);
 
-                for (var i = 0; i < values.length; i++) {
+                if (selectAll) {
 
-                    if (!contains(buffer, values[i])) {
+                    buffer.push.apply(buffer, values);
 
-                        buffer.push(values[i]);
+                    var gridIdx = gridID.substring(1 + gridID.indexOf('_'), gridID.lastIndexOf('_'));
+                    var selectedTab = $('#tab_' + gridIdx).jqxTabs('val');
+                    var tabName = $('#tab_' + gridIdx).jqxTabs('getTitleAt', selectedTab);
+                    var lbl = tabName + ' ' + $.i18n.prop('_all');
 
-                        var subfix = (values[i].type == '>') ? '_LIST' : '_TOTAL';
-                        var itemID = gridID + "_" + values[i].code + subfix;
-                        var code = values[i].code;
-                        var type = values[i].type;
-                        var title = $.i18n.prop('_click_to_remove');
+                    var subfix = '_ALL';
+                    var itemID = gridID + "_" + selectedTab + subfix;
+                    var code = gridID + "_" + selectedTab + subfix;
+                    var type = 'ALL';
+                    var title = $.i18n.prop('_click_to_remove');
 
-                        $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
-                        $('#' + itemID).powerTip({placement: 's'});
+                    $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + lbl + "' class='summary-item' code='" + code + "'>" + lbl + "</div>");
+                    $('#' + itemID).powerTip({placement: 's'});
 
                         /** Remove item from summary. */
                         $('#' + itemID).on('click', function (e) {
@@ -1451,6 +1464,41 @@ FAOSTATNEWOLAP.firstCall=1;
                                     $(v).prop('selected', false);
                             });
                         });
+                    });
+
+                } else {
+
+                    for (var i = 0; i < values.length; i++) {
+
+                        if (!contains(buffer, values[i])) {
+
+                            buffer.push(values[i]);
+
+                            var subfix = (values[i].type == '>') ? '_LIST' : '_TOTAL';
+                            var itemID = gridID + "_" + values[i].code + subfix;
+                            var code = values[i].code;
+                            var type = values[i].type;
+                            var title = $.i18n.prop('_click_to_remove');
+
+                            $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
+                            $('#' + itemID).powerTip({placement: 's'});
+
+                            /** Remove item from summary. */
+                            $('#' + itemID).on('click', function (e) {
+                                var id = extractID(e.target.id);
+                                $.each(buffer, function (k, v) {
+                                    if (v != null && v.code == id)
+                                        buffer.splice(k, 1);
+                                });
+                                $('#' + e.target.id).remove();
+                                $('#' + gridID).find('option:selected').each(function (k, v) {
+                                    var code = $(v).data('faostat');
+                                    if (code == id)
+                                        $(v).prop('selected', false);
+                                });
+                            });
+
+                        }
 
                     }
 
@@ -1508,7 +1556,7 @@ FAOSTATNEWOLAP.firstCall=1;
 
                 for (var i = 0; i < json.length; i++) {
                     lbl = json[i][1];
-                    var option = '<option class="grid-element" data-faostat="' + json[i][0] + '" data-label="' + lbl + '" data-type="' + json[i][3] + '">' + lbl + '</option>';
+                    var option = '<option class="grid-element" data-listbox="' + listBoxNo + '" data-tab="' + tabNo + '" data-faostat="' + json[i][0] + '" data-label="' + lbl + '" data-type="' + json[i][3] + '">' + lbl + '</option>';
                     select += option;
                 }
 
