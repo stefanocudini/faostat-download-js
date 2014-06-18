@@ -16,7 +16,8 @@ FAOSTATNEWOLAP.firstCall=1;
 FAOSTATNEWOLAP.flags={};
 FAOSTATNEWOLAP.internalData={};
 FAOSTATNEWOLAP.originalData=[];
-
+FAOSTATNEWOLAP.thousandSeparator=" ";
+FAOSTATNEWOLAP.decimalSeparator="."
 function changeNested()
 {
 	if(document.getElementById('cbNestedBy').checked){FAOSTATNEWOLAP.nestedby=1;}
@@ -37,6 +38,14 @@ $(".pvtTotal", monclone).remove();
 $(".invi", monclone).remove();
 $("thead", monclone).remove();
 $(".pvtGrandTotal", monclone).remove();
+/*for (var i in $(".fval", monclone))
+{
+    console.log("ok"+i);
+     console.log(isNaN(i));
+if(!isNaN(i))  { 
+    $(".fval", monclone)[i].innerHTML=$(".fval", monclone)[i].innerHTML.replace(" ","");
+    }
+};*/
 $("td", monclone).css("border","1px solid black");
 $("th", monclone).css("border","1px solid black");
 $(".table", monclone).css("border","1px solid black");
@@ -299,9 +308,11 @@ var internalTest;
     nStr += '';
     x = nStr.split('.');
     x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
+    x2 = x.length > 1 ?FAOSTATNEWOLAP.decimalSeparator + x[1] : '';
     rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {      x1 = x1.replace(rgx, '$1' + ',' + '$2');    }
+ 
+    while (rgx.test(x1)) {      x1 = x1.replace(rgx, '$1' +FAOSTATNEWOLAP.thousandSeparator + '$2');    }
+   // if(FAOSTATNEWOLAP.thousandSeparator===" "){x1=x1.replace(" ","");}
     return x1 + x2;
   };
   numberFormat = function(sigfig, scaler) {
@@ -322,8 +333,12 @@ var internalTest;
 	var x=x1[k];
 	if(x!="_"){
 	if(!isNaN(k)){
+           // console.log(x);
+       
                 if (x === 0 || isNaN(x) || !isFinite(x)) { ret+= "<td>"+x+"</td>";}
                 else {ret+= "<td>"+addCommas((scaler * x).toFixed(FAOSTATNEWOLAP.decimal))+"</td>"; }
+                 // else {ret+= "<td>"+ x.toFixed(FAOSTATNEWOLAP.decimal).toLocaleString()+"</td>"; }
+                    
                 }
             }
 	  }

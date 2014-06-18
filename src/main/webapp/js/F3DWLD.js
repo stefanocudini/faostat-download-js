@@ -1216,18 +1216,27 @@ if(refresh){
         $('#dot_menu').bind('change', function (event) {
             if (event.args.checked) {
                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
+                FAOSTATNEWOLAP.decimalSeparator= '.';
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
+              
             } else {
+                 FAOSTATNEWOLAP.decimalSeparator= ',';
+                  FAOSTATNEWOLAP.thousandSeparator=' ' ;
                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = ',';
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = '.';
+                 
             }
             preview(true,true);
         });
         $('#disable_menu').bind('change', function (event) {
             if (event.args.checked) {
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = '';
+                FAOSTATNEWOLAP.thousandSeparator=' ' ;
             } else {
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
+                FAOSTATNEWOLAP.thousandSeparator=","; 
+                FAOSTATNEWOLAP.decimalSeparator= '.';
+                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
             }
             preview(true,true);
         });
