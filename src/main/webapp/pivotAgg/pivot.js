@@ -5,13 +5,17 @@ function newFunctions(){
 	$("#unused").css("display","block");
 	$("#renderer").css("display","block");
 	$("#aggregator").css("display","block");
+        $("#unused").css("background-color","#ececec");
+         $("#unused li nobr").css("color","#666");
 }
 FAOSTATNEWOLAP={};
-FAOSTATNEWOLAP.nestedby=1;
+FAOSTATNEWOLAP.nestedby=0;
 FAOSTATNEWOLAP.viewVals=0;
 FAOSTATNEWOLAP.decimal=2;
+FAOSTATNEWOLAP.firstCall=1;
 FAOSTATNEWOLAP.flags={};
 FAOSTATNEWOLAP.internalData={};
+FAOSTATNEWOLAP.originalData=[];
 
 function changeNested()
 {
@@ -22,6 +26,7 @@ function changeNested()
 function my_exportNew(){
 monclone=$("#pivot_table").clone();
 $("#renderer", monclone).remove();
+$(".ordre", monclone).remove();
 $("#unused", monclone).remove();
 $("#aggregator", monclone).remove();
 $("#vals", monclone).remove();
@@ -44,23 +49,44 @@ document.getElementById("excelData").value="<table><tr><td>FAOSTAT "+today.getFu
  
 function decolrowspanNEW()
 {var today=new Date();
+    
+    var reg=new RegExp("<span class=\"ordre\">[0-9]+</span>", "g");
+    var reg2=new RegExp("<table  class=\"innerCol\"><th>([^<]*)</th><th>([^<]*)</th></table>","g");
 var row=FAOSTATNEWOLAP.internalData.tree;
 var col=FAOSTATNEWOLAP.internalData.flatColKeys.reverse();
-var ret="FAOSTAT "+today.getFullYear()+", Date : "+today.toLocaleDateString()+"\n";
-for(var j=0;j<FAOSTATNEWOLAP.internalData.rowKeys[0].length;j++){ret+=",";}
-for(j in col){ret+=col[j].replace(/,/g,"").replace(/\|\|/g,"-").replace(/&nbsp;/g,"")+", unit , flag ,";}
+var ret="";
+for(var j=0;j<FAOSTATNEWOLAP.internalData.rowKeys[0].length;j++){ret+=FAOSTATNEWOLAP.internalData.rowAttrs[j].replace("_","")+",";
+    if(F3DWLD.CONFIG.wdsPayload.showCodes){console.log("ok");ret+=",";}
+    }
+for(j in col)
+{ret+=col[j].replace(/,/g,"").replace(/\|\|/g,"-").replace(/&nbsp;/g,"").replace(reg,"").replace(reg2,"$1");
+   if(F3DWLD.CONFIG.wdsPayload.showUnits){ ret+= ", unit ";}
+   if(F3DWLD.CONFIG.wdsPayload.showFlags) {ret+=", flag ";}
+   ret+=",";
+}
 ret+="\n";
+
 for (i in row){
 		ret+=i.replace(/,/g,"").replace(/\|\|/g,",")+",";
 		for(j in col){
 			try{
 				//ret+=row[i][col[j]].value().replace(",","").replace("&nbsp;","").join("," )+",";
 				ret+=row[i][col[j]].value().join("||" ).replace(/,/g,"").replace(/&nbsp;/g,"").replace(/\|\|/g,",")+",";
-				}
-			catch(ER){ret+=",,,";}
+				
+          ret=ret.replace(reg,"").replace(reg2,"$1,$2");
+          ret=ret.replace(/,_/g,"");
+           // console.log(ret)
+
+            }
+			catch(ER){
+                            ret+=",";
+                               if(F3DWLD.CONFIG.wdsPayload.showUnits){ ret+= ", ";}
+   if(F3DWLD.CONFIG.wdsPayload.showFlags) {ret+=", ";}
+                            console.log(ER)}
 			}
 			ret+="\n" ;
 	}
+       
         var testtd=document.getElementById("hor-minimalist-b").getElementsByTagName('td');
         j=0;
         for(i in testtd){
@@ -68,7 +94,9 @@ for (i in row){
                 else{ret+=",";j=0;}
                 ret+=testtd[i].innerHTML;
             }
-	document.getElementById('csvData').value=ret;
+ ret+="\n\nFAOSTAT "+today.getFullYear()+", Date : "+today.toLocaleDateString()+"\n";	
+    document.getElementById('csvData').value=ret;
+        
 	document.getElementById('csvDataForm').submit();
 }
  
@@ -1239,7 +1267,7 @@ listUnique: function(_arg) {
     uiTable.append($("<tr>").append(rendererControl).append(colList));
     tr1 = $("<tr>");
     aggregator = $("<select id='aggregator'>").css("margin-bottom", "5px").bind("change", function() {
-	if($("#aggregator").val()=="sumUnit"){$('#renderer option[value="Table"]').prop('selected', true);	}
+	if($("#aggregator").val()==="sumUnit"){$('#renderer option[value="Table"]').prop('selected', true);	}
 	return refresh();
     });
 	
@@ -1248,7 +1276,7 @@ listUnique: function(_arg) {
       if (!__hasProp.call(_ref3, x)) continue;
       aggregator.append($("<option>").val(x).text(x));
     }
-	if(FAOSTATNEWOLAP.viewVals==0)
+	if(FAOSTATNEWOLAP.viewVals===0)
 	{
             tr1.append($("<td id='vals'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
 	}
@@ -1280,8 +1308,8 @@ listUnique: function(_arg) {
       x = _ref6[_m];
       this.find("#mesVals").append(this.find("#axis_" + (x.replace(/\s/g, ""))));
     }
-    if (opts.aggregatorName != null) {this.find("#aggregator").val(opts.aggregatorName);}
-    if (opts.rendererName != null) {this.find("#renderer").val(opts.rendererName);}
+    if (opts.aggregatorName !== null) {this.find("#aggregator").val(opts.aggregatorName);}
+    if (opts.rendererName !== null) {this.find("#renderer").val(opts.rendererName);}
     refresh = __bind(function() {
       var exclusions, subopts, vals;
       subopts = {derivedAttributes: opts.derivedAttributes};
@@ -1323,15 +1351,15 @@ listUnique: function(_arg) {
       items: 'li',
       receive:function(e){
           var my_id=e.originalEvent.target.id.split("_")[1];
-          if(e.target.id!="unused"){
+          if(e.target.id!=="unused"){
               for(k in inputOpts.linkedAttributes){
-                  if(inputOpts.linkedAttributes[k].indexOf(my_id)!=-1){
+                  if(inputOpts.linkedAttributes[k].indexOf(my_id)!==-1){
 			   for(kk in inputOpts.linkedAttributes[k]){
 				   internalTest=$("#axis_"+inputOpts.linkedAttributes[k][kk]);
                                    console.log(internalTest.parent());
-				  try{ if(  internalTest.parent().get(0).id!="unused")
+				  try{ if(  internalTest.parent().get(0).id!=="unused")
 				   {$("#"+e.target.id).append($("#axis_"+inputOpts.linkedAttributes[k][kk]));}
-                                  }catch(e){console.log(e)}	
+                                  }catch(e){console.log(e);}	
                           }
 				break;
 			}

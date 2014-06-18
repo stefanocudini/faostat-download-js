@@ -28,7 +28,7 @@ if (!window.FAOSTATDatabaseUpdate) {
             $.ajax({
                 type : 'POST',
 //                url : 'http://' + CORE.baseURL + '/wds/rest/table/json',
-                url : 'http://168.202.28.214:8090/wds/rest/table/json',
+                url : 'http://faostat3.fao.org/wds/rest/table/json',
                 data : data,
                 success : function(response) {
 

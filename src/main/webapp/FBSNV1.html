@@ -1,0 +1,81 @@
+<!--[if lt IE 8]>
+    <script src="json2.js"></script>
+<![endif]-->
+
+<!--stat-download-js/src/js/fanzybox/lib/jquery-1.9.0.min.js"></script>
+
+<script type="text/javascript" src="/faostat-download-js/src/js/chromatable/jquery.chromatable.js"></script>
+
+<script type="text/javascript" src="/faostat-download-js/src/js/fanzybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+<script type="text/javascript" src="/faostat-download-js/src/js/fanzybox/source/jquery.fancybox.js?v=2.1.4"></script>
+<link rel="stylesheet" type="text/css" href="/faostat-download-js/src/js/fanzybox/source/jquery.fancybox.css?v=2.1.4" media="screen" />
+<link rel="stylesheet" type="text/css" href="/faostat-download-js/src/js/fanzybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" />
+<script type="text/javascript" src="/faostat-download-js/src/js/fanzybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<link rel="stylesheet" type="text/css" href="/faostat-download-js/src/js/fanzybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" />
+<script type="text/javascript" src="/faostat-download-js/src/js/fanzybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script type="text/javascript" src="/faostat-download-js/src/js/fanzybox/source/helpers/jquery.fancybox-media.js?v=1.0.5"></script>
+
+<script type="text/javascript" src="/faostat-download-js/FBSN.js">
+</script-->
+<div  >
+<div id="header">
+<div style="width: 210px; position:absolute; top:0; left:0;">
+<span id="menu_tabCountry" onClick="javascript:FAOSTATFBS.changeTab('tabCountry')" class="myButtonC"></span>
+<span id="menu_tabItem" onClick="javascript:FAOSTATFBS.changeTab('tabItem')"  class="myButtonI"></span>
+</div>
+<br/><br/>
+<div id="choiches">
+<div>
+<select name="sItem" id="sItem" onChange="javascript:FAOSTATFBS.myReset('sCountry');FAOSTATFBS.showData()" class="invi">
+<option value="" id="tra1"></option>
+</select>
+<select name="sCountry" id="sCountry" onChange="javascript:FAOSTATFBS.myReset('sItem');FAOSTATFBS.showData()" class="visi2">
+<option value="" id="tra2"> </option>
+</select>
+</div>
+ <div style="margin-top: 5px;">
+<fieldset id="tabItem" class="invi">
+<input type="radio" name="ritem" id="ri1" value="1"   onchange="FAOSTATFBS.showData()"><label for="ri1" id="tra4"></label>
+<input type="radio" name="ritem" id="ri2" value="2"  onchange="FAOSTATFBS.showData()"><label for="ri2" id="tra5"> </label>
+<input type="radio" name="ritem" id="ri3" value="3" checked="true" onchange="FAOSTATFBS.showData()"><label for="ri3" id="tra6"></label>
+
+</fieldset>
+<fieldset id="tabCountry" class="visi2">
+
+<input type="radio" name="rcountry" id="rc1" value="1" onChange="FAOSTATFBS.showData()"><label for="rc1" id="tra7"> </label>
+<input type="radio" name="rcountry" id="rc2" value="2"  onchange="FAOSTATFBS.showData()"><label for="rc2" id="tra8"></label>
+<input type="radio" name="rcountry" id="rc3" value="3"  checked="true"  onchange="FAOSTATFBS.showData()"><label for="rc3" id="tra9"></label>
+
+</fieldset>
+
+ </div>
+</div>
+
+<div id="yearSelect">
+<label id="tra3"></label>
+<br/>
+<select name="sYear" id="sYear" onChange="FAOSTATFBS.showData()"></select>
+
+</div>
+<div id="finalizeData">
+
+<div id="otherO" class="visifb">
+<input type="checkbox" id="showCode" onchange="FAOSTATFBS.showData()"/><label for="showCode" id="tra10"></label>
+<hr style="color: #999; background-color:#999; width:223px; height: 1px; border:none; margin-top:4px; *margin-top:0px">
+<input type="checkbox" id="showDomestic" checked="true" onchange="FAOSTATFBS.showData()" 
+       style="margin-top:4px; *margin-top:0px"/>
+<label for="showDomestic" id="tra11"></label>
+</div>
+<br>
+</div>
+</div>
+<!--input type="button"	 id="btnShow" onClick="javascript:FAOSTATFBS.showData()" class="myButton"/-->
+<div>
+<div id="result" style="clear:both;"></div>
+<div id="chart">
+</div>
+ <form id="formExcel" action="/faostat.olap.ws/rest/ExcelCreator" method="post" >
+<input type="hidden" id="excelData" name="data" value="">
+<input type="hidden" name="type" value="xls">
+</form>
+</div>	 

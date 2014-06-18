@@ -350,14 +350,14 @@ FAOSTATFBS.init=function ()
     //document.getElementById('menu_tabCountry').style.backgroundImage="url(FAOSTATFBS.root+'img/countriesTabOn.gif')";
 
     /*traduc*/
-    if(FAOSTATFBS.lang=="S"){
+  /*  if(FAOSTATFBS.lang=="S"){
         document.getElementById("menu_tabCountry").className="myButtonCS";
         document.getElementById("menu_tabItem").className="myButtonIS";
     }
     else if(FAOSTATFBS.lang=="F"){
         document.getElementById("menu_tabCountry").className="myButtonCF";
         document.getElementById("menu_tabItem").className="myButtonIF";
-    }
+    }*/
     try{
         document.getElementById("tra1").innerHTML=FAOSTATFBS.traduction[FAOSTATFBS.lang].chooseitem;
         document.getElementById("tra2").innerHTML=FAOSTATFBS.traduction[FAOSTATFBS.lang].choosecountries;
@@ -459,7 +459,7 @@ FAOSTATFBS.Country=function()
     };
 
     var data = {};
-    data.datasource = F3DWLD.CONFIG.datasource;
+    data.datasource = "faostat2";// F3DWLD.CONFIG.datasource;
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -558,7 +558,7 @@ FAOSTATFBS.Items=function(){
     };
 
     var data = {};
-    data.datasource =F3DWLD.CONFIG.datasource;
+    data.datasource ="faostat2";// F3DWLD.CONFIG.datasource;
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -710,7 +710,7 @@ FAOSTATFBS.showData=function()
                     "ins" : []
                 });
 			 var data0 = {};
-            data0.datasource = F3DWLD.CONFIG.datasource;
+            data0.datasource ="faostat2";// F3DWLD.CONFIG.datasource;
             data0.thousandSeparator = ',';
             data0.decimalSeparator = '.';
             data0.decimalNumbers = '2';
@@ -812,9 +812,12 @@ FAOSTATFBS.showData=function()
                 ],
                 "orderBys" :[{
                     "column" : "Year"
-                },{
-                    "column" : "AreaCode"
-                },{
+                },
+                        {
+//                    "column" : "AreaCode"
+                    "column" : "ItemCode"
+
+                             },{
                     "column" : "Ord"
                 }]
                 ,
@@ -850,11 +853,12 @@ FAOSTATFBS.showData=function()
             }
 
             var data = {};
-            data.datasource = F3DWLD.CONFIG.datasource;
+            data.datasource = "faostat2";// F3DWLD.CONFIG.datasource;
             data.thousandSeparator = ',';
             data.decimalSeparator = '.';
             data.decimalNumbers = '2';
             data.json = JSON.stringify(param);
+            //console.log(data);
             //console.log(param)
             data.cssFilename = 'faostat';
             data.valueIndex = '1';
@@ -960,9 +964,7 @@ FAOSTATFBS.showData=function()
                     myA.setAttribute("href","/faostat-download-js/popup.jsp");
                     myA.setAttribute("target","myFanzy");
                     myA.innerHTML=	"<img src=\"/faostat-download-js/images/full.png\"/><p class=\"up\">"+FAOSTATFBS.traduction[FAOSTATFBS.lang].fullscreen+"</p>";
-                    if (navigator.appVersion.indexOf("MSIE 7.") != -1){}else{
-                        cell.appendChild(myA);
-                    }
+                    if (navigator.appVersion.indexOf("MSIE 7.") != -1){}else{cell.appendChild(myA);}
 	
                     row.appendChild(cell); 
                     var cell = document.createElement("th");
@@ -1013,9 +1015,9 @@ FAOSTATFBS.showData=function()
                     var txtCell = document.createTextNode(FAOSTATFBS.traduction[FAOSTATFBS.lang].commodities);//trad
                     cell.style.cursor="pointer";
                     cell.setAttribute("class","thCol");
-                    cell.setAttribute("OnClick","showData()");
+                    cell.setAttribute("OnClick","FAOSTATFBS.showData()");
                     cell.onclick=function(){
-                        showData();
+                      FAOSTATFBS.showData();
                     };
                     cell.appendChild(txtCell); 
                     row.appendChild(cell); 
@@ -1163,7 +1165,7 @@ FAOSTATFBS.showData=function()
                                 mylab.setAttribute("for","chk_"+i);
 
                                 var txtCell = document.createTextNode(myJson[i][4]);
-                                if(myJson[i][0]==15){		
+                                if(myJson[i][0]==15){	
                                     myFilter2.appendChild(myfil);
                                     mylab.appendChild(txtCell);
                                     myFilter2.appendChild(mylab);
@@ -1332,7 +1334,7 @@ else
     }
 
     var data = {};
-    data.datasource = F3DWLD.CONFIG.datasource;
+    data.datasource = "faostat2";// F3DWLD.CONFIG.datasource;
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -1472,9 +1474,9 @@ else
             cell.setAttribute("class","thCol");
             cell.appendChild(txtCell); 
             cell.style.cursor="pointer";
-            cell.setAttribute("OnClick","showData()");
+            cell.setAttribute("OnClick","FAOSTATFBS.showData()");
             cell.onclick=function(){
-                showData();
+                FAOSTATFBS.showData();
             };
             row.appendChild(cell); 
 
@@ -1908,12 +1910,8 @@ FAOSTATFBS.writeTR=function(tb,line,id)
                 if(i<6){
                     cell.className="td1";
                 }
-                else if(i<12){
-                            cell.className="td2";
-                        }
-                else{
-                    cell.className="td3";
-                }
+                else if(i<12){ cell.className="td2"; }
+                else{ cell.className="td3"; }
             }
             else{
                 if(i<5){
@@ -2035,18 +2033,18 @@ FAOSTATFBS.changeTab=function(param)
     document.getElementById('rc3').checked=true;
     document.getElementById('ri3').checked=true;
     document.getElementById(param).className="visi2";
-    if(param=="tabItem"){
-        document.getElementById("sItem").className="visi2";
-    }
-    else{
-        document.getElementById("sCountry").className="visi2";
-    }
-    document.getElementById('menu_'+param).style.color="red";
+    if(param=="tabItem"){        document.getElementById("sItem").className="visi2";    }
+    else{        document.getElementById("sCountry").className="visi2";    }
+ //   document.getElementById('menu_'+param).style.color="red";
     if (param=='tabCountry'){
+        $("#search-items")[0].className="search-categories-label search-categories-label-selected";
+         $("#search-countries")[0].className="search-categories-label";
     //document.getElementById('menu_'+param).style.backgroundImage="url(FAOSTATFBS.root+'img/countriesTabOn.gif')";
     }
     if (param=='tabItem'){
-        document.getElementById('menu_'+param).style.backgroundImage="url(/faostat-download-js/imgages/itemsTabOn.gif')";
+          $("#search-countries")[0].className="search-categories-label search-categories-label-selected";
+        $("#search-items")[0].className="search-categories-label";
+       // document.getElementById('menu_'+param).style.backgroundImage="url(/faostat-download-js/imgages/itemsTabOn.gif')";
     }
 }
 

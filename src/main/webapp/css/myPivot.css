@@ -236,14 +236,20 @@ time, mark, audio, video {
 
 #mainTD #thTitle{font-family: Arial, Helvetica, sans-serif;
     font-size:18px;
-    background-color: #307395;
-    color:white;
+    background-color: #dde8ef;
+    color:#235c79;
     text-align:left;
     padding-left: 7px;}
 #mainTD #titleFBS{font-family: Arial, Helvetica, sans-serif;
     font-size:14px;
-    background-color: #307395;
-    text-align:center;}
+    background-color: #dde8ef;
+    text-align:center;
+    color: #235c79;
+}
+
+#resultTablewrapper > table {
+    border: none !important;
+}
 
 #mainTD #tabCountry{width:275px;border:0px;float:left;}
 
@@ -412,17 +418,16 @@ time, mark, audio, video {
 
 #mainTD .myButton img
 {
-    margin-right: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    top: 2px;
+    position: relative;
 }
 
 #mainTD .myButton .up
 {
     display:inline;
     color:#235c79;
-
-
-
-    margin-bottom: 0px; margin-top: 0px; height: 26px; top: -7px;
 }
 #mainTD .myButton .down
 {
@@ -439,7 +444,7 @@ time, mark, audio, video {
 
 #mainTD table {
 
-    border-collapse:separate;
+    border-collapse:collapse;
     *cellspacing:0px;
     border-spacing: 0px;
     empty-cells: show;
@@ -453,13 +458,10 @@ time, mark, audio, video {
 #mainTD table td {
 
     padding:5px 4px 5px 4px;
-    border-top:solid 1px #96cae4;
-    border-right:solid 1px #337a9d;
-    border-bottom:solid 1px #1a4d66;
-    border-left:solid 1px #96cae4;
+    border:solid 1px #FFFFFF;
     text-align:center;
     font-size:10px;
-
+    color: #235c79;
 }
 
 
@@ -467,12 +469,9 @@ time, mark, audio, video {
 #mainTD table th {
 
     /*border: solid 1px #D5D5D5;*/
-    border-top:solid 1px #96cae4;
-    border-right:solid 1px #337a9d;
-    border-bottom:solid 1px #1a4d66;
-    border-left:solid 1px #96cae4;
+    border:solid 1px #FFFFFF;
     padding:5px 4px 5px 4px;
-    background-color:#43a0cf;
+    background-color:#90aec3;
     line-height:120%;
 
 
@@ -484,14 +483,9 @@ time, mark, audio, video {
 
 #mainTD .subTitle{
 
-    border-top:solid 1px #96cae4;
-    border-right:solid 1px #337a9d;
-    border-bottom:solid 1px #1a4d66;
-    border-left:solid 1px #96cae4;
-
-
+    border:solid 1px #FFFFFF;
     text-align:left;
-    background-color:#307395;
+    background-color:#7b99ad;
     word-wrap: break-word;
     min-width:50px;
     color:white;
@@ -499,14 +493,11 @@ time, mark, audio, video {
 
 #mainTD .subTitle2{
 
-    border-top:solid 1px #96cae4;
-    border-right:solid 1px #337a9d;
-    border-bottom:solid 1px #1a4d66;
-    border-left:solid 1px #96cae4;
+    border:solid 1px #FFFFFF;
 
     text-align:center;
 
-    background-color:#43a0cf;
+    background-color:#90aec3;
     word-wrap: break-word;
     min-width:50px;
     color:white;
@@ -515,7 +506,7 @@ time, mark, audio, video {
 
 
 #mainTD thead{
-    background-color:#43a0cf;
+    background-color:#dde8ef;
     text-align:center;
     color:white;
 }
@@ -536,7 +527,7 @@ time, mark, audio, video {
 }
 
 #mainTD .thPopEmpty{
-    background-color:#92c8e3;
+    background-color:#dde8ef;
     text-align:left;
     /*padding-bottom:0px;*/
 }
@@ -547,12 +538,9 @@ time, mark, audio, video {
 }
 
 #mainTD .bgBlue{
-    background-color:#307395;
+    background-color:#90aec3;
 
-    border-top:solid 1px #43a0cf;
-    border-right:solid 1px #204b61;
-    border-bottom:solid 1px #245770;
-    border-left:solid 1px #43a0cf;
+
 }
 #mainTD .myFilterButton{float:left;width:350px;margin-left:15px}
 #mainTD .divMyFilter{width:340px;height:150px;overflow:auto;
@@ -1350,3 +1338,4 @@ div.combo_button_option:hover {
 #myFlags .hor-minimalist-b_row2 {
     background-color: #FFFFFF !important;
 }
+#resultTablewrapper{border: 1px solid #FFFFFF !important;}

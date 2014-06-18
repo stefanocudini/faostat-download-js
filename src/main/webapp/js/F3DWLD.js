@@ -1,22 +1,22 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        base_url                :   'http://168.202.28.210:8080/faostat-gateway/go/to/download',
-        prefix                  :   'http://168.202.28.210:8080/faostat-download-js/',
-        CPINotes_url            :   'http://168.202.28.210:8080/wds/rest/procedures/cpinotes',
-        ODA_url                 :   'http://168.202.28.210:8080/wds/rest/procedures/oda',
-        data_url                :   'http://168.202.28.210:8080/wds/rest',
-        procedures_data_url     :   'http://168.202.28.210:8080/wds/rest/procedures/data',
-        procedures_excel_url    :   'http://168.202.28.210:8080/wds/rest/procedures/excel',
-        codes_url               :   'http://168.202.28.210:8080/wds/rest/procedures/usp_GetListBox',
-        bulks_url               :   'http://168.202.28.210:8080/wds/rest/bulkdownloads',
-        domains_url             :   'http://168.202.28.210:8080/wds/rest/domains',
-        bletchley_url           :   'http://168.202.28.210:8080/bletchley/rest/codes',
-        schema_url              :   'http://168.202.28.210:8080/wds/rest/procedures/schema/',
+        base_url                :   'http://localhost:8080/faostat-gateway/go/to/download',
+        prefix                  :   'http://localhost:8080/faostat-download-js/',
+        CPINotes_url            :   'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
+        ODA_url                 :   'http://faostat3.fao.org/wds/rest/procedures/oda',
+        data_url                :   'http://faostat3.fao.org/wds/rest',
+        procedures_data_url     :   'http://faostat3.fao.org/wds/rest/procedures/data',
+        procedures_excel_url    :   'http://faostat3.fao.org/wds/rest/procedures/excel',
+        codes_url               :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox',
+        bulks_url               :   'http://faostat3.fao.org/wds/rest/bulkdownloads',
+        domains_url             :   'http://faostat3.fao.org/wds/rest/domains',
+        bletchley_url           :   'http://faostat3.fao.org/bletchley/rest/codes',
+        schema_url              :   'http://faostat3.fao.org/wds/rest/procedures/schema/',
         bulks_root              :   'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/',
         configurationURL        :   'config/faostat-download-configuration.json',
         dbPrefix                :   'FAOSTAT_',
-        dsdURL                  :   'http://168.202.28.210:8080/wds/rest/procedures/listboxes',
+        dsdURL                  :   'http://faostat3.fao.org/wds/rest/procedures/listboxes',
         theme                   :   'faostat',
         tradeMatrices           :   ['FT', 'TM'],
         lang                    :   'E',
@@ -96,7 +96,7 @@ var F3DWLD = (function() {
 
     };
 
-    function collectAndQueryWDSPivot() {
+    function collectAndQueryWDSPivot(refresh,isEx,outputFormat) {
 
         /* Collect parameters. */
         getTabSelection();
@@ -107,36 +107,35 @@ var F3DWLD = (function() {
 
         /* Collect codes for 'list' items, then create the JSON payload. */
         //collectListCodesPIVOT();
- try {document.getElementById('testinline').className="visi2";} catch(err) {    }
-                    insideFalseClick();
+        try {document.getElementById('testinline').className="visi2";} catch(err) {    }
+                    insideFalseClick(refresh,isEx,outputFormat);
     };
 
 function retFunction(a,b,c)
 {return function(mp)
-                {
-                    if(F3DWLD.CONFIG.wdsPayload.showCodes)
-                     {return "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+"<table  class=\"innerCol\"><th>"+mp[a]+"</th><th>"+mp[b]+"</th></table>";}
-                 else{return  "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+mp[a];}
-                };
-   }
+    {
+        if(F3DWLD.CONFIG.wdsPayload.showCodes)
+        {return "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+"<table  class=\"innerCol\"><th>"+mp[a]+"</th><th>"+mp[b]+"</th></table>";}
+         else{return  "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+mp[a];}
+     };
+  }
                 
-    function insideFalseClick()
+    function insideFalseClick(refresh,isEx,outputFormat)
     {
         $('#OLAP_IFRAME').css('display', 'inline');
         document.getElementById('output_area').innerHTML = '';
 
         $("#testinline").html("<center><img src=\"/faostat-download-js/pivotAgg/Preload.gif\" /></center>");
         FAOSTATNEWOLAP.flags={};
-
- var mesOptionsPivot ={
-       "cols":[],
-               "hiddenAttributes":[],
-               "linkedAttributes":[],
-               "cols":[],
-               "rows":[],
-                 "vals":[],
-               "derivedAttributes":{}
-   };
+        var mesOptionsPivot ={
+            "cols":[],
+            "hiddenAttributes":[],
+            "linkedAttributes":[],
+            "cols":[],
+            "rows":[],
+            "vals":[],
+            "derivedAttributes":{}
+        };
       
        $.ajax({
 
@@ -146,8 +145,7 @@ function retFunction(a,b,c)
             success: function (response) {
 
                 var schema_json = response;
-                if (typeof schema_json == 'string')
-                    schema_json = $.parseJSON(response);
+                if (typeof schema_json == 'string'){  schema_json = $.parseJSON(response);}
       
     
        /* var mesOptionsPivot = FAOSTATOLAP2.options;
@@ -161,7 +159,7 @@ function retFunction(a,b,c)
                 if(F3DWLD.CONFIG.domainCode=="TM" ||F3DWLD.CONFIG.domainCode=="FT" )
                  {mesOptionsPivot=FAOSTATOLAP2.optionsTM}
     */
-   schema_json=schema_json.sort(function(a,b){return a[4]>b[4]});
+   schema_json=schema_json.sort(function(a,b){return a[4]>b[4];});
    for(var j in schema_json)
     {
         
@@ -170,39 +168,34 @@ function retFunction(a,b,c)
         var code=s[7];*/
                   
        // if(s[5]=="C"){mesOptionsPivot.cols.push(s[1]);}
-                if(schema_json[j][5]=="C" || schema_json[j][5]=="R")
+                if(schema_json[j][5]==="C" || schema_json[j][5]==="R")
                 {  mesOptionsPivot.derivedAttributes[schema_json[j][6]+"_"]=retFunction(schema_json[j][6],schema_json[j][7],schema_json[j][1]);}
-        if(schema_json[j][5]=="C"){
+        if(schema_json[j][5]==="C"){
             mesOptionsPivot.cols.push(schema_json[j][6]+"_");
             
            // mesOptionsPivot.cols.push(s[7]);
            // if(s[3]!=s[4]){ mesOptionsPivot.linkedAttributes.push([s[6],s[7]]);}
                     }
-                    else if(schema_json[j][5]=="R"){
-            mesOptionsPivot.rows.push(schema_json[j][6]+"_");
-          
+                    else if(schema_json[j][5]==="R"){
+                        mesOptionsPivot.rows.push(schema_json[j][6]+"_");
                     }
-                      else if(schema_json[j][5]=="V"){
+                      else if(schema_json[j][5]==="V"){
            /* mesOptionsPivot.vals.push(s[6]);
             mesOptionsPivot.vals.push(s[7]);*/
                      // mesOptionsPivot.linkedAttributes.push([s[6],s[7]]);
                     }
                     else{
                         mesOptionsPivot.hiddenAttributes.push(schema_json[j][6]);
-            mesOptionsPivot.hiddenAttributes.push(schema_json[j][7]);}
-    }
+                        mesOptionsPivot.hiddenAttributes.push(schema_json[j][7]);}
+                }
    
            mesOptionsPivot.vals = ["Value"];
-                if (F3DWLD.CONFIG.wdsPayload.showUnits) {
-                    mesOptionsPivot.vals.push("Unit")
-                }
-                if (F3DWLD.CONFIG.wdsPayload.showFlags) {
-                    mesOptionsPivot.vals.push("Flag")
-                }
+                if (F3DWLD.CONFIG.wdsPayload.showUnits) {  mesOptionsPivot.vals.push("Unit");  }
+                if (F3DWLD.CONFIG.wdsPayload.showFlags) { mesOptionsPivot.vals.push("Flag") ;   }
                  
                 
      
-        var p = {};
+                var p = {};
                 p.datasource = F3DWLD.CONFIG.datasource;
                 p.domainCode = F3DWLD.CONFIG.domainCode;
                 p.lang = F3DWLD.CONFIG.lang;
@@ -212,25 +205,47 @@ function retFunction(a,b,c)
                 p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
                 p.limit = -1;
 
-                for (var i = 1 ; i <= F3DWLD.CONFIG.maxListBoxNo ; i++)
-                    p['list' + i + 'Codes'] = [];
+                for (var i = 1 ; i <= F3DWLD.CONFIG.maxListBoxNo ; i++) {  p['list' + i + 'Codes'] = [];}
 
                 for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
                     var listBoxNo = 1 + parseInt(key);
                     var ins = new Array();
                     for (var j = 0 ; j < F3DWLD.CONFIG.selectedValues[key].length ; j++) {
                         var code = F3DWLD.CONFIG.selectedValues[key][j].code;
-                        code += (F3DWLD.CONFIG.selectedValues[key][j].type == '>' || F3DWLD.CONFIG.selectedValues[key][j].type == '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
-                        ins.push('\'' + code + '\'');
+                        code += (F3DWLD.CONFIG.selectedValues[key][j].type === '>' || F3DWLD.CONFIG.selectedValues[key][j].type === '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
+                        ins.push('\'' + code.replace('+','') + '\'');
                     }
                     p['list' + listBoxNo + 'Codes'] = ins;
                 }
+if(refresh){
+   mesOptionsPivot.rows=FAOSTATNEWOLAP.internalData.rowAttrs;
+    mesOptionsPivot.cols=FAOSTATNEWOLAP.internalData.colAttrs;
+     $("#testinline").pivotUI(FAOSTATNEWOLAP.originalData,mesOptionsPivot ,true);
+               
+                for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++)
+                    {
 
+                         $("#my_"+$(".pvtAxisLabel")[iLabel].innerHTML)[0].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_","");
+                        $(".pvtAxisLabel")[iLabel].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_","");
+
+                    }
+                     $("#options_menu_box").css("display","block");
+                $("#testinline").css("overflow","auto");
+                var newFlag="";
+                for(var i in FAOSTATNEWOLAP.flags){
+                    if(newFlag!==""){newFlag+=":";}
+                    newFlag+="'" +i+"'";
+                }
+                if(newFlag===""){newFlag="''";}
+                $(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2);
+                $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) {
+                    data=data.replace("localhost:8080/","faostat3.fao.org/");
+                    data=data.replace("168.202.28.210/","faostat3.fao.org/");
+                    $( "#testinline" ).append( data );});
+    
+}else{
         var data = {};
         data.payload = JSON.stringify(p);
-
-
-
         $.ajax({
             type: 'POST',
             url: F3DWLD.CONFIG.procedures_data_url,
@@ -253,9 +268,17 @@ function retFunction(a,b,c)
                  if(F3DWLD.CONFIG.wdsPayload.showFlags){mesOptionsPivot.vals.push("Flag")}
                  */
                 //$("#output_are").html("<div id=\"testinline\"></div>");
+                FAOSTATNEWOLAP.originalData=response;
                  $("#testinline").pivotUI(response,mesOptionsPivot ,true);
                
+                for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++)
+                    {
 
+                         $("#my_"+$(".pvtAxisLabel")[iLabel].innerHTML)[0].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_","");
+                        $(".pvtAxisLabel")[iLabel].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_","");
+
+                    }
+                     $("#options_menu_box").css("display","block");
                 $("#testinline").css("overflow","auto");
                 var newFlag="";
                 for(var i in FAOSTATNEWOLAP.flags){
@@ -266,11 +289,21 @@ function retFunction(a,b,c)
                 $(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2);
                 $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) {
                     data=data.replace("localhost:8080/","faostat3.fao.org/");
+                    data=data.replace("168.202.28.210/","faostat3.fao.org/");
                     $( "#testinline" ).append( data );
+                   
+                    if(isEx){
+                          $('#testinline').css("display","none");
+                        if(outputFormat=="csv") {
+                decolrowspanNEW();
+            } else {
+                my_exportNew();
+            }}
                     // my_exportNew();
                 });
             }
         });
+            }
 /*fin getschema*/
             }
         });
@@ -348,7 +381,7 @@ function retFunction(a,b,c)
                         F3DWLD.CONFIG.selectedValues[0].push(backup_countries[z]);
 
                     try {document.getElementById('testinline').className="visi2";} catch(err) {    }
-                    insideFalseClick();
+                    insideFalseClick(false);
 
                 },
 
@@ -360,7 +393,7 @@ function retFunction(a,b,c)
 
         } else {
              try {document.getElementById('testinline').className="visi2";} catch(err) {    }
-                    insideFalseClick();
+           insideFalseClick(false);
         }
 
     };
@@ -792,7 +825,7 @@ function retFunction(a,b,c)
                 if(F3DWLD.CONFIG.domainCode === 'FBS') {
                     document.getElementById('trWizardMode').className = 'visi2';
                     document.getElementById('OLAPTD').className = 'invi';
-                    document.getElementById('mainTD').className = 'invi';
+                    document.getElementById('mainTD').className = 'visi2';
                     document.getElementById('testinline').className = 'invi' ;
                     FAOSTATDownload.showFB();
                 } else {
@@ -834,6 +867,8 @@ function retFunction(a,b,c)
     }
 
     function buildUIStructure() {
+       FAOSTATNEWOLAP.firstCall=1;
+     
         $('#mainTD').hide();
         $('#OLAPTD').show();
         var item = $('#jqxTree').jqxTree('getSelectedItem');
@@ -861,7 +896,7 @@ function retFunction(a,b,c)
         s += buildOptionsMenu();
         s += buildOutputArea();
         document.getElementById('listArea').innerHTML = s;
-        enhanceUIStructure();
+        enhanceUIStructure();        
     };
 
     function buildOptionsMenu() {
@@ -891,11 +926,13 @@ function retFunction(a,b,c)
         s += '<li><div id="null_values_menu">' + $.i18n.prop('_showNullValues') + '</div></li>';
         s += '</li></ul>';
         s += '<li type="separator"></li>';
+         s += '<li id="menu_show"><div id="nested_by">'+ $.i18n.prop('_nestedby') +'</div>';
+       /* s += '<li type="separator"></li>';
         s += '<li id="menu_show"><b>Export format</b>';
         s += '<ul>';
         s += '<li><div id="export_csv">CSV</div></li>';
         s += '<li><div id="export_xls">Excel</div></li>';
-        s += '</ul>';
+        s += '</ul>';*/
         s += '</div>';
         s += '</div>';
         s += '<hr id="preview_hr" class="standard-hr" style="display: none;">';
@@ -994,7 +1031,7 @@ function retFunction(a,b,c)
 
         /* Preview button. */
 
-        s += '<a id="dwl-preview-btn" class="btn btn-big" onclick="F3DWLD.preview(true);">';
+        s += '<a id="dwl-preview-btn" class="btn btn-big" onclick="F3DWLD.preview(true,false);">';
         s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">' +
             $.i18n.prop('_preview').toUpperCase() +
             '</div>';
@@ -1011,7 +1048,8 @@ function retFunction(a,b,c)
         return s;
     };
 
-    function preview(queryDB) {
+    function preview(queryDB,refresh) {
+      
         if ($('#radio_table').val()) {
             $('#output_area').css("min-height","350px");
             $('#testinline').css("display","none");
@@ -1023,11 +1061,13 @@ function retFunction(a,b,c)
                 alert(e);
             }
         } else {
+            FAOSTATNEWOLAP.firstCall=0;
             $('#output_area').css("min-height","0px");
             $('#testinline').css("display","block");
            // try {
                 validateSelection('preview pivot');
-                collectAndQueryWDSPivot();
+                buildOptionsMenu();//just UI option menu
+                collectAndQueryWDSPivot(refresh);
             STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
            // } catch (e) {        console.log(e);            }
         }
@@ -1043,12 +1083,25 @@ function retFunction(a,b,c)
                 alert(e);
             }
         } else {
+         //  F3DWLD.preview(true,false);
             STATS.exportPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
-            if($('#export_csv').jqxRadioButton('checked')) {
+          /*   validateSelection('preview pivot');
+                buildOptionsMenu();//just UI option menu
+                collectAndQueryWDSPivot(false);*/
+                
+            if(FAOSTATNEWOLAP.firstCall==1){ validateSelection('preview pivot');
+                buildOptionsMenu();//just UI option menu
+                collectAndQueryWDSPivot(false,true,outputFormat);}
+            else{ if(outputFormat=="csv") {
                 decolrowspanNEW();
             } else {
                 my_exportNew();
-            }
+            }}
+          
+            
+           
+            
+           
         }
     }
 
@@ -1155,6 +1208,7 @@ function retFunction(a,b,c)
         });
         $('#codes_menu').jqxCheckBox({ width: 120, height: 25 });
         $('#units_menu').jqxCheckBox({ width: 120, height: 25, checked: true});
+          $('#nested_by').jqxCheckBox({ width: 120, height: 25, checked: false});
         $('#export_csv').jqxRadioButton({ width: 120, height: 25, checked: true,groupName: 'type_export' });
         $('#export_xls').jqxRadioButton({ width: 120, height: 25 ,groupName: 'type_export'});
         $('#null_values_menu').jqxCheckBox({ width: 120, height: 25 });
@@ -1173,7 +1227,7 @@ function retFunction(a,b,c)
                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = ',';
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = '.';
             }
-            preview(true);
+            preview(true,true);
         });
         $('#disable_menu').bind('change', function (event) {
             if (event.args.checked) {
@@ -1181,7 +1235,7 @@ function retFunction(a,b,c)
             } else {
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
             }
-            preview(true);
+            preview(true,true);
         });
         F3DWLD.CONFIG.wdsPayload.showFlags = true;
         F3DWLD.CONFIG.wdsPayload.showCodes = false;
@@ -1190,28 +1244,34 @@ function retFunction(a,b,c)
         $("#flags_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showFlags = checked;
-            preview(false);
+            preview(false,true);
         });
         $("#codes_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showCodes = checked;
-            preview(false);
+            preview(false,true);
         });
         $("#units_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showUnits = checked;
-            preview(false);
+            preview(false,true);
+        });
+         $("#nested_by").bind('change', function (event) {
+            var checked = event.args.checked;
+            FAOSTATNEWOLAP.nestedby = checked;
+            preview(false,true);
         });
         $("#null_values_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showNullValues = checked;
-            preview(false);
+            preview(false,true);
         });
         F3DWLD.CONFIG.wdsPayload.decimalNumbers = 2;
         $('#increment').on('valuechanged', function (event) {
             var value = event.args.value;
             F3DWLD.CONFIG.wdsPayload.decimalNumbers = parseInt(value);
-            preview(true);
+            FAOSTATNEWOLAP.decimal=F3DWLD.CONFIG.wdsPayload.decimalNumbers
+            preview(true,true);
         });
         enhanceUITabs();
         enhanceUIOptions();
@@ -1331,6 +1391,7 @@ function retFunction(a,b,c)
 
     function addToSummary(gridID, summaryID) {
 
+FAOSTATNEWOLAP.firstCall=1;
         var values = [];
 
         $('#' + gridID + '_select').find('option:selected').each(function(k, v) {
@@ -1376,6 +1437,8 @@ function retFunction(a,b,c)
 
                         /** Remove item from summary. */
                         $('#' + itemID).on('click', function (e) {
+                           
+                            FAOSTATNEWOLAP.firstCall=1;
                             var id = extractID(e.target.id);
                             $.each(buffer, function(k, v) {
                                 if (v != null && v.code == id)
@@ -1477,7 +1540,7 @@ function retFunction(a,b,c)
 
         $("#radio_table").jqxRadioButton({ checked: true });
         $("#radio_pivot").jqxRadioButton({ checked: false });
-
+console.log("enhanceUIButtons");
         /* Select/Deselect all buttons. */
         for (var i = 1 ; i <= Object.keys(F3DWLD.CONFIG.dsd).length ; i++) {
             $('#buttonSelectAll_' + i + '_1').append($.i18n.prop('_selectAll'));
