@@ -221,7 +221,7 @@ if(refresh){
    mesOptionsPivot.rows=FAOSTATNEWOLAP.internalData.rowAttrs;
     mesOptionsPivot.cols=FAOSTATNEWOLAP.internalData.colAttrs;
      $("#testinline").pivotUI(FAOSTATNEWOLAP.originalData,mesOptionsPivot ,true);
-               
+              
                 for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++)
                     {
 
@@ -269,12 +269,13 @@ if(refresh){
                  */
                 //$("#output_are").html("<div id=\"testinline\"></div>");
                 FAOSTATNEWOLAP.originalData=response;
+                console.log(mesOptionsPivot);
                  $("#testinline").pivotUI(response,mesOptionsPivot ,true);
                
                 for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++)
                     {
 
-                         $("#my_"+$(".pvtAxisLabel")[iLabel].innerHTML)[0].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_","");
+                         $("#my_"+$(".pvtAxisLabel")[iLabel].innerHTML.replace(/\s/,"_"))[0].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_","");
                         $(".pvtAxisLabel")[iLabel].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_","");
 
                     }
@@ -294,11 +295,9 @@ if(refresh){
                    
                     if(isEx){
                           $('#testinline').css("display","none");
-                        if(outputFormat=="csv") {
-                decolrowspanNEW();
-            } else {
-                my_exportNew();
-            }}
+                        if(outputFormat=="csv") { decolrowspanNEW();}
+                        else { my_exportNew();     }
+                    }
                     // my_exportNew();
                 });
             }
@@ -901,6 +900,7 @@ if(refresh){
 
     function buildOptionsMenu() {
         var s = '';
+         s += '<div id="nested_by">'+ $.i18n.prop('_nestedby') +'</div>';
         s += '<div id="options_menu_box" style="position: relative; display: none;">';
         s += '<div class="standard-title" id="output_options_labels">' + $.i18n.prop('_output_preview') + '</div>';
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">';
@@ -926,7 +926,7 @@ if(refresh){
         s += '<li><div id="null_values_menu">' + $.i18n.prop('_showNullValues') + '</div></li>';
         s += '</li></ul>';
         s += '<li type="separator"></li>';
-         s += '<li id="menu_show"><div id="nested_by">'+ $.i18n.prop('_nestedby') +'</div>';
+       //  s += '<li id="menu_show"><div id="nested_by">'+ $.i18n.prop('_nestedby') +'</div>';
         s += '</div>';
         s += '</div>';
         s += '<hr id="preview_hr" class="standard-hr" style="display: none;">';
