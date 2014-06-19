@@ -312,7 +312,10 @@ var internalTest;
     rgx = /(\d+)(\d{3})/;
  
     while (rgx.test(x1)) {      x1 = x1.replace(rgx, '$1' +FAOSTATNEWOLAP.thousandSeparator + '$2');    }
-   // if(FAOSTATNEWOLAP.thousandSeparator===" "){x1=x1.replace(" ","");}
+    //console.log("ij"+FAOSTATNEWOLAP.thousandSeparator+"r");
+    if(FAOSTATNEWOLAP.thousandSeparator===" "){
+       
+          x1=x1.replace(" ","");}
     return x1 + x2;
   };
   numberFormat = function(sigfig, scaler) {
