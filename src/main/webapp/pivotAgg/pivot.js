@@ -1236,7 +1236,7 @@ listUnique: function(_arg) {
         (function(c) {
           var btns, colLabel, filterItem, k, numKeys, v, valueList, _k, _len3, _ref3;
           numKeys = Object.keys(axisValues[c]).length;
-          colLabel = $("<nobr id='my_"+c+"'>").text(c);
+          colLabel = $("<nobr id='my_"+c.replace(/\s/,"_")+"'>").text(c);
           valueList = $("<div>").css({
             "z-index": 100,
             "width": "280px",
