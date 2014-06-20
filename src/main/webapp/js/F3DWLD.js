@@ -899,8 +899,16 @@ if(refresh){
     };
 
     function buildOptionsMenu() {
+      
         var s = '';
-         s += '<div id="nested_by">'+ $.i18n.prop('_nestedby') +'</div>';
+      
+         s += '<a class="various btn" id="btnFS" data-fancybox-type="iframe" href="/faostat-download-js/popupOlap.jsp" target="myFanzy" style="display:none">';
+	 s += '<div class="btn-fullscreen-icon btnLeftIcon"></div>';
+	 s += '<div class="btnText">Full screen</div>';
+	 s += '</a>';
+         s += '<div id="nested_by"  style="display:none">'+ $.i18n.prop('_nestedby') +'</div>';
+        
+         
         s += '<div id="options_menu_box" style="position: relative; display: none;">';
         s += '<div class="standard-title" id="output_options_labels">' + $.i18n.prop('_output_preview') + '</div>';
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">';
@@ -1047,6 +1055,8 @@ if(refresh){
         if ($('#radio_table').val()) {
             $('#output_area').css("min-height","350px");
             $('#testinline').css("display","none");
+            $("#btnFS").hide();
+             $("#nested_by").hide();
             try {
                 validateSelection('preview table');
                 createTable(queryDB, false);
@@ -1055,6 +1065,8 @@ if(refresh){
                 alert(e);
             }
         } else {
+             $("#btnFS").show();
+             $("#nested_by").show();
             FAOSTATNEWOLAP.firstCall=0;
             $('#output_area').css("min-height","0px");
             $('#testinline').css("display","block");
