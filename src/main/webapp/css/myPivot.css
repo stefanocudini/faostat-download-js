@@ -1273,7 +1273,7 @@ div.combo_button_option:hover {
 
 #btnFS {
 	text-decoration:none;
-	position:absolute;
+	/*position:absolute;*/
 	top:0px;
 	right:0px;
 }
