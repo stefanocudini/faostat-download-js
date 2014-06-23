@@ -114,7 +114,7 @@ if( F3DWLD.CONFIG.domainCode=="FBS" && domainCode!="FBS"){location.reload();}
 function retFunction(a,b,c)
 {return function(mp)
     {
-        if(F3DWLD.CONFIG.wdsPayload.showCodes)
+        if(F3DWLD.CONFIG.wdsPayload.showCodes&& mp[a]!=mp[b] )
         {return "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+"<table  class=\"innerCol\"><th>"+mp[a]+"</th><th>"+mp[b]+"</th></table>";}
          else{return  "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+mp[a];}
      };
@@ -902,15 +902,15 @@ if(refresh){
       
         var s = '';
       
-         s += '<a class="various btn" id="btnFS" data-fancybox-type="iframe" href="/faostat-download-js/popupOlap.jsp" target="myFanzy" style="display:none">';
-	 s += '<div class="btn-fullscreen-icon btnLeftIcon"></div>';
-	 s += '<div class="btnText">Full screen</div>';
-	 s += '</a>';
-         s += '<div id="nested_by"  style="display:none">'+ $.i18n.prop('_nestedby') +'</div>';
-        
+       
          
         s += '<div id="options_menu_box" style="position: relative; display: none;">';
-        s += '<div class="standard-title" id="output_options_labels">' + $.i18n.prop('_output_preview') + '</div>';
+        s += '<div class="standard-title" id="output_options_labels">' + $.i18n.prop('_output_preview') ;
+        
+           s += '<div id="nested_by"  style="display:none;">'+ $.i18n.prop('_nestedby') +'</div>';
+        
+        
+        s+= '</div>';
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">';
         s += '<ul>';
         s += '<li id="root"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_outputOptions');
@@ -934,10 +934,9 @@ if(refresh){
         s += '<li><div id="null_values_menu">' + $.i18n.prop('_showNullValues') + '</div></li>';
         s += '</li></ul>';
         s += '<li type="separator"></li>';
-       //  s += '<li id="menu_show"><div id="nested_by">'+ $.i18n.prop('_nestedby') +'</div>';
         s += '</div>';
         s += '</div>';
-        s += '<hr id="preview_hr" class="standard-hr" style="display: none;">';
+       s += '<hr id="preview_hr" class="standard-hr" style="display: none;">';
         return s;
     }
 
@@ -1034,11 +1033,18 @@ if(refresh){
         /* Preview button. */
 
         s += '<a id="dwl-preview-btn" class="btn btn-big" onclick="F3DWLD.preview(true,false);">';
+        
+        
+        
+        
         s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">' +
             $.i18n.prop('_preview').toUpperCase() +
             '</div>';
         s += '</a>';
-
+  s += '<br><a class="various btn" id="btnFS" data-fancybox-type="iframe" href="/faostat-download-js/popupOlap.jsp" target="myFanzy" style="display:none">';
+	 s += '<div class="btn-fullscreen-icon btnLeftIcon"></div>';
+	 s += '<div class="btnText">Full screen</div>';
+	 s += '</a>';
 //        s += '<a class="btn btn-big" onclick="F3DWLD.download(true);" id="buttonDeSelectAll_usp_GetElementList"">';
 //        s += '<i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">' +
 //            $.i18n.prop('_download').toUpperCase() +
