@@ -200,7 +200,7 @@ function retFunction(a,b,c)
                 p.domainCode = F3DWLD.CONFIG.domainCode;
                 p.lang = F3DWLD.CONFIG.lang;
                 p.nullValues = F3DWLD.CONFIG.wdsPayload.showNullValues;
-                p.thousand = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
+                p.thousand = ',';
                 p.decimal = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
                 p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
                 p.limit = -1;
@@ -1224,22 +1224,27 @@ if(refresh){
         $('#export_csv').jqxRadioButton({ width: 120, height: 25, checked: true,groupName: 'type_export' });
         $('#export_xls').jqxRadioButton({ width: 120, height: 25 ,groupName: 'type_export'});
         $('#null_values_menu').jqxCheckBox({ width: 120, height: 25 });
-        $('#comma_menu').jqxRadioButton({ width: 120, height: 25, groupName: 'thousands'});
-        $('#dot_menu').jqxRadioButton({ width: 120, height: 25, checked: true, groupName: 'thousands' });
-        $('#enable_menu').jqxRadioButton({ width: 120, height: 25, checked: true, groupName: 'decimals' });
-        $('#disable_menu').jqxRadioButton({ width: 120, height: 25, groupName: 'decimals' });
+        $('#comma_menu').jqxRadioButton({ width: 120, height: 25,  groupName: 'thousands'});
+        $('#dot_menu').jqxRadioButton({ width: 120, height: 25, checked: true,groupName: 'thousands' });
+        $('#enable_menu').jqxRadioButton({ width: 120, height: 25,  groupName: 'decimals' });
+        $('#disable_menu').jqxRadioButton({ width: 120, height: 25, checked: true,groupName: 'decimals' });
         $('#increment').jqxNumberInput({ width: '100%', height: '25px', inputMode: 'simple', spinButtons: true, spinButtonsStep: 1, decimalDigits: 0, decimal: 2 });
         F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
-        F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
+        F3DWLD.CONFIG.wdsPayload.thousandSeparator = '';
         $('#dot_menu').bind('change', function (event) {
             if (event.args.checked) {
                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
-                FAOSTATNEWOLAP.decimalSeparator= '.';
+                 FAOSTATNEWOLAP.decimalSeparator= '.';
+                if($('#enable_menu').jqxRadioButton('checked')){
+                FAOSTATNEWOLAP.thousandSeparator= ',';}
+            else{  FAOSTATNEWOLAP.decimalSeparator= ' ';}
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
               
             } else {
                  FAOSTATNEWOLAP.decimalSeparator= ',';
-                  FAOSTATNEWOLAP.thousandSeparator=' ' ;
+                   if($('#enable_menu').jqxRadioButton('checked')){
+               FAOSTATNEWOLAP.thousandSeparator='.'}
+            else{  FAOSTATNEWOLAP.thousandSeparator=' '}
                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = ',';
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = '.';
                  
@@ -1251,10 +1256,18 @@ if(refresh){
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = '';
                 FAOSTATNEWOLAP.thousandSeparator=' ' ;
             } else {
-                F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
-                FAOSTATNEWOLAP.thousandSeparator=","; 
-                FAOSTATNEWOLAP.decimalSeparator= '.';
-                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
+                if( FAOSTATNEWOLAP.decimalSeparator=='.')
+                {
+                     F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
+                    FAOSTATNEWOLAP.thousandSeparator=","; 
+                }
+                else{ F3DWLD.CONFIG.wdsPayload.thousandSeparator = '.';
+                    FAOSTATNEWOLAP.thousandSeparator="."; }
+                
+               
+                
+               /* FAOSTATNEWOLAP.decimalSeparator= '.';
+                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';*/
             }
             preview(true,true);
         });
@@ -1292,7 +1305,7 @@ if(refresh){
             var value = event.args.value;
             F3DWLD.CONFIG.wdsPayload.decimalNumbers = parseInt(value);
             FAOSTATNEWOLAP.decimal=F3DWLD.CONFIG.wdsPayload.decimalNumbers
-            preview(true,true);
+            preview(true,false);
         });
         enhanceUITabs();
         enhanceUIOptions();
