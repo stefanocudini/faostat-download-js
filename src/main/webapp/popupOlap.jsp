@@ -4,6 +4,7 @@
 <script type="text/javascript" src="js/chromatable/jquery.chromatable.js"></script>
 <link rel="stylesheet" type="text/css" href="/faostat-gateway/static/faostat.css" />
 <link rel="stylesheet" type="text/css" href="/faostat-download-js/css/myPivot.css" />
+<link rel="stylesheet" type="text/css" href="/faostat-download-js/pivotAgg/pivot.css" />
 <!--link rel="stylesheet" type="text/css" href="/test2/style.css" />
 
 <link rel="stylesheet" type="text/css" href="/test2/styles/pivot.css" /-->
