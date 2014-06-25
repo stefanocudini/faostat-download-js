@@ -114,8 +114,13 @@ if( F3DWLD.CONFIG.domainCode==="FBS" && domainCode!=="FBS"){location.reload();}
 function retFunction(a,b,c) 
 {return function(mp) 
     { 
-        if(F3DWLD.CONFIG.wdsPayload.showCodes && mp[a]!==mp[b]) 
-        {return "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+"<table  class=\"innerCol\"><th>"+mp[a]+"</th><th>"+mp[b]+"</th></table>";} 
+        if(F3DWLD.CONFIG.wdsPayload.showCodes ) 
+        {
+            if( mp[a]!==mp[b])
+            {return "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+"<table  class=\"innerCol\"><th>"+mp[a]+"</th><th>"+mp[b]+"</th></table>";}
+        else {return "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+"<table  class=\"innerCol\"><th>"+mp[a]+"</th><th></th></table>";}
+    
+        } 
         else{return  "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+mp[a];} 
     }; 
   } 
