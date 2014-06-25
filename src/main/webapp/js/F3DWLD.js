@@ -268,7 +268,7 @@ function retFunction(a,b,c)
                             */ 
                             //$("#output_are").html("<div id="testinline"></div>"); 
                             FAOSTATNEWOLAP.originalData=response; 
-                            console.log(mesOptionsPivot); 
+                            
                             $("#testinline").pivotUI(response,mesOptionsPivot ,true); 
 
                             for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++) 
@@ -296,7 +296,7 @@ function retFunction(a,b,c)
                                 data=data.replace("168.202.28.210/","faostat3.fao.org/"); 
                                 $( "#testinline" ).append( data ); 
 
-                                if(isEx){ 
+                                if(isEx){
                                     $('#testinline').css("display","none"); 
                                     if(outputFormat=="csv") { decolrowspanNEW();} 
                                     else { my_exportNew();    } 
@@ -939,10 +939,7 @@ function retFunction(a,b,c)
         s += '</li></ul>'; 
         s += '<li type="separator"></li>'; 
       //  s += '<li id="menu_show"><div id="nested_by">'+ $.i18n.prop('_nestedby') +'</div>'; 
-        s += '<ul>'; 
-        s += '<li><div id="export_csv">CSV</div></li>'; 
-        s += '<li><div id="export_xls">Excel</div></li>'; 
-        s += '</ul>'; 
+       
         s += '</div>'; 
         s += '</div>'; 
         s += '<hr id="preview_hr" class="standard-hr" style="display: none;">'; 
@@ -1245,7 +1242,7 @@ function retFunction(a,b,c)
                  FAOSTATNEWOLAP.decimalSeparator= '.';
                 if($('#enable_menu').jqxRadioButton('checked')){
                 FAOSTATNEWOLAP.thousandSeparator= ',';}
-            else{  FAOSTATNEWOLAP.decimalSeparator= ' ';}
+            else{  FAOSTATNEWOLAP.thousandSeparator= ' ';}
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
               
             } else {
@@ -1306,7 +1303,7 @@ function retFunction(a,b,c)
         $("#null_values_menu").bind('change', function (event) { 
             var checked = event.args.checked; 
             F3DWLD.CONFIG.wdsPayload.showNullValues = checked; 
-            preview(false,true); 
+            preview(false,false); 
         }); 
         F3DWLD.CONFIG.wdsPayload.decimalNumbers = 2; 
         $('#increment').on('valuechanged', function (event) { 

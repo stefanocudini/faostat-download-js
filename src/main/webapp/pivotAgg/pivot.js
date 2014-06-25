@@ -1221,6 +1221,7 @@ listUnique: function(_arg) {
     if($("#renderer").val()=="Table")
     {$('#aggregator option[value="sumUnit"]').prop('selected', true);}
     else{$('#aggregator option[value="sum"]').prop('selected', true);}
+    console.log("i");
     return refresh();
     });
     _ref2 = opts.renderers;
@@ -1286,7 +1287,8 @@ listUnique: function(_arg) {
     tr1 = $("<tr>");
     aggregator = $("<select id='aggregator'>").css("margin-bottom", "5px").bind("change", function() {
 	if($("#aggregator").val()==="sumUnit"){$('#renderer option[value="Table"]').prop('selected', true);	}
-	return refresh();
+	console.log("i");
+        return refresh();
     });
 	
     _ref3 = opts.aggregators;
@@ -1302,10 +1304,16 @@ listUnique: function(_arg) {
             tr1.append($("<td id='vals' class='pvtAxisContainer pvtHorizList'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
         }
 
-    tr1.append($("<td id='cols' class='pvtAxisContainer pvtHorizList'>").append($("<span >Colums</span>")));
+    tr1.append($("<td id='cols' class='pvtAxisContainer pvtHorizList'>").append($("<span style=' float: left;width: 80px;'>Colums</span>")));
     uiTable.append(tr1);
+    tr3=$("<tr>");
+    tr3.append($("<td>"));
+    tr3.append($("<td valign='top' id='rows' class='pvtAxisContainer pvtHorizList'>"));
+    uiTable.append(tr3);
     tr2 = $("<tr>");
-    tr2.append($("<td valign='top' id='rows' class='pvtAxisContainer'>").append($("<span >Rows</span>")));
+    //tr2.append($("<td valign='top' id='rows' class='pvtAxisContainer'>").append($("<span >Rows</span>")));
+    tr2.append($("<td valign='top' id='rows2' class='pvtAxisContainer' style'width:0px'>"));
+    
     pivotTable = $("<td valign='top'>");
     tr2.append(pivotTable);
     uiTable.append(tr2);
@@ -1317,8 +1325,19 @@ listUnique: function(_arg) {
       this.find("#cols").append(this.find("#axis_" + (x.replace(/\s/g, ""))));
     }
     _ref5 = opts.rows;
+    // this.find("#rows").append($("<span  style=' float: left;width: 60px;' >Rows</span>"));
     for (_l = 0, _len4 = _ref5.length; _l < _len4; _l++) {
       x = _ref5[_l];
+      
+        
+        if(_l==0 ){
+          if(!FAOSTATNEWOLAP.nestedby){
+          this.find("#rows").append($("<span  style=' float: left;width: 80px;' >Rows</span>"));
+          }
+      else{ this.find("#rows").append($("<span  style=' float: left;width: 80px;' >"+$.i18n.prop('_nestedBy')+"</span>"));}
+  } else if(_l==1 && FAOSTATNEWOLAP.nestedby)
+      { this.find("#rows").append($("<br><br><span  style=' float: left;width: 80px;' > Rows </span>"));}
+      
       this.find("#rows").append(this.find("#axis_" + (x.replace(/\s/g, ""))));
     }
     _ref6 = opts.vals;
@@ -1329,6 +1348,7 @@ listUnique: function(_arg) {
     if (opts.aggregatorName !== null) {this.find("#aggregator").val(opts.aggregatorName);}
     if (opts.rendererName !== null) {this.find("#renderer").val(opts.rendererName);}
     refresh = __bind(function() {
+      console.log('ok')
       var exclusions, subopts, vals;
       subopts = {derivedAttributes: opts.derivedAttributes};
       subopts.cols = [];
@@ -1351,6 +1371,33 @@ listUnique: function(_arg) {
       };
       pivotTable.pivot(input, subopts);
       try{$(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2);}catch(er){}
+      
+      /*FIG ULTIMAINE*/
+      
+      
+       /**/
+                   var c= $("#rows li");
+                  $("#rows").empty();
+                  
+                  
+              for (var testi=0;testi<c.length;testi++){
+                       
+                       
+                        if(testi==0 ){
+          if(!FAOSTATNEWOLAP.nestedby){
+          $("#rows").append($("<span  style=' float: left;width: 80px;' >Rows</span>"));}
+      else{ $("#rows").append($("<span  style=' float: left;width: 80px;' >"+$.i18n.prop('_nestedBy')+"</span>"));}
+  } 
+  else if(testi==1 && FAOSTATNEWOLAP.nestedby)
+      { $("#rows").append($("<br><br><span  style=' width: 80px;float:left' > Rows </span>"));}
+                       
+                       
+                       
+                       $("#rows").append(c[testi]);
+                   
+              }/**/
+      
+      
       return this.data("pivotUIOptions", {
         cols: subopts.cols,
         rows: subopts.rows,
@@ -1363,27 +1410,36 @@ listUnique: function(_arg) {
         rendererName: renderer.val()
       });
     }, this);
+    console.log("i");
     refresh();
     this.find(".pvtAxisContainer").sortable({
       connectWith: ".pvtAxisContainer",
       items: 'li',
       receive:function(e){
+ console.log("oo 1387");
           var my_id=e.originalEvent.target.id.split("_")[1];
           if(e.target.id!=="unused"){
               for(k in inputOpts.linkedAttributes){
                   if(inputOpts.linkedAttributes[k].indexOf(my_id)!==-1){
 			   for(kk in inputOpts.linkedAttributes[k]){
 				   internalTest=$("#axis_"+inputOpts.linkedAttributes[k][kk]);
-                                   console.log(internalTest.parent());
-				  try{ if(  internalTest.parent().get(0).id!=="unused")
-				   {$("#"+e.target.id).append($("#axis_"+inputOpts.linkedAttributes[k][kk]));}
+                                   //console.log(internalTest.parent());
+				  try{
+                                      if(  internalTest.parent().get(0).id!=="unused")
+				   {
+                                       //console.log(internalTest.parent().get(0).id);
+                                       $("#"+e.target.id).append($("#axis_"+inputOpts.linkedAttributes[k][kk]));
+                                   }
                                   }catch(e){console.log(e);}	
                           }
 				break;
 			}
 		  }
+                  
+			  
+			  
 	  }
-	 else{$("#"+e.target.id).append($("#axis_"+my_id));}
+	 else{ $("#"+e.target.id).append($("#axis_"+my_id));}
 	}
     }).bind("sortstop", refresh);
     return this;
@@ -1445,6 +1501,7 @@ listUnique: function(_arg) {
     if($("#renderer").val()=="Table")
     {$('#aggregator option[value="sumUnit"]').prop('selected', true);}
     else{$('#aggregator option[value="sum"]').prop('selected', true);}
+        console.log("i");
     return refresh();
     });
     _ref2 = opts.renderers;
@@ -1501,7 +1558,7 @@ listUnique: function(_arg) {
             valueList.css({color:"black"}).toggle();
             valueList.bind("click", function(e) {return e.stopPropagation();});
             return $(document).one("click", function() {
-			   refresh();
+			     console.log("i");  refresh();
               return valueList.toggle();
             });
           });
@@ -1513,7 +1570,8 @@ listUnique: function(_arg) {
     tr1 = $("<tr>");
     aggregator = $("<select id='aggregator'>").css("margin-bottom", "5px").bind("change", function() {
 	if($("#aggregator").val()=="sumUnit"){$('#renderer option[value="Table"]').prop('selected', true);	}
-	return refresh();
+	    console.log("i");
+        return refresh();
     });
 	
     _ref3 = opts.aggregators;
@@ -1556,6 +1614,7 @@ listUnique: function(_arg) {
     if (opts.aggregatorName != null) {this.find("#aggregator").val(opts.aggregatorName);}
     if (opts.rendererName != null) {this.find("#renderer").val(opts.rendererName);}
     refresh = __bind(function() {
+      console.log("nook");
       var exclusions, subopts, vals;
       subopts = {derivedAttributes: opts.derivedAttributes};
       subopts.cols = [];
@@ -1592,11 +1651,13 @@ listUnique: function(_arg) {
         rendererName: renderer.val()
       });
     }, this);
+        console.log("i");
     refresh();
     this.find(".pvtAxisContainer").sortable({
       connectWith: ".pvtAxisContainer",
       items: 'li',
 	  receive:function(e){
+      console.log('okokokokokokok');
 	  var my_id=e.originalEvent.target.id.split("_")[1];
 		  if(e.target.id!="unused"){
 		  for(k in inputOpts.linkedAttributes){
@@ -1604,15 +1665,42 @@ listUnique: function(_arg) {
 			   for(kk in inputOpts.linkedAttributes[k]){
 				   internalTest=$("#axis_"+inputOpts.linkedAttributes[k][kk]);
 				   if(  internalTest.parent().get(0).id!="unused")
-				   {$("#"+e.target.id).append($("#axis_"+inputOpts.linkedAttributes[k][kk]));}
+				   {
+                                console.log(internalTest.parent().get(0).id);       
+                                  $("#"+e.target.id).append($("#axis_"+inputOpts.linkedAttributes[k][kk]));
+                              }
 				}
 				break;
 			}
 		  }
+                     /**/
+                   var c= $("#rows li");
+                  $("#rows").empty();
+                
+                
+              for (var testi=0;testi<c.length;testi++){
+                       
+                       
+                        if(testi==0 ){
+          if(!FAOSTATNEWOLAP.nestedby){
+          $("#rows").append($("<span  style=' float: left;width: 80px;' >Rows</span>"));}
+      else{ $("#rows").append($("<span  style=' float: left;width: 80px;' >"+$.i18n.prop('_nestedBy')+"</span>"));}
+  } 
+  else if(testi==1 && FAOSTATNEWOLAP.nestedby)
+      { $("#rows").append($("<br><br><span  style=' width: 80px;' > Rows </span>"));}
+                       
+                       
+                       
+                       $("#rows").append(c[testi]);
+                   
+              }/**/
 	  }
-	 else{$("#"+e.target.id).append($("#axis_"+my_id));}
+	 else{
+            
+                  $("#"+e.target.id).append($("#axis_"+my_id));
+              }
 	}
-    }).bind("sortstop", refresh);
+    }).bind("sortstop", refresh2);
     return this;
   }
   

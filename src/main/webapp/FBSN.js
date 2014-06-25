@@ -398,6 +398,7 @@ FAOSTATFBS.Year=function()
 
 FAOSTATFBS.Country=function()
 {
+
     var param={
         "selects":[{
             "aggregation":"NONE",
@@ -409,13 +410,7 @@ FAOSTATFBS.Country=function()
             "aggregation":"NONE",
             "column":"A.AreaName"+FAOSTATFBS.lang,
             "alias":"AreaName"+FAOSTATFBS.lang
-            },
-
-            {
-            "aggregation":"NONE",
-            "column":"A.AreaLevel",
-            "alias":"AreaLevel"
-        }
+            }
         ],
         "froms":[
         {
@@ -447,7 +442,7 @@ FAOSTATFBS.Country=function()
 		
         ],
         "orderBys" :[{
-            "column" : "A.AreaLevel"
+            "column" : "DA.Ord"
         },{
             "column" : "A.AreaName"+FAOSTATFBS.lang
             }]
@@ -459,7 +454,7 @@ FAOSTATFBS.Country=function()
     };
 
     var data = {};
-    data.datasource = "faostat2";// F3DWLD.CONFIG.datasource;
+    data.datasource = F3DWLD.CONFIG.datasource;
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -475,6 +470,7 @@ FAOSTATFBS.Country=function()
         url : 'http://faostat3.fao.org/wds/rest/table/json',
         data : data,
         success : function(response) {
+          
             var myJson=response;
             mycountry=document.getElementById('sCountry');
             for(var i=0;i<myJson.length;i++)
@@ -548,9 +544,12 @@ FAOSTATFBS.Items=function(){
             "ins" : []
         }
         ],
-        "orderBys" :[{
+        "orderBys" :[
+       { "column": "DA.Level"},
+        {"column": "A.ItemName"+FAOSTATFBS.lang  }
+           /* {
             "column" : "A.ItemName"+FAOSTATFBS.lang
-            }]
+            }*/]
         ,
         "limit" : null,
         "query" : null,
@@ -558,7 +557,7 @@ FAOSTATFBS.Items=function(){
     };
 
     var data = {};
-    data.datasource ="faostat2";// F3DWLD.CONFIG.datasource;
+    data.datasource = F3DWLD.CONFIG.datasource;
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
@@ -660,6 +659,7 @@ FAOSTATFBS.showData=function()
 
         if(items=="")
         {
+          
 		//CASE 1 COUNTRIESconsole.log("ITEMS");
 		var param0={
 		 "selects":[{
@@ -692,10 +692,12 @@ FAOSTATFBS.showData=function()
                 ],
                 "orderBys" :[{
                     "column" : "Year"
-                },{
-                    "column" : "AreaCode"
-                },{
+                },
+                {
                     "column" : "Ord"
+                },
+                    {
+                    "column" : "AreaCode"
                 }]
                 ,
                 "limit" : null,
@@ -710,7 +712,7 @@ FAOSTATFBS.showData=function()
                     "ins" : []
                 });
 			 var data0 = {};
-            data0.datasource ="faostat2";// F3DWLD.CONFIG.datasource;
+            data0.datasource = F3DWLD.CONFIG.datasource;
             data0.thousandSeparator = ',';
             data0.decimalSeparator = '.';
             data0.decimalNumbers = '2';
@@ -729,9 +731,7 @@ FAOSTATFBS.showData=function()
 				document.getElementById("valPop").innerHTML=FAOSTATFBS.Population;
 				}catch(er){}
 				},
-			 error : function(err, b, c) {
-                console.log(err);
-            }
+			 error : function(err, b, c) { console.log(err); }
         });
 			
 			
@@ -812,14 +812,14 @@ FAOSTATFBS.showData=function()
                 ],
                 "orderBys" :[{
                     "column" : "Year"
+                },{
+                    "column" : "Ord"
                 },
                         {
 //                    "column" : "AreaCode"
                     "column" : "ItemCode"
 
-                             },{
-                    "column" : "Ord"
-                }]
+                             }]
                 ,
                 "limit" : null,
                 "query" :null,
@@ -853,7 +853,7 @@ FAOSTATFBS.showData=function()
             }
 
             var data = {};
-            data.datasource = "faostat2";// F3DWLD.CONFIG.datasource;
+            data.datasource =  F3DWLD.CONFIG.datasource;
             data.thousandSeparator = ',';
             data.decimalSeparator = '.';
             data.decimalNumbers = '2';
@@ -977,7 +977,7 @@ FAOSTATFBS.showData=function()
 
 
                     var cell = document.createElement("td");
-					cell.setAttribute("id","valPop");
+                    cell.setAttribute("id","valPop");
                     var txtCell = document.createTextNode(FAOSTATFBS.Population);
 					  /* if(document.getElementById("rc2").checked){var txtCell = document.createTextNode("Na");}*/
 
@@ -1142,10 +1142,11 @@ FAOSTATFBS.showData=function()
                     try{
                         myFilter3.innerHTML="";
                     }catch(e){}
-                    var debutBoucle=1;
+                    var debutBoucle=0;
                     if(document.getElementById("rc2").checked){debutBoucle=0;}
                     for(var i=debutBoucle;i<myJson.length;i++)
                     {
+                      
                         if(curItem!=myJson[i][3])
                         {
                             curItem=myJson[i][3];
@@ -1303,9 +1304,10 @@ else
         ],
         "orderBys" :[{
             "column" : "Year"
-        },{
+        }, {
             "column" : "ItemCode"
-        },{
+        },
+            {
             "column" : "Ord"
         }]
         ,
@@ -1334,7 +1336,7 @@ else
     }
 
     var data = {};
-    data.datasource = "faostat2";// F3DWLD.CONFIG.datasource;
+    data.datasource = F3DWLD.CONFIG.datasource;
     data.thousandSeparator = ',';
     data.decimalSeparator = '.';
     data.decimalNumbers = '2';
