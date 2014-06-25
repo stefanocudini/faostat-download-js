@@ -273,9 +273,13 @@ function retFunction(a,b,c)
 
                             for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++) 
                             { 
-
-                                $("#my_"+$(".pvtAxisLabel")[iLabel].innerHTML.replace(/s/,"_"))[0].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
+                                
+                            $("#my_"+$(".pvtAxisLabel")[iLabel].innerHTML.replace(/\s/,"_"))[0].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
+                              
+                                                              
                                 $(".pvtAxisLabel")[iLabel].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
+
+                              
 
                             } 
                             $("#options_menu_box").css("display","block"); 
