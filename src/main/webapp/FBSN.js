@@ -544,12 +544,9 @@ FAOSTATFBS.Items=function(){
             "ins" : []
         }
         ],
-        "orderBys" :[
-       { "column": "DA.Level"},
-        {"column": "A.ItemName"+FAOSTATFBS.lang  }
-           /* {
+        "orderBys" :[  { "column": "DA.Level"},{
             "column" : "A.ItemName"+FAOSTATFBS.lang
-            }*/]
+            }]
         ,
         "limit" : null,
         "query" : null,
@@ -659,7 +656,7 @@ FAOSTATFBS.showData=function()
 
         if(items=="")
         {
-          
+		
 		//CASE 1 COUNTRIESconsole.log("ITEMS");
 		var param0={
 		 "selects":[{
@@ -1304,11 +1301,10 @@ else
         ],
         "orderBys" :[{
             "column" : "Year"
-        }, {
-            "column" : "ItemCode"
-        },
-            {
+        },{
             "column" : "Ord"
+        },{
+            "column" : "AreaName"+FAOSTATFBS.lang
         }]
         ,
         "limit" : null,
@@ -1600,7 +1596,7 @@ else
             var nl=0;
             myFilter2.innerHTML="";
             myFilter3.innerHTML="";
-            for(var i=1;i<myJson.length;i++)
+            for(var i=0;i<myJson.length;i++)
             {
                 if(curItem!=myJson[i][2])
                 {
