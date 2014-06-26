@@ -285,6 +285,7 @@ function retFunction(a,b,c)
                                 $(".pvtAxisLabel")[iLabel].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
 
                               
+                             
 
                             } 
                             $("#options_menu_box").css("display","block"); 
