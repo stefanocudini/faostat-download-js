@@ -1,22 +1,22 @@
 var F3DWLD = (function() { 
 
     var CONFIG = { 
-        base_url                :  'http://localhost:8080/faostat-gateway/go/to/download', 
-        prefix                  :  'http://localhost:8080/faostat-download-js/', 
-        CPINotes_url            :  'http://faostat3.fao.org/wds/rest/procedures/cpinotes', 
-        ODA_url                :  'http://faostat3.fao.org/wds/rest/procedures/oda', 
-        data_url                :  'http://faostat3.fao.org/wds/rest', 
-        procedures_data_url    :  'http://faostat3.fao.org/wds/rest/procedures/data', 
-        procedures_excel_url    :  'http://faostat3.fao.org/wds/rest/procedures/excel', 
-        codes_url              :  'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox', 
-        bulks_url              :  'http://faostat3.fao.org/wds/rest/bulkdownloads', 
-        domains_url            :  'http://faostat3.fao.org/wds/rest/domains', 
-        bletchley_url          :  'http://faostat3.fao.org/bletchley/rest/codes', 
-        schema_url              :  'http://faostat3.fao.org/wds/rest/procedures/schema/', 
+        base_url                :  'http://168.202.28.210:8080/faostat-gateway/go/to/download',
+        prefix                  :  'http://168.202.28.210:8080/faostat-download-js/',
+        CPINotes_url            :  'http://168.202.28.210:8080/wds/rest/procedures/cpinotes',
+        ODA_url                :  'http://168.202.28.210:8080/wds/rest/procedures/oda',
+        data_url                :  'http://168.202.28.210:8080/wds/rest',
+        procedures_data_url    :  'http://168.202.28.210:8080/wds/rest/procedures/data',
+        procedures_excel_url    :  'http://168.202.28.210:8080/wds/rest/procedures/excel',
+        codes_url              :  'http://168.202.28.210:8080/wds/rest/procedures/usp_GetListBox',
+        bulks_url              :  'http://168.202.28.210:8080/wds/rest/bulkdownloads',
+        domains_url            :  'http://168.202.28.210:8080/wds/rest/domains',
+        bletchley_url          :  'http://168.202.28.210:8080/bletchley/rest/codes',
+        schema_url              :  'http://168.202.28.210:8080/wds/rest/procedures/schema/',
         bulks_root              :  'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/', 
         configurationURL        :  'config/faostat-download-configuration.json', 
         dbPrefix                :  'FAOSTAT_', 
-        dsdURL                  :  'http://faostat3.fao.org/wds/rest/procedures/listboxes', 
+        dsdURL                  :  'http://168.202.28.210:8080/wds/rest/procedures/listboxes',
         theme                  :  'faostat', 
         tradeMatrices          :  ['FT', 'TM'], 
         lang                    :  'E', 
@@ -253,7 +253,9 @@ if(F3DWLD.CONFIG.lang=="E"){ mesOptionsPivot.vals = ["Value"];
                     $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) { 
                         data=data.replace("localhost:8080/","faostat3.fao.org/"); 
                         data=data.replace("168.202.28.210/","faostat3.fao.org/"); 
-                        $( "#testinline" ).append( data );}); 
+                        $( "#testinline" ).append( data );
+                        $('#preview_hr').css('display', 'block');
+                    });
 
                 }else{ 
                     var data = {}; 
@@ -321,7 +323,8 @@ for(var cc=0;cc<response[0].length;cc++)
                                     if(outputFormat=="csv") { decolrowspanNEW();} 
                                     else { my_exportNew();    } 
                                 } 
-                                // my_exportNew(); 
+                                // my_exportNew();
+                                $('#preview_hr').css('display', 'block');
                             }); 
                         } 
                     }); 
@@ -934,7 +937,7 @@ for(var cc=0;cc<response[0].length;cc++)
      s += '</a>'; 
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">'; 
         s += '<ul>'; 
-        s += '<li id="root"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_outputOptions'); 
+        s += '<li id="root"><span id="show_hide_options_label"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_show_options') + '</span>';
         s += '<ul>'; 
         s += '<li><b>' + $.i18n.prop('_decimalSeparator') + '</b></li>'; 
         s += '<li><div id="comma_menu">' + $.i18n.prop('_comma') + '</div></li>'; 
@@ -1081,7 +1084,8 @@ for(var cc=0;cc<response[0].length;cc++)
 
     function preview(queryDB,refresh) { 
       
-        if ($('#radio_table').val()) { 
+        if ($('#radio_table').val()) {
+            document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
             $('#output_area').css("min-height","350px"); 
             $('#testinline').css("display","none"); 
             $("#btnFS").hide(); 
@@ -1093,7 +1097,8 @@ for(var cc=0;cc<response[0].length;cc++)
             } catch (e) { 
                 alert(e); 
             } 
-        } else { 
+        } else {
+            document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview');
             $("#btnFS").show(); 
             $("#nested_by").show(); 
             FAOSTATNEWOLAP.firstCall=0; 
@@ -1154,7 +1159,7 @@ for(var cc=0;cc<response[0].length;cc++)
                     else if (count < tabNames.length - 1) 
                         s += ', '; 
                 } 
-                throw caller + ' | ' + $.i18n.prop('_no_selection_alert') + ' ' + s; 
+                throw $.i18n.prop('_no_selection_alert') + ' ' + s;
             } 
         } 
     } 
@@ -1234,7 +1239,13 @@ for(var cc=0;cc<response[0].length;cc++)
             autoCloseOnClick: false, 
             clickToOpen: true, 
             rtl: true 
-        }); 
+        });
+        $('#options-menu').on('shown', function() {
+            document.getElementById('show_hide_options_label').innerHTML = '<i class="fa fa-cogs"></i> ' + $.i18n.prop('_hide_options') + '</span>'
+        });
+        $('#options-menu').on('closed', function() {
+            document.getElementById('show_hide_options_label').innerHTML = '<i class="fa fa-cogs"></i> ' + $.i18n.prop('_show_options') + '</span>'
+        });
         $('#options-menu').jqxMenu('setItemOpenDirection', 'root', 'right', 'down'); 
         $('#flags_menu').jqxCheckBox({ 
             width: 120, 
@@ -1641,12 +1652,12 @@ for(var cc=0;cc<response[0].length;cc++)
         $("#radio_pivot").jqxRadioButton({ checked: false }); 
 
         $("#radio_table").on('change', function (event) { 
-            if (event.args.checked) { 
-                preview(true,false); 
-            } else { 
-                preview(true,false); 
-                $('#preview_hr').css('display', 'block'); 
-            } 
+//            if (event.args.checked) {
+//                preview(true,false);
+//            } else {
+//                preview(true,false);
+//                $('#preview_hr').css('display', 'block');
+//            }
             $('#output_area').empty(); 
             $('#options_menu_box').css('display', 'none'); 
             $('#preview_hr').css('display', 'none'); 
