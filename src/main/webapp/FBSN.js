@@ -918,9 +918,9 @@ FAOSTATFBS.showData=function()
                     //  row.style.height="40px";
                     var cell = document.createElement("th");
                     if(document.getElementById("showCode").checked){
-                        cell.colSpan=12;
+                        cell.colSpan=13;
                     }else{
-                        cell.colSpan=11;
+                        cell.colSpan=12;
                     }
                     cell.setAttribute("id","emptyPop");
                     cell.setAttribute("class","thPopEmpty");

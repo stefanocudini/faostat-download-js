@@ -520,11 +520,11 @@ background-color:#999;
 
 #mainTD .bgBlue{
 	background-color:#307395;
-	
+	/*
 	border-top:solid 1px #43a0cf;
 	border-right:solid 1px #204b61;
 	border-bottom:solid 1px #245770;
-	border-left:solid 1px #43a0cf;
+	border-left:solid 1px #43a0cf;*/
 }
 #mainTD .myFilterButton{float:left;width:350px;margin-left:15px}
 #mainTD .divMyFilter{width:340px;height:150px;overflow:auto;

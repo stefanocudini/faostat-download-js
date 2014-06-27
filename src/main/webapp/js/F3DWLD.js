@@ -193,11 +193,17 @@ function retFunction(a,b,c)
                         mesOptionsPivot.hiddenAttributes.push(schema_json[j][6]); 
                         mesOptionsPivot.hiddenAttributes.push(schema_json[j][7]);} 
                 } 
-
-                mesOptionsPivot.vals = ["Value"]; 
+if(F3DWLD.CONFIG.lang=="E"){ mesOptionsPivot.vals = ["Value"]; 
                 if (F3DWLD.CONFIG.wdsPayload.showUnits) {  mesOptionsPivot.vals.push("Unit");  } 
-                if (F3DWLD.CONFIG.wdsPayload.showFlags) { mesOptionsPivot.vals.push("Flag") ;  } 
-
+                if (F3DWLD.CONFIG.wdsPayload.showFlags) { mesOptionsPivot.vals.push("Flag") ;  } }
+            else if(F3DWLD.CONFIG.lang=="F"){ mesOptionsPivot.vals = ["Valeur"]; 
+                if (F3DWLD.CONFIG.wdsPayload.showUnits) {  mesOptionsPivot.vals.push("Unite");  } 
+                if (F3DWLD.CONFIG.wdsPayload.showFlags) { mesOptionsPivot.vals.push("Symbole") ;  } }
+               else if(F3DWLD.CONFIG.lang=="S"){
+                mesOptionsPivot.vals = ["Valor"]; 
+                if (F3DWLD.CONFIG.wdsPayload.showUnits) {  mesOptionsPivot.vals.push("Unidad");  } 
+                if (F3DWLD.CONFIG.wdsPayload.showFlags) { mesOptionsPivot.vals.push("Simbolo") ;  } 
+               }
 
 
                 var p = {}; 
@@ -257,7 +263,14 @@ function retFunction(a,b,c)
                         url: F3DWLD.CONFIG.procedures_data_url, 
                         data: data, 
                         success: function (response) { 
-
+                            console.log(response[0])
+for(var cc=0;cc<response[0].length;cc++)
+{ 
+   
+    response[0][cc]=response[0][cc].replace(/Unit.+/g,"Unite").replace(/S.+mbolo/,"Simbolo");
+   
+}
+//console.log(response);
                             /* var response2=[["Domain","AreaCode","AreaName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]]; 
                             var response2TM=[["Domain","ReporterCode","ReporterName","PartnerCode","PartnerName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]]; 
                             var mesOptionsPivot=FAOSTATOLAP2.options; 
@@ -266,16 +279,15 @@ function retFunction(a,b,c)
                             for(i in response){response2.push(response[i]);} 
                             */ 
 
-                            var derivers = $.pivotUtilities.derivers; 
-                            var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.gchart_renderers); 
+                           /* var derivers = $.pivotUtilities.derivers; 
+                            var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.gchart_renderers); */
                             /*mesOptionsPivot.vals=["Value"]; 
                             if(F3DWLD.CONFIG.wdsPayload.showUnits){mesOptionsPivot.vals.push("Unit")} 
                             if(F3DWLD.CONFIG.wdsPayload.showFlags){mesOptionsPivot.vals.push("Flag")} 
                             */ 
                             //$("#output_are").html("<div id="testinline"></div>"); 
                             FAOSTATNEWOLAP.originalData=response; 
-                              console.log(FAOSTATNEWOLAP.originalData);
-                              console.log(mesOptionsPivot);
+                            
                             $("#testinline").pivotUI(response,mesOptionsPivot ,true); 
 
                             for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++) 

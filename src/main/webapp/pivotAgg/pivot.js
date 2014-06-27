@@ -331,12 +331,13 @@ var internalTest;
     if (sigfig == null) {sigfig = 3; }
     if (scaler == null) {scaler = 1;}
     return function(x1) {
+        
 	var ret="<table class=\"tableVCell\" style=\"width:100%\"><tr>";
 	for(k in x1){
 	var x=x1[k];
 	if(x!="_"){
 	if(!isNaN(k)){
-           // console.log(x);
+           
        
                 if (x === 0 || isNaN(x) || !isFinite(x)) { ret+= "<td>"+x+"</td>";}
                 else {ret+= "<td>"+addCommas((scaler * x).toFixed(FAOSTATNEWOLAP.decimal))+"</td>"; }
@@ -403,7 +404,7 @@ var internalTest;
       if (sigfig == null) {sigfig = 3;}
       if (scaler == null) {scaler = 1;}
       sigfig=FAOSTATNEWOLAP.decimal;
-      return function(_arg) {
+      return function(_arg) {   console.log("_arg");  console.log(_arg)
         var attr;//function(){var ret=[];for(var i=0;i<_arg;i++){ret.push(0);};return ret}
         attr = _arg[0];
         var emptyInitTab=[0,"",""];
@@ -419,8 +420,9 @@ var internalTest;
             push: function(record) {
              //if (!isNaN(parseFloat(record[_arg[j]]))) {
              for(var j=0;j<_arg.length;j++)
-		{
-                    if(_arg[j]=="Flag"){
+		{_arg[j]=_arg[j].trim();
+                    if(_arg[j]=="Flag"|| _arg[j]=="Symbole"|| _arg[j]=="Simbolo"){
+                     
                         if(this.sum[j]=="_"){//|| this.sum[j]==record[_arg[j]]){
                             if(record[_arg[j]].trim()!=""){this.sum[j]=""+record[_arg[j]]+"";}
                              else{this.sum[j]="&nbsp;";}
@@ -428,11 +430,11 @@ var internalTest;
 			  }
 			  else{this.sum[j]="Agg";}
 			  }
-			  else if(_arg[j]=="Value"){
+			  else if(_arg[j]=="Value" || _arg[j]=="Valeur"|| _arg[j]=="Valor"){
 			
 			  this.sum[j]+=parseFloat(record[_arg[j]].replace(",",""));
 			  }
-			  else if(_arg[j]=="Unit"){
+			  else if(_arg[j]=="Unit" || _arg[j]=="Unidad" || _arg[j]=="Unite"){
 			 if(this.sum[j]=="_" || this.sum[j]==""+record[_arg[j]]+"" ){
 			 
 			 // this.sum[j]="("+record[_arg[j]]+")";

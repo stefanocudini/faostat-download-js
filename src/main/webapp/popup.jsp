@@ -1,12 +1,15 @@
 <html>
 <head>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="js/chromatable/jquery-1.3.2.min.js"></script>
 <script type="text/javascript" src="js/chromatable/jquery.chromatable.js"></script>
 
-<link href="fbs_style.css" rel="stylesheet" type="text/css">
+<!--link href="fbs_style.css" rel="stylesheet" type="text/css"-->
 <link href="css/myPivot.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="FBSN.js">
-</script>
+<style>
+    * {font-family: 'Roboto',sans-serif !important;}
+    </style>
+<script type="text/javascript" src="FBSN.js">   </script>
 <script>
 
 function init2(){
