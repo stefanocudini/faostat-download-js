@@ -225,6 +225,7 @@ function retFunction(a,b,c)
                 if(refresh){ 
                     mesOptionsPivot.rows=FAOSTATNEWOLAP.internalData.rowAttrs; 
                     mesOptionsPivot.cols=FAOSTATNEWOLAP.internalData.colAttrs; 
+                  
                     $("#testinline").pivotUI(FAOSTATNEWOLAP.originalData,mesOptionsPivot ,true); 
 
                     for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++) 
@@ -273,7 +274,8 @@ function retFunction(a,b,c)
                             */ 
                             //$("#output_are").html("<div id="testinline"></div>"); 
                             FAOSTATNEWOLAP.originalData=response; 
-                            
+                              console.log(FAOSTATNEWOLAP.originalData);
+                              console.log(mesOptionsPivot);
                             $("#testinline").pivotUI(response,mesOptionsPivot ,true); 
 
                             for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++) 
@@ -910,17 +912,14 @@ function retFunction(a,b,c)
 
     function buildOptionsMenu() { 
       
-        var s = ''; 
-      
-        s += '<a class="various btn" id="btnFS" data-fancybox-type="iframe" href="/faostat-download-js/popupOlap.jsp" target="myFanzy" style="display:none">'; 
-     s += '<div class="btn-fullscreen-icon btnLeftIcon"></div>'; 
-     s += '<div class="btnText">Full screen</div>'; 
-     s += '</a>'; 
-        s += '<div id="nested_by"  style="display:none">'+ $.i18n.prop('_nestedby') +'</div>'; 
-        
-        
+         var s = ''; 
+  
         s += '<div id="options_menu_box" style="position: relative; display: none;">'; 
-        s += '<div class="standard-title" id="output_options_labels">' + $.i18n.prop('_output_preview') + '</div>'; 
+        s += '<div class="standard-title" id="preview_label">' + $.i18n.prop('_output_preview') + '</div>';
+     s += '<a class="various btn" id="btnFS" data-fancybox-type="iframe" href="/faostat-download-js/popupOlap.jsp" target="myFanzy" style="display:none">'; 
+     s += '<i class="fa fa-cogs"></i>'; 
+     s += 'Full screen'; 
+     s += '</a>'; 
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">'; 
         s += '<ul>'; 
         s += '<li id="root"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_outputOptions'); 
@@ -945,10 +944,11 @@ function retFunction(a,b,c)
         s += '</li></ul>'; 
         s += '<li type="separator"></li>'; 
       //  s += '<li id="menu_show"><div id="nested_by">'+ $.i18n.prop('_nestedby') +'</div>'; 
-       
+         
         s += '</div>'; 
         s += '</div>'; 
-        s += '<hr id="preview_hr" class="standard-hr" style="display: none;">'; 
+        s += '<hr id="preview_hr" class="standard-hr" style="display: none;">';
+     s += '<div id="nested_by"  style="display:none">'+ $.i18n.prop('_nestedBy') +'</div>'; 
         return s; 
     } 
 

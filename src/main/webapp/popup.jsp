@@ -4,6 +4,7 @@
 <script type="text/javascript" src="js/chromatable/jquery.chromatable.js"></script>
 
 <link href="fbs_style.css" rel="stylesheet" type="text/css">
+<link href="css/myPivot.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="FBSN.js">
 </script>
 <script>

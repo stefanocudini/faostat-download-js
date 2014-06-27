@@ -421,7 +421,7 @@ time, mark, audio, video {
     margin-right: 5px;
     margin-left: 5px;
     top: 2px;
-    position: relative;
+  /*  position: relative;*/
 }
 
 #mainTD .myButton .up
