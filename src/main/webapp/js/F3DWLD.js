@@ -247,7 +247,9 @@ function retFunction(a,b,c)
                     $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) { 
                         data=data.replace("localhost:8080/","faostat3.fao.org/"); 
                         data=data.replace("168.202.28.210/","faostat3.fao.org/"); 
-                        $( "#testinline" ).append( data );}); 
+                        $( "#testinline" ).append( data );
+                        $('#preview_hr').css('display', 'block');
+                    });
 
                 }else{ 
                     var data = {}; 
@@ -309,7 +311,8 @@ function retFunction(a,b,c)
                                     if(outputFormat=="csv") { decolrowspanNEW();} 
                                     else { my_exportNew();    } 
                                 } 
-                                // my_exportNew(); 
+                                // my_exportNew();
+                                $('#preview_hr').css('display', 'block');
                             }); 
                         } 
                     }); 
@@ -1637,12 +1640,12 @@ function retFunction(a,b,c)
         $("#radio_pivot").jqxRadioButton({ checked: false }); 
 
         $("#radio_table").on('change', function (event) { 
-            if (event.args.checked) { 
-                preview(true,false); 
-            } else { 
-                preview(true,false); 
-                $('#preview_hr').css('display', 'block'); 
-            } 
+//            if (event.args.checked) {
+//                preview(true,false);
+//            } else {
+//                preview(true,false);
+//                $('#preview_hr').css('display', 'block');
+//            }
             $('#output_area').empty(); 
             $('#options_menu_box').css('display', 'none'); 
             $('#preview_hr').css('display', 'none'); 
