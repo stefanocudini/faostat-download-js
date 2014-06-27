@@ -922,7 +922,7 @@ function retFunction(a,b,c)
      s += '</a>'; 
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">'; 
         s += '<ul>'; 
-        s += '<li id="root"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_outputOptions'); 
+        s += '<li id="root"><span id="show_hide_options_label"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_show_options') + '</span>';
         s += '<ul>'; 
         s += '<li><b>' + $.i18n.prop('_decimalSeparator') + '</b></li>'; 
         s += '<li><div id="comma_menu">' + $.i18n.prop('_comma') + '</div></li>'; 
@@ -1069,7 +1069,8 @@ function retFunction(a,b,c)
 
     function preview(queryDB,refresh) { 
       
-        if ($('#radio_table').val()) { 
+        if ($('#radio_table').val()) {
+            document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
             $('#output_area').css("min-height","350px"); 
             $('#testinline').css("display","none"); 
             $("#btnFS").hide(); 
@@ -1081,7 +1082,8 @@ function retFunction(a,b,c)
             } catch (e) { 
                 alert(e); 
             } 
-        } else { 
+        } else {
+            document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview');
             $("#btnFS").show(); 
             $("#nested_by").show(); 
             FAOSTATNEWOLAP.firstCall=0; 
@@ -1222,7 +1224,13 @@ function retFunction(a,b,c)
             autoCloseOnClick: false, 
             clickToOpen: true, 
             rtl: true 
-        }); 
+        });
+        $('#options-menu').on('shown', function() {
+            document.getElementById('show_hide_options_label').innerHTML = '<i class="fa fa-cogs"></i> ' + $.i18n.prop('_hide_options') + '</span>'
+        });
+        $('#options-menu').on('closed', function() {
+            document.getElementById('show_hide_options_label').innerHTML = '<i class="fa fa-cogs"></i> ' + $.i18n.prop('_show_options') + '</span>'
+        });
         $('#options-menu').jqxMenu('setItemOpenDirection', 'root', 'right', 'down'); 
         $('#flags_menu').jqxCheckBox({ 
             width: 120, 
