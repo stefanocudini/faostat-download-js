@@ -40,8 +40,7 @@ $("thead", monclone).remove();
 $(".pvtGrandTotal", monclone).remove();
 /*for (var i in $(".fval", monclone))
 {
-    console.log("ok"+i);
-     console.log(isNaN(i));
+  
 if(!isNaN(i))  { 
     $(".fval", monclone)[i].innerHTML=$(".fval", monclone)[i].innerHTML.replace(" ","");
     }
@@ -52,7 +51,23 @@ $(".table", monclone).css("border","1px solid black");
 // var c=window.open('data:application/vnd.ms-excel,'+encodeURIComponent(monclone.html())) ;//t.preventDefault();
 
 var today=new Date();
-document.getElementById("excelData").value="<table><tr><td>FAOSTAT "+today.getFullYear()+"</td><td colspan=2>Date : "+today.toLocaleDateString()+"</td></tr></table><table>"+  monclone.html()+"</table><table>"+document.getElementById("hor-minimalist-b").innerHTML+"</table>";
+document.getElementById("excelData").value="<table><tr><td>FAOSTAT "+today.getFullYear()+"</td><td colspan=2>Date : "+today.toLocaleDateString()+"</td></tr></table><table>"+  monclone.html()+"</table>";
+document.getElementById("excelData").value+="<table><tr><td></td></tr>";
+
+
+ var testtd=document.getElementById("hor-minimalist-b").getElementsByTagName('td');
+        j=0;
+        for(i=0;i<testtd.length;i++){
+            console.log(i);console.log(testtd[i]);console.log(testtd[i].innerHTML)
+                if(j==0){document.getElementById("excelData").value+="<tr><td>";j=1;}
+                else{document.getElementById("excelData").value+="</td><td>";j=0;}
+                document.getElementById("excelData").value+=testtd[i].innerHTML;
+                if(j==0){document.getElementById("excelData").value+="</tr>";}
+            }
+
+
+
+document.getElementById("excelData").value+="</table>";
  document.getElementById("formExcel").submit();  
  }
  
@@ -60,15 +75,16 @@ function decolrowspanNEW()
 {var today=new Date();
     
     var reg=new RegExp("<span class=\"ordre\">[0-9]+</span>", "g");
+	var reg3=new RegExp("<span class=\"ordre\"></span>", "g");
     var reg2=new RegExp("<table  class=\"innerCol\"><th>([^<]*)</th><th>([^<]*)</th></table>","g");
 var row=FAOSTATNEWOLAP.internalData.tree;
-var col=FAOSTATNEWOLAP.internalData.flatColKeys.reverse();
+var col=FAOSTATNEWOLAP.internalData.flatColKeys;
 var ret="";
 for(var j=0;j<FAOSTATNEWOLAP.internalData.rowKeys[0].length;j++){ret+=FAOSTATNEWOLAP.internalData.rowAttrs[j].replace("_","")+",";
-    if(F3DWLD.CONFIG.wdsPayload.showCodes){console.log("ok");ret+=",";}
+    if(F3DWLD.CONFIG.wdsPayload.showCodes){ret+=",";}
     }
 for(j in col)
-{ret+=col[j].replace(/,/g,"").replace(/\|\|/g,"-").replace(/&nbsp;/g,"").replace(reg,"").replace(reg2,"$1");
+{ret+=col[j].replace(/,/g,"").replace(/\|\|/g,"-").replace(/&nbsp;/g,"").replace(reg,"").replace(reg2,"$1").replace(reg3,"");
    if(F3DWLD.CONFIG.wdsPayload.showUnits){ ret+= ", unit ";}
    if(F3DWLD.CONFIG.wdsPayload.showFlags) {ret+=", flag ";}
    ret+=",";
@@ -82,7 +98,7 @@ for (i in row){
 				//ret+=row[i][col[j]].value().replace(",","").replace("&nbsp;","").join("," )+",";
 				ret+=row[i][col[j]].value().join("||" ).replace(/,/g,"").replace(/&nbsp;/g,"").replace(/\|\|/g,",")+",";
 				
-          ret=ret.replace(reg,"").replace(reg2,"$1,$2");
+          ret=ret.replace(reg,"").replace(reg2,"$1,$2").replace(reg3,"");
           ret=ret.replace(/,_/g,"");
            // console.log(ret)
 
@@ -98,7 +114,7 @@ for (i in row){
        
         var testtd=document.getElementById("hor-minimalist-b").getElementsByTagName('td');
         j=0;
-        for(i in testtd){
+         for(i=0;i<testtd.length;i++){
                 if(j==0){ret+="\n";j=1;}
                 else{ret+=",";j=0;}
                 ret+=testtd[i].innerHTML;
@@ -315,7 +331,7 @@ var internalTest;
     //console.log("ij"+FAOSTATNEWOLAP.thousandSeparator+"r");
     if(FAOSTATNEWOLAP.thousandSeparator===" "){
        
-          x1=x1.replace(" ","");}
+          x1=x1.replace(/\s/g,"");}
     return x1 + x2;
   };
   numberFormat = function(sigfig, scaler) {
@@ -422,7 +438,7 @@ var internalTest;
              for(var j=0;j<_arg.length;j++)
 		{_arg[j]=_arg[j].trim();
                     if(_arg[j]=="Flag"|| _arg[j]=="Symbole"|| _arg[j]=="Simbolo"){
-                     
+                       
                         if(this.sum[j]=="_"){//|| this.sum[j]==record[_arg[j]]){
                             if(record[_arg[j]].trim()!=""){this.sum[j]=""+record[_arg[j]]+"";}
                              else{this.sum[j]="&nbsp;";}
@@ -1063,7 +1079,9 @@ listUnique: function(_arg) {
     rowKeys = pivotData.getRowKeys();
     colKeys = pivotData.getColKeys();
     result = $("<table class='table table-bordered pvtTable' id='pivot_table'>");
-    for (j in colAttrs) {
+    //result = $("<table class='table table-bordered pvtTable' id='pivot_table'>");
+    
+      for (j in colAttrs) {
       if (!__hasProp.call(colAttrs, j)) continue;
       c = colAttrs[j];
       tr = $("<tr>");
@@ -1146,6 +1164,7 @@ listUnique: function(_arg) {
     tr.append($("<td class='pvtGrandTotal'>").html(totalAggregator.format(val)).data("value", val));
     result.append(tr);
     result.data("dimensions", [rowKeys.length, colKeys.length]);
+    result=$("<div id='finaltable'>").append(result);
     return result;
   };
   /*
@@ -1306,15 +1325,15 @@ listUnique: function(_arg) {
             tr1.append($("<td id='vals' class='pvtAxisContainer pvtHorizList'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
         }
 
-    tr1.append($("<td id='cols' class='pvtAxisContainer pvtHorizList'>").append($("<span style=' float: left;width: 80px;'>Colums</span>")));
+    tr1.append($("<td id='rows' class='pvtAxisContainer pvtHorizList'>"));
     uiTable.append(tr1);
     tr3=$("<tr>");
     tr3.append($("<td>"));
-    tr3.append($("<td valign='top' id='rows' class='pvtAxisContainer pvtHorizList'>"));
+    tr3.append($("<td valign='top' id='cols' class='pvtAxisContainer pvtHorizList'>").append($("<span style=' float: left;width: 80px;'>Colums</span>")));
     uiTable.append(tr3);
     tr2 = $("<tr>");
     //tr2.append($("<td valign='top' id='rows' class='pvtAxisContainer'>").append($("<span >Rows</span>")));
-    tr2.append($("<td valign='top' id='rows2' class='pvtAxisContainer' style'width:0px'>"));
+    tr2.append($("<td valign='top' id='rows2' class='pvtAxisContainer5' style'width:0px'>"));
     
     pivotTable = $("<td valign='top'>");
     tr2.append(pivotTable);
@@ -1336,7 +1355,7 @@ listUnique: function(_arg) {
           if(!FAOSTATNEWOLAP.nestedby){
           this.find("#rows").append($("<span  style=' float: left;width: 80px;' >Rows</span>"));
           }
-      else{ this.find("#rows").append($("<span  style=' float: left;width: 80px;' >"+$.i18n.prop('_nestedBy')+"</span>"));}
+      else{ this.find("#rows").append($("<span  style=' float: left;width: 80px;' >ok"+$.i18n.prop('_nestedby2')+"</span>"));}
   } else if(_l==1 && FAOSTATNEWOLAP.nestedby)
       { this.find("#rows").append($("<br><br><span  style=' float: left;width: 80px;' > Rows </span>"));}
       
@@ -1350,7 +1369,7 @@ listUnique: function(_arg) {
     if (opts.aggregatorName !== null) {this.find("#aggregator").val(opts.aggregatorName);}
     if (opts.rendererName !== null) {this.find("#renderer").val(opts.rendererName);}
     refresh = __bind(function() {
-      console.log('ok')
+      
       var exclusions, subopts, vals;
       subopts = {derivedAttributes: opts.derivedAttributes};
       subopts.cols = [];
@@ -1388,7 +1407,7 @@ listUnique: function(_arg) {
                         if(testi==0 ){
           if(!FAOSTATNEWOLAP.nestedby){
           $("#rows").append($("<span  style=' float: left;width: 80px;' >Rows</span>"));}
-      else{ $("#rows").append($("<span  style=' float: left;width: 80px;' >"+$.i18n.prop('_nestedBy')+"</span>"));}
+      else{ $("#rows").append($("<span  style=' float: left;width: 80px;' >"+$.i18n.prop('_nestedby2')+"</span>"));}
   } 
   else if(testi==1 && FAOSTATNEWOLAP.nestedby)
       { $("#rows").append($("<br><br><span  style=' width: 80px;float:left' > Rows </span>"));}
@@ -1412,24 +1431,24 @@ listUnique: function(_arg) {
         rendererName: renderer.val()
       });
     }, this);
-    console.log("i");
+   
     refresh();
     this.find(".pvtAxisContainer").sortable({
       connectWith: ".pvtAxisContainer",
       items: 'li',
       receive:function(e){
- console.log("oo 1387");
+ 
           var my_id=e.originalEvent.target.id.split("_")[1];
           if(e.target.id!=="unused"){
               for(k in inputOpts.linkedAttributes){
                   if(inputOpts.linkedAttributes[k].indexOf(my_id)!==-1){
 			   for(kk in inputOpts.linkedAttributes[k]){
 				   internalTest=$("#axis_"+inputOpts.linkedAttributes[k][kk]);
-                                   //console.log(internalTest.parent());
+                                  
 				  try{
                                       if(  internalTest.parent().get(0).id!=="unused")
 				   {
-                                       //console.log(internalTest.parent().get(0).id);
+                                       
                                        $("#"+e.target.id).append($("#axis_"+inputOpts.linkedAttributes[k][kk]));
                                    }
                                   }catch(e){console.log(e);}	
@@ -1503,7 +1522,7 @@ listUnique: function(_arg) {
     if($("#renderer").val()=="Table")
     {$('#aggregator option[value="sumUnit"]').prop('selected', true);}
     else{$('#aggregator option[value="sum"]').prop('selected', true);}
-        console.log("i");
+       
     return refresh();
     });
     _ref2 = opts.renderers;
@@ -1560,7 +1579,7 @@ listUnique: function(_arg) {
             valueList.css({color:"black"}).toggle();
             valueList.bind("click", function(e) {return e.stopPropagation();});
             return $(document).one("click", function() {
-			     console.log("i");  refresh();
+			      refresh();
               return valueList.toggle();
             });
           });
@@ -1572,7 +1591,7 @@ listUnique: function(_arg) {
     tr1 = $("<tr>");
     aggregator = $("<select id='aggregator'>").css("margin-bottom", "5px").bind("change", function() {
 	if($("#aggregator").val()=="sumUnit"){$('#renderer option[value="Table"]').prop('selected', true);	}
-	    console.log("i");
+	  
         return refresh();
     });
 	
@@ -1616,7 +1635,7 @@ listUnique: function(_arg) {
     if (opts.aggregatorName != null) {this.find("#aggregator").val(opts.aggregatorName);}
     if (opts.rendererName != null) {this.find("#renderer").val(opts.rendererName);}
     refresh = __bind(function() {
-      console.log("nook");
+    
       var exclusions, subopts, vals;
       subopts = {derivedAttributes: opts.derivedAttributes};
       subopts.cols = [];
@@ -1625,8 +1644,7 @@ listUnique: function(_arg) {
       this.find("#rows li nobr").each(function() {return subopts.rows.push($(this).text());});
       this.find("#cols li nobr").each(function() {return subopts.cols.push($(this).text());});
       this.find("#vals li nobr").each(function() {return vals.push($(this).text());});
-	  //console.log(aggregator.val());
-	  //console.log(opts.aggregators[aggregator.val()](vals));
+	 
       subopts.aggregator = opts.aggregators[aggregator.val()](vals);
       subopts.renderer = opts.renderers[renderer.val()];
       exclusions = [];
@@ -1653,13 +1671,13 @@ listUnique: function(_arg) {
         rendererName: renderer.val()
       });
     }, this);
-        console.log("i");
+       
     refresh();
     this.find(".pvtAxisContainer").sortable({
       connectWith: ".pvtAxisContainer",
       items: 'li',
 	  receive:function(e){
-      console.log('okokokokokokok');
+     
 	  var my_id=e.originalEvent.target.id.split("_")[1];
 		  if(e.target.id!="unused"){
 		  for(k in inputOpts.linkedAttributes){
@@ -1668,7 +1686,7 @@ listUnique: function(_arg) {
 				   internalTest=$("#axis_"+inputOpts.linkedAttributes[k][kk]);
 				   if(  internalTest.parent().get(0).id!="unused")
 				   {
-                                console.log(internalTest.parent().get(0).id);       
+                                 
                                   $("#"+e.target.id).append($("#axis_"+inputOpts.linkedAttributes[k][kk]));
                               }
 				}
@@ -1686,7 +1704,7 @@ listUnique: function(_arg) {
                         if(testi==0 ){
           if(!FAOSTATNEWOLAP.nestedby){
           $("#rows").append($("<span  style=' float: left;width: 80px;' >Rows</span>"));}
-      else{ $("#rows").append($("<span  style=' float: left;width: 80px;' >"+$.i18n.prop('_nestedBy')+"</span>"));}
+      else{ $("#rows").append($("<span  style=' float: left;width: 80px;' >"+$.i18n.prop('_nestedby2')+"</span>"));}
   } 
   else if(testi==1 && FAOSTATNEWOLAP.nestedby)
       { $("#rows").append($("<br><br><span  style=' width: 80px;' > Rows </span>"));}

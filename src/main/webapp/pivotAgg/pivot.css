@@ -3,29 +3,49 @@ font-family: 'Roboto', sans-serif !important;
 /*font-family: 'Roboto Condensed', sans-serif !important;*/
 }
 
-#testinline{overflow: scroll !important;
+#testinline{
+    /*
+    overflow: scroll !important;
+    position:absolute;
+    */
 height: 500px;
 width:750px;
-position:relative;
+
 left:250px
 }
 
-table.pvtTable {
+#pivot_table tbody{
+    
+    overflow: scroll !important;
+    /*position:absolute;*/
+   
+
+width:750px;
+
+left:250px
+}
+
+
+#finaltable{overflow: scroll;
+height: 300px;
+/* position: absolute; */
+width: 750px;}
+#pivot_table {
     font-family:arial;
     font-size: 8pt;
     text-align: left;
     border-collapse: collapse;
 }
-table.pvtTable tr th, table.pvtTable tr th {
+#pivot_table tr th, #pivot_table tr th {
     background-color: #e6EEEE;
     border: 1px solid #CDCDCD;
     font-size: 8pt;
     padding: 3px;
 }
-table.pvtTable .pvtColLabel {text-align: center;}
-table.pvtTable .pvtTotalLabel {text-align: right;}
+#pivot_table .pvtColLabel {text-align: center;}
+#pivot_table .pvtTotalLabel {text-align: right;}
 .tableVCell tr td {border: 0px solid #CDCDCD !important;}
-table.pvtTable tr td {
+#pivot_table tr td {
     color: #3D3D3D;
     padding: 3px;
     background-color: #FFF;
