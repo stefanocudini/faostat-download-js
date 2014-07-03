@@ -42,7 +42,7 @@ var F3DWLD = (function() {
         /* Upgrade the URL. */ 
         var domainCodeURL = (domainCode === 'null') ? '*' : domainCode; 
         CORE.upgradeURL('download', groupCode, domainCodeURL, language); 
-if( F3DWLD.CONFIG.domainCode==="FBS" && domainCode!=="FBS"){location.reload();} 
+        if( F3DWLD.CONFIG.domainCode==="FBS" && domainCode!=="FBS"){location.reload();} 
         /* Labels */ 
         document.getElementById('_faostat_domains').innerHTML = $.i18n.prop('_faostat_domains'); 
         document.getElementById('_download').innerHTML = $.i18n.prop('_download'); 
@@ -253,7 +253,9 @@ if(F3DWLD.CONFIG.lang=="E"){ mesOptionsPivot.vals = ["Value"];
                     $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) { 
                         data=data.replace("localhost:8080/","faostat3.fao.org/"); 
                         data=data.replace("168.202.28.210/","faostat3.fao.org/"); 
-                        $( "#testinline" ).append( data );}); 
+                        $( "#testinline" ).append( data );
+                        $('#preview_hr').css('display', 'block');
+                    }); 
 
                 }else{ 
                     var data = {}; 
@@ -263,7 +265,7 @@ if(F3DWLD.CONFIG.lang=="E"){ mesOptionsPivot.vals = ["Value"];
                         url: F3DWLD.CONFIG.procedures_data_url, 
                         data: data, 
                         success: function (response) { 
-                            console.log(response[0])
+                        //    console.log(response[0])
 for(var cc=0;cc<response[0].length;cc++)
 { 
    
@@ -322,6 +324,7 @@ for(var cc=0;cc<response[0].length;cc++)
                                     else { my_exportNew();    } 
                                 } 
                                 // my_exportNew(); 
+                                $('#preview_hr').css('display', 'block');
                             }); 
                         } 
                     }); 
@@ -845,16 +848,19 @@ for(var cc=0;cc<response[0].length;cc++)
 
                 /* Build UI structure. */ 
                 $('#testinline').empty(); 
-                if(F3DWLD.CONFIG.domainCode === 'FBS') { 
+                if(F3DWLD.CONFIG.domainCode === 'FBS' ) { 
                     document.getElementById('trWizardMode').className = 'visi2'; 
                     document.getElementById('OLAPTD').className = 'invi'; 
                     document.getElementById('mainTD').className = 'visi2'; 
                     document.getElementById('testinline').className = 'invi' ; 
-                    FAOSTATDownload.showFB(); 
-                } else { 
+                    buildUIStructure(); 
+                    FAOSTATDownload.showFB(""); 
+                } 
+                else { 
                     document.getElementById('OLAPTD').className = 'visi2'; 
                     document.getElementById('mainTD').className = 'invi'; 
-                    buildUIStructure(); 
+                     buildUIStructure(); 
+                   //  FAOSTATDownload.showFB(); 
                 } 
 
             }, 
@@ -899,7 +905,22 @@ for(var cc=0;cc<response[0].length;cc++)
         var metadataURL = 'http://' + F3DWLD.CONFIG.baseurl + '/faostat-gateway/go/to/download/' + F3DWLD.CONFIG.groupCode + '/*/' + F3DWLD.CONFIG.lang; 
         var s = ''; 
         s += '<div>'; 
-        s += '<div class="standard-title">' + $.i18n.prop('_filters') + ' / <a href="' + metadataURL + '">' + parent + ' </a> / <a>' + item.label + '</a></div>'; 
+        s += '<div class="standard-title">' + $.i18n.prop('_filters') + ' / <a href="' + metadataURL + '">' + parent + ' </a> / <a>' + item.label + '</a>';
+        if( F3DWLD.CONFIG.domainCode==="FBS")
+        {
+             s+=' <div class="search-categories">'+
+		' <span class="search-categories-label" '+
+                 '  id="search-items"'+
+                 '        style="display: inline-block;" '+
+                 '          onclick="javascript: FAOSTATDownload.showFB(\'tabCountry\');">Report by Country</span>'+
+                 '     <span class="search-categories-label"' +
+                 '             id="search-countries" style="display: inline-block;" onclick="javascript:FAOSTATDownload.showFB(\'tabItem\');">Report by Item</span>'+
+                 '      <span class="search-categories-label search-categories-label-selected"'+
+                 '           id="search-stDownload" style="display: inline-block;" onclick="F3DWLD.buildUIStructure()">Standard Download</span>'+
+                 '</div>';
+            
+        }
+        s+='</div>'; 
         s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;">'; 
         s += '</div>'; 
         s += '</div>'; 
@@ -907,7 +928,7 @@ for(var cc=0;cc<response[0].length;cc++)
         var columns = []; 
         for (var i = 0 ; i < Object.keys(F3DWLD.CONFIG.dsd).length ; i++) { 
             columns.push(F3DWLD.CONFIG.dsd[Object.keys(F3DWLD.CONFIG.dsd)[i]]); 
-            if (columns.length % 2 == 0) { 
+            if (columns.length % 2 === 0) { 
                 s += buildSelectorsRow(columns); 
                 columns = []; 
             } 
@@ -934,7 +955,9 @@ for(var cc=0;cc<response[0].length;cc++)
      s += '</a>'; 
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">'; 
         s += '<ul>'; 
-        s += '<li id="root"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_outputOptions'); 
+       // s += '<li id="root"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_outputOptions'); 
+         s += '<li id="root"><span id="show_hide_options_label"><i class="fa fa-cogs"></i> ' + $.i18n.prop('_show_options') + '</span>';
+       
         s += '<ul>'; 
         s += '<li><b>' + $.i18n.prop('_decimalSeparator') + '</b></li>'; 
         s += '<li><div id="comma_menu">' + $.i18n.prop('_comma') + '</div></li>'; 
@@ -1017,7 +1040,8 @@ for(var cc=0;cc<response[0].length;cc++)
     }; 
 
     function buildOutputArea() { 
-        return '<div id="output_area"></div>'; 
+       // return '<div id="output_area2">TEST</div>'; 
+    return ''
     }; 
 
     function buildButtons() { 
@@ -1082,6 +1106,7 @@ for(var cc=0;cc<response[0].length;cc++)
     function preview(queryDB,refresh) { 
       
         if ($('#radio_table').val()) { 
+             document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
             $('#output_area').css("min-height","350px"); 
             $('#testinline').css("display","none"); 
             $("#btnFS").hide(); 
@@ -1094,6 +1119,7 @@ for(var cc=0;cc<response[0].length;cc++)
                 alert(e); 
             } 
         } else { 
+            document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview');
             $("#btnFS").show(); 
             $("#nested_by").show(); 
             FAOSTATNEWOLAP.firstCall=0; 
@@ -1154,7 +1180,7 @@ for(var cc=0;cc<response[0].length;cc++)
                     else if (count < tabNames.length - 1) 
                         s += ', '; 
                 } 
-                throw caller + ' | ' + $.i18n.prop('_no_selection_alert') + ' ' + s; 
+                 throw $.i18n.prop('_no_selection_alert') + ' ' + s; 
             } 
         } 
     } 
@@ -1235,6 +1261,12 @@ for(var cc=0;cc<response[0].length;cc++)
             clickToOpen: true, 
             rtl: true 
         }); 
+        $('#options-menu').on('shown', function() {
+            document.getElementById('show_hide_options_label').innerHTML = '<i class="fa fa-cogs"></i> ' + $.i18n.prop('_hide_options') + '</span>'
+        });
+        $('#options-menu').on('closed', function() {
+            document.getElementById('show_hide_options_label').innerHTML = '<i class="fa fa-cogs"></i> ' + $.i18n.prop('_show_options') + '</span>'
+        });
         $('#options-menu').jqxMenu('setItemOpenDirection', 'root', 'right', 'down'); 
         $('#flags_menu').jqxCheckBox({ 
             width: 120, 
@@ -1641,12 +1673,12 @@ for(var cc=0;cc<response[0].length;cc++)
         $("#radio_pivot").jqxRadioButton({ checked: false }); 
 
         $("#radio_table").on('change', function (event) { 
-            if (event.args.checked) { 
-                preview(true,false); 
-            } else { 
-                preview(true,false); 
-                $('#preview_hr').css('display', 'block'); 
-            } 
+//            if (event.args.checked) { 
+//                preview(true,false); 
+//            } else { 
+//                preview(true,false); 
+//                $('#preview_hr').css('display', 'block'); 
+//            } 
             $('#output_area').empty(); 
             $('#options_menu_box').css('display', 'none'); 
             $('#preview_hr').css('display', 'none'); 
@@ -1950,7 +1982,8 @@ for(var cc=0;cc<response[0].length;cc++)
         selectAllForSummary :  selectAllForSummary, 
         clearAllForSummary  :  clearAllForSummary, 
         showHideSummary    :  showHideSummary, 
-        recordBulkDownload  :  recordBulkDownload 
+        recordBulkDownload  :  recordBulkDownload,
+        buildUIStructure:buildUIStructure
     }; 
 
 })(); 

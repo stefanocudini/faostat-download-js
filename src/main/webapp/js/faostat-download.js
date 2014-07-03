@@ -119,10 +119,11 @@ if (!window.FAOSTATDownload) {
 
         },
 
-        showFB:function(){
+        showFB:function(tt){
+          
             $('#mainTD').show();
             $('#OLAPTD').hide();
-
+$('#output_area').show()
             if (navigator.appVersion.indexOf("MSIE 7.") == -1 ){
                 $.ajax({
                     type: 'GET',
@@ -136,6 +137,9 @@ if (!window.FAOSTATDownload) {
                         document.getElementById('mainTD').innerHTML = response;
                         FAOSTATFBS.lang=FAOSTATDownload.language;
                         FAOSTATFBS.init();
+                        
+            if(tt.length>0)
+            {FAOSTATFBS.changeTab(tt);}
                     },
                     error : function(err,b,c) {alert(err.status + ", " + b + ", " + c);}
                 });
@@ -146,6 +150,7 @@ if (!window.FAOSTATDownload) {
                 document.getElementById('mainTD').className="visi2";
                 document.getElementById('mainTD').innerHTML = "<iframe src=\""+FAOSTATDownload.prefix + "FBS.html\" width=\"800\" height=\"600\"/>" ;
             }
+           
         },
         bulkDownload : function() {
             FAOSTATDownload.downloadType = 1;

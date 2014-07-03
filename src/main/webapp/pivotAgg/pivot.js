@@ -420,7 +420,7 @@ var internalTest;
       if (sigfig == null) {sigfig = 3;}
       if (scaler == null) {scaler = 1;}
       sigfig=FAOSTATNEWOLAP.decimal;
-      return function(_arg) {   console.log("_arg");  console.log(_arg)
+      return function(_arg) {   
         var attr;//function(){var ret=[];for(var i=0;i<_arg;i++){ret.push(0);};return ret}
         attr = _arg[0];
         var emptyInitTab=[0,"",""];

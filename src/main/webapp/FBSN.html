@@ -47,8 +47,8 @@
 			                <span class="search-categories-label" 
                                               id="search-countries" style="display: inline-block;" onclick="javascript:FAOSTATFBS.changeTab('tabItem')">Report by Item</span>
 			                <span class="search-categories-label"
-                                              id="search-stDownload" style="display: inline-block;">Standard Download</span>
-						</div>
+                                              id="search-stDownload" style="display: inline-block;" onclick="$('#OLAPTD').show();$('#mainTD').hide();">Standard Download</span>
+				</div>
 						
 	                    <div id="search-results">
 		                    <div id="header">
@@ -60,13 +60,15 @@
 <option id="tra1" value="">Choose an item</option>
 </select>
 <select class="visi2" onchange="javascript:FAOSTATFBS.myReset('sItem');FAOSTATFBS.showData()" id="sCountry" name="sCountry">
+<option id="tra11" value="">Choose an Country</option>
 </select>
 </div>
  <div style="margin-top: 5px;">
 <fieldset class="invi" id="tabItem">
-<input type="radio" onchange="FAOSTATFBS.showData()" value="1" id="ri1" name="ritem"><label id="tra4" for="ri1">Countries</label>
-<input type="radio" onchange="FAOSTATFBS.showData()" value="2" id="ri2" name="ritem"><label id="tra5" for="ri2">Regions</label>
-<input type="radio" onchange="FAOSTATFBS.showData()" checked="true" value="3" id="ri3" name="ritem"><label id="tra6" for="ri3">Both</label>
+<input type="radio" onchange="FAOSTATFBS.showData();" value="1" id="ri1" name="ritem"><label id="tra4" for="ri1">Countries</label>
+<input type="radio" onchange="FAOSTATFBS.showData();" value="2" id="ri2" name="ritem"><label id="tra5" for="ri2">Regions</label>
+<input type="radio" onchange="FAOSTATFBS.showData();" checked="true" value="3" id="ri3" name="ritem">
+<label id="tra6" for="ri3">Both</label>
 
 </fieldset>
 <fieldset class="visi2" id="tabCountry">
