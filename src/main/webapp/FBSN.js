@@ -461,7 +461,7 @@ FAOSTATFBS.Country=function()
     data.json = JSON.stringify(param);
     data.cssFilename = 'faostat';
     data.valueIndex = '1';
-
+console.log(data);
     //	req.open("POST", "http://faostat3.fao.org/wds/api"+param,true);
 
 						

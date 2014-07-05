@@ -257,15 +257,81 @@ if(F3DWLD.CONFIG.lang=="E"){ mesOptionsPivot.vals = ["Value"];
                         $('#preview_hr').css('display', 'block');
                     }); 
 
-                }else{ 
+                }else{
                     var data = {}; 
-                    data.payload = JSON.stringify(p); 
+                    data.payload = JSON.stringify(p);
+                    
+                    
+                   // console.log(p);
+                    //"orderBys":[{"column":"Year"},{"column":"Ord"},{"column":"ItemCode"}],
+//                    {"aggregation":"NONE","column":"ItemLevel","alias":"ItemLevel"},
+               /*var data2={    
+                   datasource:F3DWLD.CONFIG.datasource,
+                           thousandSeparator:" ",
+decimalSeparator:".",
+decimalNumbers:"2",
+json:JSON.stringify({"selects":[
+{"aggregation":"NONE","column":"D.AreaCode","alias":"AreaCode"},
+{"aggregation":"NONE","column":"A.AreaName"+F3DWLD.CONFIG.lang,"alias":"AreaName"+F3DWLD.CONFIG.lang},
+{"aggregation":"NONE","column":"D.ItemCode","alias":"ItemCode"},
+{"aggregation":"NONE","column":"I.ItemName"+F3DWLD.CONFIG.lang,"alias":"ItemName"+F3DWLD.CONFIG.lang},
+{"aggregation":"NONE","column":"D.ElementCode","alias":"ElementCode"},
+{"aggregation":"NONE","column":"E.ElementName"+F3DWLD.CONFIG.lang,"alias":"ElementName"+F3DWLD.CONFIG.lang},
+{"aggregation":"NONE","column":"D.Year","alias":"Year"},
+{"aggregation":"NONE","column":"D.Year","alias":"YearName"+F3DWLD.CONFIG.lang},
+{"aggregation":"NONE","column":"Value","alias":"Value"},
+{"aggregation":"NONE","column":"Flag","alias":"Flag"}],
+"froms":[{"column":"Data","alias":"D"},{"column":"Element","alias":"E"},{"column":"Item","alias":"I"},{"column":"Area","alias":"A"}],
+"wheres":[
+     {"datatype":"DATE","column":"D.ElementCode","operator":"=","value":"E.ElementCode","ins":[]},
+     {"datatype":"DATE","column":"D.ItemCode","operator":"=","value":"I.ItemCode","ins":[]},
+     {"datatype":"TEXT","column":"D.DomainCode","operator":"=","value":F3DWLD.CONFIG.domainCode,"ins":[]},
+       {"datatype":"DATE","column":"D.AreaCode","operator":"=","value":"A.AreaCode","ins":[]},
+       
+       {"datatype":"TEXT","column":"D.AreaCode","operator":"IN","value":"","ins":p.list1Codes},
+    {"datatype":"DATE","column":"D.Year","operator":"IN","value":"","ins":p.list4Codes},
+  {"datatype":"TEXT","column":"D.ItemCode","operator":"IN","value":"","ins":p.list3Codes}
+  ,     {"datatype":"TEXT","column":"D.ElementListCode","operator":"IN","value":"","ins":p.list2Codes}
+],
+
+"limit":null,"query":null,"frequency":"NONE"}),
+cssFilename:"faostat",
+valueIndex:1
+};*/
+
+
+
+/*SELECT     D.AreaCode, A.AreaNameE, A.AreaNameF, A.AreaNameS, A.AreaNameC, A.AreaNameA, A.AreaNameR, A.AreaLevel, D.ItemCode, I.ItemNameE, I.ItemNameF, 
+                      I.ItemNameS, I.ItemNameC, I.ItemNameA, I.ItemNameR, A.AreaLevel + 10 AS ItemLevel, D.ElementCode, E.ElementNameE, E.ElementNameF, E.ElementNameS, 
+                      E.ElementNameC, E.ElementNameA, E.ElementNameR, D.Year, D.Value, D.Flag, 
+                      CASE A.AreaLevel WHEN 10 THEN A.AreaCode WHEN 15 THEN A.AreaCode ELSE 99999 END AS Ord
+FROM         dbo.Data AS D INNER JOIN
+                      dbo.Element AS E ON D.ElementCode = E.ElementCode INNER JOIN
+                      dbo.Item AS I ON D.ItemCode = I.ItemCode INNER JOIN
+                      dbo.Area AS A ON D.AreaCode = A.AreaCode
+WHERE     (D.DomainCode = 'FBS')*/
+
+  /*   $.ajax({ 
+                        type: 'POST', 
+                       url : 'http://faostat3.fao.org/wds/rest/table/json',
+                        data: data2, 
+                        success: function (response) {
+                            console.log("response1")
+                            console.log(response) },
+        error : function(err, b, c) {
+            console.log(err);
+        }
+                        
+     });*/               
+                    
+                    
+                    
+                    
                     $.ajax({ 
                         type: 'POST', 
                         url: F3DWLD.CONFIG.procedures_data_url, 
                         data: data, 
                         success: function (response) { 
-                        //    console.log(response[0])
 for(var cc=0;cc<response[0].length;cc++)
 { 
    

@@ -70,10 +70,10 @@ if (!window.FAOSTATDownload) {
             /**
              * But we may need to have it from the URL...
              */
-            var lang = $.url().param('lang');
+          /*  var lang = $.url().param('lang');
             if (lang != null && lang.length > 0)
                 FAOSTATDownload.language = lang;
-
+*/
             /**
              * Optional parameter domain code to show the UI
              * on a given domain
@@ -124,7 +124,7 @@ if (!window.FAOSTATDownload) {
             $('#mainTD').show();
             $('#OLAPTD').hide();
 $('#output_area').show()
-            if (navigator.appVersion.indexOf("MSIE 7.") == -1 ){
+            if (true || navigator.appVersion.indexOf("MSIE 7.") == -1  ){
                 $.ajax({
                     type: 'GET',
                     url: FAOSTATDownload.prefix + 'FBSN.html',
