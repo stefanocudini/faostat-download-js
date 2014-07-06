@@ -18,9 +18,9 @@ if (!window.CORE) {
         lang : null,
 
         CONFIG_MES: {
-            prefix                  : 'http://faostat3.fao.org/mes/',
-            datasource              : 'faostat2',
-            html_structure          : 'http://faostat3.fao.org/mes/structure.html',
+            prefix                  : 'http://localhost:8080/mes/',
+            datasource              : 'faostat',
+            html_structure          : 'http://localhost:8080/mes/structure.html',
             rest_mes                : 'http://faostat3.fao.org/wds/rest/mes',
             rest_groupanddomains    : 'http://faostat3.fao.org/wds/rest/groupsanddomains',
             rest_domains            : 'http://faostat3.fao.org/wds/rest/domains',
