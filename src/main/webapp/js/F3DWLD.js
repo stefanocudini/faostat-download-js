@@ -1510,51 +1510,97 @@ for(var cc=0;cc<response[0].length;cc++)
             url         :   'http://168.202.28.210:8080/faostat-download-js/crf/' + FAOSTATDownload.groupCode + '_' + version + '.html',
             success : function(response) {
                 document.getElementById('output_area').innerHTML = response;
-                var sql = {};
-                sql['query'] = "SELECT D.ItemCode, D.ElementCode, AVG(D.value) " +
-                               "FROM Data AS D " +
-                               "WHERE D.DomainCode IN ('GT', 'GM', 'GE', 'GR', 'GY', 'GU', 'GP', 'GA', 'GV', 'GB') " +
-                               "AND D.AreaCode = 10 " +
-                               "AND D.ElementCode IN (7244, 7243, 72254, 72256, 72306, 72255, 7243, 72343, 72341, 72342, 72308, 72340, 7237, 72259, 72309, 72257, 72307) " +
-                               "AND D.ItemCode IN (1711, 1755, 27, 1709, 3107, 1712, 6729, 5057, 6795) " +
-                               "GROUP BY D.ItemCode, D.ElementCode";
-                var data = {};
-                data.datasource = 'faostat',
-                data.thousandSeparator = ',';
-                data.decimalSeparator = '.';
-                data.decimalNumbers = 2;
-                data.json = JSON.stringify(sql);
-                data.cssFilename = '';
-                data.nowrap = false;
-                data.valuesIndex = 0;
                 $.ajax({
-                    type    :   'POST',
-                    url     :   'http://faostat3.fao.org/wds/rest/table/json',
+                    type    :   'GET',
+                    url     :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat/GT/1/1/S',
                     data    :   data,
                     success: function (response) {
                         var json = response;
                         if (typeof json == 'string')
                             json = $.parseJSON(response);
-                        for (var i = 0 ; i < json.length ; i++) {
-                            var id = json[i][0] + '_' + json[i][1];
-                            try {
-                                document.getElementById(id).innerHTML = (parseFloat($('#' + id).data('factor')) * parseFloat(json[i][2])).toFixed(2);
-                            } catch (a) {
-
-                            }
-                        }
-                        var sum = parseFloat(document.getElementById('3107_72343').innerHTML) +
-                                  parseFloat(document.getElementById('1755_72341').innerHTML) +
-                                  parseFloat(document.getElementById('1712_72342').innerHTML) +
-                                  parseFloat(document.getElementById('6729_72308').innerHTML);
-                        document.getElementById('table_1_direct_emissions').innerHTML = sum.toFixed(2);
+                        var s = '';
+                        s += '<option value="null">Please select...</option>';
+                        for (var i = 0 ; i < json.length ; i++)
+                            s += '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
+                        document.getElementById('ghg_selector_country').innerHTML = s;
+                        $('#ghg_selector_country').trigger('chosen:updated');
                     },
                     error: function (e, b, c) {
 
                     }
                 });
+                $.ajax({
+                    type    :   'GET',
+                    url     :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat/GT/4/1/S',
+                    data    :   data,
+                    success: function (response) {
+                        var json = response;
+                        if (typeof json == 'string')
+                            json = $.parseJSON(response);
+                        var s = '';
+                        s += '<option value="null">Please select...</option>';
+                        for (var i = 0 ; i < json.length ; i++)
+                            s += '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
+                        document.getElementById('ghg_selector_year').innerHTML = s;
+                        $('#ghg_selector_year').trigger('chosen:updated');
+                    },
+                    error: function (e, b, c) {
+
+                    }
+                });
+                $('.ghg_selector').chosen();
             },
             error : function(err, b, c) {
+
+            }
+        });
+    }
+
+    function showIPCCButtonListener() {
+        var sql = {};
+        sql['query'] = "SELECT D.ItemCode, D.ElementCode, AVG(D.value) " +
+                       "FROM Data AS D " +
+                       "WHERE D.DomainCode IN ('GT', 'GM', 'GE', 'GR', 'GY', 'GU', 'GP', 'GA', 'GV', 'GB') " +
+                       "AND D.AreaCode = 10 " +
+                       "AND D.ElementCode IN (7244, 7243, 72254, 72256, 72306, 72255, 7243, 72343, 72341, 72342, 72308, 72340, 7237, 72259, 72309, 72257, 72307) " +
+                       "AND D.ItemCode IN (1711, 1755, 27, 1709, 3107, 1712, 6729, 5057, 6795) " +
+                       "GROUP BY D.ItemCode, D.ElementCode";
+        var data = {};
+        data.datasource = 'faostat',
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+        $.ajax({
+            type    :   'POST',
+            url     :   'http://faostat3.fao.org/wds/rest/table/json',
+            data    :   data,
+            success: function (response) {
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                for (var i = 0 ; i < json.length ; i++) {
+                    var id = json[i][0] + '_' + json[i][1];
+                    try {
+                        document.getElementById(id).innerHTML = (parseFloat($('#' + id).data('factor')) * parseFloat(json[i][2])).toFixed(2);
+                    } catch (a) {
+
+                    }
+                }
+                var sum = parseFloat(document.getElementById('3107_72343').innerHTML) +
+                          parseFloat(document.getElementById('1755_72341').innerHTML) +
+                          parseFloat(document.getElementById('1712_72342').innerHTML) +
+                          parseFloat(document.getElementById('6729_72308').innerHTML);
+                document.getElementById('table_1_direct_emissions').innerHTML = sum.toFixed(2);
+                $('#table_1').css('display', 'block');
+                $('#table_2').css('display', 'block');
+                $('#table_1').css('width', '100%');
+                $('#table_2').css('display', 'block');
+            },
+            error: function (e, b, c) {
 
             }
         });
@@ -2135,7 +2181,8 @@ for(var cc=0;cc<response[0].length;cc++)
         showHideSummary     :   showHideSummary,
         recordBulkDownload  :   recordBulkDownload,
         buildUIStructure    :   buildUIStructure,
-        showIPCC            :   showIPCC
+        showIPCC            :   showIPCC,
+        showIPCCButtonListener  :   showIPCCButtonListener
     }; 
 
 })(); 

@@ -1,4 +1,37 @@
-<table style='width: 100%;' class='dataTable'>
+<table style='width: 100%;'>
+    <tr>
+        <td>
+            <div class='standard-title'>Country</div>
+        </td>
+        <td>
+            <div class='standard-title'>Year</div>
+        </td>
+        <td>
+            &nbsp;
+        </td>
+    </tr>
+    <tr>
+        <td style='width: 25%;'>
+            <select id='ghg_selector_country' class='ghg_selector' style='width: 100%;'>
+
+            </select>
+        </td>
+        <td style='width: 25%;'>
+            <select id='ghg_selector_year' class='ghg_selector' style='width: 100%;'>
+
+            </select>
+        </td>
+        <td style='width: 50%;'>
+            <a class='btn dwld' style='width: 100%;' onclick='F3DWLD.showIPCCButtonListener();'>
+                Preview
+            </a>
+        </td>
+    </tr>
+</table>
+
+<br><br>
+
+<table id='table_1' style='width: 100%; display: none;' class='dataTable'>
     <thead>
         <tr>
             <th rowspan='2'>Category Code</th>
@@ -142,7 +175,7 @@
 
 <br><br>
 
-<table style='width: 100%;' class='dataTable'>
+<table id='table_2' style='width: 100%; display: none;' class='dataTable'>
     <thead>
         <tr>
             <th rowspan='2'>Category Code</th>
