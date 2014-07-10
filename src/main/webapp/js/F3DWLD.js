@@ -1,3 +1,4 @@
+
 var F3DWLD = (function() { 
 
     var CONFIG = { 
@@ -37,7 +38,7 @@ var F3DWLD = (function() {
         data                    :  null 
     }; 
 
-    function buildF3DWLD(groupCode, domainCode, language) { 
+    function buildF3DWLD(groupCode, domainCode, language) {
 
         /* Upgrade the URL. */ 
         var domainCodeURL = (domainCode === 'null') ? '*' : domainCode; 
@@ -108,7 +109,49 @@ var F3DWLD = (function() {
         /* Collect codes for 'list' items, then create the JSON payload. */ 
         //collectListCodesPIVOT(); 
         try {document.getElementById('testinline').className="visi2";} catch(err) {    } 
-                    insideFalseClick(refresh,isEx,outputFormat); 
+         if(F3DWLD.CONFIG.groupCode=="D" || F3DWLD.CONFIG.domainCode=="TM" || F3DWLD.CONFIG.domainCode=="FT"){ insideFalseClick(refresh,isEx,outputFormat); }
+         else{ console.log("refresh");console.log(refresh)
+             if(refresh){ 
+                 var mesOptionsPivot=FAOSTATOLAP2.options;
+                 mesOptionsPivot.rows=FAOSTATNEWOLAP.internalData.rowAttrs; 
+                    mesOptionsPivot.cols=FAOSTATNEWOLAP.internalData.colAttrs; 
+                  mesOptionsPivot.vals=["Value"];
+							 if(F3DWLD.CONFIG.wdsPayload.showUnits)
+                                                         {mesOptionsPivot.vals.push("Unit")}
+							 if(F3DWLD.CONFIG.wdsPayload.showFlags)
+                                                         {mesOptionsPivot.vals.push("Flag")}
+                                                         
+                    $("#testinline").pivotUI(FAOSTATNEWOLAP.originalData,mesOptionsPivot ,true); 
+
+                    for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++) 
+                    { 
+
+                        $("#my_"+$(".pvtAxisLabel")[iLabel].innerHTML.replace(/\s/,"_"))[0].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
+                        $(".pvtAxisLabel")[iLabel].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
+
+                    } 
+                    $("#options_menu_box").css("display","block"); 
+                   // $("#testinline").css("overflow","auto"); 
+                  
+                    var newFlag=""; 
+                    for(var i in FAOSTATNEWOLAP.flags){ 
+                        if(newFlag!==""){newFlag+=":";} 
+                        newFlag+="'" +i+"'"; 
+                    }
+                    if(newFlag===""){newFlag="''";} 
+                    $(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2); 
+                    $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) { 
+                        data=data.replace("localhost:8080/","faostat3.fao.org/"); 
+                        data=data.replace("168.202.28.210/","faostat3.fao.org/"); 
+                        $( "#testinline" ).append( data );
+                        $('#preview_hr').css('display', 'block');
+                    }); 
+                }
+             else{ oldSchool(FAOSTATNEWOLAP.pivotlimit);}
+       
+    }
+        
+       
     }; 
 
 function retFunction(a,b,c) 
@@ -126,7 +169,7 @@ function retFunction(a,b,c)
   } 
 
     function insideFalseClick(refresh,isEx,outputFormat) 
-    { 
+    { FAOSTATNEWOLAP.PP={PP1:[],PP2:[],PP3:[]};
         $('#OLAP_IFRAME').css('display', 'inline'); 
         document.getElementById('output_area').innerHTML = ''; 
 
@@ -147,7 +190,7 @@ function retFunction(a,b,c)
             type: 'GET', 
             url: F3DWLD.CONFIG.schema_url + FAOSTATDownload.datasource + '/' + FAOSTATDownload.domainCode+'/'+FAOSTATDownload.language, 
 
-            success: function (response) { 
+            success: function (response) {
 
                 var schema_json = response; 
                 if (typeof schema_json == 'string'){  schema_json = $.parseJSON(response);} 
@@ -165,6 +208,8 @@ function retFunction(a,b,c)
                 {mesOptionsPivot=FAOSTATOLAP2.optionsTM} 
                 */ 
                 schema_json=schema_json.sort(function(a,b){return a[4]>b[4];}); 
+                FAOSTATNEWOLAP.schema= schema_json;
+                var jj=0;
                 for(var j in schema_json) 
                 { 
 
@@ -176,12 +221,18 @@ function retFunction(a,b,c)
                     if(schema_json[j][5]==="C" || schema_json[j][5]==="R") 
                     {  mesOptionsPivot.derivedAttributes[schema_json[j][6]+"_"]=retFunction(schema_json[j][6],schema_json[j][7],schema_json[j][1]);} 
                     if(schema_json[j][5]==="C"){ 
+                        
                         mesOptionsPivot.cols.push(schema_json[j][6]+"_"); 
-
+                       
+                   
+//FAOSTATNEWOLAP.PP.PP1.push(F3DWLD.CONFIG.selectedValues[jj] ); 
+//jj++;
                         // mesOptionsPivot.cols.push(s[7]); 
                         // if(s[3]!=s[4]){ mesOptionsPivot.linkedAttributes.push([s[6],s[7]]);} 
                     } 
                     else if(schema_json[j][5]==="R"){ 
+                       // jj++;
+                      //  FAOSTATNEWOLAP.PP.PP3.push("["+schema_json[j][6]+"]","["+schema_json[j][7]+"]");
                         mesOptionsPivot.rows.push(schema_json[j][6]+"_"); 
                     } 
                     else if(schema_json[j][5]==="V"){ 
@@ -193,7 +244,7 @@ function retFunction(a,b,c)
                         mesOptionsPivot.hiddenAttributes.push(schema_json[j][6]); 
                         mesOptionsPivot.hiddenAttributes.push(schema_json[j][7]);} 
                 } 
-if(F3DWLD.CONFIG.lang=="E"){ mesOptionsPivot.vals = ["Value"]; 
+                if(F3DWLD.CONFIG.lang=="E"){ mesOptionsPivot.vals = ["Value"]; 
                 if (F3DWLD.CONFIG.wdsPayload.showUnits) {  mesOptionsPivot.vals.push("Unit");  } 
                 if (F3DWLD.CONFIG.wdsPayload.showFlags) { mesOptionsPivot.vals.push("Flag") ;  } }
             else if(F3DWLD.CONFIG.lang=="F"){ mesOptionsPivot.vals = ["Valeur"]; 
@@ -214,7 +265,9 @@ if(F3DWLD.CONFIG.lang=="E"){ mesOptionsPivot.vals = ["Value"];
                 p.thousand = F3DWLD.CONFIG.wdsPayload.thousandSeparator; 
                 p.decimal = F3DWLD.CONFIG.wdsPayload.decimalSeparator; 
                 p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers; 
-                p.limit = -1; 
+                p.limit = 10000; 
+                
+                  
 
                 for (var i = 1 ; i <= F3DWLD.CONFIG.maxListBoxNo ; i++) {  p['list' + i + 'Codes'] = [];} 
 
@@ -223,12 +276,17 @@ if(F3DWLD.CONFIG.lang=="E"){ mesOptionsPivot.vals = ["Value"];
                     var ins = new Array(); 
                     for (var j = 0 ; j < F3DWLD.CONFIG.selectedValues[key].length ; j++) { 
                         var code = F3DWLD.CONFIG.selectedValues[key][j].code; 
+                       
+                       
                         code += (F3DWLD.CONFIG.selectedValues[key][j].type === '>' || F3DWLD.CONFIG.selectedValues[key][j].type === '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : ''; 
                         ins.push('\'' + code.replace('+','') + '\''); 
+                        
+                   
+                    
                     } 
                     p['list' + listBoxNo + 'Codes'] = ins; 
                 } 
-                if(refresh){ 
+                if(refresh){
                     mesOptionsPivot.rows=FAOSTATNEWOLAP.internalData.rowAttrs; 
                     mesOptionsPivot.cols=FAOSTATNEWOLAP.internalData.colAttrs; 
                   
@@ -243,6 +301,7 @@ if(F3DWLD.CONFIG.lang=="E"){ mesOptionsPivot.vals = ["Value"];
                     } 
                     $("#options_menu_box").css("display","block"); 
                    // $("#testinline").css("overflow","auto"); 
+                  
                     var newFlag=""; 
                     for(var i in FAOSTATNEWOLAP.flags){ 
                         if(newFlag!==""){newFlag+=":";} 
@@ -258,19 +317,54 @@ if(F3DWLD.CONFIG.lang=="E"){ mesOptionsPivot.vals = ["Value"];
                     }); 
 
                 }else{
-                    var data = {}; 
+                    
+                    var data = {};
+                    /*
+                     * 
+                     * p.Pivot1='Country,[Country Code],Element,[Element Code],'+
+	'MIN([APPLE-2003]) as [APPLE-2003],MIN([APPLE-2003u]) as [APPLE-2003u],MIN([APPLE-2003f]) as [APPLE-2003f],'+
+	'MIN([ABRICOT-2003]) as [ABRICOT-2003],MIN([ABRICOT-2003u]) as [ABRICOT-2003u],MIN([ABRICOT-2003f]) as [ABRICOT-2003f],'+
+	'MIN([APPLE-2004]) as [APPLE-2004],MIN([APPLE-2004u]) as [APPLE-2004u],MIN([APPLE-2004f]) as [APPLE-2004f],'+
+	'MIN([ABRICOT-2004]) as [ABRICOT-2004],MIN([ABRICOT-2004u]) as [ABRICOT-2004u],MIN([ABRICOT-2004f]) as [ABRICOT-2004f]',
+ p.Pivot2='Country,[Country Code],Element,[Element Code],'
+	 
+		"CASE when Year=''2003'' and [Item Code]=515 then MIN(Value) end as ''APPLE-2003'',"+
+		"CASE when Year=''2003''  and [Item Code]=515 then MIN(Unit) end as ''APPLE-2003u'',"+
+		"CASE when Year=''2003'' and [Item Code]=515 then MIN(Flag) end as ''APPLE-2003f'',"+
+
+		"CASE when Year=''2003'' and [Item Code]=526 then MIN(Value) end as ''ABRICOT-2003'',"+
+		"CASE when Year=''2003''  and [Item Code]=526 then MIN(Unit) end as ''ABRICOT-2003u'',"+
+		"CASE when Year=''2003'' and [Item Code]=526 then MIN(Flag) end as ''ABRICOT-2003f'',"+
+
+		"CASE when Year=''2004'' and [Item Code]=515 then MIN(Value) end as ''APPLE-2004'',"+
+		"CASE when Year=''2004''  and [Item Code]=515 then MIN(Unit) end as ''APPLE-2004u'',"+
+		"CASE when Year=''2004'' and [Item Code]=515 then MIN(Flag) end as ''APPLE-2004f'',"+
+
+		"CASE when Year=''2004'' and [Item Code]=526 then MIN(Value) end as ''ABRICOT-2004'',"+
+		"CASE when Year=''2004''  and [Item Code]=526 then MIN(Unit) end as ''ABRICOT-2004u'',"+
+		"CASE when Year=''2004'' and [Item Code]=526 then MIN(Flag) end as ''ABRICOT-2004f''',";
+		p.Pivot3='Country,[Country Code],Element,[Element Code]'*/
+                   
+                    /* p.list1Codes=p.list1Codes.sort();
+                   p.list2Codes=p.list2Codes.sort();
+                   p.list3Codes=p.list3Codes.sort();*/
+                   p.list4Codes=p.list4Codes.reverse();
                     data.payload = JSON.stringify(p);
                     
                     
-                   // console.log(p);
+                FAOSTATNEWOLAP.excelpayload=p;
                     //"orderBys":[{"column":"Year"},{"column":"Ord"},{"column":"ItemCode"}],
 //                    {"aggregation":"NONE","column":"ItemLevel","alias":"ItemLevel"},
-               /*var data2={    
+            /*   var data2={    
                    datasource:F3DWLD.CONFIG.datasource,
                            thousandSeparator:" ",
 decimalSeparator:".",
 decimalNumbers:"2",
 json:JSON.stringify({"selects":[
+{"aggregation":"NONE","column":"'1'","alias":"NoRecords"},
+{"aggregation":"NONE","column":"'1'","alias":"RecordOrder"},
+{"aggregation":"NONE","column":"D.DomainCode","alias":"Domain_Code"},
+{"aggregation":"NONE","column":"D.DomainCode","alias":"Domain"},
 {"aggregation":"NONE","column":"D.AreaCode","alias":"AreaCode"},
 {"aggregation":"NONE","column":"A.AreaName"+F3DWLD.CONFIG.lang,"alias":"AreaName"+F3DWLD.CONFIG.lang},
 {"aggregation":"NONE","column":"D.ItemCode","alias":"ItemCode"},
@@ -279,13 +373,42 @@ json:JSON.stringify({"selects":[
 {"aggregation":"NONE","column":"E.ElementName"+F3DWLD.CONFIG.lang,"alias":"ElementName"+F3DWLD.CONFIG.lang},
 {"aggregation":"NONE","column":"D.Year","alias":"Year"},
 {"aggregation":"NONE","column":"D.Year","alias":"YearName"+F3DWLD.CONFIG.lang},
+{"aggregation":"NONE","column":"E.UnitName"+F3DWLD.CONFIG.lang,"alias":"Unit"+F3DWLD.CONFIG.lang},
 {"aggregation":"NONE","column":"Value","alias":"Value"},
-{"aggregation":"NONE","column":"Flag","alias":"Flag"}],
-"froms":[{"column":"Data","alias":"D"},{"column":"Element","alias":"E"},{"column":"Item","alias":"I"},{"column":"Area","alias":"A"}],
+{"aggregation":"NONE","column":"Flag","alias":"Flag"},
+{"aggregation":"NONE","column":"Flag","alias":"Flag_Description"},
+{"aggregation":"NONE","column":"v1.Var1Order"+F3DWLD.CONFIG.lang,"alias":"Var1Order"},
+{"aggregation":"NONE","column":"v2.Var2Order"+F3DWLD.CONFIG.lang,"alias":"Var2Order"},
+{"aggregation":"NONE","column":"v3.Var3Order"+F3DWLD.CONFIG.lang,"alias":"Var3Order"},
+{"aggregation":"NONE","column":"v4.Var4Order"+F3DWLD.CONFIG.lang,"alias":"Var4Order"}
+
+],
+"froms":[{"column":"Data","alias":"D"},{"column":"Element","alias":"E"},{"column":"Item","alias":"I"},{"column":"Area","alias":"A"},
+   {"column":"DomainVarListVar","alias":"v1"}
+   //,{"column":"DomainVarListVar","alias":"v2"},{"column":"DomainVarListVar","alias":"v3"},{"column":"DomainVarListVar","alias":"v4"} 
+                            ],
 "wheres":[
+    
+     {"datatype":"DATE","column":"v1.VarListCode","operator":"=","value":"D.AreaCode","ins":[]},
+         {"datatype":"DATE","column":"v1.VarType","operator":"=","value":"'area'","ins":[]},
+             {"datatype":"DATE","column":"v1.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
+              
+              {"datatype":"DATE","column":"v3.VarListCode","operator":"=","value":"D.ItemCode","ins":[]},
+         {"datatype":"DATE","column":"v3.VarType","operator":"=","value":"'item'","ins":[]},
+              {"datatype":"DATE","column":"v3.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
+              
+               {"datatype":"DATE","column":"v2.VarListCode","operator":"=","value":"D.ElementCode","ins":[]},
+         {"datatype":"DATE","column":"v2.VarType","operator":"=","value":"'element'","ins":[]},
+              {"datatype":"DATE","column":"v2.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
+              
+               {"datatype":"DATE","column":"v4.VarListCode","operator":"=","value":"D.Year","ins":[]},
+         {"datatype":"DATE","column":"v4.VarType","operator":"=","value":"'year'","ins":[]},
+              {"datatype":"DATE","column":"v4.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
+              
+              
      {"datatype":"DATE","column":"D.ElementCode","operator":"=","value":"E.ElementCode","ins":[]},
      {"datatype":"DATE","column":"D.ItemCode","operator":"=","value":"I.ItemCode","ins":[]},
-     {"datatype":"TEXT","column":"D.DomainCode","operator":"=","value":F3DWLD.CONFIG.domainCode,"ins":[]},
+     {"datatype":"DATE","column":"D.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
        {"datatype":"DATE","column":"D.AreaCode","operator":"=","value":"A.AreaCode","ins":[]},
        
        {"datatype":"TEXT","column":"D.AreaCode","operator":"IN","value":"","ins":p.list1Codes},
@@ -297,33 +420,10 @@ json:JSON.stringify({"selects":[
 "limit":null,"query":null,"frequency":"NONE"}),
 cssFilename:"faostat",
 valueIndex:1
-};*/
+};
+*/
 
-
-
-/*SELECT     D.AreaCode, A.AreaNameE, A.AreaNameF, A.AreaNameS, A.AreaNameC, A.AreaNameA, A.AreaNameR, A.AreaLevel, D.ItemCode, I.ItemNameE, I.ItemNameF, 
-                      I.ItemNameS, I.ItemNameC, I.ItemNameA, I.ItemNameR, A.AreaLevel + 10 AS ItemLevel, D.ElementCode, E.ElementNameE, E.ElementNameF, E.ElementNameS, 
-                      E.ElementNameC, E.ElementNameA, E.ElementNameR, D.Year, D.Value, D.Flag, 
-                      CASE A.AreaLevel WHEN 10 THEN A.AreaCode WHEN 15 THEN A.AreaCode ELSE 99999 END AS Ord
-FROM         dbo.Data AS D INNER JOIN
-                      dbo.Element AS E ON D.ElementCode = E.ElementCode INNER JOIN
-                      dbo.Item AS I ON D.ItemCode = I.ItemCode INNER JOIN
-                      dbo.Area AS A ON D.AreaCode = A.AreaCode
-WHERE     (D.DomainCode = 'FBS')*/
-
-  /*   $.ajax({ 
-                        type: 'POST', 
-                       url : 'http://faostat3.fao.org/wds/rest/table/json',
-                        data: data2, 
-                        success: function (response) {
-                            console.log("response1")
-                            console.log(response) },
-        error : function(err, b, c) {
-            console.log(err);
-        }
-                        
-     });*/               
-                    
+    
                     
                     
                     
@@ -331,14 +431,14 @@ WHERE     (D.DomainCode = 'FBS')*/
                         type: 'POST', 
                         url: F3DWLD.CONFIG.procedures_data_url, 
                         data: data, 
-                        success: function (response) { 
-for(var cc=0;cc<response[0].length;cc++)
-{ 
-   
-    response[0][cc]=response[0][cc].replace(/Unit.+/g,"Unite").replace(/S.+mbolo/,"Simbolo");
-   
-}
-//console.log(response);
+                        success: function (response) {
+                        for(var cc=0;cc<response[0].length;cc++)
+                        { 
+
+                            response[0][cc]=response[0][cc].replace(/Unit.+/g,"Unite").replace(/S.+mbolo/,"Simbolo");
+
+                        }
+
                             /* var response2=[["Domain","AreaCode","AreaName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]]; 
                             var response2TM=[["Domain","ReporterCode","ReporterName","PartnerCode","PartnerName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]]; 
                             var mesOptionsPivot=FAOSTATOLAP2.options; 
@@ -355,28 +455,29 @@ for(var cc=0;cc<response[0].length;cc++)
                             */ 
                             //$("#output_are").html("<div id="testinline"></div>"); 
                             FAOSTATNEWOLAP.originalData=response; 
-                            
+                            response.push(["Domain","AreaCode","AreaName","ItemCode","ItemName","ElementCode","VarNameE","Year","Unit","Flag","Value"]);
+                            response=response.reverse();
+                            console.log(response)
                             $("#testinline").pivotUI(response,mesOptionsPivot ,true); 
-
+                            //alert('response limit'+response[1][0]);
                             for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++) 
                             { 
                                 
                             $("#my_"+$(".pvtAxisLabel")[iLabel].innerHTML.replace(/\s/,"_"))[0].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
-                              
-                                                              
-                                $(".pvtAxisLabel")[iLabel].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
+                             $(".pvtAxisLabel")[iLabel].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
 
                               
                              
 
                             } 
                             $("#options_menu_box").css("display","block"); 
-                          //  $("#testinline").css("overflow","auto"); 
+                          
                             var newFlag=""; 
-                            for(var i in FAOSTATNEWOLAP.flags){ 
+                            for(var i in FAOSTATNEWOLAP.flags){
                                 if(newFlag!==""){newFlag+=":";} 
                                 newFlag+="'" +i+"'"; 
                             } 
+                            //alert('438')
                             if(newFlag===""){newFlag="''";} 
                             $(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2); 
                             $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) { 
@@ -386,19 +487,35 @@ for(var cc=0;cc<response[0].length;cc++)
 
                                 if(isEx){
                                     $('#testinline').css("display","none"); 
-                                    if(outputFormat=="csv") { decolrowspanNEW();} 
-                                    else { my_exportNew();    } 
+                                    if(outputFormat=="csv") {
+                                        decolrowspanNEW();
+                                    // ExcelComplete("json");
+                                    } 
+                                    else { 
+                                       my_exportNew();  
+                                         //ExcelComplete("html");
+                                    } 
                                 } 
                                 // my_exportNew(); 
                                 $('#preview_hr').css('display', 'block');
                             }); 
+                            
+                            /*OLD NEW EXCEL*/
+                            
+                             
+                                       
+           
+                            
+                            
+                            
+                            
                         } 
                     }); 
                 } 
                 /*fin getschema*/ 
             } 
         }); 
-    } 
+    }
 
     function collectListCodesPIVOT() { 
         var doTheCall = callListCodesREST(); 
@@ -476,9 +593,7 @@ for(var cc=0;cc<response[0].length;cc++)
 
                 }, 
 
-                error : function(err, b, c) { 
-
-                } 
+                error : function(err, b, c) { } 
 
             }); 
 
@@ -555,7 +670,7 @@ for(var cc=0;cc<response[0].length;cc++)
                 } 
                 F3DWLD.CONFIG.tableIndices = tableIndices; 
 
-                if (queryDB) { 
+                if (queryDB) {
 
                     var p = {}; 
                     p.datasource = F3DWLD.CONFIG.datasource; 
@@ -589,9 +704,11 @@ for(var cc=0;cc<response[0].length;cc++)
                         p.limit = -1; 
                         var data = {}; 
                         data.payload = JSON.stringify(p); 
+                        
                         switch (outputFormat) { 
                             case 'csv': 
                                 $('#payload_csv').val(JSON.stringify(p)); 
+                               
                                 document.csvForProcedures.submit(); 
                                 break; 
                             case 'excel': 
@@ -600,12 +717,43 @@ for(var cc=0;cc<response[0].length;cc++)
                                 break; 
                         } 
 
-                    } else { 
+                    } else {
 
                         $('#output_area').empty(); 
                         $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>'); 
 
-                        $.ajax({ 
+                        
+                        
+                        var selectFinal="EXECUTE Warehouse.dbo.usp_GetDataTEST "+
+" @DomainCode = '"+F3DWLD.CONFIG.domainCode+"',  "+
+" @lang = '"+F3DWLD.CONFIG.lang+"',  "+
+" @List1Codes = '( "+ExtractCode(F3DWLD.CONFIG.selectedValues[0],"''")+"   )', "+
+"  @List2Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[1],"''")+")',  "+
+" @List3Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[2],"''")+")', "+
+"  @List4Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[3],"")+")', "+
+"   @List5Codes = '',  "+
+"   @List6Codes = '',  "+
+"   @List7Codes = '',  "+
+"   @NullValues = 0,  "+
+"   @Thousand = '',  "+
+"   @Decimal = '.',  "+
+"   @DecPlaces = 2 , "+
+"  @Limit ="+ 50 ;
+ var myPayload={
+     datasource:F3DWLD.CONFIG.datasource,
+             thousandSeparator:',',
+             decimalSeparator:'.',
+             decimalNumbers:'2',
+             json:JSON.stringify(
+             {"limit":null,
+         "query":selectFinal,
+         "frequency":"NONE"}),
+             cssFilename:'',
+             valueIndex:5};
+ 
+ 
+ if(F3DWLD.CONFIG.groupCode=="D" || F3DWLD.CONFIG.domainCode=="TM" || F3DWLD.CONFIG.domainCode=="FT"){ 
+     $.ajax({ 
 
                             type: 'POST', 
                             url: F3DWLD.CONFIG.procedures_data_url, 
@@ -615,6 +763,7 @@ for(var cc=0;cc<response[0].length;cc++)
                                 var json = response; 
                                 if (typeof json == 'string') 
                                     json = $.parseJSON(response); 
+                                console.log(json);
                                 F3DWLD.CONFIG.data = json; 
                                 renderTable(); 
                             }, 
@@ -625,7 +774,24 @@ for(var cc=0;cc<response[0].length;cc++)
                                 renderTable(); 
                             } 
 
-                        }); 
+                        });}
+ else{ $.ajax({
+                          type : 'POST',
+                          url:"http://faostat3.fao.org/wds/rest/table/json",
+                          data:myPayload,
+                          success:function(response_1){
+                              var response2_2=[["NoRecords","RecordOrder","Domain Code","Domain","Country Code","Country","Element Code","Element","Item Code",
+                                      "Item","Year Code","Year","Unit","Value","Flag","Flag Description","Var1Order","Var2Order","Var3Order","Var4Order"]];
+                              for(i in response_1){
+                                                            if(Array.isArray(response_1[i])){response2_2.push(response_1[i]);}
+                                                     }
+                               F3DWLD.CONFIG.data = response2_2; 
+                                renderTable(); 
+                          }
+                      }); }
+                                 
+                                    
+                    
 
                     }
 
@@ -939,6 +1105,7 @@ for(var cc=0;cc<response[0].length;cc++)
         }); 
 
     }; 
+   
 
     function arrayToObject(a) { 
         var tmp = {}; 
@@ -1107,7 +1274,7 @@ for(var cc=0;cc<response[0].length;cc++)
 
     function buildOutputArea() { 
        // return '<div id="output_area2">TEST</div>'; 
-    return ''
+    return '';
     }; 
 
     function buildButtons() { 
@@ -1171,7 +1338,7 @@ for(var cc=0;cc<response[0].length;cc++)
 
     function preview(queryDB,refresh) { 
       
-        if ($('#radio_table').val()) { 
+        if ($('#radio_table').val()) {
              document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
             $('#output_area').css("min-height","350px"); 
             $('#testinline').css("display","none"); 
@@ -1185,6 +1352,7 @@ for(var cc=0;cc<response[0].length;cc++)
                 alert(e); 
             } 
         } else { 
+           
             document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview');
             $("#btnFS").show(); 
             $("#nested_by").show(); 
@@ -1192,9 +1360,12 @@ for(var cc=0;cc<response[0].length;cc++)
             $('#output_area').css("min-height","0px"); 
             $('#testinline').css("display","block"); 
           // try { 
-                validateSelection('preview pivot'); 
+           
+         
+                 validateSelection('preview pivot'); 
                 buildOptionsMenu();//just UI option menu 
                 collectAndQueryWDSPivot(refresh); 
+             
             STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode); 
           // } catch (e) {        console.log(e);            } 
         } 
@@ -1220,8 +1391,10 @@ for(var cc=0;cc<response[0].length;cc++)
                 buildOptionsMenu();//just UI option menu 
                 collectAndQueryWDSPivot(false,true,outputFormat);} 
             else{ if(outputFormat=="csv") { 
-                decolrowspanNEW(); 
+                decolrowspanNEW();
+               // ExcelComplete("json");
             } else { 
+                //ExcelComplete("html");
                 my_exportNew(); 
             }} 
           
@@ -1373,6 +1546,7 @@ for(var cc=0;cc<response[0].length;cc++)
             preview(true,true);
         });
         $('#disable_menu').bind('change', function (event) {
+            
             if (event.args.checked) {
                 F3DWLD.CONFIG.wdsPayload.thousandSeparator = '';
                 FAOSTATNEWOLAP.thousandSeparator=' ' ;
@@ -1396,7 +1570,8 @@ for(var cc=0;cc<response[0].length;cc++)
         F3DWLD.CONFIG.wdsPayload.showCodes = false; 
         F3DWLD.CONFIG.wdsPayload.showUnits = true; 
         F3DWLD.CONFIG.wdsPayload.showNullValues = false; 
-        $("#flags_menu").bind('change', function (event) { 
+        $("#flags_menu").bind('change', function (event) {
+            
             var checked = event.args.checked; 
             F3DWLD.CONFIG.wdsPayload.showFlags = checked; 
             preview(false,true); 
@@ -1426,7 +1601,7 @@ for(var cc=0;cc<response[0].length;cc++)
             var value = event.args.value; 
             F3DWLD.CONFIG.wdsPayload.decimalNumbers = parseInt(value); 
             FAOSTATNEWOLAP.decimal=F3DWLD.CONFIG.wdsPayload.decimalNumbers 
-            preview(true,false); 
+            preview(false,true); 
         }); 
         enhanceUITabs(); 
         enhanceUIOptions(); 
@@ -1549,6 +1724,7 @@ for(var cc=0;cc<response[0].length;cc++)
     function addToSummary(gridID, summaryID) { 
 
         $('#output_area').empty(); 
+        $('#testinline').empty(); 
         $('#options_menu_box').css('display', 'none'); 
         $('#preview_hr').css('display', 'none'); 
         var values = []; 
@@ -1630,6 +1806,7 @@ for(var cc=0;cc<response[0].length;cc++)
                         $('#' + itemID).on('click', function (e) { 
 
                                 $('#output_area').empty(); 
+                                $('#testinline').empty(); 
                                 $('#options_menu_box').css('display', 'none'); 
                                 $('#preview_hr').css('display', 'none'); 
 
@@ -1746,6 +1923,7 @@ for(var cc=0;cc<response[0].length;cc++)
 //                $('#preview_hr').css('display', 'block'); 
 //            } 
             $('#output_area').empty(); 
+            $('#testinline').empty(); 
             $('#options_menu_box').css('display', 'none'); 
             $('#preview_hr').css('display', 'none'); 
         }); 

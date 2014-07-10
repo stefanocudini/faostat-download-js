@@ -1,14 +1,11 @@
 var test;
-function newFunctions(){
-	FAOSTATNEWOLAP.viewVals=1;
-	$("#mesVals").css("display","block");
-	$("#unused").css("display","block");
-	$("#renderer").css("display","block");
-	$("#aggregator").css("display","block");
-        $("#unused").css("background-color","#ececec");
-         $("#unused li nobr").css("color","#666");
-}
+
+
 FAOSTATNEWOLAP={};
+FAOSTATNEWOLAP.pivotlimit=10000;
+FAOSTATNEWOLAP.PP={PP1:[],PP2:[],PP3:[]};//para&meters for the exclstoredprocedure : to be change to avoir SQL injection
+FAOSTATNEWOLAP.excelpayload={};
+FAOSTATNEWOLAP.schema={};
 FAOSTATNEWOLAP.nestedby=0;
 FAOSTATNEWOLAP.viewVals=0;
 FAOSTATNEWOLAP.decimal=2;
@@ -17,12 +14,572 @@ FAOSTATNEWOLAP.flags={};
 FAOSTATNEWOLAP.internalData={};
 FAOSTATNEWOLAP.originalData=[];
 FAOSTATNEWOLAP.thousandSeparator=" ";
-FAOSTATNEWOLAP.decimalSeparator="."
+FAOSTATNEWOLAP.decimalSeparator=".";
+FAOSTATNEWOLAP.traduction={"Var1":"Country",
+            "Var2":"Element","Var3":"Item","Var4":"Year"};
+function ExtractCode(arr,separateur)
+{ret=[];
+    for(i=0;i<arr.length;i++)
+        {
+            if(arr[i].type===">"){ret.push(separateur+arr[i].code+">"+separateur);}
+            else{ ret.push(separateur+arr[i].code+separateur);}
+    }
+    return ret;
+}
+
+function oldSchool(maLimit)
+{
+   
+    
+   //FAOSTATOLAP2.options.rows=["ElementName","AreaName","ItemName"];
+    
+                        DimCountry=[];
+			for(i in F3DWLD.CONFIG.selectedValues.countries)
+			{DimCountry.push(F3DWLD.CONFIG.selectedValues.countries[i].code);}
+			DimItem=[];
+			for(i in F3DWLD.CONFIG.selectedValues.items)
+			{DimItem.push(F3DWLD.CONFIG.selectedValues.items[i].code);}
+			DimElement=[];
+			for(i in F3DWLD.CONFIG.selectedValues.elements)
+			{DimElement.push(F3DWLD.CONFIG.selectedValues.elements[i].code);}
+			DimYear=[];
+			for(i in F3DWLD.CONFIG.selectedValues.years)
+			{DimYear.push(F3DWLD.CONFIG.selectedValues.years[i].code);}
+			
+			
+			
+						
+			
+/*
+if(maLimit===-1){maLimit=""}
+else{maLimit="TOP "+maLimit;}
+var selectFinal="select "+maLimit+" D.DomainCode as Domain,"+
+        " D.AreaCode as AreaCode,A.VarName"+F3DWLD.CONFIG.lang+" as AreaName,"+
+        "D.ItemCode as ItemCode,I.VarName"+F3DWLD.CONFIG.lang+" as ItemName,"+
+        "D.ElementCode,E.VarName"+F3DWLD.CONFIG.lang+","+
+        "D.Year as Year,"+
+        "D.ElementCode as Unit,"+
+        "D.Flag as Flag,D.Value as Value"+
+        " from Data D "+
+"inner join DomainVarListVar A on A.VarCode=D.AreaCode and A.DomainCode=D.DomainCode and A.VarType='area' "+
+"inner join DomainVarListVar I on I.VarCode=D.ItemCode and I.DomainCode=D.DomainCode and I.VarType='item' "+
+"inner join DomainVarListVar E on E.VarCode=D.ElementCode and E.DomainCode=D.DomainCode and E.VarType='element' "+
+"where  "+
+"D.DomainCode='"+F3DWLD.CONFIG.domainCode+"' "+
+"AND Year in ("+ExtractCode(F3DWLD.CONFIG.selectedValues[3],"")+") "+
+"AND E.VarListCode in ("+ExtractCode(F3DWLD.CONFIG.selectedValues[1],"'")+") "+
+"AND A.VarListCode in ("+ExtractCode(F3DWLD.CONFIG.selectedValues[0],"'")+") "+
+"AND I.VarListCode in ("+ExtractCode(F3DWLD.CONFIG.selectedValues[2],"'")+")";*/
+
+
+
+
+var selectFinal="EXECUTE Warehouse.dbo.usp_GetDataTESTP "+
+" @DomainCode = '"+F3DWLD.CONFIG.domainCode+"',  "+
+" @lang = '"+F3DWLD.CONFIG.lang+"',  "+
+" @List1Codes = '( "+ExtractCode(F3DWLD.CONFIG.selectedValues[0],"''")+"   )', "+
+"  @List2Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[1],"''")+")',  "+
+" @List3Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[2],"''")+")', "+
+"  @List4Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[3],"")+")', "+
+"   @List5Codes = '',  "+
+"   @List6Codes = '',  "+
+"   @List7Codes = '',  "+
+"   @NullValues = 0,  "+
+"   @Thousand = '',  "+
+"   @Decimal = '.',  "+
+"   @DecPlaces = 2 , "+
+"  @Limit ="+ maLimit ;
+
+
+			if(F3DWLD.CONFIG.domainCode=="TM" || F3DWLD.CONFIG.domainCode=="FT"){
+						
+						tableMyData="TradeMatrix";
+						var fromMyData=[
+							{"column":"TradeMatrix","alias":"D"},
+							{"column":"Item","alias":"I"},
+							{"column":"Element","alias":"E"},
+							{"column":"Area","alias":"A1"},
+							{"column":"Area","alias":"A2"},
+							{"column":"Domain","alias":"DOM"}
+						];
+
+			selectMyData=[
+							{"aggregation":"NONE","column":"DOM.DomainName"+F3DWLD.CONFIG.lang,"alias":"Domain"},
+							{"aggregation":"NONE","column":"A1.AreaCode","alias":"ReporterAreaCode"},
+							{"aggregation":"NONE","column":"A1.AreaName"+F3DWLD.CONFIG.lang,"alias":"Reporter_Country"},
+							{"aggregation":"NONE","column":"A2.AreaCode","alias":"PartnerAreaCode"},
+							{"aggregation":"NONE","column":"A2.AreaName"+F3DWLD.CONFIG.lang,"alias":"Partner_Country"},
+							{"aggregation":"NONE","column":"I.ItemCode","alias":"ItemCode"},
+							{"aggregation":"NONE","column":"I.ItemName"+F3DWLD.CONFIG.lang,"alias":"Item"},
+							{"aggregation":"NONE","column":"E.ElementListCode","alias":"ElementCode"},
+							{"aggregation":"NONE","column":"E.ElementUnitName"+F3DWLD.CONFIG.lang,"alias":"ElementName"},
+							{"aggregation":"NONE","column":"D.Year","alias":"Year"},
+							{"aggregation":"NONE","column":"E.UnitNameE","alias":"Unit"},
+							{"aggregation":"NONE","column":"D.Flag","alias":"Flag"},
+							{"aggregation":"NONE","column":"D.Value","alias":"Value"}
+						];
+
+			orderbyMyData=[
+								{"column":"D.Year","direction":"DESC"},
+								{"column":"A1.AreaName"+F3DWLD.CONFIG.lang,"direction":"ASC"},
+								{"column":"A2.AreaName"+F3DWLD.CONFIG.lang,"direction":"ASC"},
+								{"column":"I.ItemName"+F3DWLD.CONFIG.lang,"direction":"ASC"},
+								{"column":"E.ElementUnitName"+F3DWLD.CONFIG.lang,"direction":"ASC"}
+							];
+						
+						}
+     
+                                    var test2={
+						datasource:F3DWLD.CONFIG.datasource,
+						thousandSeparator:',',
+						decimalSeparator:'.',
+						decimalNumbers:'2',
+						json:JSON.stringify(
+						{"limit":null,
+						"query":selectFinal,
+						"frequency":"NONE"}),
+						cssFilename:'',
+						valueIndex:5};
+                                    
+                                    
+
+						$("#testinline").html("<center><img src=\"/faostat-download-js/pivotAgg/Preload.gif\" /></center>");
+						FAOSTATNEWOLAP.flags={};
+						//document.payload_csv.val(JSON.stringify(test2)); 
+                              
+                                
+						$.ajax({
+						 type : 'POST',
+						 url:"http://faostat3.fao.org/wds/rest/table/json",
+						 data:test2,
+						 success:function(response_1){
+						
+						 var response2_2=[["Country Code","Country","Element Code","Element","Item Code",
+                                      "Item","Year","Unit","Value","Flag","Flag Description","Var1Order","Var2Order","Var3Order","Var4Order"]];
+									 console.log("response_1.length") ;
+								 console.log(response_1.length) ;
+								  
+							 var response2TM=[["Domain","ReporterCode","ReporterName","PartnerCode","PartnerName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
+							 var mesOptionsPivot=FAOSTATOLAP2.options;
+							 if(F3DWLD.CONFIG.domainCode=="TM" ||F3DWLD.CONFIG.domainCode=="FT" )
+							 {response2_2=response2TM;mesOptionsPivot=FAOSTATOLAP2.optionsTM}
+							 
+							
+							for(i in response_1){
+                                                            if(Array.isArray(response_1[i])){response2_2.push(response_1[i]);}
+                                                     }
+							
+							
+							
+                                                     
+                                                     var derivers = $.pivotUtilities.derivers;
+							 var renderers = $.extend($.pivotUtilities.renderers,$.pivotUtilities.gchart_renderers);
+							
+                                                       mesOptionsPivot.vals=["Value"];
+							 if(F3DWLD.CONFIG.wdsPayload.showUnits)
+                                                         {mesOptionsPivot.vals.push("Unit")}
+							 if(F3DWLD.CONFIG.wdsPayload.showFlags)
+                                                         {mesOptionsPivot.vals.push("Flag")}
+							 
+							 FAOSTATNEWOLAP.originalData=response2_2; 
+							$("#testinline").pivotUI(response2_2,mesOptionsPivot ,true);
+							 
+							 
+							  $("#options_menu_box").css("display","block"); 
+							 var newFlag="";
+							 for(var i in FAOSTATNEWOLAP.flags){
+								if(newFlag!=""){newFlag+=":";}
+								 newFlag+="'" +i+"'";
+							 }
+							 if(newFlag==""){newFlag="''";}
+							 $(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2);
+							 $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) {
+							 data=data.replace("localhost:8080/","faostat3.fao.org/");
+							 $( "#testinline" ).append( data );
+                                                          for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++){
+                                                              $("#my_"+$(".pvtAxisLabel")[iLabel].innerHTML.replace(/\s/,"_"))[0].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
+                                                             $(".pvtAxisLabel")[iLabel].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
+                                                         } 
+							// my_exportNew();
+							 });
+						 }
+						});
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function newFunctions(){
+	FAOSTATNEWOLAP.viewVals=1;
+        
+	$("#mesVals").css("display","block");
+	$("#unused").css("display","block");
+	$("#renderer").css("display","block");
+	$("#aggregator").css("display","block");
+        $("#unused").css("background-color","#ececec");
+         $("#unused li nobr").css("color","#666");
+}
+
 function changeNested()
 {
 	if(document.getElementById('cbNestedBy').checked){FAOSTATNEWOLAP.nestedby=1;}
 	else{FAOSTATNEWOLAP.nestedby=0;}
 }
+
+ 
+ function recTab1(label,arr,ind)
+ {
+     ret="";
+     if(arr.length==ind+1)
+         {
+            
+             
+             for(var i=0;i<arr[ind].data.length;i++)
+             {
+                /* ret+=",MIN(["+label+arr[ind].data[i].label+"]) as ["+label+arr[ind].data[i].label+
+                    "],MIN(["+label+arr[ind].data[i].label+"_u]) as ["
+                    +label+arr[ind].data[i].label+"_u],MIN(["+label+arr[ind].data[i].label+"_f]) as ["+label+arr[ind].data[i].label+"_f]";*/
+                ret+=",CONCAT('''',MIN(["+label+arr[ind].data[i].label+"])) as ["+label+arr[ind].data[i].label+
+                    "],CONCAT('''',MIN(["+label+arr[ind].data[i].label+"_u])) as ["
+                    +label+arr[ind].data[i].label+"_u],CONCAT('''',MIN(["+label+arr[ind].data[i].label+"_f])) as ["+label+arr[ind].data[i].label+"_f]";
+        
+         }
+       
+         }
+         else
+         {
+            
+             for(var i=0;i<arr[ind].data.length;i++)
+             {
+                 //label+=arr[ind][i].label;
+                 ret+=recTab1(label+arr[ind].data[i].label+"_",arr,ind+1);
+             }
+         }
+             
+      return ret;
+ }
+ 
+  function recHeader(label,arr,ind)
+ {
+     ret="";
+     if(arr.length==ind+1)
+         {
+            
+             
+             for(var i=0;i<arr[ind].data.length;i++)
+             {
+                 ret+=",\""+label+arr[ind].data[i].label+
+                    "\",\""+ label+arr[ind].data[i].label+"_u\",\""+label+arr[ind].data[i].label+"_f\"";}
+       
+         }
+         else
+         {
+            
+             for(var i=0;i<arr[ind].data.length;i++)
+             {
+                 //label+=arr[ind][i].label;
+                 ret+=recHeader(label+arr[ind].data[i].label+"_",arr,ind+1);
+             }
+         }
+             
+      return ret;
+ }
+ 
+ 
+ function recTab2(label,cond,arr,ind)
+ {
+     ret="";
+     if(arr.length==ind+1)
+         {
+            
+             console.log("cas1")
+             for(var i=0;i<arr[ind].data.length;i++)
+             {console.log("cas 1");
+                 
+                 /*
+                   ret+=",CASE when ["+ FAOSTATNEWOLAP.traduction[FAOSTATNEWOLAP.PP.PP1[indice].title]+" Code]=''"+FAOSTATNEWOLAP.PP.PP1[indice].data[j].code+"''  then MIN(Value) end as ["+FAOSTATNEWOLAP.PP.PP1[0].data[j].label+"],";
+            ret+="CASE when ["+ FAOSTATNEWOLAP.traduction[FAOSTATNEWOLAP.PP.PP1[indice].title]+" Code]=''"+FAOSTATNEWOLAP.PP.PP1[indice].data[j].code+"''   then MIN(Unit) end as ["+FAOSTATNEWOLAP.PP.PP1[0].data[j].label+"_u],";
+            ret+="CASE when ["+ FAOSTATNEWOLAP.traduction[FAOSTATNEWOLAP.PP.PP1[indice].title]+" Code]=''"+FAOSTATNEWOLAP.PP.PP1[indice].data[j].code+"''   then MIN(Flag) end as ["+FAOSTATNEWOLAP.PP.PP1[0].data[j].label+"_f]";
+          
+                  
+                  */
+                 
+                  ret+=",CASE when "+cond + " ["+ FAOSTATNEWOLAP.traduction[arr[ind].title]+" Code]=''"+arr[ind].data[i].code+"''  then MIN(Value) end as ["+label+arr[ind].data[i].label+"],";
+                  ret+="CASE when "+cond + " ["+ FAOSTATNEWOLAP.traduction[arr[ind].title]+" Code]=''"+arr[ind].data[i].code+"''   then MIN(Unit) end as ["+label+arr[ind].data[i].label+"_u],";
+                  ret+="CASE when "+cond + " ["+ FAOSTATNEWOLAP.traduction[arr[ind].title]+" Code]=''"+arr[ind].data[i].code+"''   then MIN(Flag) end as ["+label+arr[ind].data[i].label+"_f]";
+          
+                 
+                 //ret+=",MIN(["+label+"_"+arr[ind].data[i].label+"]) as ["+label+"_"+arr[ind].data[i].label+
+                  //  "],MIN(["+label+"_"+arr[ind].data[i].label+"_u]) as ["
+                   // +label+"_"+arr[ind].data[i].label+"_u],MIN(["+label+"_"+
+                   // arr[ind].data[i].label+"_f]) as ["+label+"_"+arr[ind].data[i].label+"_f]";
+               }
+       
+         }
+         else
+         {
+             console.log("cas2")
+             for(var i=0;i<arr[ind].data.length;i++)
+             { console.log("cas 2")
+                 my_cond="["+ FAOSTATNEWOLAP.traduction[arr[ind].title]+" Code]=''"+arr[ind].data[i].code+"''";
+                 ret+=recTab2(label+arr[ind].data[i].label+"_",my_cond+" AND "+cond,arr,ind+1);
+             }
+         }
+             
+      return ret;
+ }
+ 
+ 
+function retPivot1(){
+   
+    var ret= "'"+retPivot3();
+ret+=recTab1("",FAOSTATNEWOLAP.PP.PP1,0);
+     /* for(var indice=0;indice<FAOSTATNEWOLAP.PP.PP1.length;indice++)
+    for(j=0;j<FAOSTATNEWOLAP.PP.PP1[indice].data.length;j++)
+        {
+            ret+=",MIN(["+FAOSTATNEWOLAP.PP.PP1[indice].data[j].label+"]) as ["+FAOSTATNEWOLAP.PP.PP1[indice].data[j].label+
+                    "],MIN(["+FAOSTATNEWOLAP.PP.PP1[indice].data[j].label+"_u]) as ["
+                    +FAOSTATNEWOLAP.PP.PP1[indice].data[j].label+"_u],MIN(["+
+                    FAOSTATNEWOLAP.PP.PP1[indice].data[j].label+"_f]) as ["+FAOSTATNEWOLAP.PP.PP1[0].data[j].label+"_f]";
+            
+        }*/
+        ret+="'";
+     /*  ret+= ",MIN([APPLE-2003]) as [APPLE-2003],MIN([APPLE-2003u]) as [APPLE-2003u],MIN([APPLE-2003f]) as [APPLE-2003f],	"+
+        "MIN([ABRICOT-2003]) as [ABRICOT-2003],MIN([ABRICOT-2003u]) as [ABRICOT-2003u],MIN([ABRICOT-2003f]) as [ABRICOT-2003f],	"+
+        "MIN([APPLE-2004]) as [APPLE-2004],MIN([APPLE-2004u]) as [APPLE-2004u],MIN([APPLE-2004f]) as [APPLE-2004f],"+
+        "MIN([ABRICOT-2004]) as [ABRICOT-2004],MIN([ABRICOT-2004u]) as [ABRICOT-2004u],MIN([ABRICOT-2004f]) as [ABRICOT-2004f]'"*/
+    return ret;
+}
+
+function retPivot2(){
+   var ret= "'"+retPivot3();
+   /*
+   for(var indice=0;indice<FAOSTATNEWOLAP.PP.PP1.length;indice++)
+    for(j=0;j<FAOSTATNEWOLAP.PP.PP1[indice].data.length;j++)
+        {
+            ret+=",CASE when ["+ FAOSTATNEWOLAP.traduction[FAOSTATNEWOLAP.PP.PP1[indice].title]+" Code]=''"+FAOSTATNEWOLAP.PP.PP1[indice].data[j].code+"''  then MIN(Value) end as ["+FAOSTATNEWOLAP.PP.PP1[0].data[j].label+"],";
+            ret+="CASE when ["+ FAOSTATNEWOLAP.traduction[FAOSTATNEWOLAP.PP.PP1[indice].title]+" Code]=''"+FAOSTATNEWOLAP.PP.PP1[indice].data[j].code+"''   then MIN(Unit) end as ["+FAOSTATNEWOLAP.PP.PP1[0].data[j].label+"_u],";
+            ret+="CASE when ["+ FAOSTATNEWOLAP.traduction[FAOSTATNEWOLAP.PP.PP1[indice].title]+" Code]=''"+FAOSTATNEWOLAP.PP.PP1[indice].data[j].code+"''   then MIN(Flag) end as ["+FAOSTATNEWOLAP.PP.PP1[0].data[j].label+"_f]";
+            
+        }*/
+   ret+= recTab2("","",FAOSTATNEWOLAP.PP.PP1,0);
+        
+        ret+="'";
+   /*
+ret+=        "CASE when Year=''2003'' and [Item Code]=515 then MIN(Value) end as ''APPLE-2003'',		"+
+        "CASE when Year=''2003''  and [Item Code]=515 then MIN(Unit) end as ''APPLE-2003u'',	"+
+        "CASE when Year=''2003'' and [Item Code]=515 then MIN(Flag) end as ''APPLE-2003f'',	"+
+        "CASE when Year=''2003'' and [Item Code]=526 then MIN(Value) end as ''ABRICOT-2003'',	"+
+        "CASE when Year=''2003''  and [Item Code]=526 then MIN(Unit) end as ''ABRICOT-2003u'',	"+
+        "CASE when Year=''2003'' and [Item Code]=526 then MIN(Flag) end as ''ABRICOT-2003f'',	"+
+        "CASE when Year=''2004'' and [Item Code]=515 then MIN(Value) end as ''APPLE-2004'',"+
+        "CASE when Year=''2004''  and [Item Code]=515 then MIN(Unit) end as ''APPLE-2004u'',"+
+        "CASE when Year=''2004'' and [Item Code]=515 then MIN(Flag) end as ''APPLE-2004f'',"+
+        "CASE when Year=''2004'' and [Item Code]=526 then MIN(Value) end as ''ABRICOT-2004'',	"+
+        "CASE when Year=''2004''  and [Item Code]=526 then MIN(Unit) end as ''ABRICOT-2004u'',"+
+        "CASE when Year=''2004'' and [Item Code]=526 then MIN(Flag) end as ''ABRICOT-2004f'''";*/
+    return ret;
+}
+
+function retPivot3(){
+    ret="";
+    for(i=0;i<FAOSTATNEWOLAP.PP.PP3.length;i++)
+        {if(i>0){ret+=","+FAOSTATNEWOLAP.traduction[FAOSTATNEWOLAP.PP.PP3[i]];}
+    else{ret+=FAOSTATNEWOLAP.traduction[FAOSTATNEWOLAP.PP.PP3[0]];}    
+    }
+return ret;
+    // return "Country,[Country Code],Element,[Element Code]";
+    
+}
+function ExcelComplete(outputFormat)
+{
+    //decolrowspanNEW();
+   
+    FAOSTATNEWOLAP.PP={PP1:[],PP2:[],PP3:[]};
+    for(i=0;i<document.getElementById('rows').getElementsByTagName('nobr').length;i++)
+    {
+        var d=document.getElementById('rows').getElementsByTagName('nobr')[i];
+         for(j=0;j< FAOSTATNEWOLAP.schema.length;j++)
+           {
+                
+               if(FAOSTATNEWOLAP.schema[j][6]==d.innerHTML){
+                 
+               FAOSTATNEWOLAP.PP.PP3.push(FAOSTATNEWOLAP.schema[j][1])
+            }
+           }
+       
+    }
+    
+    
+   for(i=0;i< document.getElementById('cols').getElementsByTagName('nobr').length;i++)
+       {var d=document.getElementById('cols').getElementsByTagName('nobr')[i];
+           jj=-1;
+          title="";
+           for(j=0;j< FAOSTATNEWOLAP.schema.length;j++)
+           {
+                
+               if(FAOSTATNEWOLAP.schema[j][6]==d.innerHTML){
+                
+                jj=parseInt(FAOSTATNEWOLAP.schema[j][4])-1;
+                title=FAOSTATNEWOLAP.schema[j][1];
+                break;}
+           }
+          
+           if(jj>-1){
+              
+           FAOSTATNEWOLAP.PP.PP1.push({"title":title,"data":F3DWLD.CONFIG.selectedValues[jj]});}
+       else{alert('not found')}
+       }
+    
+    
+   
+      var data2={ 
+                            datasource:F3DWLD.CONFIG.datasource,
+                           thousandSeparator:" ",
+                            decimalSeparator:".",
+                            decimalNumbers:"2",
+                            json:JSON.stringify({"selects":null,
+                            "froms":null,
+                            "wheres":null,
+                        "limit":null,
+                    "query":"EXECUTE Warehouse.dbo.usp_GetData4 @DomainCode = "+F3DWLD.CONFIG.domainCode+", "+
+        "@lang = 'E',"+
+        "@List1Codes = "+JSON.stringify(FAOSTATNEWOLAP.excelpayload.list1Codes).replace(/\"/g,"'").replace(/\[/g,"'(").replace(/\]/g,")'")+","+
+        "@List2Codes = "+JSON.stringify(FAOSTATNEWOLAP.excelpayload.list2Codes).replace(/\"/g,"'").replace(/\[/g,"'(").replace(/\]/g,")'")+", "+
+        "@List3Codes = "+JSON.stringify(FAOSTATNEWOLAP.excelpayload.list3Codes).replace(/\"/g,"'").replace(/\[/g,"'(").replace(/\]/g,")'")+","+
+       "@List4Codes = "+JSON.stringify(FAOSTATNEWOLAP.excelpayload.list4Codes).replace(/\"/g,"'").replace(/\[/g,"'(").replace(/\]/g,")'")+", "+
+      
+       // "@List1Codes = '(''2'',''3'',''4'',''6'',''7'')',"+
+       // "@List2Codes = '(''2413'',''2510'',''2525'')', "+
+       // "@List3Codes = '(''526'',''515'')',"+
+        //"@List4Codes = '(''2011'',''2010'',''2009'',''2008'',''2007'',''2006'',''2005'',''2004'',''2003'')', "+
+        "@List5Codes = '', @List6Codes = '',  @List7Codes = '', "+
+        "@NullValues = 0, "+
+        "@Thousand = '',"+
+        "@Decimal = ',',  "+
+        "@DecPlaces = 2, "+
+        
+        "@Pivot1="+retPivot1()+","+
+        
+        "@Pivot2="+retPivot2()+","+
+        "@Pivot3='"+retPivot3()+"'",
+"frequency":"NONE"}),
+cssFilename:"faostat",
+valueIndex:1
+};
+
+
+    $.ajax({
+                        type: 'POST', 
+                       url : 'http://faostat3.fao.org/wds/rest/table/'+outputFormat,
+                        data: data2, 
+                        success: function (response) {
+                            document.getElementById('csvData').value="";
+                           for(j=0;j<FAOSTATNEWOLAP.PP.PP3.length;j++)
+                           {
+                               if(j>0){document.getElementById('csvData').value+=",";}
+                               console.log("ok")
+                               document.getElementById('csvData').value+=FAOSTATNEWOLAP.traduction[FAOSTATNEWOLAP.PP.PP3[j]]
+                           }
+                            // document.getElementById('csvData').value=FAOSTATNEWOLAP.PP.PP3;
+                           
+                            document.getElementById('csvData').value+=recHeader("",FAOSTATNEWOLAP.PP.PP1,0);
+                                 document.getElementById('csvData').value+="\n";
+                          //  console.log("responseJSON")
+                        //    console.log(response)
+                        if(outputFormat==='html'){
+                            document.getElementById("excelData").value= response;   
+                            document.getElementById("formExcel").submit();  }
+                      else{  for (var i=0;i<response.length;i++)
+                       {document.getElementById('csvData').value+='"'+response[i].join('","')+"\"\n";}
+        
+        
+        var r = confirm("Press a button!");
+if (r == true) {
+   document.getElementById('csvDataForm').submit();
+} 
+        
+        
+                        }
+                     
+                        },
+        error : function(err, b, c) {
+            console.log(err);
+        }
+                        
+     }); 
+    
+    /*
+     var data2={
+                            datasource:F3DWLD.CONFIG.datasource,
+                           thousandSeparator:" ",
+                            decimalSeparator:".",
+                            decimalNumbers:"2",
+                            json:JSON.stringify({"selects":null,
+                            "froms":null,
+                            "wheres":null,
+                        "limit":null,
+                    "query":"select TOP 10000 "+
+"D.Var1Code,D1.VarNameE, "+
+"D.Var2Code,D2.VarNameE, "+
+"D.Var3Code,D3.VarNameE, "+
+"D.Var4Code,D4.VarNameE, "+
+"Value,Flag,DU.UnitNameE "+
+" from Data4  D "+
+"inner join Warehouse.dbo.DomainVarListVar D1 "+
+"on D1.DomainCode=D.DomainCode and D.Var1Code=D1.VarCode and D1.VarType='area' "+
+"inner join Warehouse.dbo.DomainVarListVar D2 "+
+"on D2.DomainCode=D.DomainCode and D.Var2Code=D2.VarCode and D2.VarType='item' "+
+"inner join Warehouse.dbo.DomainVarListVar D3 "+
+"on D3.DomainCode=D.DomainCode and D.Var3Code=D3.VarCode and D3.VarType='element' "+
+"inner join DomainVarUnit DU on D3.VarCode=DU.VarCode "+
+"inner join Warehouse.dbo.DomainVarListVar D4 "+
+"on D4.DomainCode=D.DomainCode and D.Var4Code=D4.VarCode and D4.VarType='year' "+
+" where D.DomainCode='"+F3DWLD.CONFIG.domainCode+"' "+
+" AND D1.VarListCode in ("+FAOSTATNEWOLAP.excelpayload.list1Codes.join(',')+") "+
+"  AND D2.VarListCode in ("+FAOSTATNEWOLAP.excelpayload.list3Codes.join(',')+") "+
+"  AND D3.VarListCode in ("+FAOSTATNEWOLAP.excelpayload.list2Codes.join(',')+") "+
+"    AND D4.VarListCode in ("+FAOSTATNEWOLAP.excelpayload.list4Codes.join(',')+") ",
+"frequency":"NONE"}),
+cssFilename:"faostat",
+valueIndex:1
+};
+
+
+    $.ajax({
+                        type: 'POST', 
+                       url : 'http://faostat3.fao.org/wds/rest/table/'+outputFormat,
+                        data: data2, 
+                        success: function (response) {
+                            console.log(response);
+                        },
+        error : function(err, b, c) {
+            console.log(err);
+        }
+                        
+     });
+    */
+    
+}
+
 
 function my_exportNew(){
 monclone=$("#pivot_table").clone();
@@ -291,7 +848,8 @@ FAOSTATOLAP2.queryParams.json=JSON.stringify(
            {"column":"Area","alias":"A"},{"column":"Domain","alias":"DOM"}],
 	  "wheres":[
 	  {"datatype":"TEXT","column":"D.DomainCode","operator":"=","value":""+FAOSTATDownload.domainCode+"","ins":[]},
-          {"datatype":"TEXT","column":"DOM.DomainCode","operator":"=","value":""+FAOSTATDownload.domainCode+"","ins":[]},{"datatype":"DATE","column":"D.AreaCode","operator":"=","value":"A.AreaCode","ins":[]},{"datatype":"DATE","column":"D.DomainCode","operator":"=","value":"DOM.DomainCode","ins":[]},{"datatype":"DATE","column":"D.ItemCode","operator":"=","value":"I.ItemCode","ins":[]},{"datatype":"DATE","column":"D.ElementCode","operator":"=","value":"E.ElementCode","ins":[]},{"datatype":"TEXT","column":"D.ElementCode","operator":"IN","value":"E.ElementCode","ins":eval("["+mesElements+"]")},{"datatype":"TEXT","column":"D.AreaCode","operator":"IN","value":"A.AreaCode","ins":eval("["+mesCountries+"]")},{"datatype":"TEXT","column":"D.ItemCode","operator":"IN","value":"I.ItemCode","ins":eval("["+mesItems+"]")},{"datatype":"TEXT","column":"D.Year","operator":"IN","value":"D.Year","ins":eval("["+mesYears+"]")}],"orderBys":[{"column":"D.Year","direction":"DESC"},{"column":"A.AreaNameE","direction":"ASC"},{"column":"I.ItemNameE","direction":"ASC"},
+          {"datatype":"TEXT","column":"DOM.DomainCode","operator":"=","value":""+FAOSTATDownload.domainCode+"","ins":[]},
+          {"datatype":"DATE","column":"D.AreaCode","operator":"=","value":"A.AreaCode","ins":[]},{"datatype":"DATE","column":"D.DomainCode","operator":"=","value":"DOM.DomainCode","ins":[]},{"datatype":"DATE","column":"D.ItemCode","operator":"=","value":"I.ItemCode","ins":[]},{"datatype":"DATE","column":"D.ElementCode","operator":"=","value":"E.ElementCode","ins":[]},{"datatype":"TEXT","column":"D.ElementCode","operator":"IN","value":"E.ElementCode","ins":eval("["+mesElements+"]")},{"datatype":"TEXT","column":"D.AreaCode","operator":"IN","value":"A.AreaCode","ins":eval("["+mesCountries+"]")},{"datatype":"TEXT","column":"D.ItemCode","operator":"IN","value":"I.ItemCode","ins":eval("["+mesItems+"]")},{"datatype":"TEXT","column":"D.Year","operator":"IN","value":"D.Year","ins":eval("["+mesYears+"]")}],"orderBys":[{"column":"D.Year","direction":"DESC"},{"column":"A.AreaNameE","direction":"ASC"},{"column":"I.ItemNameE","direction":"ASC"},
           {"column":"E.ElementNameE","direction":"ASC"}],"limit":null,"query":null,"frequency":"NONE"}
 	);
 
@@ -1141,8 +1699,10 @@ listUnique: function(_arg) {
           colKey = colKeys[j];
           aggregator = pivotData.getAggregator(rowKey, colKey);
           val = aggregator.value();
-          tr.append($("<td class='pvtVal row" + i + " col" + j + "'>").html(aggregator.format(val)).data("value", val));
-	 }
+         // tr.append($("<td class='pvtVal row" + i + " col" + j + "'>").html(aggregator.format(val)).data("value", val));
+	  tr.append($("<td>").html(aggregator.format(val)).data("value", val));
+	 
+          }
       totalAggregator = pivotData.getAggregator(rowKey, []);
       val = totalAggregator.value();
       tr.append($("<td class='pvtTotal rowTotal'>").html(totalAggregator.format(val)).data("value", val).data("for", "row" + i));
@@ -1296,6 +1856,7 @@ listUnique: function(_arg) {
               left: e.pageX,
               top: e.pageY
             }*/
+              alert('1299');
             valueList.css({color:"black"}).toggle();
             valueList.bind("click", function(e) {return e.stopPropagation();});
             return $(document).one("click", function() { refresh(); return valueList.toggle();});
@@ -1567,7 +2128,7 @@ listUnique: function(_arg) {
               v = axisValues[c][k];
               filterItem = $("<label>");
               filterItem.append($("<input type='checkbox' class='pvtFilter'>").attr("checked", true).data("filter", [c, k]));
-              filterItem.append($("<span>").html("" + k + " (" + v + ")"));
+              filterItem.append($("<span>").html("" + k + " (((((" + v + ")"));
               valueList.append($("<p>").append(filterItem));
             }
           }
@@ -1575,7 +2136,7 @@ listUnique: function(_arg) {
 		  /*{
               left: e.pageX,
               top: e.pageY
-            }*/
+            }*/ alert('1579');
             valueList.css({color:"black"}).toggle();
             valueList.bind("click", function(e) {return e.stopPropagation();});
             return $(document).one("click", function() {
