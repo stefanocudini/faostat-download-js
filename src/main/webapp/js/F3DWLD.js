@@ -2,8 +2,8 @@
 var F3DWLD = (function() { 
 
     var CONFIG = { 
-        base_url                :  'http://localhost:8080/faostat-gateway/go/to/download',
-        prefix                  :  'http://localhost:8080/faostat-download-js/',
+        base_url                :  'http://168.202.28.210:8080/faostat-gateway/go/to/download',
+        prefix                  :  'http://168.202.28.210:8080/faostat-download-js/',
         CPINotes_url            :  'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
         ODA_url                 :  'http://faostat3.fao.org/wds/rest/procedures/oda',
         data_url                :  'http://faostat3.fao.org/wds/rest',
@@ -1296,8 +1296,7 @@ valueIndex:1
     }; 
 
     function buildOutputArea() { 
-       // return '<div id="output_area2">TEST</div>'; 
-    return '';
+       return '<div id="output_area"></div>';
     }; 
 
     function buildButtons() { 
