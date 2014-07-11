@@ -2,7 +2,7 @@ var test;
 
 
 FAOSTATNEWOLAP={};
-FAOSTATNEWOLAP.pivotlimit=10000;
+FAOSTATNEWOLAP.pivotlimit=50000;
 FAOSTATNEWOLAP.PP={PP1:[],PP2:[],PP3:[]};//para&meters for the exclstoredprocedure : to be change to avoir SQL injection
 FAOSTATNEWOLAP.excelpayload={};
 FAOSTATNEWOLAP.schema={};
@@ -157,7 +157,9 @@ var selectFinal="EXECUTE Warehouse.dbo.usp_GetDataTESTP "+
 						 var response2_2=[["Country Code","Country","Element Code","Element","Item Code",
                                       "Item","Year","Unit","Value","Flag","Flag Description","Var1Order","Var2Order","Var3Order","Var4Order"]];
 									 console.log("response_1.length") ;
-								 console.log(response_1.length) ;
+                                                                          console.log(response_1.length) ;
+								 if(response_1.length==FAOSTATNEWOLAP.pivotlimit) 
+                                                                     {alert('preview limit reach, please go to the bulkdownload section to get all the data')}
 								  
 							 var response2TM=[["Domain","ReporterCode","ReporterName","PartnerCode","PartnerName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
 							 var mesOptionsPivot=FAOSTATOLAP2.options;
@@ -196,35 +198,18 @@ var selectFinal="EXECUTE Warehouse.dbo.usp_GetDataTESTP "+
 							 $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) {
 							 data=data.replace("localhost:8080/","faostat3.fao.org/");
 							 $( "#testinline" ).append( data );
-                                                          for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++){
+                                                         /* for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++){
                                                               $("#my_"+$(".pvtAxisLabel")[iLabel].innerHTML.replace(/\s/,"_"))[0].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
                                                              $(".pvtAxisLabel")[iLabel].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
-                                                         } 
+                                                         } */
 							// my_exportNew();
 							 });
 						 }
 						});
-    
+
+                                                 
+                                                 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function newFunctions(){
@@ -244,6 +229,49 @@ function changeNested()
 	else{FAOSTATNEWOLAP.nestedby=0;}
 }
 
+ function directExcel(query)
+ {
+     /*
+ datasource: "faostat"
+decPlaces: 2
+decimal: "."
+domainCode: "QC"
+lang: "E"
+limit: -1
+     
+     */
+     var sql = {};
+       /* sql['query'] = "SELECT D.ItemCode, D.ElementCode, AVG(D.value) " +
+                       "FROM Data AS D " +
+                       "WHERE D.DomainCode IN ('GT', 'GM', 'GE', 'GR', 'GY', 'GU', 'GP', 'GA', 'GV', 'GB') " +
+                       "AND D.AreaCode = 10 " +
+                       "AND D.ElementCode IN (7244, 7243, 72254, 72256, 72306, 72255, 7243, 72343, 72341, 72342, 72308, 72340, 7237, 72259, 72309, 72257, 72307) " +
+                       "AND D.ItemCode IN (1711, 1755, 27, 1709, 3107, 1712, 6729, 5057, 6795) " +
+                       "GROUP BY D.ItemCode, D.ElementCode";*/
+     sql.query = "SELECT D.ItemCode, D.ElementCode, AVG(D.value) " +
+                       "FROM Data AS D " +
+                       "WHERE D.DomainCode IN ('GT', 'GM', 'GE', 'GR', 'GY', 'GU', 'GP', 'GA', 'GV', 'GB') " +
+                       "AND D.AreaCode = 10 " +
+                       "AND D.ElementCode IN (7244, 7243, 72254, 72256, 72306, 72255, 7243, 72343, 72341, 72342, 72308, 72340, 7237, 72259, 72309, 72257, 72307) " +
+                       "AND D.ItemCode IN (1711, 1755, 27, 1709, 3107, 1712, 6729, 5057, 6795) " +
+                       "GROUP BY D.ItemCode, D.ElementCode";
+        var data = {};
+        data.datasource = 'faostat',
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json=JSON.stringify(
+						{"limit":null,
+						"query":query,
+						"frequency":"NONE"}),
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+        $('#datasource_WQ').val('faostat');
+      $('#json_WQ').val(data.json); 
+                               
+                                document.excelFormWithQuotes.submit();
+ }
  
  function recTab1(label,arr,ind)
  {
@@ -409,6 +437,39 @@ return ret;
     // return "Country,[Country Code],Element,[Element Code]";
     
 }
+
+
+
+function ExcelComplete2(outputFormat)
+{
+     FAOSTATNEWOLAP.PP={PP1:[],PP2:[],PP3:[]};
+      for(i=0;i<document.getElementById('rows').getElementsByTagName('nobr').length;i++)
+    {
+        var d=document.getElementById('rows').getElementsByTagName('nobr')[i];
+        
+         FAOSTATNEWOLAP.PP.PP3.push(d.innerHTML);
+     }
+     
+     for(i=0;i< document.getElementById('cols').getElementsByTagName('nobr').length;i++)
+       {var d=document.getElementById('cols').getElementsByTagName('nobr')[i];
+           jj=-1;
+          title="";
+           for(j=0;j< FAOSTATNEWOLAP.schema.length;j++)
+           {
+                
+               if(FAOSTATNEWOLAP.schema[j][6]==d.innerHTML){
+                
+                jj=parseInt(FAOSTATNEWOLAP.schema[j][4])-1;
+                title=FAOSTATNEWOLAP.schema[j][1];
+                break;}
+           }
+          
+           if(jj>-1){
+              
+           FAOSTATNEWOLAP.PP.PP1.push({"title":title,"data":F3DWLD.CONFIG.selectedValues[jj]});}
+       else{alert('not found'+d.innerHTML)}
+       }
+}
 function ExcelComplete(outputFormat)
 {
     //decolrowspanNEW();
@@ -417,7 +478,9 @@ function ExcelComplete(outputFormat)
     for(i=0;i<document.getElementById('rows').getElementsByTagName('nobr').length;i++)
     {
         var d=document.getElementById('rows').getElementsByTagName('nobr')[i];
-         for(j=0;j< FAOSTATNEWOLAP.schema.length;j++)
+        
+        
+        for(j=0;j< FAOSTATNEWOLAP.schema.length;j++)
            {
                 
                if(FAOSTATNEWOLAP.schema[j][6]==d.innerHTML){
@@ -425,7 +488,7 @@ function ExcelComplete(outputFormat)
                FAOSTATNEWOLAP.PP.PP3.push(FAOSTATNEWOLAP.schema[j][1])
             }
            }
-       
+            
     }
     
     
@@ -446,7 +509,7 @@ function ExcelComplete(outputFormat)
            if(jj>-1){
               
            FAOSTATNEWOLAP.PP.PP1.push({"title":title,"data":F3DWLD.CONFIG.selectedValues[jj]});}
-       else{alert('not found')}
+       else{alert('not found'+d.innerHTML)}
        }
     
     
@@ -496,7 +559,7 @@ valueIndex:1
                            for(j=0;j<FAOSTATNEWOLAP.PP.PP3.length;j++)
                            {
                                if(j>0){document.getElementById('csvData').value+=",";}
-                               console.log("ok")
+                             
                                document.getElementById('csvData').value+=FAOSTATNEWOLAP.traduction[FAOSTATNEWOLAP.PP.PP3[j]]
                            }
                             // document.getElementById('csvData').value=FAOSTATNEWOLAP.PP.PP3;
@@ -634,7 +697,7 @@ function decolrowspanNEW()
     var reg=new RegExp("<span class=\"ordre\">[0-9]+</span>", "g");
 	var reg3=new RegExp("<span class=\"ordre\"></span>", "g");
     var reg2=new RegExp("<table  class=\"innerCol\"><th>([^<]*)</th><th>([^<]*)</th></table>","g");
-var row=FAOSTATNEWOLAP.internalData.tree;
+    var row=FAOSTATNEWOLAP.internalData.tree;
 var col=FAOSTATNEWOLAP.internalData.flatColKeys;
 var ret="";
 for(var j=0;j<FAOSTATNEWOLAP.internalData.rowKeys[0].length;j++){ret+=FAOSTATNEWOLAP.internalData.rowAttrs[j].replace("_","")+",";
@@ -649,22 +712,33 @@ for(j in col)
 ret+="\n";
 
 for (i in row){
-		ret+=i.replace(/,/g,"").replace(/\|\|/g,",")+",";
+		ret+=i.replace(/,/g,"").replace(/\|\|/g,",").replace(reg,"").replace(reg2,"$1,$2").replace(reg3,"")+",";
 		for(j in col){
 			try{
 				//ret+=row[i][col[j]].value().replace(",","").replace("&nbsp;","").join("," )+",";
-				ret+=row[i][col[j]].value().join("||" ).replace(/,/g,"").replace(/&nbsp;/g,"").replace(/\|\|/g,",")+",";
-				
-          ret=ret.replace(reg,"").replace(reg2,"$1,$2").replace(reg3,"");
-          ret=ret.replace(/,_/g,"");
+                  console.log(!row[i][col[j]])              
+                if(!row[i][col[j]]){
+                                  console.log(row[i][col[j]].value())
+                                    ret+=",";
+                               if(F3DWLD.CONFIG.wdsPayload.showUnits){ ret+= ", ";}
+                                if(F3DWLD.CONFIG.wdsPayload.showFlags) {ret+=", ";}
+                            }
+                            else{
+				//ret+=row[i][col[j]].value().join("," ).replace(/,/g,"").replace(/&nbsp;/g,"").replace(/\|\|/g,",")+",";
+				//ret+='"'+row[i][col[j]].value().join('","' ).replace(/&nbsp;/g," ")+"\",";
+				ret+=('"'+row[i][col[j]].value()[0]).replace('.',FAOSTATNEWOLAP.decimalSeparator)+'",';
+                                if(F3DWLD.CONFIG.wdsPayload.showFlags) {ret+='"'+row[i][col[j]].value()[1].replace(/&nbsp;/g," ")+'",';}
+                                  if(F3DWLD.CONFIG.wdsPayload.showUnits){ret+='"'+row[i][col[j]].value()[2].replace(/&nbsp;/g," ")+'",';}
+                            }         
+        //  ret=ret.replace(/,_/g,"");
            // console.log(ret)
 
             }
 			catch(ER){
-                            ret+=",";
-                               if(F3DWLD.CONFIG.wdsPayload.showUnits){ ret+= ", ";}
-   if(F3DWLD.CONFIG.wdsPayload.showFlags) {ret+=", ";}
-                            console.log(ER)}
+                            
+                            console.log(ER);
+                           //console.log( col[j]);
+                        }
 			}
 			ret+="\n" ;
 	}
@@ -1775,6 +1849,7 @@ listUnique: function(_arg) {
       }
       return _results;
     })();
+   
     _ref = opts.derivedAttributes;
     for (c in _ref) {
       if (!__hasProp.call(_ref, c)) continue;
@@ -1802,7 +1877,6 @@ listUnique: function(_arg) {
     if($("#renderer").val()=="Table")
     {$('#aggregator option[value="sumUnit"]').prop('selected', true);}
     else{$('#aggregator option[value="sum"]').prop('selected', true);}
-    console.log("i");
     return refresh();
     });
     _ref2 = opts.renderers;
@@ -1869,7 +1943,6 @@ listUnique: function(_arg) {
     tr1 = $("<tr>");
     aggregator = $("<select id='aggregator'>").css("margin-bottom", "5px").bind("change", function() {
 	if($("#aggregator").val()==="sumUnit"){$('#renderer option[value="Table"]').prop('selected', true);	}
-	console.log("i");
         return refresh();
     });
 	
@@ -1916,7 +1989,7 @@ listUnique: function(_arg) {
           if(!FAOSTATNEWOLAP.nestedby){
           this.find("#rows").append($("<span  style=' float: left;width: 80px;' >Rows</span>"));
           }
-      else{ this.find("#rows").append($("<span  style=' float: left;width: 80px;' >ok"+$.i18n.prop('_nestedby2')+"</span>"));}
+      else{ this.find("#rows").append($("<span  style=' float: left;width: 80px;' >"+$.i18n.prop('_nestedby2')+"</span>"));}
   } else if(_l==1 && FAOSTATNEWOLAP.nestedby)
       { this.find("#rows").append($("<br><br><span  style=' float: left;width: 80px;' > Rows </span>"));}
       
@@ -1930,7 +2003,7 @@ listUnique: function(_arg) {
     if (opts.aggregatorName !== null) {this.find("#aggregator").val(opts.aggregatorName);}
     if (opts.rendererName !== null) {this.find("#renderer").val(opts.rendererName);}
     refresh = __bind(function() {
-      
+     
       var exclusions, subopts, vals;
       subopts = {derivedAttributes: opts.derivedAttributes};
       subopts.cols = [];
@@ -1942,6 +2015,8 @@ listUnique: function(_arg) {
       subopts.aggregator = opts.aggregators[aggregator.val()](vals);
       subopts.renderer = opts.renderers[renderer.val()];
       exclusions = [];
+      
+   
       this.find('input.pvtFilter').not(':checked').each(function() {return exclusions.push($(this).data("filter"));});
       subopts.filter = function(record) {
         var v, _len6, _n, _ref7;
@@ -1951,17 +2026,17 @@ listUnique: function(_arg) {
         }
         return true;
       };
+    
       pivotTable.pivot(input, subopts);
       try{$(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2);}catch(er){}
       
       /*FIG ULTIMAINE*/
       
       
-       /**/
+       /**/   
                    var c= $("#rows li");
                   $("#rows").empty();
-                  
-                  
+                 
               for (var testi=0;testi<c.length;testi++){
                        
                        
@@ -1977,7 +2052,9 @@ listUnique: function(_arg) {
                        
                        $("#rows").append(c[testi]);
                    
-              }/**/
+              }
+              
+      /**/
       
       
       return this.data("pivotUIOptions", {
@@ -1998,7 +2075,7 @@ listUnique: function(_arg) {
       connectWith: ".pvtAxisContainer",
       items: 'li',
       receive:function(e){
- 
+
           var my_id=e.originalEvent.target.id.split("_")[1];
           if(e.target.id!=="unused"){
               for(k in inputOpts.linkedAttributes){

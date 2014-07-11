@@ -701,15 +701,38 @@ valueIndex:1
 
                     if (streamExcel) { 
 
-                        p.limit = -1; 
+                        p.limit = 0; 
                         var data = {}; 
                         data.payload = JSON.stringify(p); 
                         
+                        
+                        var selectFinalExcel="EXECUTE Warehouse.dbo.usp_GetDataTEST "+
+" @DomainCode = '"+F3DWLD.CONFIG.domainCode+"',  "+
+" @lang = '"+F3DWLD.CONFIG.lang+"',  "+
+" @List1Codes = '( "+ExtractCode(F3DWLD.CONFIG.selectedValues[0],"''")+"   )', "+
+"  @List2Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[1],"''")+")',  "+
+" @List3Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[2],"''")+")', "+
+"  @List4Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[3],"")+")', "+
+"   @List5Codes = '',  "+
+"   @List6Codes = '',  "+
+"   @List7Codes = '',  "+
+"   @NullValues = 0,  "+
+"   @Thousand = '',  "+
+"   @Decimal = '.',  "+
+"   @DecPlaces = 2 , "+
+"  @Limit ="+ 0 ;
+                        
+                        
                         switch (outputFormat) { 
                             case 'csv': 
-                                $('#payload_csv').val(JSON.stringify(p)); 
-                               
+                                directExcel(selectFinalExcel)
+                                console.log(selectFinalExcel);
+                              /*  $('#payload_csv').val(JSON.stringify(p)); 
                                 document.csvForProcedures.submit(); 
+                                */
+                               
+                             
+                                
                                 break; 
                             case 'excel': 
                                 $('#payload_excel').val(JSON.stringify(p)); 
