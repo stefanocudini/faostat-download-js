@@ -717,16 +717,16 @@ valueIndex:1
 "   @List6Codes = '',  "+
 "   @List7Codes = '',  "+
 "   @NullValues = 0,  "+
-"   @Thousand = '',  "+
-"   @Decimal = '.',  "+
-"   @DecPlaces = 2 , "+
+"   @Thousand = '"+F3DWLD.CONFIG.wdsPayload.thousandSeparator+"',  "+
+"   @Decimal = '"+F3DWLD.CONFIG.wdsPayload.decimalSeparator+"',  "+
+"   @DecPlaces = "+F3DWLD.CONFIG.wdsPayload.decimalNumbers+" , "+
 "  @Limit ="+ 0 ;
                         
                         
                         switch (outputFormat) { 
                             case 'csv': 
                                 directExcel(selectFinalExcel)
-                                console.log(selectFinalExcel);
+                                //console.log(selectFinalExcel);
                               /*  $('#payload_csv').val(JSON.stringify(p)); 
                                 document.csvForProcedures.submit(); 
                                 */
@@ -758,9 +758,9 @@ valueIndex:1
 "   @List6Codes = '',  "+
 "   @List7Codes = '',  "+
 "   @NullValues = 0,  "+
-"   @Thousand = '',  "+
-"   @Decimal = '.',  "+
-"   @DecPlaces = 2 , "+
+"   @Thousand = '"+F3DWLD.CONFIG.wdsPayload.thousandSeparator+"',  "+
+"   @Decimal = '"+F3DWLD.CONFIG.wdsPayload.decimalSeparator+"',  "+
+"   @DecPlaces = "+F3DWLD.CONFIG.wdsPayload.decimalNumbers+" , "+
 "  @Limit ="+ 50 ;
  var myPayload={
      datasource:F3DWLD.CONFIG.datasource,
@@ -1553,17 +1553,20 @@ valueIndex:1
                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
                  FAOSTATNEWOLAP.decimalSeparator= '.';
                 if($('#enable_menu').jqxRadioButton('checked')){
-                FAOSTATNEWOLAP.thousandSeparator= ',';}
-            else{  FAOSTATNEWOLAP.thousandSeparator= ' ';}
-                F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
+                FAOSTATNEWOLAP.thousandSeparator= ',';
+            F3DWLD.CONFIG.wdsPayload.thousandSeparator = ',';
+                }
+            else{  FAOSTATNEWOLAP.thousandSeparator= ' ';F3DWLD.CONFIG.wdsPayload.thousandSeparator = '';}
+                
               
             } else {
                  FAOSTATNEWOLAP.decimalSeparator= ',';
+                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = ',';
                    if($('#enable_menu').jqxRadioButton('checked')){
-               FAOSTATNEWOLAP.thousandSeparator='.'}
-            else{  FAOSTATNEWOLAP.thousandSeparator=' '}
-                F3DWLD.CONFIG.wdsPayload.decimalSeparator = ',';
-                F3DWLD.CONFIG.wdsPayload.thousandSeparator = '.';
+               FAOSTATNEWOLAP.thousandSeparator='.';F3DWLD.CONFIG.wdsPayload.thousandSeparator = '.';}
+            else{  FAOSTATNEWOLAP.thousandSeparator=' ';F3DWLD.CONFIG.wdsPayload.thousandSeparator = '';}
+                
+                
                  
             }
             preview(true,true);

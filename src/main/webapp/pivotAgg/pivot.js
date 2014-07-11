@@ -2,7 +2,7 @@ var test;
 
 
 FAOSTATNEWOLAP={};
-FAOSTATNEWOLAP.pivotlimit=50000;
+FAOSTATNEWOLAP.pivotlimit=20000;
 FAOSTATNEWOLAP.PP={PP1:[],PP2:[],PP3:[]};//para&meters for the exclstoredprocedure : to be change to avoir SQL injection
 FAOSTATNEWOLAP.excelpayload={};
 FAOSTATNEWOLAP.schema={};
@@ -985,9 +985,9 @@ var internalTest;
 	var x=x1[k];
 	if(x!="_"){
 	if(!isNaN(k)){
-           
+           //console.log(k)
        
-                if (x === 0 || isNaN(x) || !isFinite(x)) { ret+= "<td>"+x+"</td>";}
+                if (k>0|| x === 0 || isNaN(x) || !isFinite(x)) { ret+= "<td>"+x+"</td>";}
                 else {ret+= "<td>"+addCommas((scaler * x).toFixed(FAOSTATNEWOLAP.decimal))+"</td>"; }
                  // else {ret+= "<td>"+ x.toFixed(FAOSTATNEWOLAP.decimal).toLocaleString()+"</td>"; }
                     

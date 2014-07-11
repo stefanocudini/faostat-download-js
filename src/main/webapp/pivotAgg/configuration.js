@@ -14,15 +14,15 @@ derivedAttributes: {
 "Area":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
 {return "<span class=\"ordre\">"+mp["Var1Order"]+"</span><table class=\"innerCol\"><th>"+mp["Country_"]+"</th><th>"+mp["Country Code"]+"</th></table>";}
-else{return "<span class=\"ordre\">"+mp["Var1Order"]+"</span>"+mp["Country"];}},
+else{return "<span class=\"ordre\">"+mp["Var1Order"]+"</span>"+mp["Country_"];}},
 "Element":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
 {return "<span class=\"ordre\">"+mp["Var2Order"]+"</span><table  class=\"innerCol\"><th>"+mp["Element_"]+"</th><th>"+mp["Element Code"]+"</th></table>";}
-else{return "<span class=\"ordre\">"+mp["Var2Order"]+"</span>"+mp["Element"];}},
+else{return "<span class=\"ordre\">"+mp["Var2Order"]+"</span>"+mp["Element_"];}},
 "Item":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
 {return "<span class=\"ordre\">"+mp["Var3Order"]+"</span><table  class=\"innerCol\"><th>"+mp["Item_"]+"</th><th>"+mp["Item Code"]+"</th></table>";}
-else{return "<span class=\"ordre\">"+mp["Var3Order"]+"</span>"+mp["Item"];}}
+else{return "<span class=\"ordre\">"+mp["Var3Order"]+"</span>"+mp["Item_"];}}
 /*
 "Continent": function(mp) {
 try{return "User selection in "+countryAgg[mp["AreaCode"]][1] ;}
