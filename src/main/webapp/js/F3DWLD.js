@@ -1395,7 +1395,10 @@ var F3DWLD = (function() {
                 STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
             }
         } catch (lines) {
-            alert(lines + ' in the output')
+            $('.fs-warning-wrapper').css('display', 'block');
+            $('#close-fs-warning').bind('click', function() {
+                $('.fs-warning-wrapper').css('display', 'none');
+            });
         }
     }
 
