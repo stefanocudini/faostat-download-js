@@ -3,7 +3,7 @@ if (!window.FAOSTATDownload) {
     window.FAOSTATDownload = {
 		
         /** To be used to deploy this code under FENIX FAOSTAT */
-        prefix : 'http://168.202.28.210:8080/faostat-download-js/',
+        prefix : 'http://localhost:8080/faostat-download-js/',
 
         MyMetaData : {
             "AS" : {

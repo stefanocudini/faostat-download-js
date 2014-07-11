@@ -2,8 +2,8 @@
 var F3DWLD = (function() { 
 
     var CONFIG = { 
-        base_url                :   'http://168.202.28.210:8080/faostat-gateway/go/to/download',
-        prefix                  :   'http://168.202.28.210:8080/faostat-download-js/',
+        base_url                :   'http://localhost:8080/faostat-gateway/go/to/download',
+        prefix                  :   'http://localhost:8080/faostat-download-js/',
         CPINotes_url            :   'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
         ODA_url                 :   'http://faostat3.fao.org/wds/rest/procedures/oda',
         data_url                :   'http://faostat3.fao.org/wds/rest',
@@ -1395,6 +1395,7 @@ var F3DWLD = (function() {
                 STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
             }
         } catch (lines) {
+            alert('ij');
             $('.fs-warning-wrapper').css('display', 'block');
             $('#close-fs-warning').bind('click', function() {
                 $('.fs-warning-wrapper').css('display', 'none');
