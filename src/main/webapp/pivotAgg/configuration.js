@@ -11,17 +11,17 @@ FAOSTATOLAP2.options=
 {
 derivedAttributes: {
 
-"Area_":function(mp) 
+"Area":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<span class=\"ordre\">"+mp["Var1Order"]+"</span><table class=\"innerCol\"><th>"+mp["Country"]+"</th><th>"+mp["Country Code"]+"</th></table>";}
+{return "<span class=\"ordre\">"+mp["Var1Order"]+"</span><table class=\"innerCol\"><th>"+mp["Country_"]+"</th><th>"+mp["Country Code"]+"</th></table>";}
 else{return "<span class=\"ordre\">"+mp["Var1Order"]+"</span>"+mp["Country"];}},
-"Element_":function(mp) 
+"Element":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<span class=\"ordre\">"+mp["Var2Order"]+"</span><table  class=\"innerCol\"><th>"+mp["Element"]+"</th><th>"+mp["Element Code"]+"</th></table>";}
+{return "<span class=\"ordre\">"+mp["Var2Order"]+"</span><table  class=\"innerCol\"><th>"+mp["Element_"]+"</th><th>"+mp["Element Code"]+"</th></table>";}
 else{return "<span class=\"ordre\">"+mp["Var2Order"]+"</span>"+mp["Element"];}},
-"Item_":function(mp) 
+"Item":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<span class=\"ordre\">"+mp["Var3Order"]+"</span><table  class=\"innerCol\"><th>"+mp["Item"]+"</th><th>"+mp["Item Code"]+"</th></table>";}
+{return "<span class=\"ordre\">"+mp["Var3Order"]+"</span><table  class=\"innerCol\"><th>"+mp["Item_"]+"</th><th>"+mp["Item Code"]+"</th></table>";}
 else{return "<span class=\"ordre\">"+mp["Var3Order"]+"</span>"+mp["Item"];}}
 /*
 "Continent": function(mp) {
@@ -36,7 +36,7 @@ catch(er){return "_"+mp["AreaName"]+"++";}
  //"Continent","SubContinent"
  //,"Item","Item Code","Country","Country Code","Element","Element Code"
  hiddenAttributes:["ValueColumnIndex","Domain"],
-	rows:["Area_","Item_","Element_"],
+	rows:["Area","Item","Element"],
 	cols: ["Year"],
 	vals:["Value","Unit","Flag"],
 	linkedAttributes:[]

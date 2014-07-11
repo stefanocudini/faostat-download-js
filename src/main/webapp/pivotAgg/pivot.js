@@ -154,8 +154,8 @@ var selectFinal="EXECUTE Warehouse.dbo.usp_GetDataTESTP "+
 						 data:test2,
 						 success:function(response_1){
 						
-						 var response2_2=[["Country Code","Country","Element Code","Element","Item Code",
-                                      "Item","Year","Unit","Value","Flag","Flag Description","Var1Order","Var2Order","Var3Order","Var4Order"]];
+						 var response2_2=[["Country Code","Country_","Element Code","Element_","Item Code",
+                                      "Item_","Year","Unit","Value","Flag","Flag Description","Var1Order","Var2Order","Var3Order","Var4Order"]];
 									 console.log("response_1.length") ;
                                                                           console.log(response_1.length) ;
 								 if(response_1.length==FAOSTATNEWOLAP.pivotlimit) 
