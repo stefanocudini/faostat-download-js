@@ -9,6 +9,19 @@ overwrite:true
 
 FAOSTATOLAP2.options= 
 {
+    
+    /*
+"Continent": function(mp) {
+try{return "User selection in "+countryAgg[mp["AreaCode"]][1] ;}
+catch(er){return "_"+mp["AreaName"]+"++"}
+},
+"SubContinent":function(mp) {
+try{return "User selection in "+countryAgg[mp["AreaCode"]][2] ;}
+catch(er){return "_"+mp["AreaName"]+"++";}
+}*/
+    
+    
+    
 derivedAttributes: {
 
 "Area":function(mp) 
@@ -23,19 +36,12 @@ else{return "<span class=\"ordre\">"+mp["Var2Order"]+"</span>"+mp["Element_"];}}
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
 {return "<span class=\"ordre\">"+mp["Var3Order"]+"</span><table  class=\"innerCol\"><th>"+mp["Item_"]+"</th><th>"+mp["Item Code"]+"</th></table>";}
 else{return "<span class=\"ordre\">"+mp["Var3Order"]+"</span>"+mp["Item_"];}}
-/*
-"Continent": function(mp) {
-try{return "User selection in "+countryAgg[mp["AreaCode"]][1] ;}
-catch(er){return "_"+mp["AreaName"]+"++"}
-},
-"SubContinent":function(mp) {
-try{return "User selection in "+countryAgg[mp["AreaCode"]][2] ;}
-catch(er){return "_"+mp["AreaName"]+"++";}
-}*/
+
+
  },
  //"Continent","SubContinent"
  //,"Item","Item Code","Country","Country Code","Element","Element Code"
- hiddenAttributes:["ValueColumnIndex","Domain"],
+// hiddenAttributes:["ValueColumnIndex","Domain"],
 	rows:["Area","Item","Element"],
 	cols: ["Year"],
 	vals:["Value","Unit","Flag"],
@@ -161,7 +167,7 @@ catch(er){return "_"+mp["AreaName"]+"++";}
  },
  //"Continent","SubContinent"
  //,"Item","Item Code","Country","Country Code","Element","Element Code"
- hiddenAttributes:["NoRecords","RecordOrder","Domain Code","Domain"],
+// hiddenAttributes:["NoRecords","RecordOrder","Domain Code","Domain"],
 	rows:["Reporter_","Partner_","Item_","Element_"],
 	cols: ["Year"],
 	vals:["Value","Unit","Flag"],

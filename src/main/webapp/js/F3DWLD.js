@@ -709,7 +709,7 @@ valueIndex:1
                         var selectFinalExcel="EXECUTE Warehouse.dbo.usp_GetDataTEST "+
 " @DomainCode = '"+F3DWLD.CONFIG.domainCode+"',  "+
 " @lang = '"+F3DWLD.CONFIG.lang+"',  "+
-" @List1Codes = '( "+ExtractCode(F3DWLD.CONFIG.selectedValues[0],"''")+"   )', "+
+" @List1Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[0],"''")+")', "+
 "  @List2Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[1],"''")+")',  "+
 " @List3Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[2],"''")+")', "+
 "  @List4Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[3],"")+")', "+
@@ -750,7 +750,7 @@ valueIndex:1
                         var selectFinal="EXECUTE Warehouse.dbo.usp_GetDataTEST "+
 " @DomainCode = '"+F3DWLD.CONFIG.domainCode+"',  "+
 " @lang = '"+F3DWLD.CONFIG.lang+"',  "+
-" @List1Codes = '( "+ExtractCode(F3DWLD.CONFIG.selectedValues[0],"''")+"   )', "+
+" @List1Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[0],"''")+")', "+
 "  @List2Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[1],"''")+")',  "+
 " @List3Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[2],"''")+")', "+
 "  @List4Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[3],"")+")', "+
@@ -1719,11 +1719,32 @@ valueIndex:1
         }); 
     }; 
 
-    function selectAllForSummary(gridID) { 
+    function selectAllForSummary(gridID) {
 
         var values = []; 
-
-        $('#' + gridID + '_select').find('option').each(function(k, v) { 
+        clearAllForSummary(gridID);
+        /* var tmp = {}; 
+            tmp.code = $(v).data('faostat'); 
+            tmp.label = $(v).data('label'); 
+            tmp.type = $(v).data('type'); 
+            tmp.tab = $(v).data('tab'); 
+            tmp.listbox = -1; 
+            values.push(tmp); 
+        */
+        
+var tmp = {};
+$('#' + gridID + '_select').find('option').each(function(k, v) { 
+           // var tmp = {}; 
+            tmp.code = "-1"; 
+            tmp.label = $(v).data('label'); 
+            tmp.type = $(v).data('type'); 
+            tmp.tab = $(v).data('tab'); 
+            tmp.listbox = $(v).data('listbox'); 
+          
+           
+        });
+         values.push(tmp); 
+      /*  $('#' + gridID + '_select').find('option').each(function(k, v) { 
             var tmp = {}; 
             tmp.code = $(v).data('faostat'); 
             tmp.label = $(v).data('label'); 
@@ -1731,7 +1752,7 @@ valueIndex:1
             tmp.tab = $(v).data('tab'); 
             tmp.listbox = $(v).data('listbox'); 
             values.push(tmp); 
-        }); 
+        }); */
 
         $('#' + gridID + '_select option').prop('selected', true); 
         addItemToSummary(gridID, values, true); 
@@ -2253,7 +2274,8 @@ valueIndex:1
         clearAllForSummary  :  clearAllForSummary, 
         showHideSummary    :  showHideSummary, 
         recordBulkDownload  :  recordBulkDownload,
-        buildUIStructure:buildUIStructure
+        buildUIStructure:buildUIStructure,
+        showBulkDownloads:showBulkDownloads
     }; 
 
 })(); 

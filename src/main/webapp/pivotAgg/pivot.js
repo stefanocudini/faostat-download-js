@@ -2,7 +2,7 @@ var test;
 
 
 FAOSTATNEWOLAP={};
-FAOSTATNEWOLAP.pivotlimit=20000;
+FAOSTATNEWOLAP.pivotlimit=100000;
 FAOSTATNEWOLAP.PP={PP1:[],PP2:[],PP3:[]};//para&meters for the exclstoredprocedure : to be change to avoir SQL injection
 FAOSTATNEWOLAP.excelpayload={};
 FAOSTATNEWOLAP.schema={};
@@ -77,7 +77,7 @@ var selectFinal="select "+maLimit+" D.DomainCode as Domain,"+
 var selectFinal="EXECUTE Warehouse.dbo.usp_GetDataTESTP "+
 " @DomainCode = '"+F3DWLD.CONFIG.domainCode+"',  "+
 " @lang = '"+F3DWLD.CONFIG.lang+"',  "+
-" @List1Codes = '( "+ExtractCode(F3DWLD.CONFIG.selectedValues[0],"''")+"   )', "+
+" @List1Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[0],"''")+")', "+
 "  @List2Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[1],"''")+")',  "+
 " @List3Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[2],"''")+")', "+
 "  @List4Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[3],"")+")', "+
@@ -158,19 +158,20 @@ var selectFinal="EXECUTE Warehouse.dbo.usp_GetDataTESTP "+
                                       "Item_","Year","Unit","Value","Flag","Flag Description","Var1Order","Var2Order","Var3Order","Var4Order"]];
 									 console.log("response_1.length") ;
                                                                           console.log(response_1.length) ;
-								 if(response_1.length==FAOSTATNEWOLAP.pivotlimit) 
-                                                                     {alert('preview limit reach, please go to the bulkdownload section to get all the data')}
-								  
+                                                                          
+								/* if(response_1.length==FAOSTATNEWOLAP.pivotlimit) 
+                                                                     {console.log('preview limit reach, please go to the bulkdownload section to get all the data')}
+								  */
 							 var response2TM=[["Domain","ReporterCode","ReporterName","PartnerCode","PartnerName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
 							 var mesOptionsPivot=FAOSTATOLAP2.options;
 							 if(F3DWLD.CONFIG.domainCode=="TM" ||F3DWLD.CONFIG.domainCode=="FT" )
 							 {response2_2=response2TM;mesOptionsPivot=FAOSTATOLAP2.optionsTM}
 							 
-							
-							for(i in response_1){
+							response_1=response2_2.concat(response_1);
+							/*for(i in response_1){
                                                             if(Array.isArray(response_1[i])){response2_2.push(response_1[i]);}
                                                      }
-							
+							*/
 							
 							
                                                      
@@ -183,9 +184,10 @@ var selectFinal="EXECUTE Warehouse.dbo.usp_GetDataTESTP "+
 							 if(F3DWLD.CONFIG.wdsPayload.showFlags)
                                                          {mesOptionsPivot.vals.push("Flag")}
 							 
-							 FAOSTATNEWOLAP.originalData=response2_2; 
-							$("#testinline").pivotUI(response2_2,mesOptionsPivot ,true);
-							 
+							 FAOSTATNEWOLAP.originalData=response_1; 
+//							$("#testinline").pivotUI(response_1,mesOptionsPivot ,true);
+console.log(mesOptionsPivot)
+							 $("#testinline").pivotUI(response_1,mesOptionsPivot ,true);
 							 
 							  $("#options_menu_box").css("display","block"); 
 							 var newFlag="";
@@ -716,9 +718,9 @@ for (i in row){
 		for(j in col){
 			try{
 				//ret+=row[i][col[j]].value().replace(",","").replace("&nbsp;","").join("," )+",";
-                  console.log(!row[i][col[j]])              
+                  //console.log(!row[i][col[j]])              
                 if(!row[i][col[j]]){
-                                  console.log(row[i][col[j]].value())
+                                //  console.log(row[i][col[j]].value())
                                     ret+=",";
                                if(F3DWLD.CONFIG.wdsPayload.showUnits){ ret+= ", ";}
                                 if(F3DWLD.CONFIG.wdsPayload.showFlags) {ret+=", ";}
@@ -736,7 +738,7 @@ for (i in row){
             }
 			catch(ER){
                             
-                            console.log(ER);
+                            //console.log(ER);
                            //console.log( col[j]);
                         }
 			}
@@ -751,9 +753,33 @@ for (i in row){
                 ret+=testtd[i].innerHTML;
             }
  ret+="\n\nFAOSTAT "+today.getFullYear()+", Date : "+today.toLocaleDateString()+"\n";	
-    document.getElementById('csvData').value=ret;
+ 
+var link = document.createElement("a");
+
+if (link.download !== undefined) { // feature detection
+    // Browsers that support HTML5 download attribute
+    var blob = new Blob([ret], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);            
+    link.setAttribute("href", url);
+    link.setAttribute("download", "fileName.csv");
+    link.style = "visibility:hidden";
+}
+
+if (navigator.msSaveBlob) { // IE 10+
+   link.addEventListener("click", function (event) {
+     var blob = new Blob([ret], {
+       "type": "text/csv;charset=utf-8;"
+     });
+   navigator.msSaveBlob(blob, "fileName.csv");
+  }, false);
+}
+
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
+   /* document.getElementById('csvData').value=ret;
         
-	document.getElementById('csvDataForm').submit();
+	document.getElementById('csvDataForm').submit();*/
 }
  
  
@@ -1677,10 +1703,15 @@ listUnique: function(_arg) {
   
   getPivotData = function(input, cols, rows, aggregator, filter, derivedAttributes) {
     var pivotData;
+    
     pivotData = new PivotData(aggregator, cols, rows);
+  var macount=0;
+  var macount2=0;
     forEachRecord(input, derivedAttributes, function(record) {
-      if (filter(record)) {return pivotData.processRecord(record);}
+        macount++;
+      if (filter(record)) {macount2++;return pivotData.processRecord(record);}
     });
+    console.log("macount");console.log(macount);console.log("macount2");console.log(macount2);console.log(pivotData)
     return pivotData;
   };
   
@@ -1704,7 +1735,7 @@ listUnique: function(_arg) {
   };
   
   pivotTableRenderer = function(pivotData) {
-  FAOSTATNEWOLAP.internalData=pivotData;
+ 
     var aggregator, c, colAttrs, colKey, colKeys, i, j, r, result, rowAttrs, rowKey, rowKeys, th, totalAggregator, tr, txt, val, x;
     colAttrs = pivotData.colAttrs;
     rowAttrs = pivotData.rowAttrs;
@@ -1750,6 +1781,8 @@ listUnique: function(_arg) {
       result.append(tr);
     }
     for (i in rowKeys) {
+        if(i<10){
+        console.log(i);
       if (!__hasProp.call(rowKeys, i)) continue;
       rowKey = rowKeys[i];
       tr = $("<tr>");
@@ -1781,7 +1814,7 @@ listUnique: function(_arg) {
       val = totalAggregator.value();
       tr.append($("<td class='pvtTotal rowTotal'>").html(totalAggregator.format(val)).data("value", val).data("for", "row" + i));
       result.append(tr);
-    }
+    }}
     tr = $("<tr>");
     th = $("<th class='pvtTotalLabel'>").text("Totals");
     th.attr("colspan", rowAttrs.length + (colAttrs.length === 0 ? 0 : 1));
@@ -1815,6 +1848,8 @@ listUnique: function(_arg) {
       renderer: pivotTableRenderer
     };
     opts = $.extend(defaults, opts);
+   //alert('ok');
+    FAOSTATNEWOLAP.internalData=getPivotData(input, opts.cols, opts.rows, opts.aggregator, opts.filter, opts.derivedAttributes);
     this.html(opts.renderer(getPivotData(input, opts.cols, opts.rows, opts.aggregator, opts.filter, opts.derivedAttributes)));
     return this;
   };
@@ -1930,7 +1965,7 @@ listUnique: function(_arg) {
               left: e.pageX,
               top: e.pageY
             }*/
-              alert('1299');
+              //alert('1299');
             valueList.css({color:"black"}).toggle();
             valueList.bind("click", function(e) {return e.stopPropagation();});
             return $(document).one("click", function() { refresh(); return valueList.toggle();});
