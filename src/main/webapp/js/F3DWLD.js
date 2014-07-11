@@ -2,40 +2,43 @@
 var F3DWLD = (function() { 
 
     var CONFIG = { 
-        base_url                :  'http://168.202.28.210:8080/faostat-gateway/go/to/download',
-        prefix                  :  'http://168.202.28.210:8080/faostat-download-js/',
-        CPINotes_url            :  'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
-        ODA_url                 :  'http://faostat3.fao.org/wds/rest/procedures/oda',
-        data_url                :  'http://faostat3.fao.org/wds/rest',
-        procedures_data_url     :  'http://faostat3.fao.org/wds/rest/procedures/data',
-        procedures_excel_url    :  'http://faostat3.fao.org/wds/rest/procedures/excel',
-        codes_url               :  'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox',
-        bulks_url               :  'http://faostat3.fao.org/wds/rest/bulkdownloads',
-        domains_url             :  'http://faostat3.fao.org/wds/rest/domains',
-        bletchley_url           :  'http://faostat3.fao.org/bletchley/rest/codes',
-        schema_url              :  'http://faostat3.fao.org/wds/rest/procedures/schema/',
-        bulks_root              :  'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/', 
-        configurationURL        :  'config/faostat-download-configuration.json', 
-        dbPrefix                :  'FAOSTAT_', 
-        dsdURL                  :  'http://faostat3.fao.org/wds/rest/procedures/listboxes',
-        theme                   :  'faostat',
-        tradeMatrices           :  ['FT', 'TM'],
-        lang                    :  'E', 
-        lang_ISO2               :  'en',
-        outputLimit             :  50,
-        widthTable              :  '100%', 
-        baseurl                 :  null,
-        datasource              :  null, 
-        tablelimit              :  null, 
-        groupCode               :  null,
-        domainCode              :  null, 
-        dsd                     :  null,
-        wdsPayload              :  {}, 
-        tabsSelection           :  {},
-        selectedValues          :  {}, 
-        maxListBoxNo            :  7, 
-        tableIndices            :  null, 
-        data                    :  null 
+        base_url                :   'http://168.202.28.210:8080/faostat-gateway/go/to/download',
+        prefix                  :   'http://168.202.28.210:8080/faostat-download-js/',
+        CPINotes_url            :   'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
+        ODA_url                 :   'http://faostat3.fao.org/wds/rest/procedures/oda',
+        data_url                :   'http://faostat3.fao.org/wds/rest',
+        procedures_data_url     :   'http://faostat3.fao.org/wds/rest/procedures/data',
+        procedures_excel_url    :   'http://faostat3.fao.org/wds/rest/procedures/excel',
+        codes_url               :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox',
+        bulks_url               :   'http://faostat3.fao.org/wds/rest/bulkdownloads',
+        domains_url             :   'http://faostat3.fao.org/wds/rest/domains',
+        bletchley_url           :   'http://faostat3.fao.org/bletchley/rest/codes',
+        schema_url              :   'http://faostat3.fao.org/wds/rest/procedures/schema/',
+        bulks_root              :   'http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/',
+        configurationURL        :   'config/faostat-download-configuration.json',
+        dbPrefix                :   'FAOSTAT_',
+        dsdURL                  :   'http://faostat3.fao.org/wds/rest/procedures/listboxes',
+        theme                   :   'faostat',
+        tradeMatrices           :   ['FT', 'TM'],
+        lang                    :   'E',
+        lang_ISO2               :   'en',
+        outputLimit             :   50,
+        widthTable              :   '100%',
+        baseurl                 :   null,
+        datasource              :   null,
+        tablelimit              :   null,
+        groupCode               :   null,
+        domainCode              :   null,
+        dsd                     :   null,
+        wdsPayload              :   {},
+        tabsSelection           :   {},
+        selectedValues          :   {},
+        maxListBoxNo            :   7,
+        tableIndices            :   null,
+        data                    :   null,
+        preview_limit           :   100,
+        list_weight_countries   :   50,
+        list_weight_items       :   25
     }; 
 
     function buildF3DWLD(groupCode, domainCode, language) {
@@ -152,369 +155,387 @@ var F3DWLD = (function() {
     }
         
        
-    }; 
+    };
 
-function retFunction(a,b,c) 
-{return function(mp) 
-    { 
-        if(F3DWLD.CONFIG.wdsPayload.showCodes ) 
-        {
-            if( mp[a]!==mp[b])
-            {return "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+"<table  class=\"innerCol\"><th>"+mp[a]+"</th><th>"+mp[b]+"</th></table>";}
-        else {return "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+"<table  class=\"innerCol\"><th>"+mp[a]+"</th><th></th></table>";}
-    
-        } 
-        else{return  "<span class=\"ordre\">"+mp[c+"Order"]+"</span>"+mp[a];} 
-    }; 
-  } 
+    function retFunction(a, b, c) {
+        return function (mp) {
+            if (F3DWLD.CONFIG.wdsPayload.showCodes) {
+                if (mp[a] !== mp[b]) {
+                    return "<span class=\"ordre\">" + mp[c + "Order"] + "</span>" + "<table  class=\"innerCol\"><th>" + mp[a] + "</th><th>" + mp[b] + "</th></table>";
+                }
+                else {
+                    return "<span class=\"ordre\">" + mp[c + "Order"] + "</span>" + "<table  class=\"innerCol\"><th>" + mp[a] + "</th><th></th></table>";
+                }
 
-    function insideFalseClick(refresh,isEx,outputFormat) 
-    { FAOSTATNEWOLAP.PP={PP1:[],PP2:[],PP3:[]};
-        $('#OLAP_IFRAME').css('display', 'inline'); 
-        document.getElementById('output_area').innerHTML = ''; 
+            }
+            else {
+                return  "<span class=\"ordre\">" + mp[c + "Order"] + "</span>" + mp[a];
+            }
+        };
+    }
 
-        $("#testinline").html("<center><img src=\"/faostat-download-js/pivotAgg/Preload.gif\" /></center>"); 
-        FAOSTATNEWOLAP.flags={}; 
-        var mesOptionsPivot ={ 
-            "cols":[], 
-            "hiddenAttributes":[], 
-            "linkedAttributes":[], 
-            "cols":[], 
-            "rows":[], 
-            "vals":[], 
-            "derivedAttributes":{} 
-        }; 
+    function insideFalseClick(refresh, isEx, outputFormat) {
+        FAOSTATNEWOLAP.PP = {PP1: [], PP2: [], PP3: []};
+        $('#OLAP_IFRAME').css('display', 'inline');
+        document.getElementById('output_area').innerHTML = '';
 
-        $.ajax({ 
+        $("#testinline").html("<center><img src=\"/faostat-download-js/pivotAgg/Preload.gif\" /></center>");
+        FAOSTATNEWOLAP.flags = {};
+        var mesOptionsPivot = {
+            "cols": [],
+            "hiddenAttributes": [],
+            "linkedAttributes": [],
+            "cols": [],
+            "rows": [],
+            "vals": [],
+            "derivedAttributes": {}
+        };
 
-            type: 'GET', 
-            url: F3DWLD.CONFIG.schema_url + FAOSTATDownload.datasource + '/' + FAOSTATDownload.domainCode+'/'+FAOSTATDownload.language, 
+        $.ajax({
+
+            type: 'GET',
+            url: F3DWLD.CONFIG.schema_url + FAOSTATDownload.datasource + '/' + FAOSTATDownload.domainCode + '/' + FAOSTATDownload.language,
 
             success: function (response) {
 
-                var schema_json = response; 
-                if (typeof schema_json == 'string'){  schema_json = $.parseJSON(response);} 
+                var schema_json = response;
+                if (typeof schema_json == 'string') {
+                    schema_json = $.parseJSON(response);
+                }
 
 
                 /* var mesOptionsPivot = FAOSTATOLAP2.options; 
-                mesOptionsPivot.vals = ["Value"]; 
-                if (F3DWLD.CONFIG.wdsPayload.showUnits) { 
-                mesOptionsPivot.vals.push("Unit") 
-                } 
-                if (F3DWLD.CONFIG.wdsPayload.showFlags) { 
-                mesOptionsPivot.vals.push("Flag") 
-                } 
-                if(F3DWLD.CONFIG.domainCode=="TM" ||F3DWLD.CONFIG.domainCode=="FT" ) 
-                {mesOptionsPivot=FAOSTATOLAP2.optionsTM} 
-                */ 
-                schema_json=schema_json.sort(function(a,b){return a[4]>b[4];}); 
-                FAOSTATNEWOLAP.schema= schema_json;
-                var jj=0;
-                for(var j in schema_json) 
-                { 
+                 mesOptionsPivot.vals = ["Value"];
+                 if (F3DWLD.CONFIG.wdsPayload.showUnits) {
+                 mesOptionsPivot.vals.push("Unit")
+                 }
+                 if (F3DWLD.CONFIG.wdsPayload.showFlags) {
+                 mesOptionsPivot.vals.push("Flag")
+                 }
+                 if(F3DWLD.CONFIG.domainCode=="TM" ||F3DWLD.CONFIG.domainCode=="FT" )
+                 {mesOptionsPivot=FAOSTATOLAP2.optionsTM}
+                 */
+                schema_json = schema_json.sort(function (a, b) {
+                    return a[4] > b[4];
+                });
+                FAOSTATNEWOLAP.schema = schema_json;
+                var jj = 0;
+                for (var j in schema_json) {
 
                     /* var s=schema_json[j]; 
-                    var  title=s[6]; 
-                    var code=s[7];*/ 
+                     var  title=s[6];
+                     var code=s[7];*/
 
                     // if(s[5]=="C"){mesOptionsPivot.cols.push(s[1]);} 
-                    if(schema_json[j][5]==="C" || schema_json[j][5]==="R") 
-                    {  mesOptionsPivot.derivedAttributes[schema_json[j][6]+"_"]=retFunction(schema_json[j][6],schema_json[j][7],schema_json[j][1]);} 
-                    if(schema_json[j][5]==="C"){ 
-                        
-                        mesOptionsPivot.cols.push(schema_json[j][6]+"_"); 
-                       
-                   
+                    if (schema_json[j][5] === "C" || schema_json[j][5] === "R") {
+                        mesOptionsPivot.derivedAttributes[schema_json[j][6] + "_"] = retFunction(schema_json[j][6], schema_json[j][7], schema_json[j][1]);
+                    }
+                    if (schema_json[j][5] === "C") {
+
+                        mesOptionsPivot.cols.push(schema_json[j][6] + "_");
+
+
 //FAOSTATNEWOLAP.PP.PP1.push(F3DWLD.CONFIG.selectedValues[jj] ); 
 //jj++;
                         // mesOptionsPivot.cols.push(s[7]); 
                         // if(s[3]!=s[4]){ mesOptionsPivot.linkedAttributes.push([s[6],s[7]]);} 
-                    } 
-                    else if(schema_json[j][5]==="R"){ 
-                       // jj++;
-                      //  FAOSTATNEWOLAP.PP.PP3.push("["+schema_json[j][6]+"]","["+schema_json[j][7]+"]");
-                        mesOptionsPivot.rows.push(schema_json[j][6]+"_"); 
-                    } 
-                    else if(schema_json[j][5]==="V"){ 
-                        /* mesOptionsPivot.vals.push(s[6]); 
-                        mesOptionsPivot.vals.push(s[7]);*/ 
-                        // mesOptionsPivot.linkedAttributes.push([s[6],s[7]]); 
-                    } 
-                    else{ 
-                        mesOptionsPivot.hiddenAttributes.push(schema_json[j][6]); 
-                        mesOptionsPivot.hiddenAttributes.push(schema_json[j][7]);} 
-                } 
-                if(F3DWLD.CONFIG.lang=="E"){ mesOptionsPivot.vals = ["Value"]; 
-                if (F3DWLD.CONFIG.wdsPayload.showUnits) {  mesOptionsPivot.vals.push("Unit");  } 
-                if (F3DWLD.CONFIG.wdsPayload.showFlags) { mesOptionsPivot.vals.push("Flag") ;  } }
-            else if(F3DWLD.CONFIG.lang=="F"){ mesOptionsPivot.vals = ["Valeur"]; 
-                if (F3DWLD.CONFIG.wdsPayload.showUnits) {  mesOptionsPivot.vals.push("Unite");  } 
-                if (F3DWLD.CONFIG.wdsPayload.showFlags) { mesOptionsPivot.vals.push("Symbole") ;  } }
-               else if(F3DWLD.CONFIG.lang=="S"){
-                mesOptionsPivot.vals = ["Valor"]; 
-                if (F3DWLD.CONFIG.wdsPayload.showUnits) {  mesOptionsPivot.vals.push("Unidad");  } 
-                if (F3DWLD.CONFIG.wdsPayload.showFlags) { mesOptionsPivot.vals.push("Simbolo") ;  } 
-               }
-
-
-                var p = {}; 
-                p.datasource = F3DWLD.CONFIG.datasource; 
-                p.domainCode = F3DWLD.CONFIG.domainCode; 
-                p.lang = F3DWLD.CONFIG.lang; 
-                p.nullValues = F3DWLD.CONFIG.wdsPayload.showNullValues; 
-                p.thousand = F3DWLD.CONFIG.wdsPayload.thousandSeparator; 
-                p.decimal = F3DWLD.CONFIG.wdsPayload.decimalSeparator; 
-                p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers; 
-                p.limit = 10000; 
-                
-                  
-
-                for (var i = 1 ; i <= F3DWLD.CONFIG.maxListBoxNo ; i++) {  p['list' + i + 'Codes'] = [];} 
-
-                for (var key in Object.keys(F3DWLD.CONFIG.dsd)) { 
-                    var listBoxNo = 1 + parseInt(key); 
-                    var ins = new Array(); 
-                    for (var j = 0 ; j < F3DWLD.CONFIG.selectedValues[key].length ; j++) { 
-                        var code = F3DWLD.CONFIG.selectedValues[key][j].code; 
-                       
-                       
-                        code += (F3DWLD.CONFIG.selectedValues[key][j].type === '>' || F3DWLD.CONFIG.selectedValues[key][j].type === '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : ''; 
-                        ins.push('\'' + code.replace('+','') + '\''); 
-                        
-                   
-                    
-                    } 
-                    p['list' + listBoxNo + 'Codes'] = ins; 
-                } 
-                if(refresh){
-                    mesOptionsPivot.rows=FAOSTATNEWOLAP.internalData.rowAttrs; 
-                    mesOptionsPivot.cols=FAOSTATNEWOLAP.internalData.colAttrs; 
-                  
-                    $("#testinline").pivotUI(FAOSTATNEWOLAP.originalData,mesOptionsPivot ,true); 
-
-                    for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++) 
-                    { 
-
-                        $("#my_"+$(".pvtAxisLabel")[iLabel].innerHTML.replace(/\s/,"_"))[0].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
-                        $(".pvtAxisLabel")[iLabel].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
-
-                    } 
-                    $("#options_menu_box").css("display","block"); 
-                   // $("#testinline").css("overflow","auto"); 
-                  
-                    var newFlag=""; 
-                    for(var i in FAOSTATNEWOLAP.flags){ 
-                        if(newFlag!==""){newFlag+=":";} 
-                        newFlag+="'" +i+"'"; 
                     }
-                    if(newFlag===""){newFlag="''";} 
-                    $(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2); 
-                    $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) { 
-                        data=data.replace("localhost:8080/","faostat3.fao.org/"); 
-                        data=data.replace("168.202.28.210/","faostat3.fao.org/"); 
-                        $( "#testinline" ).append( data );
-                        $('#preview_hr').css('display', 'block');
-                    }); 
+                    else if (schema_json[j][5] === "R") {
+                        // jj++;
+                        //  FAOSTATNEWOLAP.PP.PP3.push("["+schema_json[j][6]+"]","["+schema_json[j][7]+"]");
+                        mesOptionsPivot.rows.push(schema_json[j][6] + "_");
+                    }
+                    else if (schema_json[j][5] === "V") {
+                        /* mesOptionsPivot.vals.push(s[6]); 
+                         mesOptionsPivot.vals.push(s[7]);*/
+                        // mesOptionsPivot.linkedAttributes.push([s[6],s[7]]); 
+                    }
+                    else {
+                        mesOptionsPivot.hiddenAttributes.push(schema_json[j][6]);
+                        mesOptionsPivot.hiddenAttributes.push(schema_json[j][7]);
+                    }
+                }
+                if (F3DWLD.CONFIG.lang == "E") {
+                    mesOptionsPivot.vals = ["Value"];
+                    if (F3DWLD.CONFIG.wdsPayload.showUnits) {
+                        mesOptionsPivot.vals.push("Unit");
+                    }
+                    if (F3DWLD.CONFIG.wdsPayload.showFlags) {
+                        mesOptionsPivot.vals.push("Flag");
+                    }
+                }
+                else if (F3DWLD.CONFIG.lang == "F") {
+                    mesOptionsPivot.vals = ["Valeur"];
+                    if (F3DWLD.CONFIG.wdsPayload.showUnits) {
+                        mesOptionsPivot.vals.push("Unite");
+                    }
+                    if (F3DWLD.CONFIG.wdsPayload.showFlags) {
+                        mesOptionsPivot.vals.push("Symbole");
+                    }
+                }
+                else if (F3DWLD.CONFIG.lang == "S") {
+                    mesOptionsPivot.vals = ["Valor"];
+                    if (F3DWLD.CONFIG.wdsPayload.showUnits) {
+                        mesOptionsPivot.vals.push("Unidad");
+                    }
+                    if (F3DWLD.CONFIG.wdsPayload.showFlags) {
+                        mesOptionsPivot.vals.push("Simbolo");
+                    }
+                }
 
-                }else{
-                    
+
+                var p = {};
+                p.datasource = F3DWLD.CONFIG.datasource;
+                p.domainCode = F3DWLD.CONFIG.domainCode;
+                p.lang = F3DWLD.CONFIG.lang;
+                p.nullValues = F3DWLD.CONFIG.wdsPayload.showNullValues;
+                p.thousand = F3DWLD.CONFIG.wdsPayload.thousandSeparator;
+                p.decimal = F3DWLD.CONFIG.wdsPayload.decimalSeparator;
+                p.decPlaces = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
+                p.limit = 10000;
+
+
+                for (var i = 1; i <= F3DWLD.CONFIG.maxListBoxNo; i++) {
+                    p['list' + i + 'Codes'] = [];
+                }
+
+                for (var key in Object.keys(F3DWLD.CONFIG.dsd)) {
+                    var listBoxNo = 1 + parseInt(key);
+                    var ins = new Array();
+                    for (var j = 0; j < F3DWLD.CONFIG.selectedValues[key].length; j++) {
+                        var code = F3DWLD.CONFIG.selectedValues[key][j].code;
+
+
+                        code += (F3DWLD.CONFIG.selectedValues[key][j].type === '>' || F3DWLD.CONFIG.selectedValues[key][j].type === '+') ? F3DWLD.CONFIG.selectedValues[key][j].type : '';
+                        ins.push('\'' + code.replace('+', '') + '\'');
+
+
+                    }
+                    p['list' + listBoxNo + 'Codes'] = ins;
+                }
+                if (refresh) {
+                    mesOptionsPivot.rows = FAOSTATNEWOLAP.internalData.rowAttrs;
+                    mesOptionsPivot.cols = FAOSTATNEWOLAP.internalData.colAttrs;
+
+                    $("#testinline").pivotUI(FAOSTATNEWOLAP.originalData, mesOptionsPivot, true);
+
+                    for (var iLabel = 0; iLabel < $(".pvtAxisLabel").length; iLabel++) {
+
+                        $("#my_" + $(".pvtAxisLabel")[iLabel].innerHTML.replace(/\s/, "_"))[0].innerHTML = $(".pvtAxisLabel")[iLabel].innerHTML.replace("_", "");
+                        $(".pvtAxisLabel")[iLabel].innerHTML = $(".pvtAxisLabel")[iLabel].innerHTML.replace("_", "");
+
+                    }
+                    $("#options_menu_box").css("display", "block");
+                    // $("#testinline").css("overflow","auto");
+
+                    var newFlag = "";
+                    for (var i in FAOSTATNEWOLAP.flags) {
+                        if (newFlag !== "") {
+                            newFlag += ":";
+                        }
+                        newFlag += "'" + i + "'";
+                    }
+                    if (newFlag === "") {
+                        newFlag = "''";
+                    }
+                    $(".pvtAxisLabel")[$(".pvtAxisLabel").length - 1].setAttribute("colspan", 2);
+                    $.get("http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/" + F3DWLD.CONFIG.lang + "/" + newFlag, function (data) {
+                        data = data.replace("localhost:8080/", "faostat3.fao.org/");
+                        data = data.replace("168.202.28.210/", "faostat3.fao.org/");
+                        $("#testinline").append(data);
+                        $('#preview_hr').css('display', 'block');
+                    });
+
+                } else {
+
                     var data = {};
                     /*
                      * 
                      * p.Pivot1='Country,[Country Code],Element,[Element Code],'+
-	'MIN([APPLE-2003]) as [APPLE-2003],MIN([APPLE-2003u]) as [APPLE-2003u],MIN([APPLE-2003f]) as [APPLE-2003f],'+
-	'MIN([ABRICOT-2003]) as [ABRICOT-2003],MIN([ABRICOT-2003u]) as [ABRICOT-2003u],MIN([ABRICOT-2003f]) as [ABRICOT-2003f],'+
-	'MIN([APPLE-2004]) as [APPLE-2004],MIN([APPLE-2004u]) as [APPLE-2004u],MIN([APPLE-2004f]) as [APPLE-2004f],'+
-	'MIN([ABRICOT-2004]) as [ABRICOT-2004],MIN([ABRICOT-2004u]) as [ABRICOT-2004u],MIN([ABRICOT-2004f]) as [ABRICOT-2004f]',
- p.Pivot2='Country,[Country Code],Element,[Element Code],'
-	 
-		"CASE when Year=''2003'' and [Item Code]=515 then MIN(Value) end as ''APPLE-2003'',"+
-		"CASE when Year=''2003''  and [Item Code]=515 then MIN(Unit) end as ''APPLE-2003u'',"+
-		"CASE when Year=''2003'' and [Item Code]=515 then MIN(Flag) end as ''APPLE-2003f'',"+
+                     'MIN([APPLE-2003]) as [APPLE-2003],MIN([APPLE-2003u]) as [APPLE-2003u],MIN([APPLE-2003f]) as [APPLE-2003f],'+
+                     'MIN([ABRICOT-2003]) as [ABRICOT-2003],MIN([ABRICOT-2003u]) as [ABRICOT-2003u],MIN([ABRICOT-2003f]) as [ABRICOT-2003f],'+
+                     'MIN([APPLE-2004]) as [APPLE-2004],MIN([APPLE-2004u]) as [APPLE-2004u],MIN([APPLE-2004f]) as [APPLE-2004f],'+
+                     'MIN([ABRICOT-2004]) as [ABRICOT-2004],MIN([ABRICOT-2004u]) as [ABRICOT-2004u],MIN([ABRICOT-2004f]) as [ABRICOT-2004f]',
+                     p.Pivot2='Country,[Country Code],Element,[Element Code],'
 
-		"CASE when Year=''2003'' and [Item Code]=526 then MIN(Value) end as ''ABRICOT-2003'',"+
-		"CASE when Year=''2003''  and [Item Code]=526 then MIN(Unit) end as ''ABRICOT-2003u'',"+
-		"CASE when Year=''2003'' and [Item Code]=526 then MIN(Flag) end as ''ABRICOT-2003f'',"+
+                     "CASE when Year=''2003'' and [Item Code]=515 then MIN(Value) end as ''APPLE-2003'',"+
+                     "CASE when Year=''2003''  and [Item Code]=515 then MIN(Unit) end as ''APPLE-2003u'',"+
+                     "CASE when Year=''2003'' and [Item Code]=515 then MIN(Flag) end as ''APPLE-2003f'',"+
 
-		"CASE when Year=''2004'' and [Item Code]=515 then MIN(Value) end as ''APPLE-2004'',"+
-		"CASE when Year=''2004''  and [Item Code]=515 then MIN(Unit) end as ''APPLE-2004u'',"+
-		"CASE when Year=''2004'' and [Item Code]=515 then MIN(Flag) end as ''APPLE-2004f'',"+
+                     "CASE when Year=''2003'' and [Item Code]=526 then MIN(Value) end as ''ABRICOT-2003'',"+
+                     "CASE when Year=''2003''  and [Item Code]=526 then MIN(Unit) end as ''ABRICOT-2003u'',"+
+                     "CASE when Year=''2003'' and [Item Code]=526 then MIN(Flag) end as ''ABRICOT-2003f'',"+
 
-		"CASE when Year=''2004'' and [Item Code]=526 then MIN(Value) end as ''ABRICOT-2004'',"+
-		"CASE when Year=''2004''  and [Item Code]=526 then MIN(Unit) end as ''ABRICOT-2004u'',"+
-		"CASE when Year=''2004'' and [Item Code]=526 then MIN(Flag) end as ''ABRICOT-2004f''',";
-		p.Pivot3='Country,[Country Code],Element,[Element Code]'*/
-                   
+                     "CASE when Year=''2004'' and [Item Code]=515 then MIN(Value) end as ''APPLE-2004'',"+
+                     "CASE when Year=''2004''  and [Item Code]=515 then MIN(Unit) end as ''APPLE-2004u'',"+
+                     "CASE when Year=''2004'' and [Item Code]=515 then MIN(Flag) end as ''APPLE-2004f'',"+
+
+                     "CASE when Year=''2004'' and [Item Code]=526 then MIN(Value) end as ''ABRICOT-2004'',"+
+                     "CASE when Year=''2004''  and [Item Code]=526 then MIN(Unit) end as ''ABRICOT-2004u'',"+
+                     "CASE when Year=''2004'' and [Item Code]=526 then MIN(Flag) end as ''ABRICOT-2004f''',";
+                     p.Pivot3='Country,[Country Code],Element,[Element Code]'*/
+
                     /* p.list1Codes=p.list1Codes.sort();
-                   p.list2Codes=p.list2Codes.sort();
-                   p.list3Codes=p.list3Codes.sort();*/
-                   p.list4Codes=p.list4Codes.reverse();
+                     p.list2Codes=p.list2Codes.sort();
+                     p.list3Codes=p.list3Codes.sort();*/
+                    p.list4Codes = p.list4Codes.reverse();
                     data.payload = JSON.stringify(p);
-                    
-                    
-                FAOSTATNEWOLAP.excelpayload=p;
+
+
+                    FAOSTATNEWOLAP.excelpayload = p;
                     //"orderBys":[{"column":"Year"},{"column":"Ord"},{"column":"ItemCode"}],
 //                    {"aggregation":"NONE","column":"ItemLevel","alias":"ItemLevel"},
-            /*   var data2={    
-                   datasource:F3DWLD.CONFIG.datasource,
-                           thousandSeparator:" ",
-decimalSeparator:".",
-decimalNumbers:"2",
-json:JSON.stringify({"selects":[
-{"aggregation":"NONE","column":"'1'","alias":"NoRecords"},
-{"aggregation":"NONE","column":"'1'","alias":"RecordOrder"},
-{"aggregation":"NONE","column":"D.DomainCode","alias":"Domain_Code"},
-{"aggregation":"NONE","column":"D.DomainCode","alias":"Domain"},
-{"aggregation":"NONE","column":"D.AreaCode","alias":"AreaCode"},
-{"aggregation":"NONE","column":"A.AreaName"+F3DWLD.CONFIG.lang,"alias":"AreaName"+F3DWLD.CONFIG.lang},
-{"aggregation":"NONE","column":"D.ItemCode","alias":"ItemCode"},
-{"aggregation":"NONE","column":"I.ItemName"+F3DWLD.CONFIG.lang,"alias":"ItemName"+F3DWLD.CONFIG.lang},
-{"aggregation":"NONE","column":"D.ElementCode","alias":"ElementCode"},
-{"aggregation":"NONE","column":"E.ElementName"+F3DWLD.CONFIG.lang,"alias":"ElementName"+F3DWLD.CONFIG.lang},
-{"aggregation":"NONE","column":"D.Year","alias":"Year"},
-{"aggregation":"NONE","column":"D.Year","alias":"YearName"+F3DWLD.CONFIG.lang},
-{"aggregation":"NONE","column":"E.UnitName"+F3DWLD.CONFIG.lang,"alias":"Unit"+F3DWLD.CONFIG.lang},
-{"aggregation":"NONE","column":"Value","alias":"Value"},
-{"aggregation":"NONE","column":"Flag","alias":"Flag"},
-{"aggregation":"NONE","column":"Flag","alias":"Flag_Description"},
-{"aggregation":"NONE","column":"v1.Var1Order"+F3DWLD.CONFIG.lang,"alias":"Var1Order"},
-{"aggregation":"NONE","column":"v2.Var2Order"+F3DWLD.CONFIG.lang,"alias":"Var2Order"},
-{"aggregation":"NONE","column":"v3.Var3Order"+F3DWLD.CONFIG.lang,"alias":"Var3Order"},
-{"aggregation":"NONE","column":"v4.Var4Order"+F3DWLD.CONFIG.lang,"alias":"Var4Order"}
+                    /*   var data2={
+                     datasource:F3DWLD.CONFIG.datasource,
+                     thousandSeparator:" ",
+                     decimalSeparator:".",
+                     decimalNumbers:"2",
+                     json:JSON.stringify({"selects":[
+                     {"aggregation":"NONE","column":"'1'","alias":"NoRecords"},
+                     {"aggregation":"NONE","column":"'1'","alias":"RecordOrder"},
+                     {"aggregation":"NONE","column":"D.DomainCode","alias":"Domain_Code"},
+                     {"aggregation":"NONE","column":"D.DomainCode","alias":"Domain"},
+                     {"aggregation":"NONE","column":"D.AreaCode","alias":"AreaCode"},
+                     {"aggregation":"NONE","column":"A.AreaName"+F3DWLD.CONFIG.lang,"alias":"AreaName"+F3DWLD.CONFIG.lang},
+                     {"aggregation":"NONE","column":"D.ItemCode","alias":"ItemCode"},
+                     {"aggregation":"NONE","column":"I.ItemName"+F3DWLD.CONFIG.lang,"alias":"ItemName"+F3DWLD.CONFIG.lang},
+                     {"aggregation":"NONE","column":"D.ElementCode","alias":"ElementCode"},
+                     {"aggregation":"NONE","column":"E.ElementName"+F3DWLD.CONFIG.lang,"alias":"ElementName"+F3DWLD.CONFIG.lang},
+                     {"aggregation":"NONE","column":"D.Year","alias":"Year"},
+                     {"aggregation":"NONE","column":"D.Year","alias":"YearName"+F3DWLD.CONFIG.lang},
+                     {"aggregation":"NONE","column":"E.UnitName"+F3DWLD.CONFIG.lang,"alias":"Unit"+F3DWLD.CONFIG.lang},
+                     {"aggregation":"NONE","column":"Value","alias":"Value"},
+                     {"aggregation":"NONE","column":"Flag","alias":"Flag"},
+                     {"aggregation":"NONE","column":"Flag","alias":"Flag_Description"},
+                     {"aggregation":"NONE","column":"v1.Var1Order"+F3DWLD.CONFIG.lang,"alias":"Var1Order"},
+                     {"aggregation":"NONE","column":"v2.Var2Order"+F3DWLD.CONFIG.lang,"alias":"Var2Order"},
+                     {"aggregation":"NONE","column":"v3.Var3Order"+F3DWLD.CONFIG.lang,"alias":"Var3Order"},
+                     {"aggregation":"NONE","column":"v4.Var4Order"+F3DWLD.CONFIG.lang,"alias":"Var4Order"}
 
-],
-"froms":[{"column":"Data","alias":"D"},{"column":"Element","alias":"E"},{"column":"Item","alias":"I"},{"column":"Area","alias":"A"},
-   {"column":"DomainVarListVar","alias":"v1"}
-   //,{"column":"DomainVarListVar","alias":"v2"},{"column":"DomainVarListVar","alias":"v3"},{"column":"DomainVarListVar","alias":"v4"} 
-                            ],
-"wheres":[
-    
-     {"datatype":"DATE","column":"v1.VarListCode","operator":"=","value":"D.AreaCode","ins":[]},
-         {"datatype":"DATE","column":"v1.VarType","operator":"=","value":"'area'","ins":[]},
-             {"datatype":"DATE","column":"v1.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
-              
-              {"datatype":"DATE","column":"v3.VarListCode","operator":"=","value":"D.ItemCode","ins":[]},
-         {"datatype":"DATE","column":"v3.VarType","operator":"=","value":"'item'","ins":[]},
-              {"datatype":"DATE","column":"v3.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
-              
-               {"datatype":"DATE","column":"v2.VarListCode","operator":"=","value":"D.ElementCode","ins":[]},
-         {"datatype":"DATE","column":"v2.VarType","operator":"=","value":"'element'","ins":[]},
-              {"datatype":"DATE","column":"v2.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
-              
-               {"datatype":"DATE","column":"v4.VarListCode","operator":"=","value":"D.Year","ins":[]},
-         {"datatype":"DATE","column":"v4.VarType","operator":"=","value":"'year'","ins":[]},
-              {"datatype":"DATE","column":"v4.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
-              
-              
-     {"datatype":"DATE","column":"D.ElementCode","operator":"=","value":"E.ElementCode","ins":[]},
-     {"datatype":"DATE","column":"D.ItemCode","operator":"=","value":"I.ItemCode","ins":[]},
-     {"datatype":"DATE","column":"D.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
-       {"datatype":"DATE","column":"D.AreaCode","operator":"=","value":"A.AreaCode","ins":[]},
-       
-       {"datatype":"TEXT","column":"D.AreaCode","operator":"IN","value":"","ins":p.list1Codes},
-    {"datatype":"DATE","column":"D.Year","operator":"IN","value":"","ins":p.list4Codes},
-  {"datatype":"TEXT","column":"D.ItemCode","operator":"IN","value":"","ins":p.list3Codes}
-  ,     {"datatype":"TEXT","column":"D.ElementListCode","operator":"IN","value":"","ins":p.list2Codes}
-],
+                     ],
+                     "froms":[{"column":"Data","alias":"D"},{"column":"Element","alias":"E"},{"column":"Item","alias":"I"},{"column":"Area","alias":"A"},
+                     {"column":"DomainVarListVar","alias":"v1"}
+                     //,{"column":"DomainVarListVar","alias":"v2"},{"column":"DomainVarListVar","alias":"v3"},{"column":"DomainVarListVar","alias":"v4"}
+                     ],
+                     "wheres":[
 
-"limit":null,"query":null,"frequency":"NONE"}),
-cssFilename:"faostat",
-valueIndex:1
-};
-*/
+                     {"datatype":"DATE","column":"v1.VarListCode","operator":"=","value":"D.AreaCode","ins":[]},
+                     {"datatype":"DATE","column":"v1.VarType","operator":"=","value":"'area'","ins":[]},
+                     {"datatype":"DATE","column":"v1.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
 
-    
-                    
-                    
-                    
-                    $.ajax({ 
-                        type: 'POST', 
-                        url: F3DWLD.CONFIG.procedures_data_url, 
-                        data: data, 
+                     {"datatype":"DATE","column":"v3.VarListCode","operator":"=","value":"D.ItemCode","ins":[]},
+                     {"datatype":"DATE","column":"v3.VarType","operator":"=","value":"'item'","ins":[]},
+                     {"datatype":"DATE","column":"v3.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
+
+                     {"datatype":"DATE","column":"v2.VarListCode","operator":"=","value":"D.ElementCode","ins":[]},
+                     {"datatype":"DATE","column":"v2.VarType","operator":"=","value":"'element'","ins":[]},
+                     {"datatype":"DATE","column":"v2.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
+
+                     {"datatype":"DATE","column":"v4.VarListCode","operator":"=","value":"D.Year","ins":[]},
+                     {"datatype":"DATE","column":"v4.VarType","operator":"=","value":"'year'","ins":[]},
+                     {"datatype":"DATE","column":"v4.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
+
+
+                     {"datatype":"DATE","column":"D.ElementCode","operator":"=","value":"E.ElementCode","ins":[]},
+                     {"datatype":"DATE","column":"D.ItemCode","operator":"=","value":"I.ItemCode","ins":[]},
+                     {"datatype":"DATE","column":"D.DomainCode","operator":"=","value":"'"+F3DWLD.CONFIG.domainCode+"'","ins":[]},
+                     {"datatype":"DATE","column":"D.AreaCode","operator":"=","value":"A.AreaCode","ins":[]},
+
+                     {"datatype":"TEXT","column":"D.AreaCode","operator":"IN","value":"","ins":p.list1Codes},
+                     {"datatype":"DATE","column":"D.Year","operator":"IN","value":"","ins":p.list4Codes},
+                     {"datatype":"TEXT","column":"D.ItemCode","operator":"IN","value":"","ins":p.list3Codes}
+                     ,     {"datatype":"TEXT","column":"D.ElementListCode","operator":"IN","value":"","ins":p.list2Codes}
+                     ],
+
+                     "limit":null,"query":null,"frequency":"NONE"}),
+                     cssFilename:"faostat",
+                     valueIndex:1
+                     };
+                     */
+
+
+                    $.ajax({
+                        type: 'POST',
+                        url: F3DWLD.CONFIG.procedures_data_url,
+                        data: data,
                         success: function (response) {
-                        for(var cc=0;cc<response[0].length;cc++)
-                        { 
+                            for (var cc = 0; cc < response[0].length; cc++) {
 
-                            response[0][cc]=response[0][cc].replace(/Unit.+/g,"Unite").replace(/S.+mbolo/,"Simbolo");
+                                response[0][cc] = response[0][cc].replace(/Unit.+/g, "Unite").replace(/S.+mbolo/, "Simbolo");
 
-                        }
+                            }
 
                             /* var response2=[["Domain","AreaCode","AreaName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]]; 
-                            var response2TM=[["Domain","ReporterCode","ReporterName","PartnerCode","PartnerName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]]; 
-                            var mesOptionsPivot=FAOSTATOLAP2.options; 
-                            if(F3DWLD.CONFIG.domainCode=="TM" ||F3DWLD.CONFIG.domainCode=="FT" ) 
-                            {response2=response2TM;mesOptionsPivot=FAOSTATOLAP2.optionsTM} 
-                            for(i in response){response2.push(response[i]);} 
-                            */ 
+                             var response2TM=[["Domain","ReporterCode","ReporterName","PartnerCode","PartnerName","ItemCode","ItemName","ElementCode","ElementName","Year","Unit","Flag","Value"]];
+                             var mesOptionsPivot=FAOSTATOLAP2.options;
+                             if(F3DWLD.CONFIG.domainCode=="TM" ||F3DWLD.CONFIG.domainCode=="FT" )
+                             {response2=response2TM;mesOptionsPivot=FAOSTATOLAP2.optionsTM}
+                             for(i in response){response2.push(response[i]);}
+                             */
 
-                           /* var derivers = $.pivotUtilities.derivers; 
-                            var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.gchart_renderers); */
+                            /* var derivers = $.pivotUtilities.derivers;
+                             var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.gchart_renderers); */
                             /*mesOptionsPivot.vals=["Value"]; 
-                            if(F3DWLD.CONFIG.wdsPayload.showUnits){mesOptionsPivot.vals.push("Unit")} 
-                            if(F3DWLD.CONFIG.wdsPayload.showFlags){mesOptionsPivot.vals.push("Flag")} 
-                            */ 
+                             if(F3DWLD.CONFIG.wdsPayload.showUnits){mesOptionsPivot.vals.push("Unit")}
+                             if(F3DWLD.CONFIG.wdsPayload.showFlags){mesOptionsPivot.vals.push("Flag")}
+                             */
                             //$("#output_are").html("<div id="testinline"></div>"); 
-                            FAOSTATNEWOLAP.originalData=response; 
-                            response.push(["Domain","AreaCode","AreaName","ItemCode","ItemName","ElementCode","VarNameE","Year","Unit","Flag","Value"]);
-                            response=response.reverse();
+                            FAOSTATNEWOLAP.originalData = response;
+                            response.push(["Domain", "AreaCode", "AreaName", "ItemCode", "ItemName", "ElementCode", "VarNameE", "Year", "Unit", "Flag", "Value"]);
+                            response = response.reverse();
                             console.log(response)
-                            $("#testinline").pivotUI(response,mesOptionsPivot ,true); 
+                            $("#testinline").pivotUI(response, mesOptionsPivot, true);
                             //alert('response limit'+response[1][0]);
-                            for (var iLabel=0;iLabel<$(".pvtAxisLabel").length;iLabel++) 
-                            { 
-                                
-                            $("#my_"+$(".pvtAxisLabel")[iLabel].innerHTML.replace(/\s/,"_"))[0].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
-                             $(".pvtAxisLabel")[iLabel].innerHTML=$(".pvtAxisLabel")[iLabel].innerHTML.replace("_",""); 
+                            for (var iLabel = 0; iLabel < $(".pvtAxisLabel").length; iLabel++) {
 
-                              
-                             
+                                $("#my_" + $(".pvtAxisLabel")[iLabel].innerHTML.replace(/\s/, "_"))[0].innerHTML = $(".pvtAxisLabel")[iLabel].innerHTML.replace("_", "");
+                                $(".pvtAxisLabel")[iLabel].innerHTML = $(".pvtAxisLabel")[iLabel].innerHTML.replace("_", "");
 
-                            } 
-                            $("#options_menu_box").css("display","block"); 
-                          
-                            var newFlag=""; 
-                            for(var i in FAOSTATNEWOLAP.flags){
-                                if(newFlag!==""){newFlag+=":";} 
-                                newFlag+="'" +i+"'"; 
-                            } 
+
+                            }
+                            $("#options_menu_box").css("display", "block");
+
+                            var newFlag = "";
+                            for (var i in FAOSTATNEWOLAP.flags) {
+                                if (newFlag !== "") {
+                                    newFlag += ":";
+                                }
+                                newFlag += "'" + i + "'";
+                            }
                             //alert('438')
-                            if(newFlag===""){newFlag="''";} 
-                            $(".pvtAxisLabel")[$(".pvtAxisLabel").length-1].setAttribute("colspan",2); 
-                            $.get( "http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/"+F3DWLD.CONFIG.lang+"/"+newFlag, function( data ) { 
-                                data=data.replace("localhost:8080/","faostat3.fao.org/"); 
-                                data=data.replace("168.202.28.210/","faostat3.fao.org/"); 
-                                $( "#testinline" ).append( data ); 
+                            if (newFlag === "") {
+                                newFlag = "''";
+                            }
+                            $(".pvtAxisLabel")[$(".pvtAxisLabel").length - 1].setAttribute("colspan", 2);
+                            $.get("http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/" + F3DWLD.CONFIG.lang + "/" + newFlag, function (data) {
+                                data = data.replace("localhost:8080/", "faostat3.fao.org/");
+                                data = data.replace("168.202.28.210/", "faostat3.fao.org/");
+                                $("#testinline").append(data);
 
-                                if(isEx){
-                                    $('#testinline').css("display","none"); 
-                                    if(outputFormat=="csv") {
+                                if (isEx) {
+                                    $('#testinline').css("display", "none");
+                                    if (outputFormat == "csv") {
                                         decolrowspanNEW();
-                                    // ExcelComplete("json");
-                                    } 
-                                    else { 
-                                       my_exportNew();  
-                                         //ExcelComplete("html");
-                                    } 
-                                } 
+                                        // ExcelComplete("json");
+                                    }
+                                    else {
+                                        my_exportNew();
+                                        //ExcelComplete("html");
+                                    }
+                                }
                                 // my_exportNew(); 
                                 $('#preview_hr').css('display', 'block');
-                            }); 
-                            
+                            });
+
                             /*OLD NEW EXCEL*/
-                            
-                             
-                                       
-           
-                            
-                            
-                            
-                            
-                        } 
-                    }); 
-                } 
-                /*fin getschema*/ 
-            } 
-        }); 
+
+
+                        }
+                    });
+                }
+                /*fin getschema*/
+            }
+        });
     }
 
     function collectListCodesPIVOT() { 
@@ -1338,60 +1359,63 @@ valueIndex:1
         s += '</ul>'; 
         s += '</li>'; 
         s += '</ul>'; 
-        s += '</div>'; 
-
-        /* Preview button. */ 
-//        s += '<a id="dwl-preview-btn" class="btn btn-big" onclick="F3DWLD.preview(true,false);">'; 
-//        s += '<i class="fa fa-search"></i><div id="buttonSelectAll_usp_GetElementList-text" class="btnText">' + 
-//            $.i18n.prop('_preview').toUpperCase() + 
-//            '</div>'; 
-//        s += '</a>'; 
-
-//        s += '<a class="btn btn-big" onclick="F3DWLD.download(true);" id="buttonDeSelectAll_usp_GetElementList"">'; 
-//        s += '<i class="fa fa-chevron-circle-down"></i><div id="buttonDeSelectAll_usp_GetElementList-text" class="btnText">' + 
-//            $.i18n.prop('_download').toUpperCase() + 
-//            '</div>'; 
-//        s += '</a>'; 
+        s += '</div>';
 
         s += '</div>'; 
         s += '</div>'; 
         return s; 
     }; 
 
-    function preview(queryDB,refresh) { 
-      
-        if ($('#radio_table').val()) {
-             document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
-            $('#output_area').css("min-height","350px"); 
-            $('#testinline').css("display","none"); 
-            $("#btnFS").hide(); 
-            $("#nested_by").hide(); 
-            try { 
-                validateSelection('preview table'); 
-                createTable(queryDB, false); 
-                STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode); 
-            } catch (e) { 
-                alert(e); 
-            } 
-        } else { 
-           
-            document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview');
-            $("#btnFS").show(); 
-            $("#nested_by").show(); 
-            FAOSTATNEWOLAP.firstCall=0; 
-            $('#output_area').css("min-height","0px"); 
-            $('#testinline').css("display","block"); 
-          // try { 
-           
-         
-                 validateSelection('preview pivot'); 
-                buildOptionsMenu();//just UI option menu 
-                collectAndQueryWDSPivot(refresh); 
-             
-            STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode); 
-          // } catch (e) {        console.log(e);            } 
-        } 
-    } 
+    function preview(queryDB,refresh) {
+        try {
+            forecast_output_size();
+            if ($('#radio_table').val()) {
+                document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
+                $('#output_area').css("min-height", "350px");
+                $('#testinline').css("display", "none");
+                $("#btnFS").hide();
+                $("#nested_by").hide();
+                try {
+                    validateSelection('preview table');
+                    createTable(queryDB, false);
+                    STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
+                } catch (e) {
+
+                }
+            } else {
+                document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview');
+                $("#btnFS").show();
+                $("#nested_by").show();
+                FAOSTATNEWOLAP.firstCall = 0;
+                $('#output_area').css("min-height", "0px");
+                $('#testinline').css("display", "block");
+                validateSelection('preview pivot');
+                buildOptionsMenu();//just UI option menu
+                collectAndQueryWDSPivot(refresh);
+                STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
+            }
+        } catch (lines) {
+            alert(lines + ' in the output')
+        }
+    }
+
+    function forecast_output_size() {
+        var lines = 1;
+        for (var key in F3DWLD.CONFIG.selectedValues) {
+            var factor = F3DWLD.CONFIG.selectedValues[key].length;
+            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[key].length ; i++) {
+                if (F3DWLD.CONFIG.selectedValues[key][i].type == '>') {
+                    switch (F3DWLD.CONFIG.selectedValues[key][i].listbox) {
+                        case 1: factor += F3DWLD.CONFIG.list_weight_countries; break;
+                        case 3: factor += F3DWLD.CONFIG.list_weight_items; break;
+                    }
+                }
+            }
+            lines *= factor;
+        }
+        if (lines > F3DWLD.CONFIG.preview_limit)
+            throw lines;
+    }
 
     function download(queryDB, outputFormat) { 
         if ($('#radio_table').val()) { 
