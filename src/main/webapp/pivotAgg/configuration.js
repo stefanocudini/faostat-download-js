@@ -42,7 +42,7 @@ else{return "<span class=\"ordre\">"+mp["Var3Order"]+"</span>"+mp["Item_"];}}
  //"Continent","SubContinent"
  //,"Item","Item Code","Country","Country Code","Element","Element Code"
 // hiddenAttributes:["ValueColumnIndex","Domain"],
-	rows:["Area","Item","Element"],
+	rows:["Area","Element","Item"],
 	cols: ["Year"],
 	vals:["Value","Unit","Flag"],
 	linkedAttributes:[]

@@ -2,7 +2,8 @@ var test;
 
 
 FAOSTATNEWOLAP={};
-FAOSTATNEWOLAP.pivotlimit=100000;
+FAOSTATNEWOLAP.pivotlimit=10000;
+FAOSTATNEWOLAP.limitPivotPreview=10;//lignes
 FAOSTATNEWOLAP.PP={PP1:[],PP2:[],PP3:[]};//para&meters for the exclstoredprocedure : to be change to avoir SQL injection
 FAOSTATNEWOLAP.excelpayload={};
 FAOSTATNEWOLAP.schema={};
@@ -26,6 +27,51 @@ function ExtractCode(arr,separateur)
     }
     return ret;
 }
+
+function checkMemory()
+{for(var b in window) { 
+  if(window.hasOwnProperty(b)) console.log(b+' '+memorySizeOf(eval(b))); 
+}}
+
+function memorySizeOf(obj) {
+    var bytes = 0;
+ 
+    function sizeOf(obj) {
+        if(obj !== null && obj !== undefined) {
+            switch(typeof obj) {
+            case 'number':
+                bytes += 8;
+                break;
+            case 'string':
+                bytes += obj.length * 2;
+                break;
+            case 'boolean':
+                bytes += 4;
+                break;
+            case 'object':
+                var objClass = Object.prototype.toString.call(obj).slice(8, -1);
+                if(objClass === 'Object' || objClass === 'Array') {
+                    for(var key in obj) {
+                        if(!obj.hasOwnProperty(key)) continue;
+                        sizeOf(obj[key]);
+                    }
+                } else bytes += obj.toString().length * 2;
+                break;
+            }
+        }
+        return bytes;
+    };
+ 
+    function formatByteSize(bytes) {
+        if(bytes < 1024) return bytes + " bytes";
+        else if(bytes < 1048576) return(bytes / 1024).toFixed(3) + " KiB";
+        else if(bytes < 1073741824) return(bytes / 1048576).toFixed(3) + " MiB";
+        else return(bytes / 1073741824).toFixed(3) + " GiB";
+    };
+ 
+    return formatByteSize(sizeOf(obj));
+};
+
 
 function oldSchool(maLimit)
 {
@@ -150,7 +196,7 @@ var selectFinal="EXECUTE Warehouse.dbo.usp_GetDataTESTP "+
                                 
 						$.ajax({
 						 type : 'POST',
-						 url:"http://faostat3.fao.org/wds/rest/table/json",
+						 url:F3DWLD.CONFIG.data_url+"/table/json",
 						 data:test2,
 						 success:function(response_1){
 						
@@ -554,7 +600,7 @@ valueIndex:1
 
     $.ajax({
                         type: 'POST', 
-                       url : 'http://faostat3.fao.org/wds/rest/table/'+outputFormat,
+                       url : F3DWLD.CONFIG.data_url+'/table/'+outputFormat,
                         data: data2, 
                         success: function (response) {
                             document.getElementById('csvData').value="";
@@ -1711,7 +1757,7 @@ listUnique: function(_arg) {
         macount++;
       if (filter(record)) {macount2++;return pivotData.processRecord(record);}
     });
-    console.log("macount");console.log(macount);console.log("macount2");console.log(macount2);console.log(pivotData)
+//    console.log("macount");console.log(macount);console.log("macount2");console.log(macount2);console.log(pivotData)
     return pivotData;
   };
   
@@ -1736,14 +1782,14 @@ listUnique: function(_arg) {
   
   pivotTableRenderer = function(pivotData) {
  
-    var aggregator, c, colAttrs, colKey, colKeys, i, j, r, result, rowAttrs, rowKey, rowKeys, th, totalAggregator, tr, txt, val, x;
+    var aggregator, c, colAttrs, colKey, colKeys, i, j, r, result,myhead,mybody, rowAttrs, rowKey, rowKeys, th, totalAggregator, tr, txt, val, x;
     colAttrs = pivotData.colAttrs;
     rowAttrs = pivotData.rowAttrs;
     rowKeys = pivotData.getRowKeys();
     colKeys = pivotData.getColKeys();
     result = $("<table class='table table-bordered pvtTable' id='pivot_table'>");
     //result = $("<table class='table table-bordered pvtTable' id='pivot_table'>");
-    
+    myhead=$("<thead>");
       for (j in colAttrs) {
       if (!__hasProp.call(colAttrs, j)) continue;
       c = colAttrs[j];
@@ -1765,7 +1811,9 @@ listUnique: function(_arg) {
       }
       if (parseInt(j) === 0) 
       {tr.append($("<th class='pvtTotalLabel'>").text("Totals").attr("rowspan", colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)));}
-      result.append(tr);
+     // result.append(tr);
+     myhead.append(tr);
+     
     }
     if (rowAttrs.length !== 0) {
       tr = $("<tr>");
@@ -1778,11 +1826,14 @@ listUnique: function(_arg) {
       th = $("<th class=\"invi\">");
       if (colAttrs.length === 0) {th.addClass("pvtTotalLabel").text("Totals");}
       tr.append(th);
-      result.append(tr);
+      //result.append(tr);
+       myhead.append(tr);
     }
+     result.append(myhead);
+      mybody=$("<tbody>");
     for (i in rowKeys) {
-        if(i<10){
-        console.log(i);
+        if(i<FAOSTATNEWOLAP.limitPivotPreview){
+       
       if (!__hasProp.call(rowKeys, i)) continue;
       rowKey = rowKeys[i];
       tr = $("<tr>");
@@ -1794,7 +1845,9 @@ listUnique: function(_arg) {
             if(j==0 && FAOSTATNEWOLAP.nestedby==1){
                 tr2 = $("<tr>");
                 th = $("<th class='pvtRowLabel nestedby' colspan='3' style='background-color:white'>").html(txt);
-		tr2.append(th);result.append(tr2);txt="";
+		tr2.append(th);
+                mybody.append(tr2);
+                txt="";
 		}
           th = $("<th class='pvtRowLabel'>").html(txt).attr("rowspan", x);
           if (parseInt(j) === rowAttrs.length - 1 && colAttrs.length !== 0){th.attr("colspan", 2);}
@@ -1813,8 +1866,10 @@ listUnique: function(_arg) {
       totalAggregator = pivotData.getAggregator(rowKey, []);
       val = totalAggregator.value();
       tr.append($("<td class='pvtTotal rowTotal'>").html(totalAggregator.format(val)).data("value", val).data("for", "row" + i));
-      result.append(tr);
-    }}
+      mybody.append(tr);
+    }
+    else{break;}
+}
     tr = $("<tr>");
     th = $("<th class='pvtTotalLabel'>").text("Totals");
     th.attr("colspan", rowAttrs.length + (colAttrs.length === 0 ? 0 : 1));
@@ -1829,7 +1884,8 @@ listUnique: function(_arg) {
     totalAggregator = pivotData.getAggregator([], []);
     val = totalAggregator.value();
     tr.append($("<td class='pvtGrandTotal'>").html(totalAggregator.format(val)).data("value", val));
-    result.append(tr);
+    mybody.append(tr);
+    result.append(mybody);
     result.data("dimensions", [rowKeys.length, colKeys.length]);
     result=$("<div id='finaltable'>").append(result);
     return result;

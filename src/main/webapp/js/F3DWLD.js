@@ -107,13 +107,13 @@ var F3DWLD = (function() {
 
         getGridsValues(); 
 
-        //console.log('collectAndQueryWDSPivot'); 
-
+       /* console.log('collectAndQueryWDSPivot'); 
+    console.log(refresh); */
         /* Collect codes for 'list' items, then create the JSON payload. */ 
         //collectListCodesPIVOT(); 
         try {document.getElementById('testinline').className="visi2";} catch(err) {    } 
          if(F3DWLD.CONFIG.groupCode=="D" || F3DWLD.CONFIG.domainCode=="TM" || F3DWLD.CONFIG.domainCode=="FT"){ insideFalseClick(refresh,isEx,outputFormat); }
-         else{ console.log("refresh");console.log(refresh)
+         else{ 
              if(refresh){ 
                  var mesOptionsPivot=FAOSTATOLAP2.options;
                  mesOptionsPivot.rows=FAOSTATNEWOLAP.internalData.rowAttrs; 
@@ -821,7 +821,7 @@ var F3DWLD = (function() {
                         });}
  else{ $.ajax({
                           type : 'POST',
-                          url:"http://faostat3.fao.org/wds/rest/table/json",
+                          url:F3DWLD.CONFIG.data_url+"/table/json",
                           data:myPayload,
                           success:function(response_1){
                               var response2_2=[["NoRecords","RecordOrder","Domain Code","Domain","Country Code","Country","Element Code","Element","Item Code",
@@ -1368,20 +1368,18 @@ var F3DWLD = (function() {
 
     function preview(queryDB,refresh) {
         try {
-            forecast_output_size();
+            //forecast_output_size();
             if ($('#radio_table').val()) {
                 document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
                 $('#output_area').css("min-height", "350px");
                 $('#testinline').css("display", "none");
                 $("#btnFS").hide();
                 $("#nested_by").hide();
-                try {
+              
                     validateSelection('preview table');
                     createTable(queryDB, false);
                     STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
-                } catch (e) {
-
-                }
+               
             } else {
                 document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview');
                 $("#btnFS").show();
@@ -1391,11 +1389,11 @@ var F3DWLD = (function() {
                 $('#testinline').css("display", "block");
                 validateSelection('preview pivot');
                 buildOptionsMenu();//just UI option menu
-                collectAndQueryWDSPivot(refresh);
+                collectAndQueryWDSPivot(refresh,false,'json');
                 STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
             }
         } catch (lines) {
-            alert('ij');
+           console.log(lines)
             $('.fs-warning-wrapper').css('display', 'block');
             $('#close-fs-warning').bind('click', function() {
                 $('.fs-warning-wrapper').css('display', 'none');
@@ -1821,7 +1819,8 @@ $('#' + gridID + '_select').find('option').each(function(k, v) {
 
         var summaryID = findSummaryName(gridID); 
 
-        try { 
+      //  try 
+        {
 
             if (values.length == null) { 
 
@@ -1860,7 +1859,8 @@ $('#' + gridID + '_select').find('option').each(function(k, v) {
                     }); 
 
                 } else { 
-
+if(buffer.length>0 && ( buffer[0].code=="-1" ||buffer[0].code==-1 ))
+{console.log("faut effacer"); buffer.length=0; $('#' + summaryID).empty()}
                 for (var i = 0; i < values.length; i++) { 
 
                     if (!contains(buffer, values[i])) { 
@@ -1906,9 +1906,8 @@ $('#' + gridID + '_select').find('option').each(function(k, v) {
 
             } 
 
-        } catch(err) { 
-
-        } 
+        }
+        //catch(err) { console.log(err) } 
 
     }; 
 
