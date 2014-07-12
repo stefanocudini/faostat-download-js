@@ -1860,7 +1860,7 @@ $('#' + gridID + '_select').find('option').each(function(k, v) {
 
                 } else { 
 if(buffer.length>0 && ( buffer[0].code=="-1" ||buffer[0].code==-1 ))
-{console.log("faut effacer"); buffer.length=0; $('#' + summaryID).empty()}
+{buffer.length=0; $('#' + summaryID).empty()}
                 for (var i = 0; i < values.length; i++) { 
 
                     if (!contains(buffer, values[i])) { 
