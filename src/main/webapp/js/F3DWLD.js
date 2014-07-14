@@ -2,8 +2,8 @@
 var F3DWLD = (function() { 
 
     var CONFIG = { 
-        base_url                :   'http://localhost:8080/faostat-gateway/go/to/download',
-        prefix                  :   'http://localhost:8080/faostat-download-js/',
+        base_url                :   'http://168.202.28.210:8080/faostat-gateway/go/to/download',
+        prefix                  :   'http://168.202.28.210:8080/faostat-download-js/',
         CPINotes_url            :   'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
         ODA_url                 :   'http://faostat3.fao.org/wds/rest/procedures/oda',
         data_url                :   'http://faostat3.fao.org/wds/rest',
@@ -1364,22 +1364,22 @@ var F3DWLD = (function() {
         s += '</div>'; 
         s += '</div>'; 
         return s; 
-    }; 
+    };
 
-    function preview(queryDB,refresh) {
+    function preview(queryDB, refresh) {
         try {
-            //forecast_output_size();
+            forecast_output_size();
             if ($('#radio_table').val()) {
                 document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
                 $('#output_area').css("min-height", "350px");
                 $('#testinline').css("display", "none");
                 $("#btnFS").hide();
                 $("#nested_by").hide();
-              
-                    validateSelection('preview table');
-                    createTable(queryDB, false);
-                    STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
-               
+
+                validateSelection('preview table');
+                createTable(queryDB, false);
+                STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
+
             } else {
                 document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview');
                 $("#btnFS").show();
@@ -1389,13 +1389,12 @@ var F3DWLD = (function() {
                 $('#testinline').css("display", "block");
                 validateSelection('preview pivot');
                 buildOptionsMenu();//just UI option menu
-                collectAndQueryWDSPivot(refresh,false,'json');
+                collectAndQueryWDSPivot(refresh, false, 'json');
                 STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
             }
         } catch (lines) {
-           console.log(lines)
             $('.fs-warning-wrapper').css('display', 'block');
-            $('#close-fs-warning').bind('click', function() {
+            $('#close-fs-warning').bind('click', function () {
                 $('.fs-warning-wrapper').css('display', 'none');
             });
         }
@@ -1680,12 +1679,16 @@ var F3DWLD = (function() {
                 if (typeof json == 'string') 
                     json = $.parseJSON(response); 
 
-                var s = ''; 
+                var s = '';
+                var s1 = '';
                 s += '<ul><li id="bulk-root" class="bulk-root-mainbtn"><i class="fa fa-archive"></i> ' + $.i18n.prop('_bulk_download_label') + ' <i class="fa fa-caret-down"></i><ul>'; 
-                for (var i = 0 ; i < json.length ; i++) 
-                    s += '<li><a onclick="F3DWLD.recordBulkDownload(\'' + json[i][2] + '\');" target="_blank" href="' + F3DWLD.CONFIG.bulks_root + json[i][2] + '">' + json[i][3] + '</a></li>'; 
+                for (var i = 0 ; i < json.length ; i++) {
+                    s += '<li><a onclick="F3DWLD.recordBulkDownload(\'' + json[i][2] + '\');" target="_blank" href="' + F3DWLD.CONFIG.bulks_root + json[i][2] + '">' + json[i][3] + '</a></li>';
+                    s1 += '<li><a onclick="F3DWLD.recordBulkDownload(\'' + json[i][2] + '\');" target="_blank" href="' + F3DWLD.CONFIG.bulks_root + json[i][2] + '">' + json[i][3] + '</a></li>';
+                }
                 s += '</ul></li></ul>'; 
                 document.getElementById('bulk-downloads-menu').innerHTML = s; 
+                document.getElementById('fs-warning-bulk-list').innerHTML = s1;
 
                 $('#bulk-downloads-menu').jqxMenu({ 
                     autoOpen: false, 
