@@ -1859,12 +1859,16 @@ var F3DWLD = (function() {
         var sql = {};
         sql['query'] = "SELECT D.ItemCode, D.ElementCode, AVG(D.value) " +
                        "FROM Data AS D " +
-                       "WHERE D.DomainCode IN ('GT', 'GM', 'GE', 'GR', 'GY', 'GU', 'GP', 'GA', 'GV', 'GB') " +
-                       "AND D.AreaCode = 10 " +
+                       "WHERE D.DomainCode IN ('GT', 'GM', 'GE', 'GR', 'GY', 'GU', 'GP', 'GA', 'GV', 'GB'," +
+                                              "'GL', 'GF', 'GC', 'GG', 'GI') " +
+                       "AND D.AreaCode = " + $('#ghg_selector_country').val() + " " +
+                       "AND D.Year = " + $('#ghg_selector_year').val() + " " +
                        "AND D.ElementCode IN (7244, 7243, 72254, 72256, 72306, 72255, 7243, 72343, 72341, 72342, " +
                                              "72308, 72340, 7237, 72259, 72309, 72257, 72307, 72353," +
-                                             "72351, 72352, 72318, 72350, 7237) " +
-                       "AND D.ItemCode IN (1711, 1755, 27, 1709, 3107, 1712, 6729, 5057, 6795, 5058, 5059, 5060, 5065, 5066) " +
+                                             "72351, 72352, 72318, 72350, 7237," +
+                                             "7233, 72332, 719411, 72330, 719411, 72332, 719411, 72331) " +
+                       "AND D.ItemCode IN (1711, 1755, 27, 1709, 3107, 1712, 6729, 5057, 6795, 5058, 5059, 5060, 5065, 5066," +
+                                          "1707, 6751, 6797, 6727, 6726, 6750, 6796, 6728) " +
                        "GROUP BY D.ItemCode, D.ElementCode";
         var data = {};
         data.datasource = 'faostat',
@@ -1897,19 +1901,19 @@ var F3DWLD = (function() {
 
                     }
                 }
-                var sum = parseFloat(document.getElementById('table_1_3107_72343').innerHTML) +
-                          parseFloat(document.getElementById('table_1_1755_72341').innerHTML) +
-                          parseFloat(document.getElementById('table_1_1712_72342').innerHTML) +
-                          parseFloat(document.getElementById('table_1_6729_72308').innerHTML);
+                var sum = parseFloat($('table_1_3107_72343').html()) +
+                          parseFloat($('table_1_1755_72341').html()) +
+                          parseFloat($('table_1_1712_72342').html()) +
+                          parseFloat($('table_1_6729_72308').html());
                 try {
                     document.getElementById('table_1_direct_emissions').innerHTML = sum.toFixed(2);
                 } catch (e) {
 
                 }
-                sum = parseFloat(document.getElementById('table_2_3107_72353').innerHTML) +
-                      parseFloat(document.getElementById('table_2_1755_72351').innerHTML) +
-                      parseFloat(document.getElementById('table_2_1712_72352').innerHTML) +
-                      parseFloat(document.getElementById('table_2_6729_72318').innerHTML);
+                sum = parseFloat($('#table_2_3107_72353').html()) +
+                      parseFloat($('table_2_1755_72351').html()) +
+                      parseFloat($('table_2_1712_72352').html()) +
+                      parseFloat($('table_2_6729_72318').html());
                 try {
                     document.getElementById('table_2_direct_emissions').innerHTML = sum.toFixed(2);
                 } catch (e) {
