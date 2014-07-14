@@ -36,7 +36,7 @@ var F3DWLD = (function() {
         maxListBoxNo            :   7,
         tableIndices            :   null,
         data                    :   null,
-        preview_limit           :   100,
+        preview_limit           :   100000,
         list_weight_countries   :   50,
         list_weight_items       :   25
     }; 
