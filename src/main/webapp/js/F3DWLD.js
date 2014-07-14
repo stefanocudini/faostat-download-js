@@ -2,8 +2,8 @@
 var F3DWLD = (function() { 
 
     var CONFIG = { 
-        base_url                :   'http://168.202.28.210:8080/faostat-gateway/go/to/download',
-        prefix                  :   'http://168.202.28.210:8080/faostat-download-js/',
+        base_url                :   'http://localhost:8080/faostat-gateway/go/to/download',
+        prefix                  :   'http://localhost:8080/faostat-download-js/',
         CPINotes_url            :   'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
         ODA_url                 :   'http://faostat3.fao.org/wds/rest/procedures/oda',
         data_url                :   'http://faostat3.fao.org/wds/rest',
@@ -48,6 +48,7 @@ var F3DWLD = (function() {
         /* Upgrade the URL. */ 
         var domainCodeURL = (domainCode === 'null') ? '*' : domainCode; 
         CORE.upgradeURL('download', groupCode, domainCodeURL, language); 
+       
         if( F3DWLD.CONFIG.domainCode==="FBS" && domainCode!=="FBS"){location.reload();} 
         /* Labels */ 
         document.getElementById('_faostat_domains').innerHTML = $.i18n.prop('_faostat_domains'); 
@@ -152,7 +153,11 @@ var F3DWLD = (function() {
                         $('#preview_hr').css('display', 'block');
                     }); 
                 }
-             else{ oldSchool(FAOSTATNEWOLAP.pivotlimit);}
+             else{ 
+                 if(isEx){oldSchool(FAOSTATNEWOLAP.pivotlimitExcel,true);}
+                 else{oldSchool(FAOSTATNEWOLAP.pivotlimit,false);}
+                 
+             }
        
     }
         
@@ -830,8 +835,7 @@ var F3DWLD = (function() {
                           success:function(response_1){
                               var response2_2=[["NoRecords","RecordOrder","Domain Code","Domain","Country Code","Country","Element Code","Element","Item Code",
                                       "Item","Year Code","Year","Unit","Value","Flag","Flag Description","Var1Order","Var2Order","Var3Order","Var4Order"]];
-                              for(i in response_1){
-                                                            if(Array.isArray(response_1[i])){response2_2.push(response_1[i]);}
+                              for(i in response_1){       if(Array.isArray(response_1[i])){response2_2.push(response_1[i]);}
                                                      }
                                F3DWLD.CONFIG.data = response2_2; 
                                 renderTable(); 
@@ -1374,9 +1378,33 @@ var F3DWLD = (function() {
         return s; 
     };
 
+    function forecast_output_size() {/*
+        if ($('#radio_pivot').val()) {
+            var lines = 1;
+            for (var key in F3DWLD.CONFIG.selectedValues) {
+                var factor = F3DWLD.CONFIG.selectedValues[key].length;
+                for (var i = 0; i < F3DWLD.CONFIG.selectedValues[key].length; i++) {
+                    if (F3DWLD.CONFIG.selectedValues[key][i].type == '>') {
+                        switch (F3DWLD.CONFIG.selectedValues[key][i].listbox) {
+                            case 1:
+                                factor += F3DWLD.CONFIG.list_weight_countries;
+                                break;
+                            case 3:
+                                factor += F3DWLD.CONFIG.list_weight_items;
+                                break;
+                        }
+                    }
+                }
+                lines *= factor;
+            }
+            if (lines > F3DWLD.CONFIG.preview_limit)
+                throw lines;
+        }*/
+    }
+ 
     function preview(queryDB, refresh) {
-        try {
-            forecast_output_size();
+       // try {
+          //  forecast_output_size();
             if ($('#radio_table').val()) {
                 document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
                 $('#output_area').css("min-height", "350px");
@@ -1400,40 +1428,16 @@ var F3DWLD = (function() {
                 collectAndQueryWDSPivot(refresh, false, 'json');
                 STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
             }
-        } catch (lines) {
+       /* } catch (lines) {
             $('.fs-warning-wrapper').css('display', 'block');
             $('#close-fs-warning').bind('click', function () {
                 $('.fs-warning-wrapper').css('display', 'none');
             });
-        }
-    }
-
-    function forecast_output_size() {
-        if ($('#radio_pivot').val()) {
-            var lines = 1;
-            for (var key in F3DWLD.CONFIG.selectedValues) {
-                var factor = F3DWLD.CONFIG.selectedValues[key].length;
-                for (var i = 0; i < F3DWLD.CONFIG.selectedValues[key].length; i++) {
-                    if (F3DWLD.CONFIG.selectedValues[key][i].type == '>') {
-                        switch (F3DWLD.CONFIG.selectedValues[key][i].listbox) {
-                            case 1:
-                                factor += F3DWLD.CONFIG.list_weight_countries;
-                                break;
-                            case 3:
-                                factor += F3DWLD.CONFIG.list_weight_items;
-                                break;
-                        }
-                    }
-                }
-                lines *= factor;
-            }
-            if (lines > F3DWLD.CONFIG.preview_limit)
-                throw lines;
-        }
+        }*/
     }
 
     function download(queryDB, outputFormat) { 
-        if ($('#radio_table').val()) { 
+        if ($('#radio_table').val()) {
             try { 
                 validateSelection('download'); 
                 createTable(queryDB, true, outputFormat); 
@@ -1447,17 +1451,26 @@ var F3DWLD = (function() {
           /*  validateSelection('preview pivot'); 
                 buildOptionsMenu();//just UI option menu 
                 collectAndQueryWDSPivot(false);*/ 
-                
-            if(FAOSTATNEWOLAP.firstCall==1){ validateSelection('preview pivot'); 
-                buildOptionsMenu();//just UI option menu 
-                collectAndQueryWDSPivot(false,true,outputFormat);} 
+               
+            
+            oldSchoolCSV();
+            
+            /* 
+            if(FAOSTATNEWOLAP.firstCall==1)
+            {  oldSchool(FAOSTATNEWOLAP.pivotlimitExcel,true);
+                //validateSelection('preview pivot'); 
+                //buildOptionsMenu();//just UI option menu 
+                //collectAndQueryWDSPivot(false,true,outputFormat);
+            
+            } 
             else{ if(outputFormat=="csv") { 
-                decolrowspanNEW();
+                    alert('oki')
+                oldSchool(FAOSTATNEWOLAP.pivotlimitExcel,true);
                // ExcelComplete("json");
             } else { 
                 //ExcelComplete("html");
-                my_exportNew(); 
-            }} 
+               oldSchool(FAOSTATNEWOLAP.pivotlimitExcel,true);
+            }}*/
           
             
           
@@ -2055,6 +2068,7 @@ if(buffer.length>0 && ( buffer[0].code=="-1" ||buffer[0].code==-1 ))
 //            } 
             $('#output_area').empty(); 
             $('#testinline').empty(); 
+            
             $('#options_menu_box').css('display', 'none'); 
             $('#preview_hr').css('display', 'none'); 
         }); 

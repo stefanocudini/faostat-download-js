@@ -177,7 +177,7 @@ if (!window.FAOSTATDownloadTree) {
             // Upgrade the URL
             var domainCode = (FAOSTATDownload.domainCode == 'null') ? '*' : FAOSTATDownload.domainCode;
             CORE.upgradeURL('download', FAOSTATDownload.groupCode, domainCode, FAOSTATDownload.language);
-
+   if( F3DWLD.CONFIG.domainCode==="FBS" && domainCode!=="FBS"){location.reload();} 
         },
 
         innerLinks: function () {

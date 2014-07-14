@@ -51,7 +51,7 @@ else{return "<span class=\"ordre\">"+mp["Var3Order"]+"</span>"+mp["Item_"];}}
 	
 	
 	
-	FAOSTATOLAP2.optionsCountry= 
+	/*FAOSTATOLAP2.optionsCountry= 
 {
  hiddenAttributes:["Annee","CodeItem","Pays"],
 derivedAttributes: {
@@ -74,7 +74,7 @@ catch(er){return "_"+mp["CodeItem"].substring(0,6)+"++";}
 	cols: ["Mois"],
 	vals:["Valeur","Poids_Kg"],
 	linkedAttributes:[["Level1","Level2","Level3","Description"]]
-	};
+	};*/
 	
 	
 	//{"datatype":"TEXT","column":"AreaCode","operator":"IN","value":"","ins":[68]}
