@@ -304,7 +304,7 @@ limit: -1
                        "AND D.ItemCode IN (1711, 1755, 27, 1709, 3107, 1712, 6729, 5057, 6795) " +
                        "GROUP BY D.ItemCode, D.ElementCode";
         var data = {};
-        data.datasource = 'faostat',
+        data.datasource = FAOSTATDownload.datasource,
         data.thousandSeparator = ',';
         data.decimalSeparator = '.';
         data.decimalNumbers = 2;
@@ -315,11 +315,38 @@ limit: -1
         data.cssFilename = '';
         data.nowrap = false;
         data.valuesIndex = 0;
-        $('#datasource_WQ').val('faostat');
+        $('#datasource_WQ').val(FAOSTATDownload.datasource);
       $('#json_WQ').val(data.json); 
                                
                                 document.excelFormWithQuotes.submit();
  }
+
+    function directCSV(query) {
+        var sql = {};
+        sql.query = "SELECT D.ItemCode, D.ElementCode, AVG(D.value) " +
+                    "FROM Data AS D " +
+                    "WHERE D.DomainCode IN ('GT', 'GM', 'GE', 'GR', 'GY', 'GU', 'GP', 'GA', 'GV', 'GB') " +
+                    "AND D.AreaCode = 10 " +
+                    "AND D.ElementCode IN (7244, 7243, 72254, 72256, 72306, 72255, 7243, 72343, 72341, 72342, 72308, 72340, 7237, 72259, 72309, 72257, 72307) " +
+                    "AND D.ItemCode IN (1711, 1755, 27, 1709, 3107, 1712, 6729, 5057, 6795) " +
+                    "GROUP BY D.ItemCode, D.ElementCode";
+        var data = {};
+        data.datasource = FAOSTATDownload.datasource,
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify({
+            "limit": null,
+            "query": query,
+            "frequency": "NONE"
+        }),
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+        $('#datasource_WQ_csv').val(FAOSTATDownload.datasource);
+        $('#json_WQ_csv').val(data.json);
+        document.csvFormWithQuotes.submit();
+    }
  
  function recTab1(label,arr,ind)
  {

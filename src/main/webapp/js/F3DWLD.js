@@ -757,8 +757,9 @@ var F3DWLD = (function() {
                                 
                                 break; 
                             case 'excel': 
-                                $('#payload_excel').val(JSON.stringify(p)); 
-                                document.excelForProcedures.submit(); 
+//                                $('#payload_excel').val(JSON.stringify(p));
+//                                document.excelForProcedures.submit();
+                                directExcel(selectFinalExcel)
                                 break; 
                         } 
 
