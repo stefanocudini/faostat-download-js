@@ -1690,6 +1690,9 @@ var F3DWLD = (function() {
                 document.getElementById('bulk-downloads-menu').innerHTML = s; 
                 document.getElementById('fs-warning-bulk-list').innerHTML = s1;
 
+                document.getElementById('fs-warning-message-title').innerHTML = $.i18n.prop('_please_note');
+                document.getElementById('fs-warning-message').innerHTML = $.i18n.prop('_fs_warning_message');
+
                 $('#bulk-downloads-menu').jqxMenu({ 
                     autoOpen: false, 
                     showTopLevelArrows: true, 
