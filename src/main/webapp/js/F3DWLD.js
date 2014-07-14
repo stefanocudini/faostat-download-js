@@ -1929,6 +1929,8 @@ var F3DWLD = (function() {
                 }
                 $('#table_1').css('display', 'inline-table');
                 $('#table_2').css('display', 'inline-table');
+                $('#ipcc_download_table_1').css('display', 'inline-table');
+                $('#ipcc_download_table_2').css('display', 'inline-table');
             },
             error: function (e, b, c) {
 
@@ -2532,6 +2534,11 @@ if(buffer.length>0 && ( buffer[0].code=="-1" ||buffer[0].code==-1 ))
         preview(true, true);
     }
 
+    function html2excel(id) {
+        $('#data').val($('#' + id).html());
+        document.ipcc_form.submit();
+    }
+
     return { 
         CONFIG                  :   CONFIG,
         buildF3DWLD             :   buildF3DWLD,
@@ -2546,7 +2553,8 @@ if(buffer.length>0 && ( buffer[0].code=="-1" ||buffer[0].code==-1 ))
         showBulkDownloads       :   showBulkDownloads,
         showIPCC                :   showIPCC,
         showIPCCButtonListener  :   showIPCCButtonListener,
-        continue_with_table     :   continue_with_table
+        continue_with_table     :   continue_with_table,
+        html2excel              :   html2excel
     }; 
 
 })(); 
