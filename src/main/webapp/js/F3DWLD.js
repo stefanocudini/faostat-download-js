@@ -2300,20 +2300,28 @@ if(buffer.length>0 && ( buffer[0].code=="-1" ||buffer[0].code==-1 ))
         s += '</tr>'; 
         s += '</table>'; 
         return s; 
-    }; 
+    };
+
+    function continue_with_table() {
+        $('#radio_table').val(true);
+        $('#radio_pivot').val(false);
+        $('.fs-warning-wrapper').css('display', 'none');
+        preview(true, true);
+    }
 
     return { 
-        CONFIG              :  CONFIG, 
-        buildF3DWLD        :  buildF3DWLD, 
-        addToSummary        :  addToSummary, 
-        preview            :  preview, 
-        download            :  download, 
-        selectAllForSummary :  selectAllForSummary, 
-        clearAllForSummary  :  clearAllForSummary, 
-        showHideSummary    :  showHideSummary, 
-        recordBulkDownload  :  recordBulkDownload,
-        buildUIStructure:buildUIStructure,
-        showBulkDownloads:showBulkDownloads
+        CONFIG                  :   CONFIG,
+        buildF3DWLD             :   buildF3DWLD,
+        addToSummary            :   addToSummary,
+        preview                 :   preview,
+        download                :   download,
+        selectAllForSummary     :   selectAllForSummary,
+        clearAllForSummary      :   clearAllForSummary,
+        showHideSummary         :   showHideSummary,
+        recordBulkDownload      :   recordBulkDownload,
+        buildUIStructure        :   buildUIStructure,
+        showBulkDownloads       :   showBulkDownloads,
+        continue_with_table     :   continue_with_table
     }; 
 
 })(); 
