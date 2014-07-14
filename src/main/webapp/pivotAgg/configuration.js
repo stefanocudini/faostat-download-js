@@ -9,21 +9,8 @@ overwrite:true
 
 FAOSTATOLAP2.options= 
 {
-derivedAttributes: {
-
-"Area_":function(mp) 
-{if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table class=\"innerCol\"><th>"+mp["Country"]+"</th><th>"+mp["Country Code"]+"</th></table>";}
-else{return mp["Country"];}},
-"Element_":function(mp) 
-{if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table  class=\"innerCol\"><th>"+mp["Element"]+"</th><th>"+mp["Element Code"]+"</th></table>";}
-else{return mp["Element"];}},
-"Item_":function(mp) 
-{if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table  class=\"innerCol\"><th>"+mp["Item"]+"</th><th>"+mp["Item Code"]+"</th></table>";}
-else{return mp["Item"];}}
-/*
+    
+    /*
 "Continent": function(mp) {
 try{return "User selection in "+countryAgg[mp["AreaCode"]][1] ;}
 catch(er){return "_"+mp["AreaName"]+"++"}
@@ -32,11 +19,30 @@ catch(er){return "_"+mp["AreaName"]+"++"}
 try{return "User selection in "+countryAgg[mp["AreaCode"]][2] ;}
 catch(er){return "_"+mp["AreaName"]+"++";}
 }*/
+    
+    
+    
+derivedAttributes: {
+
+"Area":function(mp) 
+{if(F3DWLD.CONFIG.wdsPayload.showCodes)
+{return "<span class=\"ordre\">"+mp["Var1Order"]+"</span><table class=\"innerCol\"><th>"+mp["Country_"]+"</th><th>"+mp["Country Code"]+"</th></table>";}
+else{return "<span class=\"ordre\">"+mp["Var1Order"]+"</span>"+mp["Country_"];}},
+"Element":function(mp) 
+{if(F3DWLD.CONFIG.wdsPayload.showCodes)
+{return "<span class=\"ordre\">"+mp["Var2Order"]+"</span><table  class=\"innerCol\"><th>"+mp["Element_"]+"</th><th>"+mp["Element Code"]+"</th></table>";}
+else{return "<span class=\"ordre\">"+mp["Var2Order"]+"</span>"+mp["Element_"];}},
+"Item":function(mp) 
+{if(F3DWLD.CONFIG.wdsPayload.showCodes)
+{return "<span class=\"ordre\">"+mp["Var3Order"]+"</span><table  class=\"innerCol\"><th>"+mp["Item_"]+"</th><th>"+mp["Item Code"]+"</th></table>";}
+else{return "<span class=\"ordre\">"+mp["Var3Order"]+"</span>"+mp["Item_"];}}
+
+
  },
  //"Continent","SubContinent"
  //,"Item","Item Code","Country","Country Code","Element","Element Code"
- hiddenAttributes:["ValueColumnIndex","Domain"],
-	rows:["Area_","Item_","Element_"],
+// hiddenAttributes:["ValueColumnIndex","Domain"],
+	rows:["Area","Element","Item"],
 	cols: ["Year"],
 	vals:["Value","Unit","Flag"],
 	linkedAttributes:[]
@@ -161,7 +167,7 @@ catch(er){return "_"+mp["AreaName"]+"++";}
  },
  //"Continent","SubContinent"
  //,"Item","Item Code","Country","Country Code","Element","Element Code"
- hiddenAttributes:["NoRecords","RecordOrder","Domain Code","Domain"],
+// hiddenAttributes:["NoRecords","RecordOrder","Domain Code","Domain"],
 	rows:["Reporter_","Partner_","Item_","Element_"],
 	cols: ["Year"],
 	vals:["Value","Unit","Flag"],
