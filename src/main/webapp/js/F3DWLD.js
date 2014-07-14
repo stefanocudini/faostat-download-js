@@ -36,7 +36,7 @@ var F3DWLD = (function() {
         maxListBoxNo            :   7,
         tableIndices            :   null,
         data                    :   null,
-        preview_limit           :   50,
+        preview_limit           :   50000,
         list_weight_countries   :   50,
         list_weight_items       :   25,
         header_indices          :   [3,5,7,9,11,12,13,14,15],
@@ -1433,7 +1433,47 @@ var F3DWLD = (function() {
             $('#close-fs-warning').bind('click', function () {
                 $('.fs-warning-wrapper').css('display', 'none');
             });
-        }*/
+        }
+    }
+
+    function forecast_output_size() {
+        if ($('#radio_pivot').val()) {
+            var lines = 1;
+            for (var key in F3DWLD.CONFIG.selectedValues) {
+                var factor = F3DWLD.CONFIG.selectedValues[key].length;
+                for (var i = 0; i < F3DWLD.CONFIG.selectedValues[key].length; i++) {
+                    if (F3DWLD.CONFIG.selectedValues[key][i].type == '>') {
+                        switch (F3DWLD.CONFIG.selectedValues[key][i].listbox) {
+                            case 1:
+                                factor += F3DWLD.CONFIG.list_weight_countries;
+                                break;
+                            case 3:
+                                factor += F3DWLD.CONFIG.list_weight_items;
+                                break;
+                        }
+                    }
+                    if (F3DWLD.CONFIG.selectedValues[key][i].code == '-1') {
+                        switch (F3DWLD.CONFIG.selectedValues[key][i].listbox) {
+                            case 1:
+                                factor += 250;
+                                break;
+                            case 1:
+                                factor += 4;
+                                break;
+                            case 3:
+                                factor += 250;
+                                break;
+                            case 3:
+                                factor += 61;
+                                break;
+                        }
+                    }
+                }
+                lines *= factor;
+            }
+            if (lines > F3DWLD.CONFIG.preview_limit)
+                throw lines;
+        }
     }
 
     function download(queryDB, outputFormat) { 
