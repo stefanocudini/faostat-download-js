@@ -1433,7 +1433,7 @@ var F3DWLD = (function() {
             $('#close-fs-warning').bind('click', function () {
                 $('.fs-warning-wrapper').css('display', 'none');
             });
-        }
+        }*/
     }
 
     function forecast_output_size() {
