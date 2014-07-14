@@ -1785,7 +1785,7 @@ var F3DWLD = (function() {
             var s = '';
             s += '<ul><li id="reporting-tables-root" class="reporting-tables-mainbtn"><i class="fa fa-table"></i> ' + $.i18n.prop('_reporting_tables_label') + ' <i class="fa fa-caret-down"></i><ul>';
             s += '<li><a onclick="F3DWLD.showIPCC(\'1996\');">IPCC 1996</a></li>';
-            s += '<li><a>IPCC 2006</a></li>';
+            s += '<li><a onclick="F3DWLD.showIPCC(\'2006\');">IPCC 2006</a></li>';
             s += '</ul></li></ul>';
             document.getElementById('reporting-tables-menu').innerHTML = s;
 
@@ -1901,12 +1901,20 @@ var F3DWLD = (function() {
                           parseFloat(document.getElementById('table_1_1755_72341').innerHTML) +
                           parseFloat(document.getElementById('table_1_1712_72342').innerHTML) +
                           parseFloat(document.getElementById('table_1_6729_72308').innerHTML);
-                document.getElementById('table_1_direct_emissions').innerHTML = sum.toFixed(2);
+                try {
+                    document.getElementById('table_1_direct_emissions').innerHTML = sum.toFixed(2);
+                } catch (e) {
+
+                }
                 sum = parseFloat(document.getElementById('table_2_3107_72353').innerHTML) +
                       parseFloat(document.getElementById('table_2_1755_72351').innerHTML) +
                       parseFloat(document.getElementById('table_2_1712_72352').innerHTML) +
                       parseFloat(document.getElementById('table_2_6729_72318').innerHTML);
-                document.getElementById('table_2_direct_emissions').innerHTML = sum.toFixed(2);
+                try {
+                    document.getElementById('table_2_direct_emissions').innerHTML = sum.toFixed(2);
+                } catch (e) {
+
+                }
                 var row_sums = $('.row_sum');
                 for (var i = 0 ; i < row_sums.length ; i++) {
                     var val1 = parseFloat($('#' + $(row_sums[i]).data('cell1')).html());
