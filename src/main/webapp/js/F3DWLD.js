@@ -36,7 +36,7 @@ var F3DWLD = (function() {
         maxListBoxNo            :   7,
         tableIndices            :   null,
         data                    :   null,
-        preview_limit           :   100000,
+        preview_limit           :   50,
         list_weight_countries   :   50,
         list_weight_items       :   25
     }; 
@@ -746,7 +746,8 @@ var F3DWLD = (function() {
                         
                         switch (outputFormat) { 
                             case 'csv': 
-                                directExcel(selectFinalExcel)
+//                                directExcel(selectFinalExcel)
+                                directCSV(selectFinalExcel)
                                 //console.log(selectFinalExcel);
                               /*  $('#payload_csv').val(JSON.stringify(p)); 
                                 document.csvForProcedures.submit(); 
