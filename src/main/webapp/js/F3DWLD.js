@@ -38,7 +38,9 @@ var F3DWLD = (function() {
         data                    :   null,
         preview_limit           :   50,
         list_weight_countries   :   50,
-        list_weight_items       :   25
+        list_weight_items       :   25,
+        header_indices          :   [3,5,7,9,11,12,13,14,15],
+        data_indices            :   [1,3,5,7,8,9,10,11,12]
     }; 
 
     function buildF3DWLD(groupCode, domainCode, language) {
@@ -859,25 +861,29 @@ var F3DWLD = (function() {
     function renderTable() { 
         var s = '<table class="dataTable">'; 
         s += '<thead>'; 
-        s += '<tr>'; 
-        for (var i = 1 ; i < F3DWLD.CONFIG.data[0].length ; i++) { 
-            if ($.inArray((i - 1).toString(), F3DWLD.CONFIG.tableIndices) > -1) { 
+        s += '<tr>';
+        for (var i = 0 ; i < F3DWLD.CONFIG.data[0].length ; i++) {
+            // TODO to be restored with procedures
+//            if ($.inArray((i - 1).toString(), F3DWLD.CONFIG.tableIndices) > -1) {
+              if ($.inArray(i, F3DWLD.CONFIG.header_indices) > -1) {
                 s += '<th>' + F3DWLD.CONFIG.data[0][i] + '</th>'; 
-            } 
+            }
         } 
         s += '</tr>'; 
         s += '</thead>'; 
-        s += '<tbody>'; 
-        if (F3DWLD.CONFIG.data.length > 1) { 
-            for (var i = 1; i < F3DWLD.CONFIG.data.length; i++) { 
+        s += '<tbody>';
+        if (F3DWLD.CONFIG.data.length > 1) {
+            for (var i = 1; i < F3DWLD.CONFIG.data.length; i++) {
                 s += '<tr>'; 
-                for (var j = 0; j < F3DWLD.CONFIG.data[i].length; j++) { 
-                    if ($.inArray((j - 1).toString(), F3DWLD.CONFIG.tableIndices) > -1) { 
+                for (var j = 0; j < F3DWLD.CONFIG.data[i].length; j++) {
+                    // TODO to be restored with procedures
+//                    if ($.inArray((j - 1).toString(), F3DWLD.CONFIG.tableIndices) > -1) {
+                    if ($.inArray(j, F3DWLD.CONFIG.data_indices) > -1) {
                         if (i % 2 == 0) 
                             s += '<td class="hor-minimalist-b_row1">' + F3DWLD.CONFIG.data[i][j] + '</td>'; 
                         else 
                             s += '<td class="hor-minimalist-b_row2">' + F3DWLD.CONFIG.data[i][j] + '</td>'; 
-                    } 
+                    }
                 } 
                 s += '</tr>'; 
             } 
@@ -1629,19 +1635,57 @@ var F3DWLD = (function() {
         F3DWLD.CONFIG.wdsPayload.showUnits = true; 
         F3DWLD.CONFIG.wdsPayload.showNullValues = false; 
         $("#flags_menu").bind('change', function (event) {
-            
-            var checked = event.args.checked; 
-            F3DWLD.CONFIG.wdsPayload.showFlags = checked; 
+            var checked = event.args.checked;
+            F3DWLD.CONFIG.wdsPayload.showFlags = checked;
+            if (F3DWLD.CONFIG.wdsPayload.showFlags) {
+                F3DWLD.CONFIG.header_indices.push(14);
+                F3DWLD.CONFIG.header_indices.push(15);
+                F3DWLD.CONFIG.data_indices.push(11);
+                F3DWLD.CONFIG.data_indices.push(12);
+            } else {
+                F3DWLD.CONFIG.header_indices.splice(F3DWLD.CONFIG.header_indices.indexOf(14), 1);
+                F3DWLD.CONFIG.header_indices.splice(F3DWLD.CONFIG.header_indices.indexOf(15), 1);
+                F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(11), 1);
+                F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(12), 1);
+            }
             preview(false,true); 
         }); 
         $("#codes_menu").bind('change', function (event) { 
             var checked = event.args.checked; 
-            F3DWLD.CONFIG.wdsPayload.showCodes = checked; 
+            F3DWLD.CONFIG.wdsPayload.showCodes = checked;
+            if (F3DWLD.CONFIG.wdsPayload.showCodes) {
+                F3DWLD.CONFIG.header_indices.push(2);
+                F3DWLD.CONFIG.header_indices.push(4);
+                F3DWLD.CONFIG.header_indices.push(6);
+                F3DWLD.CONFIG.header_indices.push(8);
+                F3DWLD.CONFIG.data_indices.push(0);
+                F3DWLD.CONFIG.data_indices.push(2);
+                F3DWLD.CONFIG.data_indices.push(4);
+                F3DWLD.CONFIG.data_indices.push(6);
+                F3DWLD.CONFIG.data_indices.push(8);
+            } else {
+                F3DWLD.CONFIG.header_indices.splice(F3DWLD.CONFIG.header_indices.indexOf(2), 1);
+                F3DWLD.CONFIG.header_indices.splice(F3DWLD.CONFIG.header_indices.indexOf(4), 1);
+                F3DWLD.CONFIG.header_indices.splice(F3DWLD.CONFIG.header_indices.indexOf(6), 1);
+                F3DWLD.CONFIG.header_indices.splice(F3DWLD.CONFIG.header_indices.indexOf(8), 1);
+                F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(0), 1);
+                F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(2), 1);
+                F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(4), 1);
+                F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(6), 1);
+                F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(8), 1);
+            }
             preview(false,true); 
         }); 
         $("#units_menu").bind('change', function (event) { 
             var checked = event.args.checked; 
-            F3DWLD.CONFIG.wdsPayload.showUnits = checked; 
+            F3DWLD.CONFIG.wdsPayload.showUnits = checked;
+            if (F3DWLD.CONFIG.wdsPayload.showUnits) {
+                F3DWLD.CONFIG.header_indices.push(12);
+                F3DWLD.CONFIG.data_indices.push(9);
+            } else {
+                F3DWLD.CONFIG.header_indices.splice(F3DWLD.CONFIG.header_indices.indexOf(12), 1);
+                F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(9), 1);
+            }
             preview(false,true); 
         }); 
         $("#nested_by").bind('change', function (event) { 
