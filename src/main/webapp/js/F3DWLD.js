@@ -1402,21 +1402,27 @@ var F3DWLD = (function() {
     }
 
     function forecast_output_size() {
-        var lines = 1;
-        for (var key in F3DWLD.CONFIG.selectedValues) {
-            var factor = F3DWLD.CONFIG.selectedValues[key].length;
-            for (var i = 0 ; i < F3DWLD.CONFIG.selectedValues[key].length ; i++) {
-                if (F3DWLD.CONFIG.selectedValues[key][i].type == '>') {
-                    switch (F3DWLD.CONFIG.selectedValues[key][i].listbox) {
-                        case 1: factor += F3DWLD.CONFIG.list_weight_countries; break;
-                        case 3: factor += F3DWLD.CONFIG.list_weight_items; break;
+        if ($('#radio_pivot').val()) {
+            var lines = 1;
+            for (var key in F3DWLD.CONFIG.selectedValues) {
+                var factor = F3DWLD.CONFIG.selectedValues[key].length;
+                for (var i = 0; i < F3DWLD.CONFIG.selectedValues[key].length; i++) {
+                    if (F3DWLD.CONFIG.selectedValues[key][i].type == '>') {
+                        switch (F3DWLD.CONFIG.selectedValues[key][i].listbox) {
+                            case 1:
+                                factor += F3DWLD.CONFIG.list_weight_countries;
+                                break;
+                            case 3:
+                                factor += F3DWLD.CONFIG.list_weight_items;
+                                break;
+                        }
                     }
                 }
+                lines *= factor;
             }
-            lines *= factor;
+            if (lines > F3DWLD.CONFIG.preview_limit)
+                throw lines;
         }
-        if (lines > F3DWLD.CONFIG.preview_limit)
-            throw lines;
     }
 
     function download(queryDB, outputFormat) { 
