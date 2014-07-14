@@ -36,7 +36,7 @@ var F3DWLD = (function() {
         maxListBoxNo            :   7,
         tableIndices            :   null,
         data                    :   null,
-        preview_limit           :   50,
+        preview_limit           :   50000,
         list_weight_countries   :   50,
         list_weight_items       :   25,
         header_indices          :   [3,5,7,9,11,12,13,14,15],
@@ -1421,6 +1421,22 @@ var F3DWLD = (function() {
                                 break;
                             case 3:
                                 factor += F3DWLD.CONFIG.list_weight_items;
+                                break;
+                        }
+                    }
+                    if (F3DWLD.CONFIG.selectedValues[key][i].code == '-1') {
+                        switch (F3DWLD.CONFIG.selectedValues[key][i].listbox) {
+                            case 1:
+                                factor += 250;
+                                break;
+                            case 1:
+                                factor += 4;
+                                break;
+                            case 3:
+                                factor += 250;
+                                break;
+                            case 3:
+                                factor += 61;
                                 break;
                         }
                     }
