@@ -1207,7 +1207,6 @@ var F3DWLD = (function() {
         }
         s+='</div>'; 
         s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;"></div>';
-        console.log('add reporting');
         s += '<div id="reporting-tables-menu" style="position: absolute; right: 0; top: 0;"></div>';
         s += '</div>';
         s += '<hr class="standard-hr">'; 
@@ -1901,19 +1900,19 @@ var F3DWLD = (function() {
 
                     }
                 }
-                var sum = parseFloat($('table_1_3107_72343').html()) +
-                          parseFloat($('table_1_1755_72341').html()) +
-                          parseFloat($('table_1_1712_72342').html()) +
-                          parseFloat($('table_1_6729_72308').html());
+                var sum = parseFloat($('#table_1_3107_72343').html()) +
+                          parseFloat($('#table_1_1755_72341').html()) +
+                          parseFloat($('#table_1_1712_72342').html()) +
+                          parseFloat($('#table_1_6729_72308').html());
                 try {
                     document.getElementById('table_1_direct_emissions').innerHTML = sum.toFixed(2);
                 } catch (e) {
 
                 }
                 sum = parseFloat($('#table_2_3107_72353').html()) +
-                      parseFloat($('table_2_1755_72351').html()) +
-                      parseFloat($('table_2_1712_72352').html()) +
-                      parseFloat($('table_2_6729_72318').html());
+                      parseFloat($('#table_2_1755_72351').html()) +
+                      parseFloat($('#table_2_1712_72352').html()) +
+                      parseFloat($('#table_2_6729_72318').html());
                 try {
                     document.getElementById('table_2_direct_emissions').innerHTML = sum.toFixed(2);
                 } catch (e) {
