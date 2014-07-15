@@ -145,7 +145,7 @@ String option=(String)request.getParameter("option");
                             data = data.replace("localhost:8080/", "faostat3.fao.org/");
                             $("#testinline").append(data);
                             decolrowspanNEW();
-                           // window.close();
+                            window.close();
                         });
 
 
@@ -153,10 +153,10 @@ String option=(String)request.getParameter("option");
                 });
             }
         </script>
-        <title>JSP Page</title>
+        <title>export Page</title>
     </head>
     <body onload="javascript:init();">
 
-        <div id="testinline" ></div>
+        <div id="testinline" style="display:none"></div>
     </body>
 </html>
