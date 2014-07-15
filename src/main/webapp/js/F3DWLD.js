@@ -204,6 +204,7 @@ var F3DWLD = (function() {
     }
 
     function insideFalseClick(refresh, isEx, outputFormat) {
+       
         FAOSTATNEWOLAP.PP = {PP1: [], PP2: [], PP3: []};
         $('#OLAP_IFRAME').css('display', 'inline');
         document.getElementById('output_area').innerHTML = '';
@@ -226,6 +227,7 @@ var F3DWLD = (function() {
             success: function(response) {
 
                 var schema_json = response;
+               
                 if (typeof schema_json == 'string') {
                     schema_json = $.parseJSON(response);
                 }
@@ -508,9 +510,9 @@ var F3DWLD = (function() {
                              */
                             //$("#output_are").html("<div id="testinline"></div>"); 
                             FAOSTATNEWOLAP.originalData = response;
-                            response.push(["Domain", "AreaCode", "AreaName", "ItemCode", "ItemName", "ElementCode", "VarNameE", "Year", "Unit", "Flag", "Value"]);
-                            response = response.reverse();
-                            console.log(response)
+                            //response.push(["Domain", "AreaCode", "AreaName", "ItemCode", "ItemName", "ElementCode", "VarNameE", "Year", "Unit", "Flag", "Value"]);
+                           // response = response.reverse();
+                           
                             $("#testinline").pivotUI(response, mesOptionsPivot, true);
                             //alert('response limit'+response[1][0]);
                             for (var iLabel = 0; iLabel < $(".pvtAxisLabel").length; iLabel++) {

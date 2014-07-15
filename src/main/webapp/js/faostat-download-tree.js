@@ -172,6 +172,7 @@ if (!window.FAOSTATDownloadTree) {
 
                 $('#mainTD').hide();
                 $('#listArea0').empty();
+                $('#testinline').empty();
                 $('#OLAPTD').show();
 
             });

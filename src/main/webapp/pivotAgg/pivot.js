@@ -135,7 +135,24 @@ function oldSchoolCSV()
 
     if (F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT") {
 
-        tableMyData = "TradeMatrix";
+
+selectFinal = "EXECUTE Warehouse.dbo.usp_GetData " +
+            " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
+            " @lang = '" + F3DWLD.CONFIG.lang + "',  " +
+            " @List1Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[0], "''") + ")', " +
+            "  @List2Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[1], "''") + ")',  " +
+            " @List3Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[2], "''") + ")', " +
+            "  @List4Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[3], "''") + ")', " +
+            "   @List5Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[4], "") + ")',  " +
+            "   @List6Codes = '',  " +
+            "   @List7Codes = '',  " +
+            "   @NullValues = 0,  " +
+            "   @Thousand = '',  " +
+            "   @Decimal = '.',  " +
+            "   @DecPlaces = 2 , " +
+            "  @Limit ="+FAOSTATNEWOLAP.pivotlimitExcel ;
+
+      /*  tableMyData = "TradeMatrix";
         var fromMyData = [
             {"column": "TradeMatrix", "alias": "D"},
             {"column": "Item", "alias": "I"},
@@ -167,7 +184,8 @@ function oldSchoolCSV()
             {"column": "A2.AreaName" + F3DWLD.CONFIG.lang, "direction": "ASC"},
             {"column": "I.ItemName" + F3DWLD.CONFIG.lang, "direction": "ASC"},
             {"column": "E.ElementUnitName" + F3DWLD.CONFIG.lang, "direction": "ASC"}
-        ];
+        ];*/
+
 
     }
 
@@ -182,6 +200,7 @@ function oldSchoolCSV()
     mesOptionsPivot.rows = FAOSTATNEWOLAP.internalData.rowAttrs;
     mesOptionsPivot.cols = FAOSTATNEWOLAP.internalData.colAttrs;}
     mesOptionsPivot.vals = ["Value"];
+        mesOptionsPivot.domain = F3DWLD.CONFIG.domainCode;
     if (F3DWLD.CONFIG.wdsPayload.showUnits)
     {
         mesOptionsPivot.vals.push("Unit")
@@ -199,7 +218,7 @@ document.getElementById('CSVOLAPoption').value= JSON.stringify({decimal:FAOSTATN
     thousandSeparator:FAOSTATNEWOLAP.thousandSeparator,
     showUnits:F3DWLD.CONFIG.wdsPayload.showUnits,
  showFlags:F3DWLD.CONFIG.wdsPayload.showFlags, showCodes:F3DWLD.CONFIG.wdsPayload.showCodes});
-document.getElementById('exportCSVOLAP').submit()
+document.getElementById('exportCSVOLAP').submit();
 
     
     

@@ -111,22 +111,57 @@ String option=(String)request.getParameter("option");
                         var response2_2 = [["Country Code", "Country_", "Element Code", "Element_", "Item Code",
                                 "Item_", "Year", "Unit", "Value", "Flag", "Flag Description", "Var1Order", "Var2Order", "Var3Order", "Var4Order"]];
 
-                        response_1 = response2_2.concat(response_1);
-                        ;
-                        console.log("response_1.length");
-                        console.log(response_1);
-
+var mesOptionsPivot = <%=json%>;
+if(mesOptionsPivot.domain=='TM' || mesOptionsPivot.domain=='FTP' ){ 
+    
+         response2_2 = [["NoRecords","RecordOrder","Domain Code","Domain","Reporter Country Code","Reporter Countries",
+                 "Partner Country Code","Partner Countries","Element Code","Element","Item Code","Item_","Year Code","Year","Unit","Value","Flag","Flag Description","Var1Order","Var2Order","Var3Order","Var4Order","Var5Order"]];
+         mesOptionsPivot.rows=["Reporter Countries", "Reporter Country Code","Partner Countries","Partner Country Code","Element","Element Code","Item","Item Code"]    ;    
+     mesOptionsPivot.cols=["Year"];
+        FAOSTATOLAP2.options.derivedAttributes= {
+/*
+"Reporter":function(mp) 
+{if(F3DWLD.CONFIG.wdsPayload.showCodes)
+{return "<table class=\"innerCol\"><th>"+mp["Reporter Countries_"]+"</th><th>"+mp["Reporter Country Code"]+"</th></table>";}
+else{return mp["Reporter Countries"];}},
+    "Partner":function(mp) 
+{if(F3DWLD.CONFIG.wdsPayload.showCodes)
+{return "<table class=\"innerCol\"><th>"+mp["Partner Countries_"]+"</th><th>"+mp["Partner Country Code"]+"</th></table>";}
+else{return mp["Partner Countries"];}},
+"Element":function(mp) 
+{if(F3DWLD.CONFIG.wdsPayload.showCodes)
+{return "<table  class=\"innerCol\"><th>"+mp["Element_"]+"</th><th>"+mp["Element Code"]+"</th></table>";}
+else{return mp["Element"];}},
+"Item":function(mp) 
+{if(F3DWLD.CONFIG.wdsPayload.showCodes)
+{return "<table  class=\"innerCol\"><th>"+mp["Item_"]+"</th><th>"+mp["Item Code"]+"</th></table>";}
+else{return mp["Item"];}}*/
+/*
+"Continent": function(mp) {
+try{return "User selection in "+countryAgg[mp["AreaCode"]][1] ;}
+catch(er){return "_"+mp["AreaName"]+"++"}
+},
+"SubContinent":function(mp) {
+try{return "User selection in "+countryAgg[mp["AreaCode"]][2] ;}
+catch(er){return "_"+mp["AreaName"]+"++";}
+}*/
+ };
+    }
+else{ }
+                       
+           response_1 = response2_2.concat(response_1);            
                         /* if(response_1.length==FAOSTATNEWOLAP.pivotlimit) 
                          {console.log('preview limit reach, please go to the bulkdownload section to get all the data')}
                          */
-                        var response2TM = [["Domain", "ReporterCode", "ReporterName", "PartnerCode", "PartnerName", "ItemCode", "ItemName", "ElementCode", "ElementName", "Year", "Unit", "Flag", "Value"]];
-                        var mesOptionsPivot = <%=json%>;
+                         
                         mesOptionsPivot.derivedAttributes = FAOSTATOLAP2.options.derivedAttributes
                         //FAOSTATNEWOLAP.originalData = response_1;
 //							$("#testinline").pivotUI(response_1,mesOptionsPivot ,true);
                         /*var derivers = $.pivotUtilities.derivers;
                          var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.gchart_renderers);
                          */
+                         console.log(mesOptionsPivot);
+                          console.log(response_1);
                         $("#testinline").pivotUI(response_1, mesOptionsPivot, true);
 
                         $("#options_menu_box").css("display", "block");
@@ -145,7 +180,7 @@ String option=(String)request.getParameter("option");
                             data = data.replace("localhost:8080/", "faostat3.fao.org/");
                             $("#testinline").append(data);
                             decolrowspanNEW();
-                            window.close();
+                           // window.close();
                         });
 
 
@@ -156,7 +191,7 @@ String option=(String)request.getParameter("option");
         <title>export Page</title>
     </head>
     <body onload="javascript:init();">
-
-        <div id="testinline" style="display:none"></div>
+<center><img src="/faostat-download-js/pivotAgg/Preload.gif" /></center>
+        <div id="testinline" style="display:block"></div>
     </body>
 </html>
