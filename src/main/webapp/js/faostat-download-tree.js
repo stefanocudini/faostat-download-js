@@ -165,11 +165,13 @@ if (!window.FAOSTATDownloadTree) {
              * FAOSTAT 3 NOTES
              */
             $('#listArea').load(FAOSTATDownload.prefix + 'notes/' + domainCode + '/Description_' + lang + '.html', function () {
+               
                 FAOSTATDownload.showDownloadOptionsAndButtons(false);
-				document.getElementById('testinline').className="invi";
+		document.getElementById('testinline').className="invi";
                 FAOSTATDownloadTree.innerLinks();
 
                 $('#mainTD').hide();
+                $('#listArea0').empty();
                 $('#OLAPTD').show();
 
             });
@@ -356,15 +358,16 @@ if (!window.FAOSTATDownloadTree) {
                     $('#OLAP_IFRAME').css('display', 'none');
                     try {
                         document.getElementById('listArea').innerHTML = "";
+                         document.getElementById('listArea0').innerHTML = "";
                         document.getElementById('output_area').innerHTML = "";
- 			            document.getElementById('testinline').innerHTML = "";
+ 			document.getElementById('testinline').innerHTML = "";
                         $("#domainNameTitle").remove();
                         $("#bulkDownloadsList").remove();
                         $("#break").remove();
-                        $("#listArea").append("<div id='domainNameTitle' class='standard-title'>" + response[1][1] + " (" + response[1][4].substring(0, 10) + ")</div>");
-			            $("#listArea").append("<hr class='standard-hr'>");
+                        $("#listArea0").append("<div id='domainNameTitle' class='standard-title'>" + response[1][1] + " (" + response[1][4].substring(0, 10) + ")</div>");
+			$("#listArea0").append("<hr class='standard-hr'>");
                         var s = FAOSTATDownloadTree.createList(response);
-                        $("#listArea").append(s);
+                        $("#listArea0").append(s);
                     } catch (err) {
                         FAOSTATDownloadTree.loadDownloadNotes(item.value);
                     }
