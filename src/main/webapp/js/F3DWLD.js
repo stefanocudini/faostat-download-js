@@ -1195,7 +1195,15 @@ var F3DWLD = (function() {
         var s = ''; 
         s += '<div>'; 
         s += '<div class="standard-title">' + $.i18n.prop('_filters') + ' / <a href="' + metadataURL + '">' + parent + ' </a> / <a>' + item.label + '</a>';
-        if( F3DWLD.CONFIG.domainCode==="FBS")
+      
+        s+='</div>'; 
+        s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;">'; 
+        s += '</div>'; 
+        s += '</div>'; 
+        s += '<hr class="standard-hr">'; 
+          document.getElementById('listArea0').innerHTML = s; 
+        var s='';
+          if( F3DWLD.CONFIG.domainCode==="FBS")
         {
              s+=' <div class="search-categories">'+
 		' <span class="search-categories-label" '+
@@ -1209,11 +1217,6 @@ var F3DWLD = (function() {
                  '</div>';
             
         }
-        s+='</div>'; 
-        s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;">'; 
-        s += '</div>'; 
-        s += '</div>'; 
-        s += '<hr class="standard-hr">'; 
         var columns = []; 
         for (var i = 0 ; i < Object.keys(F3DWLD.CONFIG.dsd).length ; i++) { 
             columns.push(F3DWLD.CONFIG.dsd[Object.keys(F3DWLD.CONFIG.dsd)[i]]); 
@@ -1229,6 +1232,7 @@ var F3DWLD = (function() {
         s += buildOptionsMenu(); 
         s += buildOutputArea(); 
         document.getElementById('listArea').innerHTML = s; 
+       // document.getElementById('listArea2').innerHTML = s; 
         enhanceUIStructure(); 
     }; 
 

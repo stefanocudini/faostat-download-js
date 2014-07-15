@@ -123,8 +123,8 @@ if (!window.FAOSTATDownload) {
           
             $('#mainTD').show();
             $('#OLAPTD').hide();
-$('#output_area').show()
-            if (true || navigator.appVersion.indexOf("MSIE 7.") == -1  ){
+$('#output_area').show();
+         //   if (true || navigator.appVersion.indexOf("MSIE 7.") == -1  ){
                 $.ajax({
                     type: 'GET',
                     url: FAOSTATDownload.prefix + 'FBSN.html',
@@ -143,13 +143,13 @@ $('#output_area').show()
                     },
                     error : function(err,b,c) {alert(err.status + ", " + b + ", " + c);}
                 });
-            }
+          /*  }
             else{
                 document.getElementById('OLAPTD').className="invi";
                 document.getElementById('trWizardMode').className="invi";
                 document.getElementById('mainTD').className="visi2";
                 document.getElementById('mainTD').innerHTML = "<iframe src=\""+FAOSTATDownload.prefix + "FBS.html\" width=\"800\" height=\"600\"/>" ;
-            }
+            }*/
            
         },
         bulkDownload : function() {
@@ -160,8 +160,8 @@ $('#output_area').show()
             // item.value = FAOSTATDownload.selectedDomainCode;
             item.value = (FAOSTATDownload.domainCode == 'null') ? FAOSTATDownload.groupCode : FAOSTATDownload.domainCode;
 //            if (FAOSTATDownload.domainCode == 'null' || FAOSTATDownload.domainCode == '*' || FAOSTATDownload.domainCode == null || FAOSTATDownload.domainCode == 'FB')
-            if (FAOSTATDownload.domainCode == 'FB')
-              item.value = 'FB';
+            if (FAOSTATDownload.domainCode == 'FBS')
+              item.value = 'FBS';
             FAOSTATDownloadTree.showBulkDownloads(item);
             CPI.removeCPITableNotes();
         },
