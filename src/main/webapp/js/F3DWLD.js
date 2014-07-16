@@ -1207,9 +1207,9 @@ var F3DWLD = (function() {
         }
         s+='</div>'; 
         s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;"></div>';
-        s += '<div id="reporting-tables-menu" style="position: absolute; right: 0; top: 0;"></div>';
         s += '</div>';
-        s += '<hr class="standard-hr">'; 
+        s += '<hr class="standard-hr">';
+        s += '<div id="reporting-tables-menu" ></div>';
         var columns = []; 
         for (var i = 0 ; i < Object.keys(F3DWLD.CONFIG.dsd).length ; i++) { 
             columns.push(F3DWLD.CONFIG.dsd[Object.keys(F3DWLD.CONFIG.dsd)[i]]); 
