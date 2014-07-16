@@ -1779,11 +1779,12 @@ var F3DWLD = (function() {
 
     function showReportingTables() {
 
-        if (FAOSTATDownload.groupCode == 'G1' || FAOSTATDownload.groupCode == 'G2') {
+        if ((FAOSTATDownload.groupCode == 'G1' && FAOSTATDownload.domainCode == 'GT') ||
+            (FAOSTATDownload.groupCode == 'G2' && FAOSTATDownload.domainCode == 'GL')) {
 
             var s = '';
             s += '<ul><li id="reporting-tables-root" class="reporting-tables-mainbtn"><i class="fa fa-table"></i> ' + $.i18n.prop('_reporting_tables_label') + ' <i class="fa fa-caret-down"></i><ul>';
-            s += '<li><a onclick="F3DWLD.showIPCC(\'1996\');">IPCC 1996</a></li>';
+            s += '<li><a onclick="F3DWLD.showIPCC(\'1996\');">IPCC 1996 + GPG 2003</a></li>';
             s += '<li><a onclick="F3DWLD.showIPCC(\'2006\');">IPCC 2006</a></li>';
             s += '</ul></li></ul>';
             document.getElementById('reporting-tables-menu').innerHTML = s;
