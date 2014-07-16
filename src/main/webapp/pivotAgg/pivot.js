@@ -200,7 +200,7 @@ selectFinal = "EXECUTE Warehouse.dbo.usp_GetData " +
     mesOptionsPivot.rows = FAOSTATNEWOLAP.internalData.rowAttrs;
     mesOptionsPivot.cols = FAOSTATNEWOLAP.internalData.colAttrs;}
     mesOptionsPivot.vals = ["Value"];
-        mesOptionsPivot.domain = F3DWLD.CONFIG.domainCode;
+    mesOptionsPivot.domain = F3DWLD.CONFIG.domainCode;
     if (F3DWLD.CONFIG.wdsPayload.showUnits)
     {
         mesOptionsPivot.vals.push("Unit")
