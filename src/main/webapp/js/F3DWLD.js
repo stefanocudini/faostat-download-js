@@ -1784,7 +1784,7 @@ var F3DWLD = (function() {
 
             var s = '';
             s += '<ul><li id="reporting-tables-root" class="reporting-tables-mainbtn"><i class="fa fa-table"></i> ' + $.i18n.prop('_reporting_tables_label') + ' <i class="fa fa-caret-down"></i><ul>';
-            s += '<li><a onclick="F3DWLD.showIPCC(\'1996\');">IPCC 1996 + GPG 2003</a></li>';
+            s += '<li><a onclick="F3DWLD.showIPCC(\'1996\');">IPCC 1996 + GPG</a></li>';
             s += '<li><a onclick="F3DWLD.showIPCC(\'2006\');">IPCC 2006</a></li>';
             s += '</ul></li></ul>';
             document.getElementById('reporting-tables-menu').innerHTML = s;
@@ -2535,7 +2535,11 @@ if(buffer.length>0 && ( buffer[0].code=="-1" ||buffer[0].code==-1 ))
     }
 
     function html2excel(id) {
-        $('#data').val($('#' + id).html());
+        var payload = $('#' + id).html();
+        $('#data').val(payload);
+        if (id == 'ipcc_download_table_1') {
+
+        }
         document.ipcc_form.submit();
     }
 
