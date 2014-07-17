@@ -1470,7 +1470,7 @@ var F3DWLD = (function() {
             document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview');
             $("#btnFS").show();
             $("#nested_by").show();
-            FAOSTATNEWOLAP.firstCall = 0;
+           
             $('#output_area').css("min-height", "0px");
             $('#testinline').css("display", "block");
             validateSelection('preview pivot');
@@ -1677,7 +1677,7 @@ var F3DWLD = (function() {
             height: 25,
             checked: true
         });
-        console.log('ok2 ' +FAOSTATNEWOLAP.firstCall)
+       
         $('#codes_menu').jqxCheckBox({width: 120, height: 25});
         $('#units_menu').jqxCheckBox({width: 120, height: 25, checked: true});
         $('#nested_by').jqxCheckBox({width: 120, height: 25, checked: false});
@@ -1691,7 +1691,7 @@ var F3DWLD = (function() {
         $('#increment').jqxNumberInput({width: '100%', height: '25px', inputMode: 'simple', spinButtons: true, spinButtonsStep: 1, decimalDigits: 0, decimal: 2});
         F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
         F3DWLD.CONFIG.wdsPayload.thousandSeparator = '';
-          console.log('ok2 ' +FAOSTATNEWOLAP.firstCall)
+         
         $('#dot_menu').bind('change', function(event) {
             if (event.args.checked) {
                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';

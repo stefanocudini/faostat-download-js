@@ -9,7 +9,8 @@ String option=(String)request.getParameter("option");
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery/1.9.1/jquery-1.9.1.min.js'></script>
         <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery/1.0.9/jquery.i18n.properties-min.js'></script>
         <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery-ui/1.10.3/jquery-ui-1.10.3.custom.min.js'></script>
@@ -266,9 +267,12 @@ if(!mesOptionsPivot.cols||mesOptionsPivot.cols==null ){mesOptionsPivot.cols=FAOS
                         $.get("http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/" + F3DWLD.CONFIG.lang + "/" + newFlag, function(data) {
                             data = data.replace("localhost:8080/", "faostat3.fao.org/");
                             $("#testinline").append(data);
-                            decolrowspanNEW();
+                           
+                        }).always(function() {
+						
+							decolrowspanNEW();
                           setTimeout(function(){window.close()}, 3000);
-                        });
+  });
 
 
                     }
@@ -281,5 +285,8 @@ if(!mesOptionsPivot.cols||mesOptionsPivot.cols==null ){mesOptionsPivot.cols=FAOS
     <body onload="javascript:init();">
 <center><img src="/faostat-download-js/pivotAgg/Preload.gif" /></center>
         <div id="testinline" style="display:none"></div>
+        <form id="csvDataForm" action="/faostat-download-js/pivotAgg/json.jsp" method="POST">
+ <input id="csvData" type="hidden" name="data" value=""></input>
+</form>
     </body>
 </html>

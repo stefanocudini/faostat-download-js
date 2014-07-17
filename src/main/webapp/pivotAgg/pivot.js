@@ -391,6 +391,7 @@ selectFinal = "EXECUTE Warehouse.dbo.usp_GetData " +
             response_1 = response2_2.concat(response_1);
              console.log("response_1.length");
             console.log(response_1);
+             FAOSTATNEWOLAP.firstCall = 0;
             /*for(i in response_1){
              if(Array.isArray(response_1[i])){response2_2.push(response_1[i]);}
              }
@@ -1069,7 +1070,7 @@ function decolrowspanNEW()
         ret += "\n";
     }
 
-    var testtd = document.getElementById("hor-minimalist-b").getElementsByTagName('td');
+   try{ var testtd = document.getElementById("hor-minimalist-b").getElementsByTagName('td');
     j = 0;
     for (i = 0; i < testtd.length; i++) {
         if (j == 0) {
@@ -1082,13 +1083,14 @@ function decolrowspanNEW()
         }
         ret += testtd[i].innerHTML;
     }
+}catch(e){console.log("WS getFlag not available")}
     ret += "\n\nFAOSTAT " + today.getFullYear() + ", Date : " + today.toLocaleDateString() + "\n";
 //ret=utf8_encode(ret);
     var link = document.createElement("a");
 
     if (link.download !== undefined) { // feature detection
         // Browsers that support HTML5 download attribute
-        var blob = new Blob([ret], {type: 'text/csv;charset=UTF-8;'});
+        var blob = new Blob(["\ufeff",ret], {type: 'text/csv;charset=UTF-8;'});
         var url = URL.createObjectURL(blob);
         link.setAttribute("href", url);
         link.setAttribute("download", "fileName.csv");
@@ -1097,7 +1099,7 @@ function decolrowspanNEW()
 else
     if (navigator.msSaveBlob) { // IE 10+
         link.addEventListener("click", function(event) {
-            var blob = new Blob([ret], {
+            var blob = new Blob(["\ufeff",ret], {
                 "type": "text/csv;charset=UTF-8;"
             });
             navigator.msSaveBlob(blob, "fileName.csv");
