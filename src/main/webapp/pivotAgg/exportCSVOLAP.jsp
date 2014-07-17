@@ -267,7 +267,7 @@ if(!mesOptionsPivot.cols||mesOptionsPivot.cols==null ){mesOptionsPivot.cols=FAOS
                             data = data.replace("localhost:8080/", "faostat3.fao.org/");
                             $("#testinline").append(data);
                             decolrowspanNEW();
-                           //setTimeout(function(){window.close()}, 3000);
+                          setTimeout(function(){window.close()}, 3000);
                         });
 
 
@@ -280,6 +280,6 @@ if(!mesOptionsPivot.cols||mesOptionsPivot.cols==null ){mesOptionsPivot.cols=FAOS
     </head>
     <body onload="javascript:init();">
 <center><img src="/faostat-download-js/pivotAgg/Preload.gif" /></center>
-        <div id="testinline" style="display:block"></div>
+        <div id="testinline" style="display:none"></div>
     </body>
 </html>
