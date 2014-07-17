@@ -174,7 +174,8 @@ if (!window.FAOSTATDownloadTree) {
                 $('#listArea0').empty();
                 $('#testinline').empty();
                 $('#OLAPTD').show();
-
+             
+$("#nested_by").hide();
             });
 
             // Upgrade the URL
@@ -362,6 +363,7 @@ if (!window.FAOSTATDownloadTree) {
                          document.getElementById('listArea0').innerHTML = "";
                         document.getElementById('output_area').innerHTML = "";
  			document.getElementById('testinline').innerHTML = "";
+                        
                         $("#domainNameTitle").remove();
                         $("#bulkDownloadsList").remove();
                         $("#break").remove();

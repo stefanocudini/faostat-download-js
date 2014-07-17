@@ -121,11 +121,11 @@ var F3DWLD = (function() {
             document.getElementById('testinline').className = "visi2";
         } catch (err) {
         }
-        if (F3DWLD.CONFIG.groupCode == "D" || F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT")
+     /*   if (F3DWLD.CONFIG.groupCode == "D" || F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT")
         {
             insideFalseClick(refresh, isEx, outputFormat);
         }
-        else {
+        else*/ {
             if (refresh) {
                 var mesOptionsPivot = FAOSTATOLAP2.options;
                 mesOptionsPivot.rows = FAOSTATNEWOLAP.internalData.rowAttrs;
@@ -1224,10 +1224,10 @@ var F3DWLD = (function() {
     }
 
     function buildUIStructure() {
-
         FAOSTATNEWOLAP.firstCall = 1;
         $('#mainTD').hide();
         $('#OLAPTD').show();
+         $('#nested_by').hide();
         var item = $('#jqxTree').jqxTree('getSelectedItem');
         var parent = $('#jqxTree').jqxTree('getItem', $('#' + item.parentId)[0]).label;
         var metadataURL = 'http://' + F3DWLD.CONFIG.baseurl + '/faostat-gateway/go/to/download/' + F3DWLD.CONFIG.groupCode + '/*/' + F3DWLD.CONFIG.lang;
@@ -1272,7 +1272,9 @@ var F3DWLD = (function() {
         s += buildOutputArea();
         document.getElementById('listArea').innerHTML = s;
         // document.getElementById('listArea2').innerHTML = s; 
+        console.log('ok2 ' +FAOSTATNEWOLAP.firstCall)
         enhanceUIStructure();
+        
     }
     ;
 
@@ -1651,8 +1653,8 @@ var F3DWLD = (function() {
             autoCloseOnClick: true,
             clickToOpen: false
         });
-
-        showBulkDownloads();
+       showBulkDownloads();
+       
         $('#options-menu').jqxMenu({
             autoOpen: false,
             showTopLevelArrows: true,
@@ -1662,6 +1664,7 @@ var F3DWLD = (function() {
             clickToOpen: true,
             rtl: true
         });
+        
         $('#options-menu').on('shown', function() {
             document.getElementById('show_hide_options_label').innerHTML = '<i class="fa fa-cogs"></i> ' + $.i18n.prop('_hide_options') + '</span>'
         });
@@ -1674,6 +1677,7 @@ var F3DWLD = (function() {
             height: 25,
             checked: true
         });
+        console.log('ok2 ' +FAOSTATNEWOLAP.firstCall)
         $('#codes_menu').jqxCheckBox({width: 120, height: 25});
         $('#units_menu').jqxCheckBox({width: 120, height: 25, checked: true});
         $('#nested_by').jqxCheckBox({width: 120, height: 25, checked: false});
@@ -1687,6 +1691,7 @@ var F3DWLD = (function() {
         $('#increment').jqxNumberInput({width: '100%', height: '25px', inputMode: 'simple', spinButtons: true, spinButtonsStep: 1, decimalDigits: 0, decimal: 2});
         F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
         F3DWLD.CONFIG.wdsPayload.thousandSeparator = '';
+          console.log('ok2 ' +FAOSTATNEWOLAP.firstCall)
         $('#dot_menu').bind('change', function(event) {
             if (event.args.checked) {
                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
@@ -1716,8 +1721,11 @@ var F3DWLD = (function() {
 
 
             }
-            preview(true, true);
+            if(FAOSTATNEWOLAP.firstCall==0)
+            {preview(true, true);}
+           
         });
+         
         $('#disable_menu').bind('change', function(event) {
 
             if (event.args.checked) {
@@ -1739,7 +1747,8 @@ var F3DWLD = (function() {
                 /* FAOSTATNEWOLAP.decimalSeparator= '.';
                  F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';*/
             }
-            preview(true, true);
+             if(FAOSTATNEWOLAP.firstCall==0)
+            {preview(true, true);}
         });
         F3DWLD.CONFIG.wdsPayload.showFlags = true;
         F3DWLD.CONFIG.wdsPayload.showCodes = false;
@@ -1759,7 +1768,9 @@ var F3DWLD = (function() {
                 F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(11), 1);
                 F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(12), 1);
             }
-            preview(false, true);
+              if(FAOSTATNEWOLAP.firstCall==0)
+            {preview(false, true);}
+           
         });
         $("#codes_menu").bind('change', function(event) {
             var checked = event.args.checked;
@@ -1785,7 +1796,8 @@ var F3DWLD = (function() {
                 F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(6), 1);
                 F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(8), 1);
             }
-            preview(false, true);
+            if(FAOSTATNEWOLAP.firstCall==0)
+            {preview(false, true);}
         });
         $("#units_menu").bind('change', function(event) {
             var checked = event.args.checked;
@@ -1797,7 +1809,8 @@ var F3DWLD = (function() {
                 F3DWLD.CONFIG.header_indices.splice(F3DWLD.CONFIG.header_indices.indexOf(12), 1);
                 F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(9), 1);
             }
-            preview(false, true);
+            if(FAOSTATNEWOLAP.firstCall==0)
+            {preview(false, true);}
         });
         $("#nested_by").bind('change', function(event) {
             var checked = event.args.checked;
@@ -1807,15 +1820,18 @@ var F3DWLD = (function() {
         $("#null_values_menu").bind('change', function(event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showNullValues = checked;
-            preview(false, false);
+            if(FAOSTATNEWOLAP.firstCall==0)
+            {preview(false, false);}
         });
         F3DWLD.CONFIG.wdsPayload.decimalNumbers = 2;
         $('#increment').on('valuechanged', function(event) {
             var value = event.args.value;
             F3DWLD.CONFIG.wdsPayload.decimalNumbers = parseInt(value);
             FAOSTATNEWOLAP.decimal = F3DWLD.CONFIG.wdsPayload.decimalNumbers
-            preview(false, true);
+            if(FAOSTATNEWOLAP.firstCall==0)
+            {preview(false, true);}
         });
+       
         enhanceUITabs();
         enhanceUIOptions();
         enhanceUIButtons();
@@ -1968,6 +1984,7 @@ var F3DWLD = (function() {
 
         $('#output_area').empty();
         $('#testinline').empty();
+         $("#nested_by").hide();
         $('#options_menu_box').css('display', 'none');
         $('#preview_hr').css('display', 'none');
         var values = [];
@@ -2172,7 +2189,7 @@ var F3DWLD = (function() {
 //            } 
             $('#output_area').empty();
             $('#testinline').empty();
-
+ $("#nested_by").hide();
             $('#options_menu_box').css('display', 'none');
             $('#preview_hr').css('display', 'none');
         });
@@ -2471,6 +2488,7 @@ var F3DWLD = (function() {
     ;
 
     function continue_with_table() {
+        console.log('continue with table')
         $('#radio_table').val(true);
         $('#radio_pivot').val(false);
         $('.fs-warning-wrapper').css('display', 'none');

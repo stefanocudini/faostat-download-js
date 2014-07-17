@@ -139,22 +139,22 @@ catch(er){return "_"+mp["CodeItem"].substring(0,6)+"++";}
                  
 derivedAttributes: {
 
-"Reporter_":function(mp) 
+"Reporter":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table class=\"innerCol\"><th>"+mp["Reporter Countries"]+"</th><th>"+mp["Reporter Country Code"]+"</th></table>";}
-else{return mp["Reporter Countries"];}},
-    "Partner_":function(mp) 
+{return "<table class=\"innerCol\"><th>"+mp["ReporterName"]+"</th><th>"+mp["ReporterCode"]+"</th></table>";}
+else{return mp["ReporterName"];}},
+    "Partner":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table class=\"innerCol\"><th>"+mp["Partner Countries"]+"</th><th>"+mp["Partner Country Code"]+"</th></table>";}
-else{return mp["Partner Countries"];}},
-"Element_":function(mp) 
+{return "<table class=\"innerCol\"><th>"+mp["PartnerName"]+"</th><th>"+mp["PartnerCode"]+"</th></table>";}
+else{return mp["PartnerName"];}},
+"Element":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table  class=\"innerCol\"><th>"+mp["Element"]+"</th><th>"+mp["Element Code"]+"</th></table>";}
-else{return mp["Element"];}},
-"Item_":function(mp) 
+{return "<table  class=\"innerCol\"><th>"+mp["ElementName"]+"</th><th>"+mp["ElementCode"]+"</th></table>";}
+else{return mp["ElementName"];}},
+"Item":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table  class=\"innerCol\"><th>"+mp["Item"]+"</th><th>"+mp["Item Code"]+"</th></table>";}
-else{return mp["Item"];}}
+{return "<table  class=\"innerCol\"><th>"+mp["ItemName"]+"</th><th>"+mp["ItemCode"]+"</th></table>";}
+else{return mp["ItemName"];}}
 /*
 "Continent": function(mp) {
 try{return "User selection in "+countryAgg[mp["AreaCode"]][1] ;}
@@ -168,7 +168,7 @@ catch(er){return "_"+mp["AreaName"]+"++";}
  //"Continent","SubContinent"
  //,"Item","Item Code","Country","Country Code","Element","Element Code"
 // hiddenAttributes:["NoRecords","RecordOrder","Domain Code","Domain"],
-	rows:["Reporter_","Partner_","Item_","Element_"],
+	rows:["Reporter","Partner","Item","Element"],
 	cols: ["Year"],
 	vals:["Value","Unit","Flag"],
 	linkedAttributes:[] 

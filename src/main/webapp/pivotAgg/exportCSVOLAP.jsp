@@ -9,13 +9,16 @@ String option=(String)request.getParameter("option");
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+        <meta http-equiv="Content-Type" content="text/html; text/html; charset=UTF-8">
         <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery/1.9.1/jquery-1.9.1.min.js'></script>
         <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery/1.0.9/jquery.i18n.properties-min.js'></script>
         <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery-ui/1.10.3/jquery-ui-1.10.3.custom.min.js'></script>
-
-        <script type='text/javascript' src='/faostat-download-js/pivotAgg/countriesAgg.js'></script>
+<!--script src="/faostat-download-js/js/I18N.js"></script-->
+<script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery/1.0.9/jquery.i18n.properties-min.js'></script>
+<script type='text/javascript' src='/faostat-download-js/pivotAgg/countriesAgg.js'></script>
         <script type='text/javascript'>
+            FAOSTATDownload={};
+           
 
             FAOSTATOLAP2 = {};
             FAOSTATOLAP2.displayOption =
@@ -71,36 +74,27 @@ String option=(String)request.getParameter("option");
                  
 derivedAttributes: {
 
-"Reporter Countries":function(mp) 
+"Reporter":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table class=\"innerCol\"><th>"+mp["Reporter Countries_"]+"</th><th>"+mp["Reporter Country Code"]+"</th></table>";}
-else{return mp["Reporter Countries_"];}},
-    "Partner Countries":function(mp) 
+{return "<table class=\"innerCol\"><th>"+mp["ReporterName"]+"</th><th>"+mp["ReporterCode"]+"</th></table>";}
+else{return mp["ReporterName"];}},
+    "Partner":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table class=\"innerCol\"><th>"+mp["Partner Countries_"]+"</th><th>"+mp["Partner Country Code"]+"</th></table>";}
-else{return mp["Partner Countries_"];}},
+{return "<table class=\"innerCol\"><th>"+mp["PartnerName"]+"</th><th>"+mp["PartnerCode"]+"</th></table>";}
+else{return mp["PartnerName"];}},
 "Element":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table  class=\"innerCol\"><th>"+mp["Element_"]+"</th><th>"+mp["Element Code"]+"</th></table>";}
-else{return mp["Element_"];}},
+{return "<table  class=\"innerCol\"><th>"+mp["ElementName"]+"</th><th>"+mp["ElementCode"]+"</th></table>";}
+else{return mp["ElementName"];}},
 "Item":function(mp) 
 {if(F3DWLD.CONFIG.wdsPayload.showCodes)
-{return "<table  class=\"innerCol\"><th>"+mp["Item_"]+"</th><th>"+mp["Item Code"]+"</th></table>";}
-else{return mp["Item_"];}}
-/*
-"Continent": function(mp) {
-try{return "User selection in "+countryAgg[mp["AreaCode"]][1] ;}
-catch(er){return "_"+mp["AreaName"]+"++"}
-},
-"SubContinent":function(mp) {
-try{return "User selection in "+countryAgg[mp["AreaCode"]][2] ;}
-catch(er){return "_"+mp["AreaName"]+"++";}
-}*/
+{return "<table  class=\"innerCol\"><th>"+mp["ItemName"]+"</th><th>"+mp["ItemCode"]+"</th></table>";}
+else{return mp["ItemName"];}}
  },
  //"Continent","SubContinent"
  //,"Item","Item Code","Country","Country Code","Element","Element Code"
 // hiddenAttributes:["NoRecords","RecordOrder","Domain Code","Domain"],
-	rows:["Reporter Countries","Partner Countries","Item","Element"],
+	rows:["Reporter","Partner","Item","Element"],
 	cols: ["Year"],
 	vals:["Value","Unit","Flag"],
 	linkedAttributes:[] 
@@ -126,6 +120,8 @@ catch(er){return "_"+mp["AreaName"]+"++";}
 
 
         <script>
+            
+           
               var opt=<%=option%>;
               FAOSTATNEWOLAP.decimal=opt.decimal;
                FAOSTATNEWOLAP.thousandSeparator=opt.thousandSeparator;
@@ -133,6 +129,7 @@ catch(er){return "_"+mp["AreaName"]+"++";}
                 FAOSTATNEWOLAP.showUnits=opt.showUnits;
                FAOSTATNEWOLAP.showCodes=opt.showCodes;
                 FAOSTATNEWOLAP.showFlags=opt.showFlags;
+               var mesOptionsPivot = <%=json%>;
             function init()
             {
                 var test2 = {
@@ -157,13 +154,81 @@ catch(er){return "_"+mp["AreaName"]+"++";}
                         var response2_2 = [["Country Code", "Country_", "Element Code", "Element_", "Item Code",
                                 "Item_", "Year", "Unit", "Value", "Flag", "Flag Description", "Var1Order", "Var2Order", "Var3Order", "Var4Order"]];
 
-var mesOptionsPivot = <%=json%>;
+
+
+  $.i18n.properties({ 
+                name        :  'I18N', 
+                path        :  F3DWLD.CONFIG.prefix + 'I18N/', 
+                mode        :  'both', 
+                language    :   mesOptionsPivot.lang 
+            });
 mesOptionsPivot.derivedAttributes = FAOSTATOLAP2.options.derivedAttributes;
-if(mesOptionsPivot.domain=='TM' || mesOptionsPivot.domain=='FT' ){ 
-      response2_2 = [["NoRecords","RecordOrder","Domain Code","Domain","Reporter Country Code","Reporter Countries_",
-                 "Partner Country Code","Partner Countries_","Element Code","Element_","Item Code","Item_",
-                 "Year Code","Year","Unit","Value","Flag","Flag Description","Var1Order","Var2Order","Var3Order",
-                 "Var4Order","Var5Order"]];
+if(!mesOptionsPivot.rows){mesOptionsPivot.rows=FAOSTATOLAP2.options.rows;}
+if(!mesOptionsPivot.cols){mesOptionsPivot.cols=FAOSTATOLAP2.options.cols;}
+if(mesOptionsPivot.domain=='TM' || mesOptionsPivot.domain=='FT' ){
+   
+      response2_2 = [["n1","n2",
+                    "Domain", "DomainName",
+                    "ReporterCode", "ReporterName", 
+                    "PartnerCode", "PartnerName",
+                    "ItemCode", "ItemName",
+                    "ElementCode", "ElementName",
+                    "Year","YearCode" ,
+                    "Unit", "Value", "Flag","FlagD","Var1Order","Var2Order","Var3Order","Var4Order","Var5Order"]];
+            
+            if(!mesOptionsPivot.rows ||mesOptionsPivot.rows==null ){mesOptionsPivot.rows=FAOSTATOLAP2.optionsTM.rows;}
+if(!mesOptionsPivot.cols||mesOptionsPivot.cols==null ){mesOptionsPivot.cols=FAOSTATOLAP2.optionsTM.cols;}
+            
+      /*   if(mesOptionsPivot.lang=="fr"){response2_2 = [ [
+        "NoRecords",
+        "RecordOrder",
+        "Code Domaine",
+        "Domaine",
+        "Code Pays Déclarant",
+        "Pays Déclarants",
+        "Code Pays Partenaire",
+        "Pays Partenaires",
+        "Code Élément",
+        "Élément",
+        "Code Produit",
+        "Produit",
+        "Code Année",
+        "Année",
+        "Unité",
+        "Valeur",
+        "Symbole",
+        "Description du Symbole",
+        "Var1Order",
+        "Var2Order",
+        "Var3Order",
+        "Var4Order",
+        "Var5Order"
+    ]];}
+     else if(mesOptionsPivot.lang=="es"){response2_2 = [ [
+        "NoRecords",
+        "RecordOrder",
+        "Código Ámbito",
+        "Ámbito",
+        "Código País Declarant",
+        "Países Declarantes",
+        "Código País Socio",
+        "Países Socios",
+        "Código Elemento",
+        "Elemento",
+        "Código Producto",
+        "Producto",
+        "Código Año",
+        "Año",
+        "Unidad",
+        "Valor",
+        "Símbolo",
+        "Descripción del Símbolo",
+        "Var1Order",
+        "Var2Order",
+        "Var3Order",
+        "Var4Order",
+        "Var5Order"
+    ]];}*/
          
         mesOptionsPivot.derivedAttributes = FAOSTATOLAP2.optionsTM.derivedAttributes;
     }
@@ -202,13 +267,14 @@ if(mesOptionsPivot.domain=='TM' || mesOptionsPivot.domain=='FT' ){
                             data = data.replace("localhost:8080/", "faostat3.fao.org/");
                             $("#testinline").append(data);
                             decolrowspanNEW();
-                           // window.close();
+                           //setTimeout(function(){window.close()}, 3000);
                         });
 
 
                     }
                 });
             }
+           
         </script>
         <title>export Page</title>
     </head>
