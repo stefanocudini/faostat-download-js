@@ -1933,18 +1933,20 @@ var F3DWLD = (function() {
 
         var values = [];
         clearAllForSummary(gridID);
-        /* var tmp = {}; 
+       
+if (F3DWLD.CONFIG.groupCode == "D" || F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT")
+{$('#' + gridID + '_select').find('option').each(function(k, v) { 
+         var tmp = {}; 
          tmp.code = $(v).data('faostat'); 
          tmp.label = $(v).data('label'); 
          tmp.type = $(v).data('type'); 
          tmp.tab = $(v).data('tab'); 
-         tmp.listbox = -1; 
+         tmp.listbox = $(v).data('listbox'); 
          values.push(tmp); 
-         */
-
-        var tmp = {};
+         }); }
+else{ var tmp = {};
         $('#' + gridID + '_select').find('option').each(function(k, v) {
-            // var tmp = {}; 
+           
             tmp.code = "-1";
             tmp.label = $(v).data('label');
             tmp.type = $(v).data('type');
@@ -1954,6 +1956,8 @@ var F3DWLD = (function() {
 
         });
         values.push(tmp);
+    }
+       
         /*  $('#' + gridID + '_select').find('option').each(function(k, v) { 
          var tmp = {}; 
          tmp.code = $(v).data('faostat'); 
