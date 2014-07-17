@@ -1401,10 +1401,10 @@ var F3DWLD = (function() {
                 STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
             }
         } catch (lines) {
-            $('.fs-warning-wrapper').css('display', 'block');
-            $('#close-fs-warning').bind('click', function () {
-                $('.fs-warning-wrapper').css('display', 'none');
-            });
+//            $('.fs-warning-wrapper').css('display', 'block');
+//            $('#close-fs-warning').bind('click', function () {
+//                $('.fs-warning-wrapper').css('display', 'none');
+//            });
         }
     }
 
