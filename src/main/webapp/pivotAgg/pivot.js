@@ -3292,6 +3292,7 @@ var internalTest;
      */
     $.fn.barchart = function() {
         var barcharter, i, numCols, numRows, _ref;
+        console.log(this.data("dimensions"));
         _ref = this.data("dimensions"), numRows = _ref[0], numCols = _ref[1];
         barcharter = __bind(function(scope) {
             var forEachCell, max, scaler, values;
