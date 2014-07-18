@@ -730,22 +730,41 @@ var F3DWLD = (function() {
                         var data = {}; 
                         data.payload = JSON.stringify(p);
 
+                        var selectFinalExcel = null;
+                        if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
+                            selectFinalExcel = "EXECUTE Warehouse.dbo.usp_GetData " +
+                                " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
+                                " @lang = '" + F3DWLD.CONFIG.lang + "',  " +
+                                " @List1Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[0], "''") + ")', " +
+                                "  @List2Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[1], "''") + ")',  " +
+                                " @List3Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[2], "''") + ")', " +
+                                "  @List4Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[3], "") + ")', " +
+                                "  @List5Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[4], "") + ")', " +
+                                "   @List6Codes = '',  " +
+                                "   @List7Codes = '',  " +
+                                "   @NullValues = 0,  " +
+                                "   @Thousand = '" + F3DWLD.CONFIG.wdsPayload.thousandSeparator + "',  " +
+                                "   @Decimal = '" + F3DWLD.CONFIG.wdsPayload.decimalSeparator + "',  " +
+                                "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers + " , " +
+                                "  @Limit =" + 0;
+                        } else {
+                            selectFinalExcel = "EXECUTE Warehouse.dbo.usp_GetDataTEST " +
+                                " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
+                                " @lang = '" + F3DWLD.CONFIG.lang + "',  " +
+                                " @List1Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[0], "''") + ")', " +
+                                "  @List2Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[1], "''") + ")',  " +
+                                " @List3Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[2], "''") + ")', " +
+                                "  @List4Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[3], "") + ")', " +
+                                "   @List5Codes = '',  " +
+                                "   @List6Codes = '',  " +
+                                "   @List7Codes = '',  " +
+                                "   @NullValues = 0,  " +
+                                "   @Thousand = '" + F3DWLD.CONFIG.wdsPayload.thousandSeparator + "',  " +
+                                "   @Decimal = '" + F3DWLD.CONFIG.wdsPayload.decimalSeparator + "',  " +
+                                "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers + " , " +
+                                "  @Limit =" + 0;
+                        }
 
-                        var selectFinalExcel = "EXECUTE Warehouse.dbo.usp_GetDataTEST " +
-                            " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
-                            " @lang = '" + F3DWLD.CONFIG.lang + "',  " +
-                            " @List1Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[0], "''") + ")', " +
-                            "  @List2Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[1], "''") + ")',  " +
-                            " @List3Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[2], "''") + ")', " +
-                            "  @List4Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[3], "") + ")', " +
-                            "   @List5Codes = '',  " +
-                            "   @List6Codes = '',  " +
-                            "   @List7Codes = '',  " +
-                            "   @NullValues = 0,  " +
-                            "   @Thousand = '" + F3DWLD.CONFIG.wdsPayload.thousandSeparator + "',  " +
-                            "   @Decimal = '" + F3DWLD.CONFIG.wdsPayload.decimalSeparator + "',  " +
-                            "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers + " , " +
-                            "  @Limit =" + 0;
                         
                         
                         switch (outputFormat) { 
@@ -770,93 +789,125 @@ var F3DWLD = (function() {
                     } else {
 
                         $('#output_area').empty(); 
-                        $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>'); 
+                        $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>');
 
-                        
-                        
-                        var selectFinal="EXECUTE Warehouse.dbo.usp_GetDataTEST "+
-" @DomainCode = '"+F3DWLD.CONFIG.domainCode+"',  "+
-" @lang = '"+F3DWLD.CONFIG.lang+"',  "+
-" @List1Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[0],"''")+")', "+
-"  @List2Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[1],"''")+")',  "+
-" @List3Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[2],"''")+")', "+
-"  @List4Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[3],"")+")', "+
-"   @List5Codes = '',  "+
-"   @List6Codes = '',  "+
-"   @List7Codes = '',  "+
-"   @NullValues = 0,  "+
-"   @Thousand = '"+F3DWLD.CONFIG.wdsPayload.thousandSeparator+"',  "+
-"   @Decimal = '"+F3DWLD.CONFIG.wdsPayload.decimalSeparator+"',  "+
-"   @DecPlaces = "+F3DWLD.CONFIG.wdsPayload.decimalNumbers+" , "+
-"  @Limit ="+ 50 ;
- var myPayload={
-     datasource:F3DWLD.CONFIG.datasource,
-             thousandSeparator:',',
-             decimalSeparator:'.',
-             decimalNumbers:'2',
-             json:JSON.stringify(
-             {"limit":null,
-         "query":selectFinal,
-         "frequency":"NONE"}),
-             cssFilename:'',
-             valueIndex:5};
- 
- 
- if(F3DWLD.CONFIG.groupCode=="D" || F3DWLD.CONFIG.domainCode=="TM" || F3DWLD.CONFIG.domainCode=="FT"){ 
-     $.ajax({ 
 
-                            type: 'POST', 
-                            url: F3DWLD.CONFIG.procedures_data_url, 
-                            data: data, 
+                        var selectFinal = null;
+                        if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
+                            selectFinal = "EXECUTE Warehouse.dbo.usp_GetDataTEST " +
+                                " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
+                                " @lang = '" + F3DWLD.CONFIG.lang + "',  " +
+                                " @List1Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[0], "''") + ")', " +
+                                "  @List2Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[1], "''") + ")',  " +
+                                " @List3Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[2], "''") + ")', " +
+                                "  @List4Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[3], "") + ")', " +
+                                "   @List5Codes = '',  " +
+                                "   @List6Codes = '',  " +
+                                "   @List7Codes = '',  " +
+                                "   @NullValues = 0,  " +
+                                "   @Thousand = '" + F3DWLD.CONFIG.wdsPayload.thousandSeparator + "',  " +
+                                "   @Decimal = '" + F3DWLD.CONFIG.wdsPayload.decimalSeparator + "',  " +
+                                "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers + " , " +
+                                "  @Limit =" + 50;
+                        } else {
+                            selectFinal = "EXECUTE Warehouse.dbo.usp_GetDataTEST " +
+                                " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
+                                " @lang = '" + F3DWLD.CONFIG.lang + "',  " +
+                                " @List1Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[0], "''") + ")', " +
+                                "  @List2Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[1], "''") + ")',  " +
+                                " @List3Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[2], "''") + ")', " +
+                                "  @List4Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[3], "") + ")', " +
+                                "  @List5Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[4], "") + ")', " +
+                                "   @List6Codes = '',  " +
+                                "   @List7Codes = '',  " +
+                                "   @NullValues = 0,  " +
+                                "   @Thousand = '" + F3DWLD.CONFIG.wdsPayload.thousandSeparator + "',  " +
+                                "   @Decimal = '" + F3DWLD.CONFIG.wdsPayload.decimalSeparator + "',  " +
+                                "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers + " , " +
+                                "  @Limit =" + 50;
+                        }
 
-                            success: function (response) { 
-                                var json = response; 
-                                if (typeof json == 'string') 
-                                    json = $.parseJSON(response); 
-                                console.log(json);
-                                F3DWLD.CONFIG.data = json; 
-                                renderTable(); 
-                            }, 
 
-                            error: function (err, b, c) { 
-                                var json = $.parseJSON(err.responseText.replace('],]', ']]')); 
-                                F3DWLD.CONFIG.data = json; 
-                                renderTable(); 
-                            } 
+                        var myPayload = {
+                            datasource: F3DWLD.CONFIG.datasource,
+                            thousandSeparator: ',',
+                            decimalSeparator: '.',
+                            decimalNumbers: '2',
+                            json: JSON.stringify(
+                                {"limit": null,
+                                    "query": selectFinal,
+                                    "frequency": "NONE"}),
+                            cssFilename: '',
+                            valueIndex: 5};
 
-                        });}
- else{ $.ajax({
-                          type : 'POST',
-                          url:F3DWLD.CONFIG.data_url+"/table/json",
-                          data:myPayload,
-                          success:function(response_1){
-                              var response2_2=[["NoRecords","RecordOrder","Domain Code","Domain","Country Code","Country","Element Code","Element","Item Code",
-                                      "Item","Year Code","Year","Unit","Value","Flag","Flag Description","Var1Order","Var2Order","Var3Order","Var4Order"]];
-                              for(i in response_1){
-                                                            if(Array.isArray(response_1[i])){response2_2.push(response_1[i]);}
-                                                     }
-                               F3DWLD.CONFIG.data = response2_2; 
-                                renderTable(); 
-                          }
-                      }); }
-                                 
-                                    
-                    
+
+                        if (F3DWLD.CONFIG.groupCode == "D" || F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT") {
+
+                            console.log(data);
+
+
+                            $.ajax({
+
+                                type: 'POST',
+                                url: F3DWLD.CONFIG.procedures_data_url,
+                                data: data,
+
+                                success: function (response) {
+                                    var json = response;
+                                    if (typeof json == 'string')
+                                        json = $.parseJSON(response);
+                                    console.log(json);
+                                    F3DWLD.CONFIG.data = json;
+                                    renderTable();
+                                },
+
+                                error: function (err, b, c) {
+                                    var json = $.parseJSON(err.responseText.replace('],]', ']]'));
+                                    F3DWLD.CONFIG.data = json;
+                                    renderTable();
+                                }
+
+                            });
+                        }
+                        else {
+
+                            console.log(myPayload);
+
+                            $.ajax({
+                                type: 'POST',
+                                url: F3DWLD.CONFIG.data_url + "/table/json",
+                                data: myPayload,
+                                success: function (response_1) {
+                                    var response2_2 = [
+                                        ["NoRecords", "RecordOrder", "Domain Code", "Domain", "Country Code", "Country", "Element Code", "Element", "Item Code",
+                                            "Item", "Year Code", "Year", "Unit", "Value", "Flag", "Flag Description", "Var1Order", "Var2Order", "Var3Order", "Var4Order"]
+                                    ];
+                                    for (i in response_1) {
+                                        if (Array.isArray(response_1[i])) {
+                                            response2_2.push(response_1[i]);
+                                        }
+                                    }
+                                    F3DWLD.CONFIG.data = response2_2;
+                                    renderTable();
+                                }
+                            });
+                        }
+
 
                     }
 
-                } 
+                }
                 else {
-                    renderTable(); 
+                    renderTable();
                 }
 
-            }, 
+            },
 
-            error: function (err, b, c) { 
+            error: function (err, b, c) {
 
-            } 
+            }
 
-        }); 
+        });
 
     }; 
 
