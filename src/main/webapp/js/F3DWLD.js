@@ -2,8 +2,8 @@
 var F3DWLD = (function() { 
 
     var CONFIG = { 
-        base_url                :   'http://localhost:8080/faostat-gateway/go/to/download',
-        prefix                  :   'http://localhost:8080/faostat-download-js/',
+        base_url                :   'http://168.202.28.210:8080/faostat-gateway/go/to/download',
+        prefix                  :   'http://168.202.28.210:8080/faostat-download-js/',
         CPINotes_url            :   'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
         ODA_url                 :   'http://faostat3.fao.org/wds/rest/procedures/oda',
         data_url                :   'http://faostat3.fao.org/wds/rest',
@@ -744,8 +744,7 @@ var F3DWLD = (function() {
                                 "   @List7Codes = '',  " +
                                 "   @NullValues = 0,  " +
                                 "   @Thousand = '" + F3DWLD.CONFIG.wdsPayload.thousandSeparator + "',  " +
-                                "   @Decimal = '" + F3DWLD.CONFIG.wdsPayload.decimalSeparator + "',  " +
-                                "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers ;
+                                "   @Decimal = '" + F3DWLD.CONFIG.wdsPayload.decimalSeparator + "',  @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers ;
                         } else {
                             selectFinalExcel = "EXECUTE Warehouse.dbo.usp_GetDataTEST " +
                                 " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
@@ -760,8 +759,7 @@ var F3DWLD = (function() {
                                 "   @NullValues = 0,  " +
                                 "   @Thousand = '" + F3DWLD.CONFIG.wdsPayload.thousandSeparator + "',  " +
                                 "   @Decimal = '" + F3DWLD.CONFIG.wdsPayload.decimalSeparator + "',  " +
-                                "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers + " , " ;
-                                "  @Limit =" + 0;
+                                "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers + " , @Limit =" + 0;
                         }
 
                         
@@ -800,14 +798,14 @@ var F3DWLD = (function() {
                                 "  @List2Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[1], "''") + ")',  " +
                                 " @List3Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[2], "''") + ")', " +
                                 "  @List4Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[3], "") + ")', " +
+                                "  @List5Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[4], "") + ")', " +
                                 "   @List5Codes = '',  " +
                                 "   @List6Codes = '',  " +
                                 "   @List7Codes = '',  " +
                                 "   @NullValues = 0,  " +
                                 "   @Thousand = '" + F3DWLD.CONFIG.wdsPayload.thousandSeparator + "',  " +
                                 "   @Decimal = '" + F3DWLD.CONFIG.wdsPayload.decimalSeparator + "',  " +
-                                "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers + " , " +
-                                "  @Limit =" + 50;
+                                "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers + " , @Limit = " + 50;
                         } else {
                             selectFinal = "EXECUTE Warehouse.dbo.usp_GetDataTEST " +
                                 " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
@@ -816,14 +814,13 @@ var F3DWLD = (function() {
                                 "  @List2Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[1], "''") + ")',  " +
                                 " @List3Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[2], "''") + ")', " +
                                 "  @List4Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[3], "") + ")', " +
-                                "  @List5Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[4], "") + ")', " +
+                                "   @List5Codes = '',  " +
                                 "   @List6Codes = '',  " +
                                 "   @List7Codes = '',  " +
                                 "   @NullValues = 0,  " +
                                 "   @Thousand = '" + F3DWLD.CONFIG.wdsPayload.thousandSeparator + "',  " +
                                 "   @Decimal = '" + F3DWLD.CONFIG.wdsPayload.decimalSeparator + "',  " +
-                                "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers + " , " +
-                                "  @Limit =" + 50;
+                                "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers + " , @Limit =" + 50;
                         }
 
 
