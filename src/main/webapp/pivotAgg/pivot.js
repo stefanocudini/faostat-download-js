@@ -278,7 +278,7 @@ document.getElementById('exportCSVOLAP').submit();
 
 function oldSchool(maLimit, excel)
 {
-    alert('os')
+  
 /*
 var data = {};
                 data.datasource = F3DWLD.CONFIG.datasource;
