@@ -128,6 +128,8 @@ var F3DWLD = (function() {
         else*/ {
             if (refresh) {
                 var mesOptionsPivot = FAOSTATOLAP2.options;
+                if (F3DWLD.CONFIG.groupCode == "D" || F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT")
+        {mesOptionsPivot = FAOSTATOLAP2.optionsTM}
                 mesOptionsPivot.rows = FAOSTATNEWOLAP.internalData.rowAttrs;
                 mesOptionsPivot.cols = FAOSTATNEWOLAP.internalData.colAttrs;
                 mesOptionsPivot.vals = ["Value"];

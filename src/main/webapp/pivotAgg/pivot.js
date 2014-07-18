@@ -215,7 +215,9 @@ function oldSchoolCSV()
             "   @DecPlaces = 2 , " +
             "  @Limit ="+FAOSTATNEWOLAP.pivotlimitExcel ;
 
-var mesOptionsPivot = FAOSTATOLAP2.options;
+var mesOptionsPivot = {};
+for(j in FAOSTATOLAP2.options)
+    {mesOptionsPivot[j]=FAOSTATOLAP2.options[j]};
 mesOptionsPivot.lang=F3DWLD.CONFIG.lang_ISO2;
     if (F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT") {
 
@@ -377,8 +379,8 @@ selectFinal = "EXECUTE Warehouse.dbo.usp_GetData " +
                     "Domain", "DomainName",
                     "ReporterCode", "ReporterName", 
                     "PartnerCode", "PartnerName",
-                    "ItemCode", "ItemName",
                     "ElementCode", "ElementName",
+                     "ItemCode", "ItemName",
                     "Year","YearCode" ,
                     "Unit", "Value", "Flag","FlagD","Var1Order","Var2Order","Var3Order","Var4Order","Var5Order"]];
             var mesOptionsPivot = FAOSTATOLAP2.options;
