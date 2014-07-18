@@ -728,24 +728,24 @@ var F3DWLD = (function() {
 
                         p.limit = 0; 
                         var data = {}; 
-                        data.payload = JSON.stringify(p); 
-                        
-                        
-                        var selectFinalExcel="EXECUTE Warehouse.dbo.usp_GetDataTEST "+
-" @DomainCode = '"+F3DWLD.CONFIG.domainCode+"',  "+
-" @lang = '"+F3DWLD.CONFIG.lang+"',  "+
-" @List1Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[0],"''")+")', "+
-"  @List2Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[1],"''")+")',  "+
-" @List3Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[2],"''")+")', "+
-"  @List4Codes = '("+ExtractCode(F3DWLD.CONFIG.selectedValues[3],"")+")', "+
-"   @List5Codes = '',  "+
-"   @List6Codes = '',  "+
-"   @List7Codes = '',  "+
-"   @NullValues = 0,  "+
-"   @Thousand = '"+F3DWLD.CONFIG.wdsPayload.thousandSeparator+"',  "+
-"   @Decimal = '"+F3DWLD.CONFIG.wdsPayload.decimalSeparator+"',  "+
-"   @DecPlaces = "+F3DWLD.CONFIG.wdsPayload.decimalNumbers+" , "+
-"  @Limit ="+ 0 ;
+                        data.payload = JSON.stringify(p);
+
+
+                        var selectFinalExcel = "EXECUTE Warehouse.dbo.usp_GetDataTEST " +
+                            " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
+                            " @lang = '" + F3DWLD.CONFIG.lang + "',  " +
+                            " @List1Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[0], "''") + ")', " +
+                            "  @List2Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[1], "''") + ")',  " +
+                            " @List3Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[2], "''") + ")', " +
+                            "  @List4Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[3], "") + ")', " +
+                            "   @List5Codes = '',  " +
+                            "   @List6Codes = '',  " +
+                            "   @List7Codes = '',  " +
+                            "   @NullValues = 0,  " +
+                            "   @Thousand = '" + F3DWLD.CONFIG.wdsPayload.thousandSeparator + "',  " +
+                            "   @Decimal = '" + F3DWLD.CONFIG.wdsPayload.decimalSeparator + "',  " +
+                            "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers + " , " +
+                            "  @Limit =" + 0;
                         
                         
                         switch (outputFormat) { 
@@ -865,11 +865,13 @@ var F3DWLD = (function() {
         s += '<thead>'; 
         s += '<tr>';
         for (var i = 0; i < F3DWLD.CONFIG.data[0].length; i++) {
-            if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices)) {
+            if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
+                console.log('render TM');
                 if ($.inArray(i, F3DWLD.CONFIG.header_indices_tm) > -1) {
                     s += '<th>' + F3DWLD.CONFIG.data[0][i] + '</th>';
                 }
             } else {
+                console.log('render standard');
                 if ($.inArray(i, F3DWLD.CONFIG.header_indices) > -1) {
                     s += '<th>' + F3DWLD.CONFIG.data[0][i] + '</th>';
                 }
@@ -881,7 +883,7 @@ var F3DWLD = (function() {
         if (F3DWLD.CONFIG.data.length > 1) {
             for (var i = 1; i < F3DWLD.CONFIG.data.length; i++) {
                 s += '<tr>';
-                if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices)) {
+                if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
                     for (var j = 0; j < F3DWLD.CONFIG.data[i].length; j++) {
                         if ($.inArray(j, F3DWLD.CONFIG.data_indices_tm) > -1) {
                             if (i % 2 == 0)
@@ -893,6 +895,7 @@ var F3DWLD = (function() {
                 } else {
                     for (var j = 0; j < F3DWLD.CONFIG.data[i].length; j++) {
                         if ($.inArray(j, F3DWLD.CONFIG.data_indices) > -1) {
+                            console.log('adding index ' + j);
                             if (i % 2 == 0)
                                 s += '<td class="hor-minimalist-b_row1">' + F3DWLD.CONFIG.data[i][j] + '</td>';
                             else
@@ -1668,7 +1671,7 @@ var F3DWLD = (function() {
         $("#flags_menu").bind('change', function (event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showFlags = checked;
-            if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices)) {
+            if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
                 if (F3DWLD.CONFIG.wdsPayload.showFlags) {
                     F3DWLD.CONFIG.header_indices_tm.push(16);
                     F3DWLD.CONFIG.header_indices_tm.push(17);
@@ -1698,7 +1701,7 @@ var F3DWLD = (function() {
         $("#codes_menu").bind('change', function (event) { 
             var checked = event.args.checked; 
             F3DWLD.CONFIG.wdsPayload.showCodes = checked;
-            if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices)) {
+            if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
                 if (F3DWLD.CONFIG.wdsPayload.showCodes) {
                     F3DWLD.CONFIG.header_indices_tm.push(2);
                     F3DWLD.CONFIG.header_indices_tm.push(4);
@@ -1750,7 +1753,7 @@ var F3DWLD = (function() {
         $("#units_menu").bind('change', function (event) { 
             var checked = event.args.checked; 
             F3DWLD.CONFIG.wdsPayload.showUnits = checked;
-            if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices)) {
+            if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
                 if (F3DWLD.CONFIG.wdsPayload.showUnits) {
                     F3DWLD.CONFIG.header_indices_tm.push(14);
                     F3DWLD.CONFIG.data_indices_tm.push(14);
