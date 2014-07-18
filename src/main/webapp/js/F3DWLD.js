@@ -127,9 +127,19 @@ var F3DWLD = (function() {
         }
         else*/ {
             if (refresh) {
-                var mesOptionsPivot = FAOSTATOLAP2.options;
+               // var mesOptionsPivot = FAOSTATOLAP2.options;
+                
+                var mesOptionsPivot = {};
+                if(F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT"){}
+                else{for(j in FAOSTATOLAP2.options)
+    {mesOptionsPivot[j]=FAOSTATOLAP2.options[j]};}
+
+                
+                
                 if (F3DWLD.CONFIG.groupCode == "D" || F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT")
-        {mesOptionsPivot = FAOSTATOLAP2.optionsTM}
+        {mesOptionsPivot = FAOSTATOLAP2.optionsTM;
+        
+                }
                 mesOptionsPivot.rows = FAOSTATNEWOLAP.internalData.rowAttrs;
                 mesOptionsPivot.cols = FAOSTATNEWOLAP.internalData.colAttrs;
                 mesOptionsPivot.vals = ["Value"];
