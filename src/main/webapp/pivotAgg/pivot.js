@@ -278,6 +278,7 @@ document.getElementById('exportCSVOLAP').submit();
 
 function oldSchool(maLimit, excel)
 {
+    alert('os')
 /*
 var data = {};
                 data.datasource = F3DWLD.CONFIG.datasource;
@@ -383,12 +384,17 @@ selectFinal = "EXECUTE Warehouse.dbo.usp_GetData " +
                      "ItemCode", "ItemName",
                     "Year","YearCode" ,
                     "Unit", "Value", "Flag","FlagD","Var1Order","Var2Order","Var3Order","Var4Order","Var5Order"]];
-            var mesOptionsPivot = FAOSTATOLAP2.options;
+            var mesOptionsPivot = {}
+            for (j in FAOSTATOLAP2.options)
+                {mesOptionsPivot[j]=FAOSTATOLAP2.options[j];}
+                console.log("un");
             if (F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT")
-            {
+            {console.log("TM!!");
                 response2_2 = response2TM;
-                mesOptionsPivot = FAOSTATOLAP2.optionsTM
-            }
+                mesOptionsPivot = {};
+                for (j in FAOSTATOLAP2.options)
+                {mesOptionsPivot[j]=FAOSTATOLAP2.optionsTM[j];}
+               }
 
             response_1 = response2_2.concat(response_1);
              console.log("response_1.length");
