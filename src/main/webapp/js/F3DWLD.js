@@ -19,7 +19,7 @@ var F3DWLD = (function() {
         dbPrefix: 'FAOSTAT_',
         dsdURL: 'http://faostat3.fao.org/wds/rest/procedures/listboxes',
         theme: 'faostat',
-        tradeMatrices: ['FT', 'TM'],
+        tradeMatrices: ['FT', 'TM','HS'],
         lang: 'E',
         lang_ISO2: 'en',
         outputLimit: 50,
@@ -129,7 +129,9 @@ var F3DWLD = (function() {
         }
         else*/ {
             if (refresh) {
-                var mesOptionsPivot = FAOSTATOLAP2.options;
+                var mesOptionsPivot ={}
+                for ( i in FAOSTATOLAP2.options)
+                    {mesOptionsPivot[i]=FAOSTATOLAP2.options[i]};
                 mesOptionsPivot.rows = FAOSTATNEWOLAP.internalData.rowAttrs;
                 mesOptionsPivot.cols = FAOSTATNEWOLAP.internalData.colAttrs;
                 mesOptionsPivot.vals = ["Value"];
@@ -218,7 +220,7 @@ var F3DWLD = (function() {
             "hiddenAttributes": [],
             "linkedAttributes": [],
             "cols": [],
-                    "rows": [],
+             "rows": [],
             "vals": [],
             "derivedAttributes": {}
         };
@@ -1472,7 +1474,7 @@ var F3DWLD = (function() {
         s += '<li id="download_button_menu_root"><i class="fa fa-chevron-circle-down"></i> ' + $.i18n.prop('_download').toUpperCase();
         s += '<ul>';
         s += '<li onclick="F3DWLD.download(true, \'csv\');"><i class="fa fa-file-code-o"></i> CSV</li>';
-        s += '<li onclick="F3DWLD.download(true, \'excel\');"><i class="fa fa-file-excel-o"></i> Excel</li>';
+        s += '<!--li onclick="F3DWLD.download(true, \'excel\');"><i class="fa fa-file-excel-o"></i> Excel</li-->';
         s += '</ul>';
         s += '</li>';
         s += '</ul>';
@@ -1599,7 +1601,19 @@ var F3DWLD = (function() {
              collectAndQueryWDSPivot(false);*/
 
 
-            oldSchoolCSV();
+           
+
+if(outputFormat=="csv") {
+             
+             oldSchoolCSV("csv");
+             // ExcelComplete("json");
+             } else { 
+             //ExcelComplete("html");
+             oldSchoolCSV("xls");
+             }
+
+
+
 
             /* 
              if(FAOSTATNEWOLAP.firstCall==1)
