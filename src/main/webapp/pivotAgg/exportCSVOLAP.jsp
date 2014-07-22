@@ -155,33 +155,6 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
 
     </form>
     
-    <script>
-var w;
 
-function startWorker() {
-    if(typeof(Worker) !== "undefined") {
-        if(typeof(w) == "undefined") {
-            w = new Worker("worker.js");
-        ;
-           w.postMessage(JSON.stringify(FAOSTATNEWOLAP));
-
-        }
-        w.onmessage = function(event) {
-            document.getElementById("resultWorker").innerHTML = event.data.id+" "+event.data.mess;
-        };
-    } else {
-        document.getElementById("resultWorker").innerHTML = "Sorry! No Web Worker support.";
-    }
-}
-
-function stopWorker() { 
-    w.terminate();
-}
-</script>
-
-<p>Count numbers: <output id="resultWorker"></output></p>
-<button onclick="startWorker()">Start Worker</button> 
-<button onclick="stopWorker()">Stop Worker</button>
-<br><br>
 </body>
 </html>
