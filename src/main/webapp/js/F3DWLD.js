@@ -1505,8 +1505,8 @@ var F3DWLD = (function() {
     }
 
     function preview(queryDB, refresh) {
-        // try {
-        //  forecast_output_size();
+         try {
+          forecast_output_size();
         if ($('#radio_table').val()) {
             document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
             $('#output_area').css("min-height", "350px");
@@ -1530,12 +1530,12 @@ var F3DWLD = (function() {
             collectAndQueryWDSPivot(refresh, false, 'json');
             STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
         }
-        /* } catch (lines) {
+         } catch (lines) {
          $('.fs-warning-wrapper').css('display', 'block');
          $('#close-fs-warning').bind('click', function () {
          $('.fs-warning-wrapper').css('display', 'none');
          });
-         }*/
+         }
     }
 
     function forecast_output_size() {
