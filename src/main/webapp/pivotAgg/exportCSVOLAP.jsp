@@ -90,7 +90,7 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
                         }
                      
 
-                        response_1 = response2_2.concat(response_1);
+                       // response_1 = response2_2.concat(response_1);
                       
                      
                       if(opt.fileFormat == "csv")
@@ -131,7 +131,7 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
                             else {
                                // my_exportNew()
                             }
-                             setTimeout(function(){window.close()}, 3000);
+                           // setTimeout(function(){window.close()}, 3000);
                         });
 
 
@@ -144,7 +144,7 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
     </head>
     <body onload="javascript:init();">
     <center><img src="/faostat-download-js/pivotAgg/Preload.gif" /></center>
-    <div id="testinline" style="display:none"></div>
+    <div id="testinline" style="display:block"></div>
     <form id="csvDataForm" action="/faostat-download-js/pivotAgg/json.jsp" method="POST">
         <input id="csvData" type="hidden" name="data" value="" />
     </form>
