@@ -110,49 +110,43 @@ var F3DWLD = (function() {
 
     function collectAndQueryWDSPivot(refresh, isEx, outputFormat) {
 
-        /* Collect parameters. */
+      
         getTabSelection();
 
         getGridsValues();
 
-        /* console.log('collectAndQueryWDSPivot'); 
-         console.log(refresh); */
-        /* Collect codes for 'list' items, then create the JSON payload. */
-        //collectListCodesPIVOT(); 
         try {
             document.getElementById('testinline').className = "visi2";
         } catch (err) {
         }
-     /*   if (F3DWLD.CONFIG.groupCode == "D" || F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT")
-        {
-            insideFalseClick(refresh, isEx, outputFormat);
-        }
-        else*/ {
+     
             if (refresh) {
-                var mesOptionsPivot ={}
-                for ( i in FAOSTATOLAP2.options)
-                    {mesOptionsPivot[i]=FAOSTATOLAP2.options[i]};
+                var t=retConfig(F3DWLD.CONFIG.domainCode,F3DWLD.CONFIG.lang);
+                response2_2=t[0];
+                mesOptionsPivot=t[1];
+          
+          
                 mesOptionsPivot.rows = FAOSTATNEWOLAP.internalData.rowAttrs;
                 mesOptionsPivot.cols = FAOSTATNEWOLAP.internalData.colAttrs;
                 mesOptionsPivot.vals = ["Value"];
                 if (F3DWLD.CONFIG.wdsPayload.showUnits)
                 {
-                    mesOptionsPivot.vals.push("Unit")
+                    mesOptionsPivot.vals.push("Unit");
                 }
                 if (F3DWLD.CONFIG.wdsPayload.showFlags)
                 {
-                    mesOptionsPivot.vals.push("Flag")
+                    mesOptionsPivot.vals.push("Flag");
                 }
 
                 $("#testinline").pivotUI(FAOSTATNEWOLAP.originalData, mesOptionsPivot, true);
 
-                for (var iLabel = 0; iLabel < $(".pvtAxisLabel").length; iLabel++)
+               /* for (var iLabel = 0; iLabel < $(".pvtAxisLabel").length; iLabel++)
                 {
 
                     $("#my_" + $(".pvtAxisLabel")[iLabel].innerHTML.replace(/\s/, "_"))[0].innerHTML = $(".pvtAxisLabel")[iLabel].innerHTML.replace("_", "");
                     $(".pvtAxisLabel")[iLabel].innerHTML = $(".pvtAxisLabel")[iLabel].innerHTML.replace("_", "");
 
-                }
+                }*/
                 $("#options_menu_box").css("display", "block");
                 // $("#testinline").css("overflow","auto"); 
 
@@ -184,7 +178,7 @@ var F3DWLD = (function() {
 
             }
 
-        }
+        
 
 
     }
@@ -763,7 +757,7 @@ var F3DWLD = (function() {
                         var data = {};
                         data.payload = JSON.stringify(p);
 
- var selectFinalExcel = null;
+                        var selectFinalExcel = null;
                         if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
                             selectFinalExcel = "EXECUTE Warehouse.dbo.usp_GetDataTE " +
                                 " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
@@ -1330,7 +1324,7 @@ var F3DWLD = (function() {
         s += buildOutputArea();
         document.getElementById('listArea').innerHTML = s;
         // document.getElementById('listArea2').innerHTML = s; 
-        console.log('ok2 ' +FAOSTATNEWOLAP.firstCall)
+       
         enhanceUIStructure();
         
     }
@@ -1344,7 +1338,7 @@ var F3DWLD = (function() {
         s += '<div class="standard-title" id="preview_label">' + $.i18n.prop('_output_preview') + '</div>';
         s += '<a class="various btn" id="btnFS" data-fancybox-type="iframe" href="/faostat-download-js/popupOlap.jsp" target="myFanzy" style="display:none">';
         s += '<i class="fa fa-cogs"></i>';
-        s += 'Full screen';
+        s += $.i18n.prop('_fullscreen');
         s += '</a>';
         s += '<div id="options-menu" style="position: absolute; right: 0; top: 0;">';
         s += '<ul>';
@@ -1747,7 +1741,7 @@ if(outputFormat=="csv") {
             height: 25,
             checked: true
         });
-        console.log('ok2 ' +FAOSTATNEWOLAP.firstCall)
+       
         $('#codes_menu').jqxCheckBox({width: 120, height: 25});
         $('#units_menu').jqxCheckBox({width: 120, height: 25, checked: true});
         $('#nested_by').jqxCheckBox({width: 120, height: 25, checked: false});
@@ -1761,7 +1755,7 @@ if(outputFormat=="csv") {
         $('#increment').jqxNumberInput({width: '100%', height: '25px', inputMode: 'simple', spinButtons: true, spinButtonsStep: 1, decimalDigits: 0, decimal: 2});
         F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';
         F3DWLD.CONFIG.wdsPayload.thousandSeparator = '';
-          console.log('ok2 ' +FAOSTATNEWOLAP.firstCall)
+          
         $('#dot_menu').bind('change', function(event) {
             if (event.args.checked) {
                 F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';

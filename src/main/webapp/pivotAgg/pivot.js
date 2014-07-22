@@ -213,7 +213,7 @@ function oldSchoolCSV(format)
 var mesOptionsPivot = {};
 for(j in FAOSTATOLAP2.options)
     {mesOptionsPivot[j]=FAOSTATOLAP2.options[j]};
-mesOptionsPivot.lang=F3DWLD.CONFIG.lang_ISO2;
+mesOptionsPivot.lang=F3DWLD.CONFIG.lang;
     if (F3DWLD.CONFIG.domainCode == "HS" ||F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT") {
         mesOptionsPivot.rows=["Reporter Countries","Partner Countries","Item","Element"];
 	mesOptionsPivot.cols= ["Year"];
@@ -266,8 +266,41 @@ fileFormat:format
 document.getElementById('exportCSVOLAP').submit();
 
     
+    /*
+   var w;
+
+function startWorker() {
+    if(typeof(Worker) !== "undefined") {
+        if(typeof(w) == "undefined") {
+            w = new Worker("/faostat-download-js/pivotAgg/worker.js");
+      var message={sql:selectFinal,json:mesOptionsPivot,option:{decimal:FAOSTATNEWOLAP.decimal,
+    decimalSeparator:FAOSTATNEWOLAP.decimalSeparator,
+    thousandSeparator:FAOSTATNEWOLAP.thousandSeparator,
+    showUnits:F3DWLD.CONFIG.wdsPayload.showUnits,
+ showFlags:F3DWLD.CONFIG.wdsPayload.showFlags, 
+ showCodes:F3DWLD.CONFIG.wdsPayload.showCodes,
+fileFormat:format 
+    }};
+
+console.log(JSON.stringify(message));
+           w.postMessage(JSON.stringify(message));
+
+        }
+        w.onmessage = function(event) {
+            alert(event);
+            document.getElementById("testinline").innerHTML = event.data.id+" "+event.data.mess;
+        };
+    } else {
+        document.getElementById("testinline").innerHTML = "Sorry! No Web Worker support.";
+    }
+}
+
+function stopWorker() {     w.terminate();} 
     
     
+   startWorker();  
+    
+    */
 }
 
 
@@ -364,41 +397,18 @@ selectFinal = "EXECUTE Warehouse.dbo.usp_GetData " +
         data: test2,
         success: function(response_1) {
 
-            var response2_2 = [["Country Code", "Country_", "Element Code", "Element_", "Item Code",
-                    "Item_", "Year", "Unit", "Value", "Flag", "Flag Description", "Var1Order", "Var2Order", "Var3Order", 
-                    "Var4Order"]];
+            var response2_2 =[];
+             var mesOptionsPivot = {};
+             
+             var t=retConfig(F3DWLD.CONFIG.domainCode,F3DWLD.CONFIG.lang);
+                              
+          response2_2=t[0];
+          mesOptionsPivot=t[1];
            
-
-            /* if(response_1.length==FAOSTATNEWOLAP.pivotlimit) 
-             {console.log('preview limit reach, please go to the bulkdownload section to get all the data')}
-             */
-            var response2TM = [["n1","n2",
-                    "Domain", "DomainName",
-                    "ReporterCode", "ReporterName", 
-                    "PartnerCode", "PartnerName",
-                    "ElementCode", "ElementName",
-                     "ItemCode", "ItemName",
-                    "YearCode","Year" ,
-                    "Unit", "Value", "Flag","FlagD","Var1Order","Var2Order","Var3Order","Var4Order","Var5Order"]];
-            var mesOptionsPivot = {}
-            for (j in FAOSTATOLAP2.options)
-                {mesOptionsPivot[j]=FAOSTATOLAP2.options[j];}
-               
-            if (F3DWLD.CONFIG.domainCode == "HS" || F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT")
-            {
-                response2_2 = response2TM;
-                mesOptionsPivot = {};
-                for (j in FAOSTATOLAP2.options)
-                {mesOptionsPivot[j]=FAOSTATOLAP2.optionsTM[j];}
-               }
-
             response_1 = response2_2.concat(response_1);
             
              FAOSTATNEWOLAP.firstCall = 0;
-            /*for(i in response_1){
-             if(Array.isArray(response_1[i])){response2_2.push(response_1[i]);}
-             }
-             */
+           
 
 
 
@@ -433,14 +443,14 @@ selectFinal = "EXECUTE Warehouse.dbo.usp_GetData " +
             }
            try{ $(".pvtAxisLabel")[$(".pvtAxisLabel").length - 1].setAttribute("colspan", 2);}
            catch(e){console.log("erreur"+e)}
-            var header=$(".pvtAxisLabel");
+         /*   var header=$(".pvtAxisLabel");
                         for(var i=0;i<header.length;i++){header[i].innerHTML=header[i].innerHTML.replace("_","");}
               var header=$("#rows li nobr");
                         for(var i=0;i<header.length;i++){header[i].innerHTML=header[i].innerHTML.replace("_","");}
                              
               var header=$("#cols li nobr");
                         for(var i=0;i<header.length;i++){header[i].innerHTML=header[i].innerHTML.replace("_","");}
-                    
+                    */
             
             
             $.get("http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/" + F3DWLD.CONFIG.lang + "/" + newFlag, function(data) {
@@ -1409,6 +1419,7 @@ var internalTest;
 (function() {
     var $, PivotData, addCommas, aggregatorTemplates, aggregators, convertToArray, dayNames, deriveAttributes, derivers, forEachRecord, getPivotData, mthNames, numberFormat, pivotTableRenderer, renderers, spanSize, zeroPad;
     var __indexOf = Array.prototype.indexOf || function(item) {
+        
         for (var i = 0, l = this.length; i < l; i++) {
             if (this[i] === item)
                 return i;
@@ -1609,7 +1620,7 @@ var internalTest;
                                 }
                                 else if (_arg[j] == "Value" ) {
 
-                                    this.sum[j] += parseFloat(record[_arg[j]]);
+                                    this.sum[j] =parseFloat(record[_arg[j]]);
                                 }
                                 else if (_arg[j] == "Unit" ) {
                                     if (this.sum[j] == "_" || this.sum[j] == record[_arg[j]] ) {
@@ -1802,7 +1813,7 @@ var internalTest;
 
 
     aggregators = {
-        sumUnit: aggregatorTemplates.sum2(FAOSTATNEWOLAP.decimal),
+        sumUnit:aggregatorTemplates.sum2(FAOSTATNEWOLAP.decimal),
         sum: aggregatorTemplates.sum3(3),
         count: function() {
             return function() {
@@ -2386,15 +2397,20 @@ var internalTest;
         var pivotData;
 
         pivotData = new PivotData(aggregator, cols, rows);
-        var macount = 0;
+      /*  var macount = 0;
         var macount2 = 0;
+        */console.log("pivot l 2425");
+      
         forEachRecord(input, derivedAttributes, function(record) {
-            macount++;
+           // macount++;
+            
             if (filter(record)) {
-                macount2++;
+             //  macount2++;
                 return pivotData.processRecord(record);
             }
-        });
+        });   
+        console.log("pivot l 2434");
+        
        return pivotData;
     };
 
@@ -2662,13 +2678,17 @@ var internalTest;
                     tr.append($("<td>").html(aggregator.format(val)).data("value", val));
 
                 }
+/*                 //FIG 
                 totalAggregator = pivotData.getAggregator(rowKey, []);
                 val = totalAggregator.value();
-                tr.append($("<td class='pvtTotal rowTotal'>").html(totalAggregator.format(val)).data("value", val).data("for", "row" + i));
+              tr.append($("<td class='pvtTotal rowTotal'>").html(totalAggregator.format(val)).data("value", val).data("for", "row" + i));
+               */
                 mybody.append(tr);
             }
            
         }
+        /*FIG*/
+        /*
         tr = $("<tr>");
         th = $("<th class='pvtTotalLabel'>").text("Totals");
         th.attr("colspan", rowAttrs.length + (colAttrs.length === 0 ? 0 : 1));
@@ -2685,6 +2705,7 @@ var internalTest;
         val = totalAggregator.value();
         tr.append($("<td class='pvtGrandTotal'>").html(totalAggregator.format(val)).data("value", val));
         mybody.append(tr);
+         */
         result.append(mybody);
         result.data("dimensions", [rowKeys.length, colKeys.length]);
         result = $("<div id='finaltable'>").append(result);
@@ -2709,8 +2730,15 @@ var internalTest;
         };
         opts = $.extend(defaults, opts);
         //alert('ok');
+        console.log("zero");
         FAOSTATNEWOLAP.internalData = getPivotData(input, opts.cols, opts.rows, opts.aggregator, opts.filter, opts.derivedAttributes);
+        
+        console.log(input);
+        console.log("=>");
+        console.log(FAOSTATNEWOLAP.internalData);
+        console.log("un");
         this.html(opts.renderer( FAOSTATNEWOLAP.internalData));
+         console.log("deux");
         return this;
     };
     /*
