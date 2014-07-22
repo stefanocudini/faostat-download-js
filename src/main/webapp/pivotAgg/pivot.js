@@ -4,7 +4,7 @@ var test;
 FAOSTATNEWOLAP = {};
 FAOSTATNEWOLAP.pivotlimit = 1000;
 FAOSTATNEWOLAP.pivotlimitExcel = 200000;
-FAOSTATNEWOLAP.limitPivotPreview = 20;//lignes
+FAOSTATNEWOLAP.limitPivotPreview = 50;//lignes
 FAOSTATNEWOLAP.PP = {PP1: [], PP2: [], PP3: []};//para&meters for the exclstoredprocedure : to be change to avoir SQL injection
 FAOSTATNEWOLAP.excelpayload = {};
 FAOSTATNEWOLAP.schema = {};
@@ -252,7 +252,7 @@ else{mesOptionsPivot.rows =null;mesOptionsPivot.cols=null}
         mesOptionsPivot.vals.push("Flag")
     }
 
-/*
+
 document.getElementById('CSVOLAPsql').value= selectFinal;  
 document.getElementById('CSVOLAPjson').value= JSON.stringify(mesOptionsPivot);
 document.getElementById('CSVOLAPoption').value= JSON.stringify({decimal:FAOSTATNEWOLAP.decimal,
@@ -265,8 +265,8 @@ fileFormat:format
     });
 document.getElementById('exportCSVOLAP').submit();
 
-    */
-   
+    
+   /*
     $.post("/faostat-download-js/pivotAgg/exportCSVOLAP.jsp", {
         sql:selectFinal,
         json:JSON.stringify(mesOptionsPivot),
@@ -282,7 +282,7 @@ fileFormat:format
     {
         console.log(data)
     });
-   
+   */
     /*
    var w;
 

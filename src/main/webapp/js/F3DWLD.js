@@ -931,12 +931,12 @@ var F3DWLD = (function() {
         s += '<tr>';
         for (var i = 0; i < F3DWLD.CONFIG.data[0].length; i++) {
             if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
-                console.log('render TM');
+               
                 if ($.inArray(i, F3DWLD.CONFIG.header_indices_tm) > -1) {
                     s += '<th>' + F3DWLD.CONFIG.data[0][i] + '</th>';
                 }
             } else {
-                console.log('render standard');
+              
                 if ($.inArray(i, F3DWLD.CONFIG.header_indices) > -1) {
                     s += '<th>' + F3DWLD.CONFIG.data[0][i] + '</th>';
                 }
@@ -962,7 +962,7 @@ var F3DWLD = (function() {
  
  
                         if ($.inArray(j, F3DWLD.CONFIG.data_indices) > -1) {
-                            console.log('adding index ' + j);
+                           
                             if (i % 2 == 0)
                                 s += '<td class="hor-minimalist-b_row1">' + F3DWLD.CONFIG.data[i][j] + '</td>';
                             else
