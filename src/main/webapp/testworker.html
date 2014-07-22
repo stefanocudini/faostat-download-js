@@ -10,12 +10,22 @@ and open the template in the editor.
     </head>
     <body>
            <script>
+               FAOSTATNEWOLAP={"pivotlimit":1000,
+                           "pivotlimitExcel":200000,
+                           "limitPivotPreview":20,"PP":{"PP1":[],"PP2":[],"PP3":[]},
+                           "excelpayload":{},"schema":{},"nestedby":0,"viewVals":0,"decimal":2,"firstCall":1,
+                           "flags":{},"internalData":{},"originalData":[],"thousandSeparator":" ",
+                           "decimalSeparator":".","traduction":{"Var1":"Country","Var2":"Element",
+                               "Var3":"Item","Var4":"Year"}};
+               
+               
+               
 var w;
 
 function startWorker() {
     if(typeof(Worker) !== "undefined") {
         if(typeof(w) == "undefined") {
-            w = new Worker("worker.js");
+            w = new Worker("/faostat-download-js/pivotAgg/worker.js");
         ;
            w.postMessage(JSON.stringify(FAOSTATNEWOLAP));
 

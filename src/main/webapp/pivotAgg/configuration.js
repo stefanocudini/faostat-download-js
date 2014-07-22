@@ -337,30 +337,30 @@ E: {
             {
                 if (F3DWLD.CONFIG.wdsPayload.showCodes)
                 {
-                    return "<table class=\"innerCol\"><th>" + mp["ReporterName"] + "</th><th>" + mp["ReporterCode"] + "</th></table>";
+                    return "<table class=\"innerCol\"><th>" + mp["Country_"] + "</th><th>" + mp["Country Code"] + "</th></table>";
                 }
                 else {
-                    return mp["ReporterName"];
+                    return mp["Country_"];
                 }
             },
             "Donor_Country": function(mp)
             {
                 if (F3DWLD.CONFIG.wdsPayload.showCodes)
                 {
-                    return "<table class=\"innerCol\"><th>" + mp["PartnerName"] + "</th><th>" + mp["PartnerCode"] + "</th></table>";
+                    return "<table class=\"innerCol\"><th>" + mp["Element_"] + "</th><th>" + mp["Element Code"] + "</th></table>";
                 }
                 else {
-                    return mp["PartnerName"];
+                    return mp["Element_"];
                 }
             },
             "Item": function(mp)
             {
                 if (F3DWLD.CONFIG.wdsPayload.showCodes)
                 {
-                    return "<table  class=\"innerCol\"><th>" + mp["ElementName"] + "</th><th>" + mp["ElementCode"] + "</th></table>";
+                    return "<table  class=\"innerCol\"><th>" + mp["Item_"] + "</th><th>" + mp["Item Code"] + "</th></table>";
                 }
                 else {
-                    return mp["ElementName"];
+                    return mp["Item_"];
                 }
             }
 
@@ -376,30 +376,30 @@ E: {
             {
                 if (F3DWLD.CONFIG.wdsPayload.showCodes)
                 {
-                    return "<table class=\"innerCol\"><th>" + mp["ReporterName"] + "</th><th>" + mp["ReporterCode"] + "</th></table>";
+                    return "<table class=\"innerCol\"><th>" + mp["Country_"] + "</th><th>" + mp["Country Code"] + "</th></table>";
                 }
                 else {
-                    return mp["ReporterName"];
+                    return mp["Country_"];
                 }
             },
             "Pays_Donateur": function(mp)
             {
                 if (F3DWLD.CONFIG.wdsPayload.showCodes)
                 {
-                    return "<table class=\"innerCol\"><th>" + mp["PartnerName"] + "</th><th>" + mp["PartnerCode"] + "</th></table>";
+                    return "<table class=\"innerCol\"><th>" + mp["Element_"] + "</th><th>" + mp["Element Code"] + "</th></table>";
                 }
                 else {
-                    return mp["PartnerName"];
+                    return mp["Element_"];
                 }
             },
             "Article": function(mp)
             {
                 if (F3DWLD.CONFIG.wdsPayload.showCodes)
                 {
-                    return "<table  class=\"innerCol\"><th>" + mp["ElementName"] + "</th><th>" + mp["ElementCode"] + "</th></table>";
+                    return "<table  class=\"innerCol\"><th>" + mp["Item_"] + "</th><th>" + mp["Item Code"] + "</th></table>";
                 }
                 else {
-                    return mp["ElementName"];
+                    return mp["Item_"];
                 }
             }
 
@@ -417,30 +417,30 @@ E: {
             {
                 if (F3DWLD.CONFIG.wdsPayload.showCodes)
                 {
-                    return "<table class=\"innerCol\"><th>" + mp["ReporterName"] + "</th><th>" + mp["ReporterCode"] + "</th></table>";
+                    return "<table class=\"innerCol\"><th>" + mp["Country_"] + "</th><th>" + mp["Country Code"] + "</th></table>";
                 }
                 else {
-                    return mp["ReporterName"];
+                    return mp["Country_"];
                 }
             },
             "Donor_Country": function(mp)
             {
                 if (F3DWLD.CONFIG.wdsPayload.showCodes)
                 {
-                    return "<table class=\"innerCol\"><th>" + mp["PartnerName"] + "</th><th>" + mp["PartnerCode"] + "</th></table>";
+                    return "<table class=\"innerCol\"><th>" + mp["Element_"] + "</th><th>" + mp["Element Code"] + "</th></table>";
                 }
                 else {
-                    return mp["PartnerName"];
+                    return mp["Element_"];
                 }
             },
             "Item": function(mp)
             {
                 if (F3DWLD.CONFIG.wdsPayload.showCodes)
                 {
-                    return "<table  class=\"innerCol\"><th>" + mp["ElementName"] + "</th><th>" + mp["ElementCode"] + "</th></table>";
+                    return "<table  class=\"innerCol\"><th>" + mp["Item_"] + "</th><th>" + mp["Item Code"] + "</th></table>";
                 }
                 else {
-                    return mp["ElementName"];
+                    return mp["Item_"];
                 }
             }
 
@@ -508,7 +508,109 @@ FAOSTATOLAP2.optionsHS = {E: {
         vals: ["Value", "Unit", "Flag"],
         linkedAttributes: []
 
-    }};
+    },
+F: {
+        derivedAttributes: {
+            "Survey": function(mp)
+            {
+                if (F3DWLD.CONFIG.wdsPayload.showCodes)
+                {
+                    return "<table class=\"innerCol\"><th>" + mp["ReporterName"] + "</th><th>" + mp["ReporterCode"] + "</th></table>";
+                }
+                else {
+                    return mp["ReporterName"];
+                }
+            },
+            "Breakdown_Variable": function(mp)
+            {
+                if (F3DWLD.CONFIG.wdsPayload.showCodes)
+                {
+                    return "<table class=\"innerCol\"><th>" + mp["PartnerName"] + "</th><th>" + mp["PartnerCode"] + "</th></table>";
+                }
+                else {
+                    return mp["PartnerName"];
+                }
+            },
+            "Breakdown_by_Sex": function(mp)
+            {
+                if (F3DWLD.CONFIG.wdsPayload.showCodes)
+                {
+                    return "<table  class=\"innerCol\"><th>" + mp["ElementName"] + "</th><th>" + mp["ElementCode"] + "</th></table>";
+                }
+                else {
+                    return mp["ElementName"];
+                }
+            },
+            "Indicator": function(mp)
+            {
+                if (F3DWLD.CONFIG.wdsPayload.showCodes)
+                {
+                    return "<table  class=\"innerCol\"><th>" + mp["ItemName"] + "</th><th>" + mp["ItemCode"] + "</th></table>";
+                }
+                else {
+                    return mp["ItemName"];
+                }
+            }
+
+        },
+        rows: ["Survey", "Breakdown_Variable", "Breakdown_by_Sex", "Indicator"],
+        cols: ["Measure"],
+        vals: ["Value", "Unit", "Flag"],
+        linkedAttributes: []
+
+    },S: {
+        derivedAttributes: {
+            "Survey": function(mp)
+            {
+                if (F3DWLD.CONFIG.wdsPayload.showCodes)
+                {
+                    return "<table class=\"innerCol\"><th>" + mp["ReporterName"] + "</th><th>" + mp["ReporterCode"] + "</th></table>";
+                }
+                else {
+                    return mp["ReporterName"];
+                }
+            },
+            "Breakdown_Variable": function(mp)
+            {
+                if (F3DWLD.CONFIG.wdsPayload.showCodes)
+                {
+                    return "<table class=\"innerCol\"><th>" + mp["PartnerName"] + "</th><th>" + mp["PartnerCode"] + "</th></table>";
+                }
+                else {
+                    return mp["PartnerName"];
+                }
+            },
+            "Breakdown_by_Sex": function(mp)
+            {
+                if (F3DWLD.CONFIG.wdsPayload.showCodes)
+                {
+                    return "<table  class=\"innerCol\"><th>" + mp["ElementName"] + "</th><th>" + mp["ElementCode"] + "</th></table>";
+                }
+                else {
+                    return mp["ElementName"];
+                }
+            },
+            "Indicator": function(mp)
+            {
+                if (F3DWLD.CONFIG.wdsPayload.showCodes)
+                {
+                    return "<table  class=\"innerCol\"><th>" + mp["ItemName"] + "</th><th>" + mp["ItemCode"] + "</th></table>";
+                }
+                else {
+                    return mp["ItemName"];
+                }
+            }
+
+        },
+        rows: ["Survey", "Breakdown_Variable", "Breakdown_by_Sex", "Indicator"],
+        cols: ["Measure"],
+        vals: ["Value", "Unit", "Flag"],
+        linkedAttributes: []
+
+    }
+
+
+};
 FAOSTATOLAP2.headerHS = {E: [["n1", "n2",
             "Domain", "DomainName",
             "ReporterCode", "ReporterName",
@@ -516,7 +618,26 @@ FAOSTATOLAP2.headerHS = {E: [["n1", "n2",
             "ElementCode", "ElementName",
             "ItemCode", "ItemName",
             "YearCode", "Measure",
-            "Unit", "Value", "Flag", "FlagD", "Var1Order", "Var2Order", "Var3Order", "Var4Order", "Var5Order"]]};
+            "Unit", "Value", "Flag", "FlagD", "Var1Order", "Var2Order", "Var3Order", "Var4Order", "Var5Order"]],
+        
+        F: [["n1", "n2",
+            "Domain", "DomainName",
+            "ReporterCode", "ReporterName",
+            "PartnerCode", "PartnerName",
+            "ElementCode", "ElementName",
+            "ItemCode", "ItemName",
+            "YearCode", "Measure",
+            "Unit", "Value", "Flag", "FlagD", "Var1Order", "Var2Order", "Var3Order", "Var4Order", "Var5Order"]],
+            S: [["n1", "n2",
+            "Domain", "DomainName",
+            "ReporterCode", "ReporterName",
+            "PartnerCode", "PartnerName",
+            "ElementCode", "ElementName",
+            "ItemCode", "ItemName",
+            "YearCode", "Measure",
+            "Unit", "Value", "Flag", "FlagD", "Var1Order", "Var2Order", "Var3Order", "Var4Order", "Var5Order"]]
+        
+        };
 
 function retConfig(domain, lang)
 {//mesOptionsPivotSend

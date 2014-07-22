@@ -252,7 +252,7 @@ else{mesOptionsPivot.rows =null;mesOptionsPivot.cols=null}
         mesOptionsPivot.vals.push("Flag")
     }
 
-
+/*
 document.getElementById('CSVOLAPsql').value= selectFinal;  
 document.getElementById('CSVOLAPjson').value= JSON.stringify(mesOptionsPivot);
 document.getElementById('CSVOLAPoption').value= JSON.stringify({decimal:FAOSTATNEWOLAP.decimal,
@@ -265,7 +265,24 @@ fileFormat:format
     });
 document.getElementById('exportCSVOLAP').submit();
 
-    
+    */
+   
+    $.post("/faostat-download-js/pivotAgg/exportCSVOLAP.jsp", {
+        sql:selectFinal,
+        json:JSON.stringify(mesOptionsPivot),
+        option:JSON.stringify(
+                {decimal:FAOSTATNEWOLAP.decimal,
+    decimalSeparator:FAOSTATNEWOLAP.decimalSeparator,
+    thousandSeparator:FAOSTATNEWOLAP.thousandSeparator,
+    showUnits:F3DWLD.CONFIG.wdsPayload.showUnits,
+ showFlags:F3DWLD.CONFIG.wdsPayload.showFlags, 
+ showCodes:F3DWLD.CONFIG.wdsPayload.showCodes,
+fileFormat:format 
+    })}).done(function(data)  
+    {
+        console.log(data)
+    });
+   
     /*
    var w;
 
@@ -426,8 +443,10 @@ selectFinal = "EXECUTE Warehouse.dbo.usp_GetData " +
             }
 
             FAOSTATNEWOLAP.originalData = response_1;
-            //$("#testinline").pivotUI(response_1,mesOptionsPivot ,true);
 
+console.log("response_1");console.log(response_1);
+
+console.log("mesOptionsPivot");console.log(mesOptionsPivot);
             $("#testinline").pivotUI(response_1, mesOptionsPivot, true);
 
             $("#options_menu_box").css("display", "block");
@@ -2399,7 +2418,7 @@ var internalTest;
         pivotData = new PivotData(aggregator, cols, rows);
       /*  var macount = 0;
         var macount2 = 0;
-        */console.log("pivot l 2425");
+        */
       
         forEachRecord(input, derivedAttributes, function(record) {
            // macount++;
@@ -2409,7 +2428,7 @@ var internalTest;
                 return pivotData.processRecord(record);
             }
         });   
-        console.log("pivot l 2434");
+       
         
        return pivotData;
     };
@@ -2729,16 +2748,12 @@ var internalTest;
             renderer: pivotTableRenderer
         };
         opts = $.extend(defaults, opts);
-        //alert('ok');
-        console.log("zero");
+       
         FAOSTATNEWOLAP.internalData = getPivotData(input, opts.cols, opts.rows, opts.aggregator, opts.filter, opts.derivedAttributes);
         
-        console.log(input);
-        console.log("=>");
-        console.log(FAOSTATNEWOLAP.internalData);
-        console.log("un");
+       
         this.html(opts.renderer( FAOSTATNEWOLAP.internalData));
-         console.log("deux");
+       
         return this;
     };
     /*

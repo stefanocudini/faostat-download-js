@@ -90,8 +90,6 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
                         }
                      
 
-                       // response_1 = response2_2.concat(response_1);
-                      
                      
                       if(opt.fileFormat == "csv")
                      { 

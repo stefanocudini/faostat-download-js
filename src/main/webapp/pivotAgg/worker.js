@@ -2,10 +2,10 @@
 importScripts(/*'http://fenixapps.fao.org/repository/js/jquery/1.9.1/jquery-1.9.1.min.js',
 'http://fenixapps.fao.org/repository/js/jquery/1.0.9/jquery.i18n.properties-min.js',
 'http://fenixapps.fao.org/repository/js/jquery-ui/1.10.3/jquery-ui-1.10.3.custom.min.js',
-'http://fenixapps.fao.org/repository/js/jquery/1.0.9/jquery.i18n.properties-min.js',*/
+'http://fenixapps.fao.org/repository/js/jquery/1.0.9/jquery.i18n.properties-min.js',
 '/faostat-download-js/pivotAgg/jquery-1.8.3.min.js',
 '/faostat-download-js/js/I18N.js',
-'/faostat-download-js/pivotAgg/jquery-ui-1.9.2.custom.min.js',
+'/faostat-download-js/pivotAgg/jquery-ui-1.9.2.custom.min.js',*/
 
 '/faostat-download-js/pivotAgg/countriesAgg.js',
 '/faostat-download-js/js/F3DWLD.js',
