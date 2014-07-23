@@ -1506,7 +1506,7 @@ var F3DWLD = (function() {
 
     function preview(queryDB, refresh) {
          try {
-         // forecast_output_size();
+         forecast_output_size();
         if ($('#radio_table').val()) {
             document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
             $('#output_area').css("min-height", "350px");
