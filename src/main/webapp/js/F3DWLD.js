@@ -1588,6 +1588,9 @@ var F3DWLD = (function() {
                 alert(e);
             }
         } else {
+            
+             try {
+         forecast_output_size();
             //  F3DWLD.preview(true,false); 
             STATS.exportPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
             /*  validateSelection('preview pivot'); 
@@ -1606,7 +1609,12 @@ if(outputFormat=="csv") {
              oldSchoolCSV("xls");
              }
 
-
+ } catch (lines) {
+         $('.fs-warning-wrapper').css('display', 'block');
+         $('#close-fs-warning').bind('click', function () {
+         $('.fs-warning-wrapper').css('display', 'none');
+         });
+         }
 
 
             /* 
