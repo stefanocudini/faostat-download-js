@@ -2,9 +2,9 @@ var test;
 
 
 FAOSTATNEWOLAP = {};
-FAOSTATNEWOLAP.pivotlimit = 1000;
+FAOSTATNEWOLAP.pivotlimit = 10000;
 FAOSTATNEWOLAP.pivotlimitExcel = 200000;
-FAOSTATNEWOLAP.limitPivotPreview = 50;//lignes
+FAOSTATNEWOLAP.limitPivotPreview = 5000;//lignes
 FAOSTATNEWOLAP.PP = {PP1: [], PP2: [], PP3: []};//para&meters for the exclstoredprocedure : to be change to avoir SQL injection
 FAOSTATNEWOLAP.excelpayload = {};
 FAOSTATNEWOLAP.schema = {};
@@ -423,30 +423,26 @@ selectFinal = "EXECUTE Warehouse.dbo.usp_GetData " +
           mesOptionsPivot=t[1];
            
             response_1 = response2_2.concat(response_1);
-            
-             FAOSTATNEWOLAP.firstCall = 0;
+            FAOSTATNEWOLAP.firstCall = 0;
            
-
-
-
             var derivers = $.pivotUtilities.derivers;
             var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.gchart_renderers);
 
             mesOptionsPivot.vals = ["Value"];
             if (F3DWLD.CONFIG.wdsPayload.showUnits)
             {
-                mesOptionsPivot.vals.push("Unit")
+                mesOptionsPivot.vals.push("Unit");
             }
             if (F3DWLD.CONFIG.wdsPayload.showFlags)
             {
-                mesOptionsPivot.vals.push("Flag")
+                mesOptionsPivot.vals.push("Flag");
             }
 
             FAOSTATNEWOLAP.originalData = response_1;
+            /*
+            console.log("response_1");console.log(response_1);
 
-console.log("response_1");console.log(response_1);
-
-console.log("mesOptionsPivot");console.log(mesOptionsPivot);
+            console.log("mesOptionsPivot");console.log(mesOptionsPivot);*/
             $("#testinline").pivotUI(response_1, mesOptionsPivot, true);
 
             $("#options_menu_box").css("display", "block");

@@ -1335,7 +1335,7 @@ var F3DWLD = (function() {
         var s = '';
 
         s += '<div id="options_menu_box" style="position: relative; display: none;">';
-        s += '<div class="standard-title" id="preview_label">' + $.i18n.prop('_output_preview') + '</div>';
+        s += '<div class="standard-title" id="preview_label">' + $.i18n.prop('_output_preview_50') + '</div>';
         s += '<a class="various btn" id="btnFS" data-fancybox-type="iframe" href="/faostat-download-js/popupOlap.jsp" target="myFanzy" style="display:none">';
         s += '<i class="fa fa-cogs"></i>';
         s += $.i18n.prop('_fullscreen');
@@ -1519,7 +1519,7 @@ var F3DWLD = (function() {
             STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
 
         } else {
-            document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview');
+            document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
             $("#btnFS").show();
             $("#nested_by").show();
             FAOSTATNEWOLAP.firstCall = 0;

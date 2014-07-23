@@ -404,7 +404,7 @@ E: {
             }
 
         },
-        rows: ["Recipient_Country", "Donor_Country", "Item"],
+        rows: ["Pays_beneficiaire", "Pays_Donateur", "Article"],
         cols: ["Annee"],
         vals: ["Value", "Unit", "Flag"],
         linkedAttributes: []
