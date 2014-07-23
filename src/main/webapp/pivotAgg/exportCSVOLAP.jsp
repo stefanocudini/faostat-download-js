@@ -90,11 +90,20 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
                         }
                      
 
-                     
+               mesOptionsPivot.vals = ["Value"];
+            if (FAOSTATNEWOLAP.showUnits)
+            {
+                mesOptionsPivot.vals.push("Unit");
+            }
+            if (FAOSTATNEWOLAP.showFlags)
+            {
+                mesOptionsPivot.vals.push("Flag");
+            }        
                       if(opt.fileFormat == "csv")
                      { 
                          
-                        // console.log(mesOptionsPivot);
+                     /*    console.log(mesOptionsPivot);
+                         console.log(response_1);*/
                         $("#testinline").pivotUI(response_1, mesOptionsPivot, true);
                     }else{
                         FAOSTATNEWOLAP.limitPivotPreview=500;

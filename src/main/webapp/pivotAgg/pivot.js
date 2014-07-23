@@ -1065,10 +1065,10 @@ function decolrowspanNEW()
                    //  ret += '"' + row[i][col[j]].value()[0] + '",';
                   
                     if (FAOSTATNEWOLAP.showFlags) {
-                        ret += '"' + row[i][col[j]].value()[1].replace(/&nbsp;/g, " ") + '",';
+                        ret += '"' + row[i][col[j]].value()[2].replace(/&nbsp;/g, " ") + '",';
                     }
                     if (FAOSTATNEWOLAP.showUnits) {
-                        ret += '"' + row[i][col[j]].value()[2].replace(/&nbsp;/g, " ") + '",';
+                        ret += '"' + row[i][col[j]].value()[1].replace(/&nbsp;/g, " ") + '",';
                     }
                 }
                 //  ret=ret.replace(/,_/g,"");
