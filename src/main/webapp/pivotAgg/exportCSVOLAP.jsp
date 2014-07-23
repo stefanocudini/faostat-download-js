@@ -38,7 +38,7 @@ String option=(String)request.getParameter("option");
             FAOSTATNEWOLAP.thousandSeparator = opt.thousandSeparator;
             FAOSTATNEWOLAP.decimalSeparator = opt.decimalSeparator;
             FAOSTATNEWOLAP.showUnits = opt.showUnits;
-            FAOSTATNEWOLAP.showCodes = opt.showCodes;
+            F3DWLD.CONFIG.wdsPayload.showCodes = opt.showCodes;
             FAOSTATNEWOLAP.showFlags = opt.showFlags;
             var mesOptionsPivotSend = <%=json%>;
              $.i18n.properties({
@@ -81,7 +81,7 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
             
              FAOSTATNEWOLAP.firstCall = 0;
             
-           
+       //    for(i in mesOptionsPivotSend){mesOptionsPivot[i]=mesOptionsPivotSend[i]}
                         if (mesOptionsPivotSend.rows) {
                             mesOptionsPivot.rows = mesOptionsPivotSend.rows;
                         }
@@ -93,6 +93,8 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
                      
                       if(opt.fileFormat == "csv")
                      { 
+                         
+                        // console.log(mesOptionsPivot);
                         $("#testinline").pivotUI(response_1, mesOptionsPivot, true);
                     }else{
                         FAOSTATNEWOLAP.limitPivotPreview=500;

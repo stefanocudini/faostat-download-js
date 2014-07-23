@@ -325,28 +325,7 @@ function stopWorker() {     w.terminate();}
 function oldSchool(maLimit, excel)
 {
   
-/*
-var data = {};
-                data.datasource = F3DWLD.CONFIG.datasource;
-                data.domainCode = "QC";//F3DWLD.CONFIG.domainCode;
-                data.language ="E";// F3DWLD.CONFIG.lang;
-                data.countries ="[{code:'5000',type:'list'}]"; //JSON.stringify(ExtractCodel(F3DWLD.CONFIG.selectedValues[0]) );
-                data.items = "[{code:'1817',type:'list'}]";//JSON.stringify(ExtractCodel(F3DWLD.CONFIG.selectedValues[2]) );
-				
-				
-              
-                $.ajax({
-                    type : 'POST',
-                    url : F3DWLD.CONFIG.bletchley_url + '/list/post',
-                    data : data,
-                    success : function(response) {
-                        if(response.constructor === String){
-                            response = jQuery.parseJSON(response);
-                        };
-                        console.log("response");
-                        console.log(response);
-                        //testAjax=response[0];
-                    }});*/
+
 
 var selectFinal = "EXECUTE Warehouse.dbo.usp_GetDataTESTP " +
             " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
@@ -439,10 +418,10 @@ selectFinal = "EXECUTE Warehouse.dbo.usp_GetData " +
             }
 
             FAOSTATNEWOLAP.originalData = response_1;
-            /*
+            
             console.log("response_1");console.log(response_1);
 
-            console.log("mesOptionsPivot");console.log(mesOptionsPivot);*/
+            console.log("mesOptionsPivot");console.log(mesOptionsPivot);
             $("#testinline").pivotUI(response_1, mesOptionsPivot, true);
 
             $("#options_menu_box").css("display", "block");
@@ -1028,13 +1007,13 @@ function decolrowspanNEW()
 
     var reg = new RegExp("<span class=\"ordre\">[0-9]+</span>", "g");
     var reg3 = new RegExp("<span class=\"ordre\"></span>", "g");
-    var reg2 = new RegExp("([^>]*)%%([0-9]+)", "g");
+    var reg2 = new RegExp("<table class=\"innerCol\"><th>([^>]*)</th><th>([0-9]+)</th></table>", "g");
     var row = FAOSTATNEWOLAP.internalData.tree;
     var col = FAOSTATNEWOLAP.internalData.flatColKeys.sort();
     var ret = "";
     for (var j = 0; j < FAOSTATNEWOLAP.internalData.rowKeys[0].length; j++) {
         ret += FAOSTATNEWOLAP.internalData.rowAttrs[j].replace("_", "") + ",";
-        if (FAOSTATNEWOLAP.showCodes) {
+        if (F3DWLD.CONFIG.wdsPayload.showCodes) {
             ret += "Code,";
         }
     }
@@ -1055,7 +1034,15 @@ function decolrowspanNEW()
 
     for (i in row) {
        
-        ret += i.replace(/,/g, "").replace(/\|\|/g, ",").replace(reg2, "$1,$2").replace(reg, "").replace(reg3, "") + ",";
+      var temp=i.split("||");
+       for(var count=0;count<temp.length;count++)
+       {
+          
+          var temp2=temp[count].replace(/,/g, "").replace(reg2, "$1,$2").replace(reg, "").replace(reg3, "")
+           ret+=temp2+",";
+        
+        }
+      
         for (j in col) {
             try {
                 //ret+=row[i][col[j]].value().replace(",","").replace("&nbsp;","").join("," )+",";
