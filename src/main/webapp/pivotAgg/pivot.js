@@ -418,10 +418,7 @@ selectFinal = "EXECUTE Warehouse.dbo.usp_GetData " +
             }
 
             FAOSTATNEWOLAP.originalData = response_1;
-            
-            console.log("response_1");console.log(response_1);
-
-            console.log("mesOptionsPivot");console.log(mesOptionsPivot);
+          
             $("#testinline").pivotUI(response_1, mesOptionsPivot, true);
 
             $("#options_menu_box").css("display", "block");
@@ -1012,7 +1009,7 @@ function decolrowspanNEW()
     var col = FAOSTATNEWOLAP.internalData.flatColKeys.sort();
     var ret = "";
     for (var j = 0; j < FAOSTATNEWOLAP.internalData.rowKeys[0].length; j++) {
-        ret += FAOSTATNEWOLAP.internalData.rowAttrs[j].replace("_", "") + ",";
+        ret += '"'+FAOSTATNEWOLAP.internalData.rowAttrs[j].replace("_", "") + "\",";
         if (F3DWLD.CONFIG.wdsPayload.showCodes) {
             ret += "Code,";
         }
@@ -1038,8 +1035,8 @@ function decolrowspanNEW()
        for(var count=0;count<temp.length;count++)
        {
           
-          var temp2=temp[count].replace(/,/g, "").replace(reg2, "$1,$2").replace(reg, "").replace(reg3, "")
-           ret+=temp2+",";
+        
+           ret+='"'+temp[count].replace(/,/g, "").replace(reg2, "$1,$2").replace(reg, "").replace(reg3, "")+"\",";
         
         }
       
@@ -1051,10 +1048,10 @@ function decolrowspanNEW()
                     //  console.log(row[i][col[j]].value())
                     ret += ",";
                     if (FAOSTATNEWOLAP.showUnits) {
-                        ret += ", ";
+                        ret += ",";
                     }
                     if (FAOSTATNEWOLAP.showFlags) {
-                        ret += ", ";
+                        ret += ",";
                     }
                 }
                 else {
