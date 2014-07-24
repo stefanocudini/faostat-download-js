@@ -1020,10 +1020,10 @@ function decolrowspanNEW()
         
         ret += '"'+col[j].replace(/,/g, "").replace(/\|\|/g, "-").replace(/&nbsp;/g, "").replace(reg2, "$1").replace(reg, "").replace(reg3, "")+'"';
       if (FAOSTATNEWOLAP.showUnits) {
-            ret += ", unit ";
+            ret += ",unit";
         }
         if (FAOSTATNEWOLAP.showFlags) {
-            ret += ", flag ";
+            ret += ",flag";
         }
         ret += ",";
     }
