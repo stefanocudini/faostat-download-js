@@ -1061,12 +1061,15 @@ function decolrowspanNEW()
                     ret += '"' + addCommas(row[i][col[j]].value()[0]) + '",';
                    //  ret += '"' + row[i][col[j]].value()[0] + '",';
                   
-                    if (FAOSTATNEWOLAP.showFlags) {
-                        ret += '"' + row[i][col[j]].value()[2].replace(/&nbsp;/g, " ") + '",';
-                    }
-                    if (FAOSTATNEWOLAP.showUnits) {
+                   if (FAOSTATNEWOLAP.showUnits) {
                         ret += '"' + row[i][col[j]].value()[1].replace(/&nbsp;/g, " ") + '",';
                     }
+                    if (FAOSTATNEWOLAP.showFlags) {
+                        if(FAOSTATNEWOLAP.showUnits){
+                        ret += '"' + row[i][col[j]].value()[2].replace(/&nbsp;/g, " ") + '",';}
+                    else{ret += '"' + row[i][col[j]].value()[1].replace(/&nbsp;/g, " ") + '",';}
+                    }
+                   
                 }
                 //  ret=ret.replace(/,_/g,"");
                 // console.log(ret)

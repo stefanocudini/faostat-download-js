@@ -102,7 +102,7 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
                       if(opt.fileFormat == "csv")
                      { 
                          
-                     /*    console.log(mesOptionsPivot);
+                         /*console.log(mesOptionsPivot);
                          console.log(response_1);*/
                         $("#testinline").pivotUI(response_1, mesOptionsPivot, true);
                     }else{
@@ -140,7 +140,7 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
                             else {
                                // my_exportNew()
                             }
-                            setTimeout(function(){window.close()}, 3000);
+                          setTimeout(function(){window.close()}, 3000);
                         });
 
 
