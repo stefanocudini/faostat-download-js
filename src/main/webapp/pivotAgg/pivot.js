@@ -1018,7 +1018,7 @@ function decolrowspanNEW()
     for (j in col)
     {
         
-        ret += col[j].replace(/,/g, "").replace(/\|\|/g, "-").replace(/&nbsp;/g, "").replace(reg2, "$1").replace(reg, "").replace(reg3, "");
+        ret += '"'+col[j].replace(/,/g, "").replace(/\|\|/g, "-").replace(/&nbsp;/g, "").replace(reg2, "$1").replace(reg, "").replace(reg3, "")+'"';
       if (FAOSTATNEWOLAP.showUnits) {
             ret += ", unit ";
         }
@@ -1036,7 +1036,7 @@ function decolrowspanNEW()
        {
           
         
-           ret+='"'+temp[count].replace(/,/g, "").replace(reg2, "$1,$2").replace(reg, "").replace(reg3, "")+"\",";
+           ret+='"'+temp[count].replace(/,/g, "").replace(reg2, "$1\",\"$2").replace(reg, "").replace(reg3, "")+"\",";
         
         }
       
