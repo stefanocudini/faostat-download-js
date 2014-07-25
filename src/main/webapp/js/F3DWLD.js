@@ -94,15 +94,15 @@ var F3DWLD = (function() {
                     break;
             }
 
-            $.i18n.properties({
-                name: 'I18N',
-                path: F3DWLD.CONFIG.prefix + 'I18N/',
-                mode: 'both',
-                language: F3DWLD.CONFIG.lang_ISO2
+            $.i18n.properties({ 
+                name        :  'I18N', 
+                path        :  F3DWLD.CONFIG.prefix + 'I18N/', 
+                mode        :  'both', 
+                language    :  F3DWLD.CONFIG.lang_ISO2,
+                callback: loadDSD()
             });
 
-            loadDSD();
-
+//            loadDSD();
         })
 
     }
