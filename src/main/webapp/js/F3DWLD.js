@@ -680,12 +680,11 @@ var F3DWLD = (function() {
      * @param streamExcel  true to create the Excel file, false to show the preview 
      */
     function createTable(queryDB, streamExcel, outputFormat) {
-
+        
         $.ajax({
             type: 'GET',
             url: F3DWLD.CONFIG.schema_url + FAOSTATDownload.datasource + '/' + FAOSTATDownload.domainCode + '/' + FAOSTATDownload.language,
             success: function(response) {
-
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
@@ -811,7 +810,7 @@ var F3DWLD = (function() {
                                 break;
                         }
 
-                    } else {
+                    } else  {
 
                         $('#output_area').empty();
                         $('#output_area').append('<i class="fa fa-refresh fa-spin fa-5x" style="color: #399BCC;"></i>');
@@ -864,8 +863,8 @@ var F3DWLD = (function() {
                             cssFilename: '',
                             valueIndex: 5};
 
-
-                        if (F3DWLD.CONFIG.groupCode == "D" || F3DWLD.CONFIG.domainCode == "TM" || F3DWLD.CONFIG.domainCode == "FT") {
+//OLD D domain
+                        if ($.inArray(FAOSTATDownload.domainCode, F3DWLD.CONFIG.tradeMatrices) > -1) {
                             $.ajax({
                                 type: 'POST',
                                 url: F3DWLD.CONFIG.procedures_data_url,
@@ -874,7 +873,7 @@ var F3DWLD = (function() {
                                     var json = response;
                                     if (typeof json == 'string')
                                         json = $.parseJSON(response);
-                                    console.log(json);
+                                   
                                     F3DWLD.CONFIG.data = json;
                                     renderTable();
                                 },
@@ -925,7 +924,7 @@ var F3DWLD = (function() {
     }
     ;
 
- function renderTable() {
+    function renderTable() {
         var s = '<table class="dataTable">';
         s += '<thead>'; 
         s += '<tr>';
@@ -1480,30 +1479,6 @@ var F3DWLD = (function() {
     }
     ;
 
-    function forecast_output_size() {/*
-     if ($('#radio_pivot').val()) {
-     var lines = 1;
-     for (var key in F3DWLD.CONFIG.selectedValues) {
-     var factor = F3DWLD.CONFIG.selectedValues[key].length;
-     for (var i = 0; i < F3DWLD.CONFIG.selectedValues[key].length; i++) {
-     if (F3DWLD.CONFIG.selectedValues[key][i].type == '>') {
-     switch (F3DWLD.CONFIG.selectedValues[key][i].listbox) {
-     case 1:
-     factor += F3DWLD.CONFIG.list_weight_countries;
-     break;
-     case 3:
-     factor += F3DWLD.CONFIG.list_weight_items;
-     break;
-     }
-     }
-     }
-     lines *= factor;
-     }
-     if (lines > F3DWLD.CONFIG.preview_limit)
-     throw lines;
-     }*/
-    }
-
     function preview(queryDB, refresh) {
          try {
          forecast_output_size();
@@ -1793,7 +1768,7 @@ if(outputFormat=="csv") {
 
 
             }
-            if(FAOSTATNEWOLAP.firstCall==0)
+            if($('#radio_table').val() || FAOSTATNEWOLAP.firstCall==0)
             {preview(true, true);}
            
         });
@@ -1819,7 +1794,7 @@ if(outputFormat=="csv") {
                 /* FAOSTATNEWOLAP.decimalSeparator= '.';
                  F3DWLD.CONFIG.wdsPayload.decimalSeparator = '.';*/
             }
-             if(FAOSTATNEWOLAP.firstCall==0)
+             if($('#radio_table').val() || FAOSTATNEWOLAP.firstCall==0)
             {preview(true, true);}
         });
         F3DWLD.CONFIG.wdsPayload.showFlags = true;
@@ -1856,7 +1831,7 @@ if(outputFormat=="csv") {
                 F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(12), 1);
             }
             }
-              if(FAOSTATNEWOLAP.firstCall==0)
+              if($('#radio_table').val() || FAOSTATNEWOLAP.firstCall==0)
             {preview(false, true);}
            
         });
@@ -1910,7 +1885,7 @@ if(outputFormat=="csv") {
                     F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(8), 1);
                 }
             }
-            if(FAOSTATNEWOLAP.firstCall==0)
+            if($('#radio_table').val() || FAOSTATNEWOLAP.firstCall==0)
             {preview(false, true);}
         });
         $("#units_menu").bind('change', function(event) {
@@ -1933,7 +1908,7 @@ if(outputFormat=="csv") {
                     F3DWLD.CONFIG.data_indices.splice(F3DWLD.CONFIG.data_indices.indexOf(9), 1);
                 }
             }
-            if(FAOSTATNEWOLAP.firstCall==0)
+            if($('#radio_table').val() || FAOSTATNEWOLAP.firstCall==0)
             {preview(false, true);}
         });
         $("#nested_by").bind('change', function(event) {
@@ -1944,15 +1919,17 @@ if(outputFormat=="csv") {
         $("#null_values_menu").bind('change', function(event) {
             var checked = event.args.checked;
             F3DWLD.CONFIG.wdsPayload.showNullValues = checked;
-            if(FAOSTATNEWOLAP.firstCall==0)
+            if($('#radio_table').val() || FAOSTATNEWOLAP.firstCall==0)
             {preview(false, false);}
         });
         F3DWLD.CONFIG.wdsPayload.decimalNumbers = 2;
         $('#increment').on('valuechanged', function(event) {
+          
             var value = event.args.value;
             F3DWLD.CONFIG.wdsPayload.decimalNumbers = parseInt(value);
-            FAOSTATNEWOLAP.decimal = F3DWLD.CONFIG.wdsPayload.decimalNumbers
-            if(FAOSTATNEWOLAP.firstCall==0)
+            FAOSTATNEWOLAP.decimal = F3DWLD.CONFIG.wdsPayload.decimalNumbers;
+            if($('#radio_table').val()){preview(true, true);}
+            else if( FAOSTATNEWOLAP.firstCall==0)
             {preview(false, true);}
         });
        
@@ -2616,7 +2593,7 @@ else{ var tmp = {};
     ;
 
     function continue_with_table() {
-        console.log('continue with table')
+        
         $('#radio_table').val(true);
         $('#radio_pivot').val(false);
         $('.fs-warning-wrapper').css('display', 'none');
