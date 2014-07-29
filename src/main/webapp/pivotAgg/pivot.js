@@ -1469,7 +1469,7 @@ var internalTest;
             }
         };
     };
-    arrayFormat = function(sigfig, scaler) {
+   arrayFormat = function(sigfig, scaler) {
         if (sigfig == null) {
             sigfig = 3;
         }
@@ -1486,11 +1486,12 @@ var internalTest;
                 if (x != "_") {
                     if (!isNaN(k)) {
                         //console.log(k)
-
-                        if (k > 0 || x === 0 || isNaN(x) || !isFinite(x)) {
+						if(k==0 && isNaN(x)   ){ret += "<td></td>";}
+						else if (k > 0 || x === 0 ||isNaN(x)|| !isFinite(x)) {
+						
                             ret += "<td>" + x + "</td>";
                         }
-                        else {
+						else {
                             ret += "<td>" + addCommas((scaler * x).toFixed(FAOSTATNEWOLAP.decimal)) + "</td>";
                         }
                         // else {ret+= "<td>"+ x.toFixed(FAOSTATNEWOLAP.decimal).toLocaleString()+"</td>"; }
