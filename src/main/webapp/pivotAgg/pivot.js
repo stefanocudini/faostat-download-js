@@ -8,6 +8,7 @@ FAOSTATNEWOLAP.limitPivotPreview = 5000;//lignes
 FAOSTATNEWOLAP.PP = {PP1: [], PP2: [], PP3: []};//para&meters for the exclstoredprocedure : to be change to avoir SQL injection
 FAOSTATNEWOLAP.excelpayload = {};
 FAOSTATNEWOLAP.schema = {};
+FAOSTATNEWOLAP.rendererV = 0;
 FAOSTATNEWOLAP.nestedby = 0;
 FAOSTATNEWOLAP.viewVals = 0;
 FAOSTATNEWOLAP.decimal = 2;
@@ -192,7 +193,6 @@ function memorySizeOf(obj) {
 
 function oldSchoolCSV(format)
 {
-    
 
     var selectFinal = "EXECUTE Warehouse.dbo.usp_GetDataTESTP " +
             " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
@@ -324,10 +324,7 @@ function stopWorker() {     w.terminate();}
 
 function oldSchool(maLimit, excel)
 {
-  
-
-
-var selectFinal = "EXECUTE Warehouse.dbo.usp_GetDataTESTP " +
+    var selectFinal = "EXECUTE Warehouse.dbo.usp_GetDataTESTP " +
             " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
             " @lang = '" + F3DWLD.CONFIG.lang + "',  " +
             " @List1Codes = '(" + ExtractCode(F3DWLD.CONFIG.selectedValues[0], "''") + ")', " +
@@ -418,7 +415,7 @@ selectFinal = "EXECUTE Warehouse.dbo.usp_GetData " +
             }
 
             FAOSTATNEWOLAP.originalData = response_1;
-          
+      
             $("#testinline").pivotUI(response_1, mesOptionsPivot, true);
 
             $("#options_menu_box").css("display", "block");
@@ -943,7 +940,7 @@ function ExcelComplete(outputFormat)
 }
 
 
-function my_exportNew() {
+function my_exportNewHTML() {
     monclone = $("#pivot_table").clone();
     $("#renderer", monclone).remove();
     $(".ordre", monclone).remove();
@@ -997,6 +994,54 @@ function my_exportNew() {
     document.getElementById("excelData").value += "</table>";
     document.getElementById("formExcel").submit();
 }
+
+
+
+
+function stringify(obj) {
+  var type = Object.prototype.toString.call(obj);
+
+  // IE8 <= 8 does not have array map
+  var map = Array.prototype.map || function map(callback) {
+    var ret = [];
+    for (var i = 0; i < this.length; i++) {
+      ret.push(callback(this[i]));
+    }
+    return ret;
+  };
+
+  if (type === '[object Object]') {
+    var pairs = [];
+    for (var k in obj) {
+      if (!obj.hasOwnProperty(k)) continue;
+      pairs.push([k, stringify(obj[k])]);
+    }
+    pairs.sort(function(a, b) { return a[0] < b[0] ? -1 : 1 });
+    pairs = map.call(pairs, function(v) {
+        if(v[0]!="format" && v[0]!="push" &&  v[0]!="value"){
+        return '"' + v[0].replace(/"/g,"\\\"") + '":' +v[1];}
+    else{return '"' + v[0].replace(/"/g,"\\\"") + '":""';}
+    }
+);
+    return '{' + pairs + '}';
+  }
+
+  if (type === '[object Array]') {
+    return '[' + map.call(obj, function(v) { return stringify(v) }) + ']';
+  }
+
+  return JSON.stringify(obj);
+};
+
+function my_exportNew() {
+
+ document.getElementById("myJson").value=stringify({data:FAOSTATNEWOLAP.internalData.tree,header:FAOSTATNEWOLAP.internalData.flatColKeys});
+   //document.getElementById("myJson").value=JSON.stringify({data:FAOSTATNEWOLAP.originalData,header:FAOSTATNEWOLAP.internalData.flatColKeys});
+   
+    document.getElementById("xlsDataForm").submit();
+  }
+
+
 
 function decolrowspanNEW()
 {
@@ -2076,8 +2121,11 @@ var internalTest;
 
     renderers = {
         "Table": function(pvtData) {
-            return pivotTableRenderer(pvtData);
+            if(FAOSTATNEWOLAP.rendererV==2)
+            return pivotTableRenderer2(pvtData);
+        else{ return pivotTableRenderer(pvtData);}
         },
+            
         "Table Barchart": function(pvtData) {
             return pivotTableRenderer(pvtData).barchart();
         },
@@ -2091,6 +2139,7 @@ var internalTest;
             return pivotTableRenderer(pvtData).heatmap("colheatmap");
         }
     };
+    
     mthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     zeroPad = function(number) {
@@ -2447,14 +2496,14 @@ var internalTest;
         return len;
     };
 
-    pivotTableRenderer2 = function(pivotData) {
+  /*  pivotTableRenderer2 = function(pivotData) {
 
         var aggregator, c, colAttrs, colKey, colKeys, i, j, r, result, myhead, mybody, rowAttrs, rowKey, rowKeys, th, totalAggregator, tr, txt, val, x;
         colAttrs = pivotData.colAttrs;
         rowAttrs = pivotData.rowAttrs;
         rowKeys = pivotData.getRowKeys();
         colKeys = pivotData.getColKeys();
-        result = $("<table class='table table-bordered pvtTable' id='pivot_table'>");
+        result = $("<table class='table table-bordered pvtTable' id='pivot_table5'>");
         //result = $("<table class='table table-bordered pvtTable' id='pivot_table'>");
         myhead = $("<thead>");
         for (j in colAttrs) {
@@ -2474,8 +2523,8 @@ var internalTest;
                 colKey = colKeys[i];
                 x = spanSize(colKeys, parseInt(i), parseInt(j));
                 if (x !== -1) {
-                   // th = $("<th class='pvtColLabel' onclick='colapseCol(this," + x + "," + myPos + ")'>").html(colKey[j]).attr("colspan", x);
-                     th = $("<th class='pvtColLabel'>").html(colKey[j]).attr("colspan", x);
+                    th = $("<th class='pvtColLabel' onclick='colapseCol(this," + x + "," + myPos + ")'>").html(colKey[j]).attr("colspan", x);
+                   //  th = $("<th class='pvtColLabel'>").html(colKey[j]).attr("colspan", x);
                     
                     myPos += x;
                     if (parseInt(j) === colAttrs.length - 1 && rowAttrs.length !== 0) {
@@ -2577,7 +2626,7 @@ var internalTest;
         result.data("dimensions", [rowKeys.length, colKeys.length]);
         result = $("<div id='finaltable'>").append(result);
         return result;
-    }; 
+    }; */
 
      pivotTableRenderer = function(pivotData) {
 
@@ -2676,8 +2725,146 @@ var internalTest;
                     colKey = colKeys[j];
                     aggregator = pivotData.getAggregator(rowKey, colKey);
                     val = aggregator.value();
-                    // tr.append($("<td class='pvtVal row" + i + " col" + j + "'>").html(aggregator.format(val)).data("value", val));
-                    tr.append($("<td>").html(aggregator.format(val)).data("value", val));
+                    tr.append($("<td class='pvtVal row" + i + " col" + j + "'>").html(aggregator.format(val)).data("value", val));
+                 
+                
+
+                }
+/*                 //FIG 
+                totalAggregator = pivotData.getAggregator(rowKey, []);
+                val = totalAggregator.value();
+              tr.append($("<td class='pvtTotal rowTotal'>").html(totalAggregator.format(val)).data("value", val).data("for", "row" + i));
+               */
+                mybody.append(tr);
+            }
+           
+        }
+        /*FIG*/
+        /*
+        tr = $("<tr>");
+        th = $("<th class='pvtTotalLabel'>").text("Totals");
+        th.attr("colspan", rowAttrs.length + (colAttrs.length === 0 ? 0 : 1));
+        tr.append(th);
+        for (j in colKeys) {
+            if (!__hasProp.call(colKeys, j))
+                continue;
+            colKey = colKeys[j];
+            totalAggregator = pivotData.getAggregator([], colKey);
+            val = totalAggregator.value();
+            tr.append($("<td class='pvtTotal colTotal'>").html(totalAggregator.format(val)).data("value", val).data("for", "col" + j));
+        }
+        totalAggregator = pivotData.getAggregator([], []);
+        val = totalAggregator.value();
+        tr.append($("<td class='pvtGrandTotal'>").html(totalAggregator.format(val)).data("value", val));
+        mybody.append(tr);
+         */
+        result.append(mybody);
+        result.data("dimensions", [rowKeys.length, colKeys.length]);
+        result = $("<div id='finaltable'>").append(result);
+        return result;
+    }; 
+     pivotTableRenderer2 = function(pivotData) {
+
+        var aggregator, c, colAttrs, colKey, colKeys, i, j, r, result, myhead, mybody, rowAttrs, rowKey, rowKeys, th, totalAggregator, tr, txt, val, x;
+        colAttrs = pivotData.colAttrs;
+        rowAttrs = pivotData.rowAttrs;
+        rowKeys = pivotData.getRowKeys();
+        colKeys = pivotData.getColKeys();
+        result = $("<table class='table table-bordered pvtTable' id='pivot_table'>");
+        //result = $("<table class='table table-bordered pvtTable' id='pivot_table'>");
+        myhead = $("<thead>");
+        for (j in colAttrs) {
+            if (!__hasProp.call(colAttrs, j))
+                continue;
+            c = colAttrs[j];
+            tr = $("<tr>");
+            if (parseInt(j) === 0 && rowAttrs.length !== 0)
+            {
+                tr.append($("<th>").attr("colspan", rowAttrs.length).attr("rowspan", colAttrs.length));
+            }
+            tr.append($("<th class='pvtAxisLabel'>").text(c));
+            var myPos = 0;
+            for (i in colKeys) {
+                if (!__hasProp.call(colKeys, i))
+                    continue;
+                colKey = colKeys[i];
+                x = spanSize(colKeys, parseInt(i), parseInt(j));
+                if (x !== -1) {
+                   // th = $("<th class='pvtColLabel' onclick='colapseCol(this," + x + "," + myPos + ")'>").html(colKey[j]).attr("colspan", x);
+                     th = $("<th class='pvtColLabel'>").html(colKey[j]).attr("colspan", x);
+                    
+                    myPos += x;
+                    if (parseInt(j) === colAttrs.length - 1 && rowAttrs.length !== 0) {
+                        th.attr("rowspan", 2);
+                    }
+                    tr.append(th);
+                }
+            }
+            if (parseInt(j) === 0)
+            {
+                tr.append($("<th class='pvtTotalLabel'>").text("Totals").attr("rowspan", colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)));
+            }
+            // result.append(tr);
+            myhead.append(tr);
+
+        }
+        if (rowAttrs.length !== 0) {
+            tr = $("<tr>");
+            for (i in rowAttrs) {
+                if (!__hasProp.call(rowAttrs, i))
+                    continue;
+                r = rowAttrs[i];
+                tr.append($("<th class='pvtAxisLabel'>").text(r));
+            }
+
+            th = $("<th class=\"invi\">");
+            if (colAttrs.length === 0) {
+                th.addClass("pvtTotalLabel").text("Totals");
+            }
+            tr.append(th);
+            //result.append(tr);
+            myhead.append(tr);
+        }
+        result.append(myhead);
+        mybody = $("<tbody>");
+        for (i in rowKeys) {
+            if (i < FAOSTATNEWOLAP.limitPivotPreview) {
+
+                if (!__hasProp.call(rowKeys, i))
+                    continue;
+                rowKey = rowKeys[i];
+                tr = $("<tr>");
+                for (j in rowKey) {
+                    if (!__hasProp.call(rowKey, j))
+                        continue;
+                    txt = rowKey[j];
+                    x = spanSize(rowKeys, parseInt(i), parseInt(j));
+                    if (x !== -1) {
+                        if (j == 0 && FAOSTATNEWOLAP.nestedby == 1) {
+                            tr2 = $("<tr>");
+                            th = $("<th class='pvtRowLabel nestedby' colspan='3' style='background-color:white'>").html(txt);
+                            tr2.append(th);
+                            mybody.append(tr2);
+                            txt = "";
+                        }
+                        th = $("<th class='pvtRowLabel'>").html(txt).attr("rowspan", x);
+                        if (parseInt(j) === rowAttrs.length - 1 && colAttrs.length !== 0) {
+                            th.attr("colspan", 2);
+                        }
+                        tr.append(th);
+                    }
+                }
+                for (j in colKeys) {
+                    if (!__hasProp.call(colKeys, j))
+                        continue;
+                    colKey = colKeys[j];
+                    aggregator = pivotData.getAggregator(rowKey, colKey);
+                    val = aggregator.value();
+                   // tr.append($("<td class='pvtVal row" + i + " col" + j + "'>").html(aggregator.format(val)).data("value", val));
+                   c=""+i+" "+j;
+                   
+                     tr.append($("<td onclick=\"alert('"+c+"')\">").html(aggregator.format(val)).data("value", val));
+                
 
                 }
 /*                 //FIG 
@@ -3092,6 +3279,354 @@ var internalTest;
     };
 
 
+  $.fn.pivotGeneric = function(input, inputOpts, overwrite) {
+        var aggregator, axisValues, c, colList, defaults, existingOpts, k, opts, pivotTable, refresh, renderer, rendererControl, tblCols, tr1, tr2, uiTable, x, _i, _j, _k, _l, _len, _len2, _len3, _len4, _len5, _m, _ref, _ref2, _ref3, _ref4, _ref5, _ref6;
+        if (overwrite == null) {
+            overwrite = false;
+        }
+
+        defaults = {
+            derivedAttributes: {},
+            aggregators: aggregators,
+           
+            hiddenAttributes: [],
+            cols: [],
+            rows: [],
+            vals: []
+        };
+        existingOpts = this.data("pivotUIOptions");
+        if (!(existingOpts != null) || overwrite)
+        {
+            opts = $.extend(defaults, inputOpts);
+        }
+        else {
+            opts = existingOpts;
+        }
+        input = convertToArray(input);
+        tblCols = (function() {
+            var _ref, _results;
+            _ref = input[0];
+            _results = [];
+            for (k in _ref) {
+                if (!__hasProp.call(_ref, k))
+                    continue;
+                _results.push(k);
+            }
+            return _results;
+        })();
+
+        _ref = opts.derivedAttributes;
+        for (c in _ref) {
+            if (!__hasProp.call(_ref, c))
+                continue;
+            if ((__indexOf.call(tblCols, c) < 0)) {
+                tblCols.push(c);
+            }
+        }
+        axisValues = {};
+        for (_i = 0, _len = tblCols.length; _i < _len; _i++)
+        {
+            x = tblCols[_i];
+            axisValues[x] = {};
+        }
+
+        forEachRecord(input, opts.derivedAttributes, function(record) {
+            var k, v, _base, _ref2, _results;
+            _results = [];
+            for (k in record) {
+                if (!__hasProp.call(record, k))
+                    continue;
+                v = record[k];
+                if (v == null) {
+                    v = "null";
+                }
+                if ((_ref2 = (_base = axisValues[k])[v]) == null) {
+                    _base[v] = 0;
+                }
+                _results.push(axisValues[k][v]++);
+            }
+            return _results;
+        });
+        uiTable = $("<table class='table table-bordered' cellpadding='5'>");
+        rendererControl = $("<td>");
+        renderer = $("<select id='renderer'>").bind("change", function() {
+            if ($("#renderer").val() == "Table")
+            {
+                $('#aggregator option[value="sumUnit"]').prop('selected', true);
+            }
+            else {
+                $('#aggregator option[value="sum"]').prop('selected', true);
+            }
+            return refresh();
+        });
+        _ref2 = opts.renderers;
+        for (x in _ref2) {
+            if (!__hasProp.call(_ref2, x))
+                continue;
+            renderer.append($("<option>").val(x).text(x));
+        }
+        rendererControl.append(renderer);
+        colList = $("<td id='unused' class='pvtAxisContainer pvtHorizList'>");
+        for (_j = 0, _len2 = tblCols.length; _j < _len2; _j++) {
+            c = tblCols[_j];
+            if (__indexOf.call(opts.hiddenAttributes, c) < 0) {
+                (function(c) {
+                    var btns, colLabel, filterItem, k, numKeys, v, valueList, _k, _len3, _ref3;
+                    numKeys = Object.keys(axisValues[c]).length;
+                    colLabel = $("<nobr id='my_" + c.replace(/\s/, "_") + "'>").text(c);
+                    valueList = $("<div>").css({
+                        "z-index": 100,
+                        "width": "280px",
+                        "height": "350px",
+                        "overflow": "scroll",
+                        "border": "1px solid gray",
+                        "background": "white",
+                        "display": "none",
+                        "position": "absolute",
+                        "padding": "20px"
+                    });
+                    valueList.append($("<strong>").text("" + numKeys + " values for " + c));
+                    if (numKeys > 50) {
+                        valueList.append($("<p>").text("(too many to list)"));
+                    }
+                    else {
+                        btns = $("<p>");
+                        btns.append($("<button>").text("Select All").bind("click", function()
+                        {
+                            return valueList.find("input").attr("checked", true);
+                        }));
+
+                        btns.append($("<button>").text("Select None").bind("click", function()
+                        {
+                            return valueList.find("input").attr("checked", false);
+                        }));
+
+                        valueList.append(btns);
+                        _ref3 = Object.keys(axisValues[c]).sort();
+                        for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
+                            k = _ref3[_k];
+                            v = axisValues[c][k];
+                            filterItem = $("<label>");
+                            filterItem.append($("<input type='checkbox' class='pvtFilter'>").attr("checked", true).data("filter", [c, k]));
+                            filterItem.append($("<span>").html("" + k + " (" + v + ")"));
+                            valueList.append($("<p>").append(filterItem));
+                        }
+                    }
+                    colLabel.bind("dblclick", function(e) {
+                        /*{
+                         left: e.pageX,
+                         top: e.pageY
+                         }*/
+                        //alert('1299');
+                        valueList.css({color: "black"}).toggle();
+                        valueList.bind("click", function(e) {
+                            return e.stopPropagation();
+                        });
+                        return $(document).one("click", function() {
+                            refresh();
+                            return valueList.toggle();
+                        });
+                    });
+                    return colList.append($("<li class='label label-info' id='axis_" + (c.replace(/\s/g, "")) + "'>").append(colLabel).append(valueList));
+                })(c);
+            }
+        }
+        uiTable.append($("<tr>").append(rendererControl).append(colList));
+        tr1 = $("<tr>");
+        aggregator = $("<select id='aggregator'>").css("margin-bottom", "5px").bind("change", function() {
+            if ($("#aggregator").val() === "sumUnit") {
+                $('#renderer option[value="Table"]').prop('selected', true);
+            }
+            return refresh();
+        });
+
+        _ref3 = opts.aggregators;
+        for (x in _ref3) {
+            if (!__hasProp.call(_ref3, x))
+                continue;
+            aggregator.append($("<option>").val(x).text(x));
+        }
+        if (FAOSTATNEWOLAP.viewVals === 0)
+        {
+            tr1.append($("<td id='vals'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
+        }
+        else {
+            tr1.append($("<td id='vals' class='pvtAxisContainer pvtHorizList'>").css("text-align", "center").append(aggregator).append($("<br>")).append($("<div id='mesVals'>")));
+        }
+
+        tr1.append($("<td id='rows' class='pvtAxisContainer pvtHorizList'>"));
+        uiTable.append(tr1);
+        tr3 = $("<tr>");
+        tr3.append($("<td>"));
+        tr3.append($("<td valign='top' id='cols' class='pvtAxisContainer pvtHorizList'>").append($("<span style=' float: left;width: 80px;'>" + $.i18n.prop('_columns') + "</span>")));
+        uiTable.append(tr3);
+        tr2 = $("<tr>");
+        //tr2.append($("<td valign='top' id='rows' class='pvtAxisContainer'>").append($("<span >Rows</span>")));
+        tr2.append($("<td valign='top' id='rows2' class='pvtAxisContainer5' style'width:0px'>"));
+
+        pivotTable = $("<td valign='top'>");
+        tr2.append(pivotTable);
+        uiTable.append(tr2);
+        this.html(uiTable);
+
+        _ref4 = opts.cols;
+        for (_k = 0, _len3 = _ref4.length; _k < _len3; _k++) {
+            x = _ref4[_k];
+            this.find("#cols").append(this.find("#axis_" + (x.replace(/\s/g, ""))));
+        }
+        _ref5 = opts.rows;
+        // this.find("#rows").append($("<span  style=' float: left;width: 60px;' >Rows</span>"));
+        for (_l = 0, _len4 = _ref5.length; _l < _len4; _l++) {
+            x = _ref5[_l];
+
+
+            if (_l == 0) {
+                if (!FAOSTATNEWOLAP.nestedby) {
+                    this.find("#rows").append($("<span  style=' float: left;width: 80px;' >" + $.i18n.prop('_rows') + "</span>"));
+                }
+                else {
+                    this.find("#rows").append($("<span  style=' float: left;width: 80px;' >" + $.i18n.prop('_nestedby2') + "</span>"));
+                }
+            } else if (_l == 1 && FAOSTATNEWOLAP.nestedby)
+            {
+                this.find("#rows").append($("<br><br><span  style=' float: left;width: 80px;' > " + $.i18n.prop('_rows') + " </span>"));
+            }
+
+            this.find("#rows").append(this.find("#axis_" + (x.replace(/\s/g, ""))));
+        }
+        _ref6 = opts.vals;
+        for (_m = 0, _len5 = _ref6.length; _m < _len5; _m++) {
+            x = _ref6[_m];
+            this.find("#mesVals").append(this.find("#axis_" + (x.replace(/\s/g, ""))));
+        }
+        if (opts.aggregatorName !== null) {
+            this.find("#aggregator").val(opts.aggregatorName);
+        }
+        if (opts.rendererName !== null) {
+            this.find("#renderer").val(opts.rendererName);
+        }
+        refresh = __bind(function() {
+
+            var exclusions, subopts, vals;
+            subopts = {derivedAttributes: opts.derivedAttributes};
+            subopts.cols = [];
+            subopts.rows = [];
+            vals = [];
+            this.find("#rows li nobr").each(function() {
+                return subopts.rows.push($(this).text());
+            });
+            this.find("#cols li nobr").each(function() {
+                return subopts.cols.push($(this).text());
+            });
+            this.find("#vals li nobr").each(function() {
+                return vals.push($(this).text());
+            });
+            subopts.aggregator = opts.aggregators[aggregator.val()](vals);
+            subopts.renderer = opts.renderers[renderer.val()];
+            exclusions = [];
+
+
+            this.find('input.pvtFilter').not(':checked').each(function() {
+                return exclusions.push($(this).data("filter"));
+            });
+            subopts.filter = function(record) {
+                var v, _len6, _n, _ref7;
+                for (_n = 0, _len6 = exclusions.length; _n < _len6; _n++) {
+                    _ref7 = exclusions[_n], k = _ref7[0], v = _ref7[1];
+                    if (record[k] === v) {
+                        return false;
+                    }
+                }
+                return true;
+            };
+            pivotTable.pivot(input, subopts);
+            try {
+                $(".pvtAxisLabel")[$(".pvtAxisLabel").length - 1].setAttribute("colspan", 2);
+            } catch (er) {
+            }
+
+            /*FIG ULTIMAINE*/
+
+
+            /**/
+            var c = $("#rows li");
+            $("#rows").empty();
+
+            for (var testi = 0; testi < c.length; testi++) {
+
+
+                if (testi == 0) {
+                    if (!FAOSTATNEWOLAP.nestedby) {
+                        $("#rows").append($("<span  style=' float: left;width: 80px;' >" + $.i18n.prop('_rows') + "</span>"));
+                    }
+                    else {
+                        $("#rows").append($("<span  style=' float: left;width: 80px;' >" + $.i18n.prop('_nestedby2') + "</span>"));
+                    }
+                }
+                else if (testi == 1 && FAOSTATNEWOLAP.nestedby)
+                {
+                    $("#rows").append($("<br><br><span  style=' width: 80px;float:left' > " + $.i18n.prop('_rows') + " </span>"));
+                }
+
+
+
+                $("#rows").append(c[testi]);
+
+            }
+
+            /**/
+
+
+            return this.data("pivotUIOptions", {
+                cols: subopts.cols,
+                rows: subopts.rows,
+                vals: vals,
+                hiddenAttributes: opts.hiddenAttributes,
+                renderers: opts.renderers,
+                aggregators: opts.aggregators,
+                derivedAttributes: opts.derivedAttributes,
+                aggregatorName: aggregator.val(),
+                rendererName: renderer.val()
+            });
+        }, this);
+
+        refresh();
+        this.find(".pvtAxisContainer").sortable({
+            connectWith: ".pvtAxisContainer",
+            items: 'li',
+            receive: function(e) {
+
+                var my_id = e.originalEvent.target.id.split("_")[1];
+                if (e.target.id !== "unused") {
+                    for (k in inputOpts.linkedAttributes) {
+                        if (inputOpts.linkedAttributes[k].indexOf(my_id) !== -1) {
+                            for (kk in inputOpts.linkedAttributes[k]) {
+                                internalTest = $("#axis_" + inputOpts.linkedAttributes[k][kk]);
+
+                                try {
+                                    if (internalTest.parent().get(0).id !== "unused")
+                                    {
+
+                                        $("#" + e.target.id).append($("#axis_" + inputOpts.linkedAttributes[k][kk]));
+                                    }
+                                } catch (e) {
+                                    console.log(e);
+                                }
+                            }
+                            break;
+                        }
+                    }
+
+
+
+                }
+                else {
+                    $("#" + e.target.id).append($("#axis_" + my_id));
+                }
+            }
+        }).bind("sortstop", refresh);
+        return this;
+    };
    
 
 

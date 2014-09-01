@@ -137,7 +137,7 @@ var F3DWLD = (function() {
                 {
                     mesOptionsPivot.vals.push("Flag");
                 }
-
+console.log("iji")
                 $("#testinline").pivotUI(FAOSTATNEWOLAP.originalData, mesOptionsPivot, true);
 
                /* for (var iLabel = 0; iLabel < $(".pvtAxisLabel").length; iLabel++)
@@ -343,7 +343,7 @@ var F3DWLD = (function() {
                 if (refresh) {
                     mesOptionsPivot.rows = FAOSTATNEWOLAP.internalData.rowAttrs;
                     mesOptionsPivot.cols = FAOSTATNEWOLAP.internalData.colAttrs;
-
+console.log('non')
                     $("#testinline").pivotUI(FAOSTATNEWOLAP.originalData, mesOptionsPivot, true);
 
                     for (var iLabel = 0; iLabel < $(".pvtAxisLabel").length; iLabel++) {
@@ -510,7 +510,7 @@ var F3DWLD = (function() {
                             FAOSTATNEWOLAP.originalData = response;
                             //response.push(["Domain", "AreaCode", "AreaName", "ItemCode", "ItemName", "ElementCode", "VarNameE", "Year", "Unit", "Flag", "Value"]);
                            // response = response.reverse();
-                           console.log(mesOptionsPivot);
+                           console.log("mesOptionsPivot");
                             $("#testinline").pivotUI(response, mesOptionsPivot, true);
                             //alert('response limit'+response[1][0]);
                             for (var iLabel = 0; iLabel < $(".pvtAxisLabel").length; iLabel++) {
@@ -1467,7 +1467,7 @@ var F3DWLD = (function() {
         s += '<li id="download_button_menu_root"><i class="fa fa-chevron-circle-down"></i> ' + $.i18n.prop('_download').toUpperCase();
         s += '<ul>';
         s += '<li onclick="F3DWLD.download(true, \'csv\');"><i class="fa fa-file-code-o"></i> CSV</li>';
-        s += '<!--li onclick="F3DWLD.download(true, \'excel\');"><i class="fa fa-file-excel-o"></i> Excel</li-->';
+        s += '<li onclick="F3DWLD.download(true, \'excel\');"><i class="fa fa-file-excel-o"></i> Excel</li>';
         s += '</ul>';
         s += '</li>';
         s += '</ul>';
@@ -1502,6 +1502,7 @@ var F3DWLD = (function() {
             $('#testinline').css("display", "block");
             validateSelection('preview pivot');
             buildOptionsMenu();//just UI option menu
+            
             collectAndQueryWDSPivot(refresh, false, 'json');
             STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
         }
@@ -1565,7 +1566,7 @@ var F3DWLD = (function() {
         } else {
             
              try {
-         forecast_output_size();
+        // forecast_output_size();
             //  F3DWLD.preview(true,false); 
             STATS.exportPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
             /*  validateSelection('preview pivot'); 
@@ -1575,13 +1576,13 @@ var F3DWLD = (function() {
 
            
 
-if(outputFormat=="csv") {
+if(outputFormat==="csv") {
              
              oldSchoolCSV("csv");
              // ExcelComplete("json");
              } else { 
              //ExcelComplete("html");
-             oldSchoolCSV("xls");
+            oldSchoolCSV("xls");
              }
 
  } catch (lines) {

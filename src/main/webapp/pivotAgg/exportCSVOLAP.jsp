@@ -17,11 +17,7 @@ String option=(String)request.getParameter("option");
         <!--script src="/faostat-download-js/js/I18N.js"></script-->
         <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery/1.0.9/jquery.i18n.properties-min.js'></script>
         <script type='text/javascript' src='/faostat-download-js/pivotAgg/countriesAgg.js'></script>
-        <script type='text/javascript' src="/faostat-download-js/pivotAgg/configuration.js">
-           
-
-
-        </script>
+        <script type='text/javascript' src="/faostat-download-js/pivotAgg/configuration.js"> </script>
 
 
         <script type='text/javascript' src='/faostat-download-js/js/F3DWLD.js'></script>
@@ -99,16 +95,17 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
             {
                 mesOptionsPivot.vals.push("Flag");
             }        
-                      if(opt.fileFormat == "csv")
-                     { 
+                    /*  if(opt.fileFormat == "csv")
+                     { */
                          
                          /*console.log(mesOptionsPivot);
                          console.log(response_1);*/
                         $("#testinline").pivotUI(response_1, mesOptionsPivot, true);
-                    }else{
+                         FAOSTATNEWOLAP.originalData=response_1;
+                    /*}else{
                         FAOSTATNEWOLAP.limitPivotPreview=500;
                         $("#testinline").pivotUICSV(response_1, mesOptionsPivot, true);
-                    }
+                    }*/
 
                         $("#options_menu_box").css("display", "block");
                         /*var header = $(".pvtAxisLabel");
@@ -138,9 +135,10 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
                                 decolrowspanNEW();
                             }
                             else {
-                               // my_exportNew()
+                              
+                                my_exportNew()
                             }
-                          setTimeout(function(){window.close()}, 3000);
+                        //  setTimeout(function(){window.close()}, 3000);
                         });
 
 
@@ -157,12 +155,16 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
     <form id="csvDataForm" action="/faostat-download-js/pivotAgg/json.jsp" method="POST">
         <input id="csvData" type="hidden" name="data" value="" />
     </form>
-    <form id="formExcel" method="post" action="http://faostat3.fao.org/faostat.olap.ws/rest/ExcelCreator">
+    <form id="xlsDataForm" action="/faostat-gateway/go/ExportPOI" method="POST" >
+        <textarea id="myJson"  name="myJson"/>
+        <!--input id="myJson"  name="myJson" type="hidden" value="" /-->
+    </form>
+    <!--form id="formExcel" method="post" action="http://faostat3.fao.org/faostat.olap.ws/rest/ExcelCreator">
 
         <input id="excelData" type="hidden" value="" name="data" />
         <input type="hidden" value="xls" name="type" />
 
-    </form>
+    </form-->
     
 
 </body>
