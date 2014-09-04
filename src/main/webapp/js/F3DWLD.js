@@ -94,15 +94,15 @@ var F3DWLD = (function() {
                     break;
             }
 
-            $.i18n.properties({
-                name: 'I18N',
-                path: F3DWLD.CONFIG.prefix + 'I18N/',
-                mode: 'both',
-                language: F3DWLD.CONFIG.lang_ISO2
+            $.i18n.properties({ 
+                name        :  'I18N', 
+                path        :  F3DWLD.CONFIG.prefix + 'I18N/', 
+                mode        :  'both', 
+                language    :  F3DWLD.CONFIG.lang_ISO2,
+                callback: loadDSD()
             });
 
-            loadDSD();
-
+//            loadDSD();
         })
 
     }
@@ -1326,8 +1326,7 @@ console.log('non')
        
         enhanceUIStructure();
         
-    }
-    ;
+    };
 
     function buildOptionsMenu() {
 
@@ -1663,7 +1662,7 @@ if(outputFormat==="csv") {
 
         var s = '';
 
-        s += '<div class="standard-title" id="output_options_labels" style="font-size:16px !important;">' + $.i18n.prop('_summary') + ' <i id="collapsible-summary-id" onclick="F3DWLD.showHideSummary();" class="fa fa-angle-double-down"></i></div>';
+        s += '<div class="standard-title" id="_summary" style="font-size:16px !important;">' + $.i18n.prop('_summary') + ' <i id="collapsible-summary-id" onclick="F3DWLD.showHideSummary();" class="fa fa-angle-double-down"></i></div>';
 
         s += '<div style="display: block;" id="collapsible-summary-box">';
 
@@ -1938,8 +1937,8 @@ if(outputFormat==="csv") {
         enhanceUIOptions();
         enhanceUIButtons();
         enhanceUIGrids();
-    }
-    ;
+
+    };
 
     function showBulkDownloads() {
 
@@ -1976,6 +1975,10 @@ if(outputFormat==="csv") {
                     autoSizeMainItems: true
                 });
                 $('#bulk-downloads-menu').jqxMenu('setItemOpenDirection', 'bulk-root', 'left', 'down');
+
+                /* summary multilanguage */
+                document.getElementById('_summary').innerHTML = $.i18n.prop('_summary') + ' <i id="collapsible-summary-id" onclick="F3DWLD.showHideSummary();" class="fa fa-angle-double-down"></i>';
+                document.getElementById('summary_tip').innerHTML = $.i18n.prop('_summary_help');
 
             },
             error: function(err, b, c) {
