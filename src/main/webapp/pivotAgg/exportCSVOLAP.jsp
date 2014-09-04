@@ -114,31 +114,36 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
                         }
 */
                         var newFlag = "";
+                        var flagExcel="{\"data\":[";
                         for (var i in FAOSTATNEWOLAP.flags) {
-                            if (newFlag != "") {
-                                newFlag += ":";
-                            }
+                            if (newFlag != "") {   newFlag += ":";}
                             newFlag += "'" + i + "'";
                         }
-                        if (newFlag == "") {
-                            newFlag = "''";
-                        }
+                        if (newFlag == "") {  newFlag = "''";     }
                         //$(".pvtAxisLabel")[$(".pvtAxisLabel").length - 1].setAttribute("colspan", 2);
                         $.get("http://faostat3.fao.org/faostat.olap.ws/rest/GetFlags/" + F3DWLD.CONFIG.lang + "/" + newFlag, function(data) {
                             data = data.replace("localhost:8080/", "faostat3.fao.org/");
+                          
                             $("#testinline").append(data);
+                            //console.log(document.getElementById('hor-minimalist-b').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length);
+                            var flagtr=document.getElementById('hor-minimalist-b').getElementsByTagName("tbody")[0].getElementsByTagName("tr")
+                         for (var ij=0;ij<flagtr.length;ij++)
+                             {
+                                
+                                 var myTr=flagtr[ij];
+                                if(ij>0){flagExcel+=",";}
+                               
+                                flagExcel+="{\"title\":\""+myTr.getElementsByTagName("td")[0].innerHTML+"\",\"label\":\""+myTr.getElementsByTagName("td")[1].innerHTML+"\"}";
+                             }
+                             flagExcel+="]}"
+                            document.getElementById('myFlags').value=flagExcel;
 
                         }).always(function() {
                           
-                            if (opt.fileFormat == "csv")
-                            {
-                                decolrowspanNEW();
-                            }
-                            else {
-                              
-                                my_exportNew()
-                            }
-                        //  setTimeout(function(){window.close()}, 3000);
+                            if (opt.fileFormat == "csv"){decolrowspanNEW(); }
+                            else {  my_exportNew()}
+                            
+                        setTimeout(function(){window.close()}, 3000);
                         });
 
 
@@ -149,15 +154,16 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
         </script>
         <title>export Page</title>
     </head>
-    <body onload="javascript:init();">
+    <body onload="init();">
     <center><img src="/faostat-download-js/pivotAgg/Preload.gif" /></center>
     <div id="testinline" style="display:none"></div>
     <form id="csvDataForm" action="/faostat-download-js/pivotAgg/json.jsp" method="POST">
         <input id="csvData" type="hidden" name="data" value="" />
     </form>
     <form id="xlsDataForm" action="/faostat-gateway/go/ExportPOI" method="POST" >
-        <textarea id="myJson"  name="myJson"/>
-        <!--input id="myJson"  name="myJson" type="hidden" value="" /-->
+        <!--textarea id="myJson"  name="myJson" ></textarea-->
+        <input id="myJson"  name="myJson" type="hidden" value="" />
+          <input id="myFlags"  name="myFlags" type="hidden" value="" />
     </form>
     <!--form id="formExcel" method="post" action="http://faostat3.fao.org/faostat.olap.ws/rest/ExcelCreator">
 
