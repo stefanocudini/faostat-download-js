@@ -143,7 +143,7 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
                             if (opt.fileFormat == "csv"){decolrowspanNEW(); }
                             else {  my_exportNew()}
                             
-                        setTimeout(function(){window.close()}, 3000);
+                       setTimeout(function(){window.close()}, 3000);
                         });
 
 
@@ -163,8 +163,9 @@ var t=retConfig(mesOptionsPivotSend.domain,mesOptionsPivotSend.lang);
     <form id="xlsDataForm" action="/faostat-gateway/go/ExportPOI" method="POST" >
         <!--textarea id="myJson"  name="myJson" ></textarea-->
         <input id="myJson"  name="myJson" type="hidden" value="" />
-          <input id="myFlags"  name="myFlags" type="hidden" value="" />
+        <input id="myFlags"  name="myFlags" type="hidden" value="" />
     </form>
+    
     <!--form id="formExcel" method="post" action="http://faostat3.fao.org/faostat.olap.ws/rest/ExcelCreator">
 
         <input id="excelData" type="hidden" value="" name="data" />

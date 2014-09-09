@@ -767,13 +767,9 @@ function ExcelComplete(outputFormat)
     for (i = 0; i < document.getElementById('rows').getElementsByTagName('nobr').length; i++)
     {
         var d = document.getElementById('rows').getElementsByTagName('nobr')[i];
-
-
         for (j = 0; j < FAOSTATNEWOLAP.schema.length; j++)
         {
-
             if (FAOSTATNEWOLAP.schema[j][6] == d.innerHTML) {
-
                 FAOSTATNEWOLAP.PP.PP3.push(FAOSTATNEWOLAP.schema[j][1])
             }
         }
@@ -1019,23 +1015,31 @@ function stringify(obj) {
     pairs.sort(function(a, b) { return a[0] < b[0] ? -1 : 1 });
     pairs = map.call(pairs, function(v) {
         if(v[0]!="format" && v[0]!="push" &&  v[0]!="value"){
+            
         return '"' + v[0].replace(/"/g,"\\\"") + '":' +v[1];}
-    else{return '"' + v[0].replace(/"/g,"\\\"") + '":""';}
+    else{
+        return '"' + v[0].replace(/"/g,"\\\"") + '":""';
+       
+        }
     }
 );
     return '{' + pairs + '}';
   }
 
   if (type === '[object Array]') {
-    return '[' + map.call(obj, function(v) { return stringify(v) }) + ']';
+    return '[' + map.call(obj, function(v) { 
+       
+        return stringify(v) }) + ']';
   }
 
   return JSON.stringify(obj);
 };
 
 function my_exportNew() {
-
- document.getElementById("myJson").value=stringify({data:FAOSTATNEWOLAP.internalData.tree,header:FAOSTATNEWOLAP.internalData.flatColKeys});
+console.log(FAOSTATNEWOLAP.internalData.tree);
+ document.getElementById("myJson").value=stringify(
+ {data:FAOSTATNEWOLAP.internalData.tree,
+     header:FAOSTATNEWOLAP.internalData.flatColKeys});
    //document.getElementById("myJson").value=JSON.stringify({data:FAOSTATNEWOLAP.originalData,header:FAOSTATNEWOLAP.internalData.flatColKeys});
    
     document.getElementById("xlsDataForm").submit();
