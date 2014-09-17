@@ -691,9 +691,16 @@ function stringify(obj) {
 };
 
 function my_exportNew() {
+  var mycols=[];
+  
+      for(var c=0;c<FAOSTATNEWOLAP.internalData.rowAttrs.length;c++){
+          mycols.push(FAOSTATNEWOLAP.internalData.rowAttrs[c]+"Name");
+          if(F3DWLD.CONFIG.wdsPayload.showCodes){ mycols.push(FAOSTATNEWOLAP.internalData.rowAttrs[c]+"Code");
+        }
+  }
 console.log(FAOSTATNEWOLAP.internalData.tree);
  document.getElementById("myJson").value=stringify( {data:FAOSTATNEWOLAP.internalData.tree,
-     header:FAOSTATNEWOLAP.internalData.flatColKeys});
+     header:FAOSTATNEWOLAP.internalData.flatColKeys,cols:mycols});
    //document.getElementById("myJson").value=JSON.stringify({data:FAOSTATNEWOLAP.originalData,header:FAOSTATNEWOLAP.internalData.flatColKeys});
     document.getElementById("xlsDataForm").submit();
   }
