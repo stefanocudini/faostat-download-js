@@ -50,7 +50,7 @@ String option=(String)request.getParameter("option");
             function init()
             {
                 var test2 = {
-                    datasource: "faostat",
+                    datasource:F3DWLD.CONFIG.datasource ,
                     thousandSeparator: ',',
                     decimalSeparator: '.',
                     decimalNumbers: '2',

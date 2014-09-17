@@ -25,7 +25,7 @@ var F3DWLD = (function() {
         outputLimit: 50,
         widthTable: '100%',
         baseurl: null,
-        datasource: null,
+        datasource: "faostat2",
         tablelimit: null,
         groupCode: null,
         domainCode: null,
