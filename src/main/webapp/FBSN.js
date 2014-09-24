@@ -65,7 +65,7 @@ FAOSTATFBS.traduction={
         supply:"Disponibilite",
         utilisation:"Utilisation",
         showcode:"Voir Code",
-        domestic:"Disponibilité intérieure /Utilisation"
+        domestic:"DisponibilitÃ© intÃ©rieure /Utilisation"
     },
 
     E:{
@@ -2048,19 +2048,20 @@ FAOSTATFBS.changeTab=function(param)
 
 
 
-$(document).ready(function() {
-    if (navigator.appVersion.indexOf("MSIE 7.") != -1){}
-    else{
-        $(".various").fancybox({
-            maxWidth	: 1500,
-            maxHeight	: 900,
-            fitToView	: false,
-            width		: '90%',
-            height		: '90%',
-            autoSize	: false,
-            closeClick	: false,
-            openEffect	: 'none',
-            closeEffect	: 'none'
-        });
-    }
-});
+// Moved to the download and not on ready
+//$(document).ready(function() {
+//    if (navigator.appVersion.indexOf("MSIE 7.") != -1){}
+//    else{
+//        $(".various").fancybox({
+//            maxWidth	: 1500,
+//            maxHeight	: 900,
+//            fitToView	: false,
+//            width		: '90%',
+//            height		: '90%',
+//            autoSize	: false,
+//            closeClick	: false,
+//            openEffect	: 'none',
+//            closeEffect	: 'none'
+//        });
+//    }
+//});
