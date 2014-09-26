@@ -295,7 +295,8 @@ $("#nested_by").hide();
                     });
 
                     // Expand Group
-                    if (FAOSTATDownload.domainCode == 'null' && FAOSTATDownload.groupCode != 'null') {
+                    if ((FAOSTATDownload.domainCode == 'null' ||FAOSTATDownload.domainCode == null ) && (FAOSTATDownload.groupCode != 'null' || FAOSTATDownload.groupCode != null)) {
+                    //if (FAOSTATDownload.domainCode == 'null' && FAOSTATDownload.groupCode != 'null') {
                         $("#jqxTree").jqxTree('expandItem', $('#' + FAOSTATDownload.groupCode)[0]);
                         $("#jqxTree").jqxTree('selectItem', $('#' + FAOSTATDownload.groupCode)[0]);
                        // FAOSTATDownloadTree.loadDownloadNotes(FAOSTATDownload.groupCode);
