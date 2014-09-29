@@ -6,6 +6,7 @@ FAOSTATOLAP2.displayOption =
             showFlag: 0,
             overwrite: true
         }
+       //  google.load("visualization", "1", {packages:["corechart", "charteditor"]});
 
 FAOSTATOLAP2.options = {
     E:{

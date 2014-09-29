@@ -121,6 +121,7 @@ var F3DWLD = (function() {
         }
      
             if (refresh) {
+                
                 var t=retConfig(F3DWLD.CONFIG.domainCode,F3DWLD.CONFIG.lang);
                 response2_2=t[0];
                 mesOptionsPivot=t[1];
@@ -137,7 +138,8 @@ var F3DWLD = (function() {
                 {
                     mesOptionsPivot.vals.push("Flag");
                 }
-console.log("iji")
+   // google.load("visualization", "1", {packages:["corechart", "charteditor"]});
+   
                 $("#testinline").pivotUI(FAOSTATNEWOLAP.originalData, mesOptionsPivot, true);
 
                /* for (var iLabel = 0; iLabel < $(".pvtAxisLabel").length; iLabel++)
@@ -343,7 +345,7 @@ console.log("iji")
                 if (refresh) {
                     mesOptionsPivot.rows = FAOSTATNEWOLAP.internalData.rowAttrs;
                     mesOptionsPivot.cols = FAOSTATNEWOLAP.internalData.colAttrs;
-console.log('non')
+
                     $("#testinline").pivotUI(FAOSTATNEWOLAP.originalData, mesOptionsPivot, true);
 
                     for (var iLabel = 0; iLabel < $(".pvtAxisLabel").length; iLabel++) {
@@ -510,9 +512,11 @@ console.log('non')
                             FAOSTATNEWOLAP.originalData = response;
                             //response.push(["Domain", "AreaCode", "AreaName", "ItemCode", "ItemName", "ElementCode", "VarNameE", "Year", "Unit", "Flag", "Value"]);
                            // response = response.reverse();
-                           console.log("mesOptionsPivot");
+                        
+                               google.load("visualization", "1", {packages:["corechart", "charteditor"]});
+                             
                             $("#testinline").pivotUI(response, mesOptionsPivot, true);
-                            //alert('response limit'+response[1][0]);
+                           
                             for (var iLabel = 0; iLabel < $(".pvtAxisLabel").length; iLabel++) {
 
                                 $("#my_" + $(".pvtAxisLabel")[iLabel].innerHTML.replace(/\s/, "_"))[0].innerHTML = $(".pvtAxisLabel")[iLabel].innerHTML.replace("_", "");
@@ -529,7 +533,7 @@ console.log('non')
                                 }
                                 newFlag += "'" + i + "'";
                             }
-                            //alert('438')
+                           
                             if (newFlag === "") {
                                 newFlag = "''";
                             }
@@ -1559,9 +1563,7 @@ console.log('non')
                 validateSelection('download');
                 createTable(queryDB, true, outputFormat);
                 STATS.exportTableDownloadStandard(F3DWLD.CONFIG.domainCode);
-            } catch (e) {
-                alert(e);
-            }
+            } catch (e) { alert(e);           }
         } else {
             
              try {

@@ -17,10 +17,82 @@ and open the template in the editor.
 		<script type="text/javascript" src="configuration.js"></script>
                   <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery/1.0.9/jquery.i18n.properties-min.js'></script>
                 
+                  <script>
+                      
+                      function showmyraph()
+                      {
+                          
+                          if(document.getElementById('chaudgraph').checked) {
+						  $("#renderer").css("display", "block");  } 
+                          else{ $("#renderer").css("display", "none");
+						   document.getElementById('chaudmyVals').checked=false;
+						   showMyValls();
+						  }
+						     
+                      } 
+                        function showmyagg()
+                      {
+                          
+                          if(document.getElementById('chaudagg').checked){
+                              $("#unused").css("display", "block");
+    $("#aggregator").css("display", "block");
+$("#unused").css("background-color", "#ececec");
+    $("#unused li nobr").css("color", "#666");
+}
+                          else{ $("#unused").css("display", "none");
+    $("#aggregator").css("display", "none");}
+
+                      } 
+                         function showmyContinent()
+                      {
+                          
+                          if(document.getElementById('chaudcontinent').checked){
+                           
+                              mesOptions.E.rows= ["Continent","SubContinent", "Element", "Item"];
+                            
+}
+                          else{  mesOptions.E.rows= ["Area", "Element", "Item"];}
+
+$("#testinline").empty();
+        $("#testinline").pivotUI(test,mesOptions.E,true);
+                      } 
+                      
+					  
+                         function showmyvalue2()
+                      {
+                          
+                          if(document.getElementById('chaudvalue2').checked){
+                          
+                              mesOptions.E.vals=  ["Value", "Unit", "Value2"];
+							   
+                            
+}
+                          else{   mesOptions.E.vals=  ["Value", "Unit", "Flag"];}
+
+$("#testinline").empty();
+        $("#testinline").pivotUI(test,mesOptions.E,true);
+
+                      }
+                       function showMyValls()
+                      {
+                          
+                          if(document.getElementById('chaudmyVals').checked) {
+						  document.getElementById('chaudgraph').checked=true
+						  showmyraph();
+						  $("#mesVals").css("display", "block"); } 
+                          else{ $("#mesVals").css("display", "none");}
+						  
+                      } 
+					  
+                  </script>
         
-        </script>
     </head>
     <body>
+        <input id="chaudgraph" type="checkbox" onchange="showmyraph()"/><Label for="chaudgraph">Renderer</label>
+         <input id="chaudagg" type="checkbox" onchange="showmyagg()"/><Label for="chaudagg">Aggregation</label>
+             <input id="chaudcontinent" type="checkbox" onchange="showmyContinent()"/><Label for="chaudcontinent">Continent</label>
+			  <!--input id="chaudvalue2" type="checkbox" onchange="showmyvalue2()"/><Label for="chaudvalue2">Value*2</label-->
+			 <input id="chaudmyVals" type="checkbox" onchange="showMyValls()"/><Label for="chaudmyVals">show Values</label>
         <div id="testinline"></div>
         
         <script>
@@ -60,11 +132,18 @@ and open the template in the editor.
                         else {
                             return  mp["Item_"];
                         }
-                    }
+                    },
+                     "Continent": function(mp) {
+                 try{return countryAgg[mp["Country Code"]][1] ;}catch(er){console.log(countryAgg);console.log("|"+mp["Country Code"]+"|")}},
+"SubContinent":function(mp) {return countryAgg[mp["Country Code"]][2] ;}
+                            
+                            
                 },
                 rows: ["Area", "Element", "Item"],
                 cols: ["Year"],
-                vals: ["Value", "Unit", "Flag"]
+                vals: ["Value", "Unit", "Flag"],
+                hiddenAttributes:["Var1Order","Var2Order","Var3Order","Var4Order","Flag Description"],
+        linkedAttributes:[["Area","Continent","SubContinent"]]
                 }
         };
             
@@ -341,5 +420,83 @@ and open the template in the editor.
          $("#testinline").pivotUI(test,mesOptions.E);
             
         </script>
+		Exemple simple Sum
+		<textarea cols="100" rows=20>
+		   sum: function(sigfig, scaler) {
+            if (sigfig == null) { sigfig = 3;}
+            if (scaler == null) { scaler = 1; }
+            return function(_arg) {
+                var attr;
+                attr = _arg[0];
+                return function() {
+                    return {
+                        sum: 0,
+                        push: function(record) {
+                            if (!isNaN(parseFloat(record[attr]))) {return this.sum += parseFloat(record[attr]);}
+                        },
+                        value: function() {  return this.sum; },
+                        format: numberFormat(sigfig, scaler),
+                        label: "Sum of " + attr
+                    };
+                };
+            };
+        }
+		</textarea>
+		<br>
+		Exemple Configuration
+		<textarea cols="100" rows=20 >
+		   mesOptions = {
+             
+    E:{
+        derivedAttributes: {
+                    "Area": function(mp)
+                    {
+                        if (false)
+                        {
+                            return "<span class=\"ordre\">" + mp["Var1Order"] + "</span><table class=\"innerCol\"><th>" + mp["Country_"] + "</th><th>" + mp["Country Code"] + "</th></table>";
+                        }
+                        else {
+                            return  mp["Country_"];
+                        }
+                    },
+                    "Element": function(mp)
+                    {
+                        if (false)
+                        {
+                            return "<span class=\"ordre\">" + mp["Var2Order"] + "</span><table class=\"innerCol\"><th>" + mp["Element_"] + "</th><th>" + mp["Element Code"] + "</th></table>";
+                        }
+                        else {
+                            return mp["Element_"];
+                        }
+                    },
+                    "Item": function(mp)
+                    {
+                        if (false)
+                        {
+                            return "<span class=\"ordre\">" + mp["Var3Order"] + "</span><table class=\"innerCol\"><th>" + mp["Item_"] + "</th><th>" + mp["Item Code"] + "</th></table>";
+                        }
+                        else {
+                            return  mp["Item_"];
+                        }
+                    },
+                     "Continent": function(mp) {
+                 try{return countryAgg[mp["Country Code"]][1] ;}catch(er){console.log(countryAgg);console.log("|"+mp["Country Code"]+"|")}},
+"SubContinent":function(mp) {return countryAgg[mp["Country Code"]][2] ;}
+                            
+                            
+                },
+                rows: ["Area", "Element", "Item"],
+                cols: ["Year"],
+                vals: ["Value", "Unit", "Flag"],
+                hiddenAttributes:["Var1Order","Var2Order","Var3Order","Var4Order","Flag Description"],
+        linkedAttributes:[["Area","Continent","SubContinent"]]
+                }
+        }
+		</textarea>
+		
+		
+		
+		
+		
     </body>
 </html>

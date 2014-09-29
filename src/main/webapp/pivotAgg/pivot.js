@@ -320,6 +320,8 @@ function stopWorker() {     w.terminate();}
     */
 }
 function oldSchool(maLimit, excel){
+     
+     
     var selectFinal = "EXECUTE Warehouse.dbo.usp_GetDataTESTP " +
             " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
             " @lang = '" + F3DWLD.CONFIG.lang + "',  " +
@@ -700,7 +702,9 @@ function my_exportNew() {
   }
 console.log(FAOSTATNEWOLAP.internalData.tree);
  document.getElementById("myJson").value=stringify( {data:FAOSTATNEWOLAP.internalData.tree,
-     header:FAOSTATNEWOLAP.internalData.flatColKeys,cols:mycols});
+     header:FAOSTATNEWOLAP.internalData.flatColKeys,cols:mycols,swUnit:FAOSTATNEWOLAP.showUnits,swFlag:FAOSTATNEWOLAP.showFlags
+ 
+    });
    //document.getElementById("myJson").value=JSON.stringify({data:FAOSTATNEWOLAP.originalData,header:FAOSTATNEWOLAP.internalData.flatColKeys});
     document.getElementById("xlsDataForm").submit();
   }
