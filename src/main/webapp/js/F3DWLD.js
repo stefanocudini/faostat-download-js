@@ -777,6 +777,10 @@ var F3DWLD = (function() {
                                 "   @Decimal = '" + F3DWLD.CONFIG.wdsPayload.decimalSeparator + "',  " +
                                 "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers ;
                         } else {
+                            
+                            /* F3DWLD.CONFIG.wdsPayload.showFlags = true;
+        F3DWLD.CONFIG.wdsPayload.showCodes = false;
+        F3DWLD.CONFIG.wdsPayload.showUnits*/
                             selectFinalExcel = "EXECUTE Warehouse.dbo.usp_GetDataTEST " +
                                 " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
                                 " @lang = '" + F3DWLD.CONFIG.lang + "',  " +
@@ -787,8 +791,10 @@ var F3DWLD = (function() {
                                 "   @List5Codes = '',  " +
                                 "   @List6Codes = '',  " +
                                 "   @List7Codes = '',  " +
-                                "   @NullValues = 0,  " +
-                                "   @Thousand = '" + F3DWLD.CONFIG.wdsPayload.thousandSeparator + "',  " +
+                                "   @NullValues = 0,  " ;
+                        if(!F3DWLD.CONFIG.wdsPayload.showUnits){selectFinalExcel+='@showUnit=0,';}
+                        if(!F3DWLD.CONFIG.wdsPayload.showFlags){selectFinalExcel+='@showFlag=0,';}
+              selectFinalExcel+="   @Thousand = '" + F3DWLD.CONFIG.wdsPayload.thousandSeparator + "',  " +
                                 "   @Decimal = '" + F3DWLD.CONFIG.wdsPayload.decimalSeparator + "',  " +
                                 "   @DecPlaces = " + F3DWLD.CONFIG.wdsPayload.decimalNumbers + " , " +
                                 "  @Limit =" + 0;
