@@ -57,6 +57,23 @@ if (!window.FAOSTATDownload) {
 		 * This function initiate the user interface and links controllers to the tree
 		 */
         initUI : function(groupCode, domainCode, language) {
+        	
+        	// fancybox used by the fullscreen pivot table
+	        if (navigator.appVersion.indexOf("MSIE 7.") != -1){}
+	            else{
+	                    $(".various").fancybox({
+	                        maxWidth	: 1500,
+	                        maxHeight	: 900,
+	                        fitToView	: false,
+	                        width		: '90%',
+	                        height		: '90%',
+	                        autoSize	: false,
+	                        closeClick	: false,
+	                        openEffect	: 'none',
+	                        closeEffect	: 'none'
+	                    });
+            	}
+
 
             /**
              * FAOSTAT Download is loaded by GWT, so the language

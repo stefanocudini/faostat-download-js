@@ -2,7 +2,7 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        base_url: 'http://localhost:8080/faostat-gateway/go/to/download',
+        base_url: 'http://168.202.28.214:8080/download',
         prefix: 'http://localhost:8080/faostat-download-js/',
         CPINotes_url: 'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
         ODA_url: 'http://faostat3.fao.org/wds/rest/procedures/oda',
