@@ -28,7 +28,7 @@ var F3DWLDNotes = (function() {
             },
 
             error : function(err, b, c) {
-                alert('Domain code ' + F3DWLD.CONFIG.domainCode + ' has no DSD.');
+//                alert('Domain code ' + F3DWLD.CONFIG.domainCode + ' has no DSD.');
             }
 
         });
