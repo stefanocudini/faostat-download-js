@@ -2,8 +2,8 @@
 var F3DWLD = (function() {
 
     var CONFIG = {
-        base_url: 'http://168.202.28.214:8080/download',
-        prefix: 'http://localhost:8080/faostat-download-js/',
+        base_url: 'http://168.202.28.57:8080/download',
+        prefix: 'http://168.202.28.57:8080/faostat-download-js/',
         CPINotes_url: 'http://faostat3.fao.org/wds/rest/procedures/cpinotes',
         ODA_url: 'http://faostat3.fao.org/wds/rest/procedures/oda',
         data_url: 'http://faostat3.fao.org/wds/rest',
@@ -1470,14 +1470,22 @@ var F3DWLD = (function() {
                 '</div>';
         s += '</a>';
 
-        /* Download button. */
+        /* CSV download button. */
+        s += '<div id="download_button_menu_csv" style="position: relative; top: -13px;">';
+        s += '<ul>';
+        s += '<li id="download_button_menu_csv_root" onclick="F3DWLD.download(true, \'csv\');">';
+        s += '<i class="fa fa-file-code-o"></i> ';
+        s += $.i18n.prop('_csv').toUpperCase();
+        s += '</li>';
+        s += '</ul>';
+        s += '</div>';
+
+        /* Excel download button. */
         s += '<div id="download_button_menu" >';
         s += '<ul>';
-        s += '<li id="download_button_menu_root"><i class="fa fa-chevron-circle-down"></i> ' + $.i18n.prop('_download').toUpperCase();
-        s += '<ul>';
-        s += '<li onclick="F3DWLD.download(true, \'csv\');"><i class="fa fa-file-code-o"></i> CSV</li>';
-        s += '<li onclick="F3DWLD.download(true, \'excel\');"><i class="fa fa-file-excel-o"></i> Excel</li>';
-        s += '</ul>';
+        s += '<li id="download_button_menu_root" onclick="F3DWLD.download(true, \'excel\');">';
+        s += '<i class="fa fa-file-excel-o"></i> ';
+        s += $.i18n.prop('_excel').toUpperCase();
         s += '</li>';
         s += '</ul>';
         s += '</div>';
