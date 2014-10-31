@@ -102,15 +102,12 @@ var F3DWLD = (function() {
                 callback: loadDSD()
             });
 
-//            loadDSD();
         })
 
-    }
-    ;
+    };
 
     function collectAndQueryWDSPivot(refresh, isEx, outputFormat) {
 
-      
         getTabSelection();
 
         getGridsValues();
@@ -1497,38 +1494,36 @@ var F3DWLD = (function() {
     ;
 
     function preview(queryDB, refresh) {
-         try {
-         forecast_output_size();
-        if ($('#radio_table').val()) {
-            document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
-            $('#output_area').css("min-height", "350px");
-            $('#testinline').css("display", "none");
-            $("#btnFS").hide();
-            $("#nested_by").hide();
+        try {
+            forecast_output_size();
+            if ($('#radio_table').val()) {
+                document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
+                $('#output_area').css("min-height", "350px");
+                $('#testinline').css("display", "none");
+                $("#btnFS").hide();
+                $("#nested_by").hide();
+                validateSelection('preview table');
+                createTable(queryDB, false);
+                STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
+            } else {
+                document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
+                $("#btnFS").show();
+                $("#nested_by").show();
+                FAOSTATNEWOLAP.firstCall = 0;
+                $('#output_area').css("min-height", "0px");
+                $('#testinline').css("display", "block");
+                validateSelection('preview pivot');
+                buildOptionsMenu();//just UI option menu
 
-            validateSelection('preview table');
-            createTable(queryDB, false);
-            STATS.showTableDownloadStandard(F3DWLD.CONFIG.domainCode);
-
-        } else {
-            document.getElementById('preview_label').innerHTML = $.i18n.prop('_output_preview_50');
-            $("#btnFS").show();
-            $("#nested_by").show();
-            FAOSTATNEWOLAP.firstCall = 0;
-            $('#output_area').css("min-height", "0px");
-            $('#testinline').css("display", "block");
-            validateSelection('preview pivot');
-            buildOptionsMenu();//just UI option menu
-            
-            collectAndQueryWDSPivot(refresh, false, 'json');
-            STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
+                collectAndQueryWDSPivot(refresh, false, 'json');
+                STATS.showPivotDownloadStandard(F3DWLD.CONFIG.domainCode);
+            }
+        } catch (lines) {
+            $('.fs-warning-wrapper').css('display', 'block');
+            $('#close-fs-warning').bind('click', function () {
+                $('.fs-warning-wrapper').css('display', 'none');
+            });
         }
-         } catch (lines) {
-         $('.fs-warning-wrapper').css('display', 'block');
-         $('#close-fs-warning').bind('click', function () {
-         $('.fs-warning-wrapper').css('display', 'none');
-         });
-         }
     }
 
     function forecast_output_size() {
@@ -2109,7 +2104,7 @@ else{ var tmp = {};
 
         $('#output_area').empty();
         $('#testinline').empty();
-         $("#nested_by").hide();
+        $("#nested_by").hide();
         $('#options_menu_box').css('display', 'none');
         $('#preview_hr').css('display', 'none');
         var values = [];
@@ -2124,6 +2119,7 @@ else{ var tmp = {};
             values.push(tmp);
         });
 
+        console.debug(values);
         addItemToSummary(gridID, values, false);
 
     }
@@ -2132,101 +2128,93 @@ else{ var tmp = {};
 
         var summaryID = findSummaryName(gridID);
 
-        //  try 
-        {
+        if (values.length == null) {
 
-            if (values.length == null) {
+            $('#' + summaryID).append("<div class='summary-item-groupdomain'>" + values.label + "</div>");
 
-                $('#' + summaryID).append("<div class='summary-item-groupdomain'>" + values.label + "</div>");
+        } else {
+
+            var buffer = findBuffer(gridID);
+
+            if (selectAll) {
+
+                buffer.push.apply(buffer, values);
+
+                var gridIdx = gridID.substring(1 + gridID.indexOf('_'), gridID.lastIndexOf('_'));
+                var selectedTab = $('#tab_' + gridIdx).jqxTabs('val');
+                var tabName = $('#tab_' + gridIdx).jqxTabs('getTitleAt', selectedTab);
+                var lbl = tabName + ' ' + $.i18n.prop('_all');
+
+                var subfix = '_ALL';
+                var itemID = gridID + "_" + selectedTab + subfix;
+                var code = gridID + "_" + selectedTab + subfix;
+                var type = 'ALL';
+                var title = $.i18n.prop('_click_to_remove');
+
+                $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + lbl + "' class='summary-item' code='" + code + "'>" + lbl + "</div>");
+                $('#' + itemID).powerTip({placement: 's'});
+
+                /** Remove item from summary. */
+                var idx = gridID.substring(1 + gridID.indexOf('_'), gridID.lastIndexOf('_'));
+                $('#' + itemID).on('click', function (e) {
+                    $('#' + e.target.id).remove();
+                    $.each(buffer, function (k, v) {
+                        if (v != null && v.tab == (1 + parseInt(selectedTab)) && v.listbox == gridIdx)
+                            F3DWLD.CONFIG.selectedValues[parseInt(idx) - 1] = F3DWLD.CONFIG.selectedValues[parseInt(idx) - 1].slice(k, 1);
+                    });
+                });
 
             } else {
-
-                var buffer = findBuffer(gridID);
-
-                if (selectAll) {
-
-                    buffer.push.apply(buffer, values);
-
-                    var gridIdx = gridID.substring(1 + gridID.indexOf('_'), gridID.lastIndexOf('_'));
-                    var selectedTab = $('#tab_' + gridIdx).jqxTabs('val');
-                    var tabName = $('#tab_' + gridIdx).jqxTabs('getTitleAt', selectedTab);
-                    var lbl = tabName + ' ' + $.i18n.prop('_all');
-
-                    var subfix = '_ALL';
-                    var itemID = gridID + "_" + selectedTab + subfix;
-                    var code = gridID + "_" + selectedTab + subfix;
-                    var type = 'ALL';
+                $('#' + summaryID).empty();
+                buffer.splice(0, buffer.length);
+                for (var i = 0; i < values.length; i++) {
+                    buffer.push(values[i]);
+                    var subfix = (values[i].type == '>') ? '_LIST' : '_TOTAL';
+                    var itemID = gridID + "_" + values[i].code + subfix;
+                    var code = values[i].code;
+                    var type = values[i].type;
                     var title = $.i18n.prop('_click_to_remove');
-
-                    $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + lbl + "' class='summary-item' code='" + code + "'>" + lbl + "</div>");
+                    $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
                     $('#' + itemID).powerTip({placement: 's'});
-
-                    /** Remove item from summary. */
-                    var idx = gridID.substring(1 + gridID.indexOf('_'), gridID.lastIndexOf('_'));
-                    $('#' + itemID).on('click', function(e) {
-                        $('#' + e.target.id).remove();
-                        $.each(buffer, function(k, v) {
-                            if (v != null && v.tab == (1 + parseInt(selectedTab)) && v.listbox == gridIdx)
-                                F3DWLD.CONFIG.selectedValues[parseInt(idx) - 1] = F3DWLD.CONFIG.selectedValues[parseInt(idx) - 1].slice(k, 1);
-                        });
-                    });
-
-                } else {
-                    if (buffer.length > 0 && (buffer[0].code == "-1" || buffer[0].code == -1))
-                    {
-                        buffer.length = 0;
-                        $('#' + summaryID).empty()
-                    }
-                    for (var i = 0; i < values.length; i++) {
-
-                        if (!contains(buffer, values[i])) {
-
-                            buffer.push(values[i]);
-
-                            var subfix = (values[i].type == '>') ? '_LIST' : '_TOTAL';
-                            var itemID = gridID + "_" + values[i].code + subfix;
-                            var code = values[i].code;
-                            var type = values[i].type;
-                            var title = $.i18n.prop('_click_to_remove');
-
-                            $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
-                            $('#' + itemID).powerTip({placement: 's'});
-
-                            /** Remove item from summary. */
-                            $('#' + itemID).on('click', function(e) {
-
-                                $('#output_area').empty();
-                                $('#testinline').empty();
-                                $('#options_menu_box').css('display', 'none');
-                                $('#preview_hr').css('display', 'none');
-
-                                var id = extractID(e.target.id);
-                                $.each(buffer, function(k, v) {
-                                    if (v != null && v.code == id)
-                                        buffer.splice(k, 1);
-                                });
-                                $('#' + e.target.id).remove();
-                                $('#' + gridID).find('option:selected').each(function(k, v) {
-                                    var code = $(v).data('faostat');
-                                    if (code == id)
-                                        $(v).prop('selected', false);
-                                });
-
-                            });
-
-                        }
-
-                    }
-
                 }
-
+//                if (buffer.length > 0 && (buffer[0].code == "-1" || buffer[0].code == -1)) {
+//                    buffer.length = 0;
+//                    $('#' + summaryID).empty()
+//                }
+//                for (var i = 0; i < values.length; i++) {
+//                    if (!contains(buffer, values[i])) {
+//                        buffer.push(values[i]);
+//                        var subfix = (values[i].type == '>') ? '_LIST' : '_TOTAL';
+//                        var itemID = gridID + "_" + values[i].code + subfix;
+//                        var code = values[i].code;
+//                        var type = values[i].type;
+//                        var title = $.i18n.prop('_click_to_remove');
+//                        $('#' + summaryID).append("<div data-type='" + type + "' id='" + itemID + "' title='" + title + "' class='summary-item' code='" + code + "'>" + values[i].label + "</div>");
+//                        $('#' + itemID).powerTip({placement: 's'});
+//                        $('#' + itemID).on('click', function (e) {
+//                            $('#output_area').empty();
+//                            $('#testinline').empty();
+//                            $('#options_menu_box').css('display', 'none');
+//                            $('#preview_hr').css('display', 'none');
+//                            var id = extractID(e.target.id);
+//                            $.each(buffer, function (k, v) {
+//                                if (v != null && v.code == id)
+//                                    buffer.splice(k, 1);
+//                            });
+//                            $('#' + e.target.id).remove();
+//                            $('#' + gridID).find('option:selected').each(function (k, v) {
+//                                var code = $(v).data('faostat');
+//                                if (code == id)
+//                                    $(v).prop('selected', false);
+//                            });
+//                        });
+//                    }
+//                }
             }
 
         }
-        //catch(err) { console.log(err) } 
 
-    }
-    ;
+    };
 
     function extractID(s) {
         var id = '';
