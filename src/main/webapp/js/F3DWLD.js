@@ -1296,6 +1296,9 @@ var F3DWLD = (function() {
         s += '</div>';
         s += '<div id="bulk-downloads-menu" style="position: absolute; right: 0; top: 0;">';
         s += '</div>';
+        s += '<hr class="standard-hr">';
+        s += '<div id="reporting-tables-menu" ></div>';
+
         s += '</div>';
         s += '<hr class="standard-hr">';
         document.getElementById('listArea0').innerHTML = s;
@@ -1711,7 +1714,9 @@ if(outputFormat==="csv") {
             autoCloseOnClick: true,
             clickToOpen: false
         });
-       showBulkDownloads();
+
+        showBulkDownloads();
+        showReportingTables();
        
         $('#options-menu').jqxMenu({
             autoOpen: false,
@@ -2634,11 +2639,175 @@ else{ var tmp = {};
     ;
 
     function continue_with_table() {
-        
         $('#radio_table').val(true);
         $('#radio_pivot').val(false);
         $('.fs-warning-wrapper').css('display', 'none');
         preview(true, true);
+    }
+
+    function showReportingTables() {
+        if ((FAOSTATDownload.groupCode == 'G1' && FAOSTATDownload.domainCode == 'GT') ||
+            (FAOSTATDownload.groupCode == 'G2' && FAOSTATDownload.domainCode == 'GL')) {
+            var s = '';
+            s += '<ul><li id="reporting-tables-root" class="reporting-tables-mainbtn"><i class="fa fa-table"></i> ' + $.i18n.prop('_reporting_tables_label') + ' <i class="fa fa-caret-down"></i><ul>';
+            s += '<li><a onclick="F3DWLD.showIPCC(\'1996\');">IPCC 1996 + GPG</a></li>';
+            s += '<li><a onclick="F3DWLD.showIPCC(\'2006\');">IPCC 2006</a></li>';
+            s += '</ul></li></ul>';
+            document.getElementById('reporting-tables-menu').innerHTML = s;
+            $('#reporting-tables-menu').jqxMenu({
+                autoOpen: false,
+                showTopLevelArrows: true,
+                width: '350',
+                height: '30px',
+                autoCloseOnClick: false,
+                autoSizeMainItems: true
+            });
+            $('#reporting-tables-menu').jqxMenu('setItemOpenDirection', 'reporting-tables-root', 'left', 'down');
+        }
+    }
+
+    function showIPCC(version) {
+        document.getElementById('output_area').innerHTML = '<i class="fa fa-refresh fa-spin fa-5x"></i>';
+        $.ajax({
+            type        :   'GET',
+            dataType    :   'text',
+            url         :   F3DWLD.CONFIG.prefix + 'crf/' + FAOSTATDownload.groupCode + '_' + version + '.html',
+            success : function(response) {
+                document.getElementById('output_area').innerHTML = response;
+                $.ajax({
+                    type    :   'GET',
+                    url     :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat/GT/1/1/S',
+                    success: function (response) {
+                        var json = response;
+                        if (typeof json == 'string')
+                            json = $.parseJSON(response);
+                        var s = '';
+                        s += '<option value="null">Please select...</option>';
+                        for (var i = 0 ; i < json.length ; i++)
+                            s += '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
+                        document.getElementById('ghg_selector_country').innerHTML = s;
+                        $('#ghg_selector_country').trigger('chosen:updated');
+                    },
+                    error: function (e, b, c) {
+
+                    }
+                });
+                $.ajax({
+                    type    :   'GET',
+                    url     :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat/GT/4/1/S',
+                    success: function (response) {
+                        var json = response;
+                        if (typeof json == 'string')
+                            json = $.parseJSON(response);
+                        var s = '';
+                        s += '<option value="null">Please select...</option>';
+                        for (var i = 0 ; i < json.length ; i++)
+                            s += '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
+                        document.getElementById('ghg_selector_year').innerHTML = s;
+                        $('#ghg_selector_year').trigger('chosen:updated');
+                    },
+                    error: function (e, b, c) {
+
+                    }
+                });
+                $('.ghg_selector').chosen();
+            },
+            error : function(err, b, c) {
+
+            }
+        });
+    }
+
+    function showIPCCButtonListener() {
+        var sql = {};
+        sql['query'] = "SELECT D.ItemCode, D.ElementCode, AVG(D.value) " +
+            "FROM Data AS D " +
+            "WHERE D.DomainCode IN ('GT', 'GM', 'GE', 'GR', 'GY', 'GU', 'GP', 'GA', 'GV', 'GB'," +
+            "'GL', 'GF', 'GC', 'GG', 'GI') " +
+            "AND D.AreaCode = " + $('#ghg_selector_country').val() + " " +
+            "AND D.Year = " + $('#ghg_selector_year').val() + " " +
+            "AND D.ElementCode IN (7244, 7243, 72254, 72256, 72306, 72255, 7243, 72343, 72341, 72342, " +
+            "72308, 72340, 7237, 72259, 72309, 72257, 72307, 72353," +
+            "72351, 72352, 72318, 72350, 7237," +
+            "7233, 72332, 719411, 72330, 719411, 72332, 719411, 72331) " +
+            "AND D.ItemCode IN (1711, 1755, 27, 1709, 3107, 1712, 6729, 5057, 6795, 5058, 5059, 5060, 5065, 5066," +
+            "1707, 6751, 6797, 6727, 6726, 6750, 6796, 6728) " +
+            "GROUP BY D.ItemCode, D.ElementCode";
+        var data = {};
+        data.datasource = 'faostat',
+            data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+        $.ajax({
+            type    :   'POST',
+            url     :   'http://faostat3.fao.org/wds/rest/table/json',
+            data    :   data,
+            success: function (response) {
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                for (var i = 0 ; i < json.length ; i++) {
+                    var id = 'table_1_' + json[i][0] + '_' + json[i][1];
+                    try {
+                        document.getElementById(id).innerHTML = (parseFloat($('#' + id).data('factor')) * parseFloat(json[i][2])).toFixed(2);
+                    } catch (a) {
+
+                    }
+                    id = 'table_2_' + json[i][0] + '_' + json[i][1];
+                    try {
+                        document.getElementById(id).innerHTML = (parseFloat($('#' + id).data('factor')) * parseFloat(json[i][2])).toFixed(2);
+                    } catch (a) {
+
+                    }
+                }
+                var sum = parseFloat($('#table_1_3107_72343').html()) +
+                    parseFloat($('#table_1_1755_72341').html()) +
+                    parseFloat($('#table_1_1712_72342').html()) +
+                    parseFloat($('#table_1_6729_72308').html());
+                try {
+                    document.getElementById('table_1_direct_emissions').innerHTML = sum.toFixed(2);
+                } catch (e) {
+
+                }
+                sum = parseFloat($('#table_2_3107_72353').html()) +
+                    parseFloat($('#table_2_1755_72351').html()) +
+                    parseFloat($('#table_2_1712_72352').html()) +
+                    parseFloat($('#table_2_6729_72318').html());
+                try {
+                    document.getElementById('table_2_direct_emissions').innerHTML = sum.toFixed(2);
+                } catch (e) {
+
+                }
+                var row_sums = $('.row_sum');
+                for (var i = 0 ; i < row_sums.length ; i++) {
+                    var val1 = parseFloat($('#' + $(row_sums[i]).data('cell1')).html());
+                    var val2 = parseFloat($('#' + $(row_sums[i]).data('cell2')).html());
+                    var cell1 = !isNaN(val1) ? val1 : 0;
+                    var cell2 = !isNaN(val2) ? val2 : 0;
+                    $(row_sums[i]).html((cell1 + cell2).toFixed(2));
+                }
+                $('#table_1').css('display', 'inline-table');
+                $('#table_2').css('display', 'inline-table');
+                $('#ipcc_download_table_1').css('display', 'inline-table');
+                $('#ipcc_download_table_2').css('display', 'inline-table');
+            },
+            error: function (e, b, c) {
+
+            }
+        });
+    }
+
+    function html2excel(id) {
+        var payload = $('#' + id).html();
+        $('#data').val(payload);
+        if (id == 'ipcc_download_table_1') {
+
+        }
+        document.ipcc_form.submit();
     }
 
     return {
@@ -2653,7 +2822,10 @@ else{ var tmp = {};
         recordBulkDownload: recordBulkDownload,
         buildUIStructure: buildUIStructure,
         showBulkDownloads: showBulkDownloads,
-        continue_with_table: continue_with_table
+        continue_with_table: continue_with_table,
+        showIPCC: showIPCC,
+        showIPCCButtonListener: showIPCCButtonListener,
+        html2excel: html2excel
     };
 
 })();
