@@ -2098,7 +2098,6 @@ else{ var tmp = {};
         $('#summary-' + tmp + '-box').css('display', 'none');
         $('#' + gridID + '_select option').prop('selected', false);
     }
-    ;
 
     function addToSummary(gridID, summaryID) {
 
@@ -2119,7 +2118,6 @@ else{ var tmp = {};
             values.push(tmp);
         });
 
-        console.debug(values);
         addItemToSummary(gridID, values, false);
 
     }
@@ -2378,6 +2376,12 @@ else{ var tmp = {};
             $('#buttonSelectAll_usp_GetAreaList1').click(function() {
                 selectAllForSummary('grid_usp_GetAreaList' + idx + '_1');
             });
+            $('#grid_1_1_select option:selected').removeAttr('selected');
+            $('#grid_1_2_select option:selected').removeAttr('selected');
+            $('#grid_1_3_select option:selected').removeAttr('selected');
+            clearAllForSummary('grid_1_1');
+            clearAllForSummary('grid_1_2');
+            clearAllForSummary('grid_1_3');
         });
         $('#tab_2').on('tabclick', function(event) {
             var idx = 1 + parseInt(event.args.item);
@@ -2386,9 +2390,38 @@ else{ var tmp = {};
             $('#buttonSelectAll_usp_GetItemList1').click(function() {
                 selectAllForSummary('grid_usp_GetItemList' + idx + '_1');
             });
+            $('#grid_2_1_select option:selected').removeAttr('selected');
+            $('#grid_2_2_select option:selected').removeAttr('selected');
+            $('#grid_2_3_select option:selected').removeAttr('selected');
+            clearAllForSummary('grid_2_1');
+            clearAllForSummary('grid_2_2');
+            clearAllForSummary('grid_2_3');
+        });
+        $('#tab_3').on('tabclick', function(event) {
+            $('#grid_3_1_select option:selected').removeAttr('selected');
+            $('#grid_3_2_select option:selected').removeAttr('selected');
+            $('#grid_3_3_select option:selected').removeAttr('selected');
+            clearAllForSummary('grid_3_1');
+            clearAllForSummary('grid_3_2');
+            clearAllForSummary('grid_3_3');
+        });
+        $('#tab_4').on('tabclick', function(event) {
+            $('#grid_4_1_select option:selected').removeAttr('selected');
+            $('#grid_4_2_select option:selected').removeAttr('selected');
+            $('#grid_4_3_select option:selected').removeAttr('selected');
+            clearAllForSummary('grid_4_1');
+            clearAllForSummary('grid_4_2');
+            clearAllForSummary('grid_4_3');
+        });
+        $('#tab_5').on('tabclick', function(event) {
+            $('#grid_5_1_select option:selected').removeAttr('selected');
+            $('#grid_5_2_select option:selected').removeAttr('selected');
+            $('#grid_5_3_select option:selected').removeAttr('selected');
+            clearAllForSummary('grid_5_1');
+            clearAllForSummary('grid_5_2');
+            clearAllForSummary('grid_5_3');
         });
     }
-    ;
 
     function enhanceUIOptions() {
         var width = '140';
