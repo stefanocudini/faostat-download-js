@@ -193,7 +193,6 @@ function memorySizeOf(obj) {
 
 function oldSchoolCSV(format)
 {
-
     var selectFinal = "EXECUTE Warehouse.dbo.usp_GetDataTESTP " +
             " @DomainCode = '" + F3DWLD.CONFIG.domainCode + "',  " +
             " @lang = '" + F3DWLD.CONFIG.lang + "',  " +
@@ -692,15 +691,17 @@ function stringify(obj) {
   return JSON.stringify(obj);
 };
 
-function my_exportNew() {
+function my_exportNew() {//xls
   var mycols=[];
   
       for(var c=0;c<FAOSTATNEWOLAP.internalData.rowAttrs.length;c++){
-          mycols.push(FAOSTATNEWOLAP.internalData.rowAttrs[c]+"Name");
-          if(F3DWLD.CONFIG.wdsPayload.showCodes){ mycols.push(FAOSTATNEWOLAP.internalData.rowAttrs[c]+"Code");
-        }
+             if(F3DWLD.CONFIG.wdsPayload.showCodes && FAOSTATNEWOLAP.internalData.rowAttrs[c]!="Year"
+      &&  FAOSTATNEWOLAP.internalData.rowAttrs[c].replace("_", "")!= "Annees"
+    )
+             { mycols.push(FAOSTATNEWOLAP.internalData.rowAttrs[c]+" - Code");     } 
+        mycols.push(FAOSTATNEWOLAP.internalData.rowAttrs[c]);
   }
-console.log(FAOSTATNEWOLAP.internalData.tree);
+//console.log(FAOSTATNEWOLAP.internalData.tree);
  document.getElementById("myJson").value=stringify( {data:FAOSTATNEWOLAP.internalData.tree,
      header:FAOSTATNEWOLAP.internalData.flatColKeys,cols:mycols,swUnit:FAOSTATNEWOLAP.showUnits,swFlag:FAOSTATNEWOLAP.showFlags
  
@@ -711,21 +712,24 @@ console.log(FAOSTATNEWOLAP.internalData.tree);
 
 
 
-function decolrowspanNEW(){
+function decolrowspanNEW(){//csv
     var today = new Date();
     var reg = new RegExp("<span class=\"ordre\">[0-9]+</span>", "g");
     var reg3 = new RegExp("<span class=\"ordre\"></span>", "g");
-    var reg2 = new RegExp("<table class=\"innerCol\"><th>([^>]*)</th><th>([0-9]+)</th></table>", "g");
+    var reg2 = new RegExp("<table class=\"innerCol\"><th>([0-9]+)</th><th>([^>]*)</th></table>", "g");
     var row = FAOSTATNEWOLAP.internalData.tree;
     var col = FAOSTATNEWOLAP.internalData.flatColKeys.sort();
     var ret = "";
     for (var j = 0; j < FAOSTATNEWOLAP.internalData.rowKeys[0].length; j++) {
+        if (F3DWLD.CONFIG.wdsPayload.showCodes && FAOSTATNEWOLAP.internalData.rowAttrs[j].replace("_", "")!="Year" 
+                && FAOSTATNEWOLAP.internalData.rowAttrs[j].replace("_", "")!= "Annees" ) 
+        { ret += FAOSTATNEWOLAP.internalData.rowAttrs[j]+" Code,";  }
         ret += '"'+FAOSTATNEWOLAP.internalData.rowAttrs[j].replace("_", "") + "\",";
-        if (F3DWLD.CONFIG.wdsPayload.showCodes) { ret += "Code,";  }
+        
     }
    
     for (j in col){
-        ret += '"'+col[j].replace(/,/g, "").replace(/\|\|/g, "-").replace(/&nbsp;/g, "").replace(reg2, "$1").replace(reg, "").replace(reg3, "")+'"';
+        ret += '"'+col[j].replace(/,/g, "").replace(/\|\|/g, "-").replace(/&nbsp;/g, "").replace(reg2, "$2").replace(reg, "").replace(reg3, "")+'"';
         if (FAOSTATNEWOLAP.showUnits) { ret += ",unit"; }
         if (FAOSTATNEWOLAP.showFlags) {ret += ",flag"; }
         ret += ",";
@@ -1924,7 +1928,8 @@ var internalTest;
         result.append(myhead);
         mybody = $("<tbody>");
         for (i in rowKeys) {
-            if (i < FAOSTATNEWOLAP.limitPivotPreview) {
+            if (i < FAOSTATNEWOLAP.limitPivotPreview) {//Per il paging
+                
                 if (!__hasProp.call(rowKeys, i))continue;
                 rowKey = rowKeys[i];
                 tr = $("<tr>");
@@ -2361,10 +2366,10 @@ var internalTest;
             x = _ref6[_m];
             this.find("#mesVals").append(this.find("#axis_" + (x.replace(/\s/g, ""))));
         }
-        if (opts.aggregatorName !== null) {
+        if (opts.aggregatorName !== null && ""+opts.aggregatorName !="undefined") {
             this.find("#aggregator").val(opts.aggregatorName);
         }
-        if (opts.rendererName !== null) {
+        if (opts.rendererName !== null && ""+opts.rendererName !="undefined") {
             this.find("#renderer").val(opts.rendererName);
         }
         refresh = __bind(function() {
