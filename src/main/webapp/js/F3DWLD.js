@@ -2694,7 +2694,7 @@ else{ var tmp = {};
                 });
                 $.ajax({
                     type    :   'GET',
-                    url     :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat/GT/4/1/S',
+                    url     :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat/GT/4/1/' + FAOSTATDownload.language,
                     success: function (response) {
                         var json = response;
                         if (typeof json == 'string')
